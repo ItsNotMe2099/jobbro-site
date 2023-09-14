@@ -1,0 +1,143 @@
+@import "styles/index";
+
+.root{
+  position: relative;
+  background-color: #EEF4F9;
+  border-radius: 12px;
+}
+
+.input{
+  outline: none;
+  background-color: #EEF4F9;
+  border-radius: 12px;
+  :global{
+    .yg-select__menu{
+      background-color: #EEF4F9;
+      z-index: 2;
+      border-radius: $StandartBorderRadius;
+      border: 1px solid $grey400;
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
+      box-shadow: none;
+      margin: 0px;
+      &-list{
+        padding: 0px;
+        >  .yg-select__option{
+          &:first-of-type{
+            border-top-left-radius: $StandartBorderRadius;
+            border-top-right-radius: $StandartBorderRadius;
+          }
+          &:last-of-type{
+            border-bottom-left-radius: $StandartBorderRadius;
+            border-bottom-right-radius: $StandartBorderRadius;
+          }
+
+        }
+      }
+    }
+    .yg-select__control{
+      box-shadow: none;
+      background-color: #EEF4F9 !important;
+      border-radius: 12px !important;
+    }
+    .yg-select__single-value{
+      font-size: 14px;
+      font-weight: 600;
+      color: $dark500;
+      margin: 0;
+    }
+    .yg-select__indicator-separator{
+      display: none;
+    }
+    .yg-select__option{
+      min-height: $StandartHeight;
+      font-size: 14px;
+      font-weight: 500;
+      color: $dark500;
+      display: flex;
+      align-items: center;
+      padding: 0px 16px;
+      background-color: transparent;
+      cursor: pointer;
+      &:active{
+        background: $yellow500;
+      }
+
+    }
+    .yg-select__option--is-focused{
+      border-color: $dark400;
+    }
+    .yg-select__option--is-selected{
+      border-color: $dark400;
+      background: $yellow500;
+    }
+  }
+  &.default{
+    :global{
+      .yg-select__value-container{
+        padding: 0 16px;
+        height: $StandartHeight;
+      }
+      .yg-select__control{
+        transition: background 0.2s;
+        border: 1px solid $grey400;
+        border-radius: 10px;
+        background: $white;
+      }
+      .yg-select__placeholder{
+        font-size: 16px;
+        color: $dark500;
+        margin: 0;
+      }
+    }
+    &.hover{
+      :global{
+        .yg-select__control{
+          background: $white;
+        }
+      }
+    }
+  }
+  &.error{
+    :global{
+      .yg-select__control{
+        border-color: $red500;
+      }
+      .yg-select__placeholder{
+        color: $red500;
+      }
+    }
+  }
+  &.withIcon{
+    :global{
+      .yg-select__control{
+        padding-left: 50px;
+      }
+      .yg-select__value-container{
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+.indicator{
+  margin-right: 12px;
+  &.indicatorInverse{
+    transform: rotate(180deg);
+  }
+}
+
+.label{
+  z-index: 1;
+  @include label;
+  margin-bottom: 8px;
+}
+
+.icon{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  &.default{
+    left: 17px;
+  }
+}

@@ -1,0 +1,11 @@
+@import "styles/index";
+
+.root{
+  font-size: 0;
+  &.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

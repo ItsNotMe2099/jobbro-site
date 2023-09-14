@@ -1,0 +1,340 @@
+@import "media";
+@import "html";
+@import "styles/variables";
+
+@mixin mq($width, $type: min) {
+  @if $type ==max {
+    $width: $width - 1px;
+  }
+
+  @media only screen and (#{$type}-width: $width) {
+    @content;
+  }
+}
+
+@mixin logo {
+  font-family: 'Sora';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.2px;
+}
+
+@mixin headerMenuItem {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+}
+
+@mixin h1 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+}
+
+@mixin h2 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
+
+@mixin h3 {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@mixin tableText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+
+@mixin btnText {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@mixin mainText {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@mixin secondaryText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+@mixin container {
+  max-width: 1310px;
+  width: 100%;
+  padding: 0px 15px;
+  margin: 0 auto;
+
+  @include mq($DesktopWidth, max) {}
+
+  @include mq($lg-medium, min) {
+    //max-width: 1620px !important;
+  }
+}
+
+
+@mixin pageContainer {
+  @include container;
+  padding: 32px 0px 64px 0px;
+}
+
+@mixin filterContainer {
+  background-color: $white;
+  border-radius: $StandartBorderRadius;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  @include list(12px);
+
+  @include mq($PhoneWidth, max) {
+    padding: 0px;
+  }
+}
+
+@mixin clearfix {
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+@mixin list($gap, $row: false) {
+  @if $row ==true {
+    &>*+* {
+      margin: 0 0 0 $gap;
+    }
+  }
+
+  @else {
+    &>*+* {
+      margin: $gap 0 0 0;
+    }
+  }
+}
+
+
+@mixin scroll_hide {
+  -ms-overflow-style: none;
+  /* IE и Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@mixin pointer {
+  @include breakpoint("md", "up") {
+    cursor: pointer;
+  }
+}
+
+
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin ellipsis_row($row_count) {
+  display: -webkit-box;
+  -webkit-line-clamp: $row_count;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin overflow_hidden {
+  overflow: hidden;
+  mask-image: radial-gradient(white, black);
+}
+
+@mixin text_clickable {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@mixin square($size) {
+  height: $size;
+  width: $size;
+}
+
+@mixin label() {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: $dark500;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@mixin input() {
+  height: $StandartHeight;
+  border-radius: $StandartBorderRadius;
+  width: 100%;
+  padding: 0 16px;
+  border: 0;
+  flex: 1;
+  -webkit-appearance: none;
+  font-size: 16px;
+  color: $dark500;
+
+  &:-webkit-autofill {
+    -wкebkit-text-fill-color: $grey500 !important;
+  }
+
+  &::placeholder {
+    @include mainText;
+    color: $grey500;
+  }
+
+  &.withSuffix {
+    padding-right: 8px;
+  }
+
+  &.withPrefix {
+    padding-left: 8px;
+  }
+
+  &.withClear {
+    padding-right: 0px;
+  }
+
+  &.inputError {
+    color: $red500;
+  }
+
+  &.inputFocused {}
+}
+
+
+@mixin inputWrapper() {
+  border: 1px solid $grey400;
+  border-radius: $StandartBorderRadius;
+
+  &.withPrefix,
+  &.withSuffix {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &.inputError {
+    border-color: $red500;
+  }
+
+  &.inputFocused {
+    border-color: $dark400;
+  }
+}
+
+
+@mixin dropDown() {
+  z-index: $zIndexDropDown;
+  background: $white;
+  border-radius: 8px;
+  border: 1px solid $grey400;
+  margin-top: 2px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  padding: 6px 0px;
+
+  &.opened {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    margin-top: 18px;
+  }
+}
+
+@mixin dropDownChevron() {
+  &.reversed {
+    transform: rotate(180deg);
+  }
+
+  transition: transform 0.3s ease;
+}
+
+
+@mixin infoLabel() {
+  color: $grey500;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@mixin infoValue() {
+  color: $dark500;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@mixin card() {
+  padding: 20px;
+  background-color: $white;
+  border-radius: $StandartBorderRadius;
+
+  @include mq($PhoneWidth, max) {
+    padding: 20px 15px;
+  }
+}
+
+
+@mixin maxLines($count) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+}

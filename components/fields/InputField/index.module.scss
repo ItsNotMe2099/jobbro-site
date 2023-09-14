@@ -1,0 +1,89 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+  width: 100%;
+
+  input {
+    background-color: $grey400;
+  }
+}
+
+.input {
+  @include input;
+
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.label {
+  @include label;
+}
+
+
+.inputWrapper {
+  position: relative;
+  @include inputWrapper;
+}
+
+.icon {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  @include list(8px)
+}
+
+.suffix {
+  cursor: pointer;
+  padding-right: 12px;
+  padding-left: 4px;
+  height: $StandartHeight;
+  display: flex;
+  align-items: center;
+}
+
+.prefix {
+  display: flex;
+  padding-left: 12px;
+
+}
+
+.clear {
+  cursor: pointer;
+  padding-right: 16px;
+  padding-left: 4px;
+  height: $StandartHeight;
+  display: flex;
+  align-items: center;
+
+  &.withSuffix {
+    padding-right: 8px;
+  }
+
+  .clearIcon {}
+}
+
+.obscure {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+}

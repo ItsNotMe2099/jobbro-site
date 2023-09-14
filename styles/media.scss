@@ -1,0 +1,62 @@
+@function str-join($str1: null, $str2: null, $delimiter: null) {
+  $ret: '';
+
+  @if $str1 {
+    $ret: $ret + $str1;
+
+    @if $delimiter and $str2 {
+      $ret: $ret + $delimiter;
+    }
+  }
+
+  @if $str2 {
+    $ret: $ret + $str2;
+  }
+
+  @return $ret;
+}
+
+$breakpoints: (
+        sm: 0,
+        md: 768px,
+        lg: 1024px,
+        xlg: 1440px,
+);
+
+// $size: 'sm' | 'md' | 'lg' | 'xlg'
+// $dir: 'up' | 'down' | 'only'
+
+@mixin breakpoint($size, $dir) {
+  $bpsList: map-keys($breakpoints);
+
+  $bpIndex: index($bpsList, $size);
+  $bp: map-get($breakpoints, $size);
+
+  $bpNextIndex: nth($bpsList, $bpIndex + 1);
+  $bpNext: map-get($breakpoints, $bpNextIndex);
+
+  $bpMin: null;
+  $bpMax: null;
+
+  @if $dir == 'only' or $dir == 'up' {
+    $bpMin: $bp;
+  }
+
+  @if $dir == 'only' and $bpNext {
+    $bpMax: $bpNext;
+  }
+
+  @if $dir == 'down' and $bpNext {
+    $bpMax: $bp;
+  }
+
+  $media: str-join(
+                  if($bpMin, '(min-width: #{$bpMin})', null),
+                  if($bpMax, '(max-width: calc(#{$bpMax} - 1px))', null),
+                  ' and '
+  );
+
+  @media #{$media} {
+    @content;
+  }
+}

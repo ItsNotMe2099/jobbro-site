@@ -1,0 +1,143 @@
+@import "styles/index";
+
+.root {
+  padding: 0 24px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 0;
+  gap: 8px;
+
+  &.disabled {
+    border: 1px solid $grey100;
+    background-color: transparent;
+    color: $blue500;
+  }
+
+  &.fluid {
+    width: 100%;
+  }
+}
+
+//style type
+
+.small {
+  height: 40px;
+}
+
+.large {
+  height: 48px;
+
+  @include mq($PhoneWidth, max) {
+    height: 40px;
+  }
+
+  @include btnText;
+}
+
+.medium {
+  height: 44px;
+}
+
+//font
+.normal15 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.normal16 {
+  font-size: 16px;
+}
+
+//color
+
+.blue {
+  background: $blue500;
+  color: $white;
+
+  &:hover {
+    box-shadow: 1px 4px 23px rgba(69, 118, 222, 0.44);
+  }
+}
+
+.light {
+  background-color: $light;
+}
+
+.dark {
+  background: $dark400;
+}
+
+.white {
+  background: $white;
+  color: $blue500;
+  border: 1px solid $grey100;
+
+  &:hover {
+    background: $blue500;
+    color: $white;
+    border: 1px solid $blue500;
+  }
+}
+
+.transparent {
+  background: transparent;
+}
+
+.grey {
+  background: $grey300;
+  color: $blue500;
+}
+
+.greyRed {
+  background: $grey300;
+  color: $red500;
+}
+
+.spinner {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerVisible {
+  visibility: visible;
+}
+
+.withIcon {
+
+  .text {
+    display: flex;
+    align-items: center;
+    grid-gap: 8px;
+  }
+}
+
+.text {
+  visibility: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.textHidden {
+  visibility: hidden;
+}
+
+.reverse {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
