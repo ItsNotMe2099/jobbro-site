@@ -51,5 +51,11 @@ export interface SnackbarData {
   type: SnackbarType
 }
 
+export const CONTACTS = {
+  twitter: '#',
+  instagram: '#',
+  facebook: '#'
+}
+
 
 

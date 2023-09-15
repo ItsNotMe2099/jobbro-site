@@ -8,7 +8,7 @@
   width: 100%;
 
   input {
-    background-color: $grey400;
+    background-color: $background-secondary;
   }
 }
 
@@ -22,15 +22,32 @@
   justify-content: space-between;
 }
 
+.innerLabel {
+  position: absolute;
+  z-index: 1;
+  left: 16px;
+  top: 16px;
 
-.label {
-  @include label;
+  .label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $text-secondary;
+  }
 }
 
 
+.label {}
+
+.inputError {
+  border: 2px solid $element-alarm;
+}
+
 .inputWrapper {
   position: relative;
-  @include inputWrapper;
+
 }
 
 .icon {

@@ -33,11 +33,7 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 40px;
-
-  @include mq($PhoneWidth, max) {
-    font-size: 22px;
-    line-height: 30px;
-  }
+  letter-spacing: -0.32px;
 }
 
 @mixin h2 {
@@ -220,23 +216,23 @@
 }
 
 @mixin input() {
-  height: $StandartHeight;
-  border-radius: $StandartBorderRadius;
+  height: 70px;
+  border-radius: 8px;
   width: 100%;
   padding: 0 16px;
   border: 0;
   flex: 1;
   -webkit-appearance: none;
   font-size: 16px;
-  color: $dark500;
+  color: $text-primary;
 
   &:-webkit-autofill {
-    -wкebkit-text-fill-color: $grey500 !important;
+    -wкebkit-text-fill-color: $text-primary !important;
   }
 
   &::placeholder {
     @include mainText;
-    color: $grey500;
+    color: $text-primary;
   }
 
   &.withSuffix {
@@ -252,7 +248,7 @@
   }
 
   &.inputError {
-    color: $red500;
+    color: $text-red;
   }
 
   &.inputFocused {}

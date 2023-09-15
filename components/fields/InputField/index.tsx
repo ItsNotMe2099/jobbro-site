@@ -11,7 +11,6 @@ import { IField } from 'types/types'
 import FieldError from 'components/fields/FieldError'
 import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
-import EyeCloseSvg from '@/components/svg/EyeCloseSvg'
 import Formatter from '@/utils/formatter'
 import SearchSvg from '@/components/svg/SearchSvg'
 import Link from 'next/link'
@@ -25,6 +24,7 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   blurValidate?: FieldValidator
   className?: string
   label?: string
+  labelType?: 'in' | 'out'
   label2?: string
   label2ClassName?: string
   label2Href?: string
@@ -195,7 +195,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
     })} data-field={props.name}>
       <div className={styles.wrapper}>
         {props.label &&
-          <div className={styles.top}>
+          <div className={classNames(styles.top, {[styles.innerLabel]: props.labelType === 'in'})}>
             <div className={styles.label}>
               {props.label}
             </div>
@@ -214,7 +214,6 @@ export default function InputField<T extends string | number>(props: InputFieldP
           [styles.withLabel]: props.label,
           [styles.withPrefix]: !!props.prefix,
           [styles.withSuffix]: !!props.suffix,
-          [styles.inputError]: showError,
           [styles.inputFocused]: focused,
         })}>
 
@@ -259,7 +258,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
             }}>
               {obscureShow ? <EyeSvg color={colors.black} />
                 :
-                <EyeCloseSvg color={colors.black} />}
+                <EyeSvg color={colors.textSecondary} />}
 
             </div>
           )}

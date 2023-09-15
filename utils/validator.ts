@@ -20,6 +20,14 @@ export default class Validator {
     return value || typeof value === 'number' ? undefined : 'Обязательное поле'
   }
 
+  static requiredEmail(value: string | number): string | undefined {
+    return value || typeof value === 'number' ? undefined : 'Enter your email'
+  }
+
+  static requiredPassword(value: string | number): string | undefined {
+    return value || typeof value === 'number' ? undefined : 'Enter your password'
+  }
+
   static email(value: string): string | undefined {
     return value && !Validator.emailRe.test(value)
       ? 'Неверный формат'

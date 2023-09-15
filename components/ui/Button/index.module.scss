@@ -1,7 +1,7 @@
 @import "styles/index";
 
 .root {
-  padding: 0 24px;
+  padding: 0 32px;
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;
@@ -14,9 +14,8 @@
   gap: 8px;
 
   &.disabled {
-    border: 1px solid $grey100;
     background-color: transparent;
-    color: $blue500;
+    color: $green;
   }
 
   &.fluid {
@@ -31,7 +30,7 @@
 }
 
 .large {
-  height: 48px;
+  height: 46px;
 
   @include mq($PhoneWidth, max) {
     height: 40px;
@@ -56,47 +55,29 @@
 
 //color
 
-.blue {
-  background: $blue500;
+.green {
+  background: $green;
   color: $white;
 
   &:hover {
-    box-shadow: 1px 4px 23px rgba(69, 118, 222, 0.44);
+    box-shadow: 1px 4px 23px rgba(36, 181, 99, 0.44);
   }
-}
-
-.light {
-  background-color: $light;
-}
-
-.dark {
-  background: $dark400;
 }
 
 .white {
   background: $white;
-  color: $blue500;
-  border: 1px solid $grey100;
+  color: $green;
+  border: 1px solid $green;
 
   &:hover {
-    background: $blue500;
+    background: $green;
     color: $white;
-    border: 1px solid $blue500;
+    border: 1px solid $green;
   }
 }
 
 .transparent {
   background: transparent;
-}
-
-.grey {
-  background: $grey300;
-  color: $blue500;
-}
-
-.greyRed {
-  background: $grey300;
-  color: $red500;
 }
 
 .spinner {

@@ -7,6 +7,14 @@ export class Routes {
     return '/'
   }
 
+  static get login() {
+    return '/login'
+  }
+
+  static get registration() {
+    return '/registration'
+  }
+
   static get lk() {
     return '/lk'
   }
