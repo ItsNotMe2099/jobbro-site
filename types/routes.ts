@@ -15,6 +15,14 @@ export class Routes {
     return '/registration'
   }
 
+  static get forgotPassword() {
+    return '/forgot-password'
+  }
+
+  static get resetPassword() {
+    return '/reset-password'
+  }
+
   static get lk() {
     return '/lk'
   }

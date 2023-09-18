@@ -15,14 +15,13 @@ interface Props {
 
 }
 
-export default function RegistrationForm(props: Props) {
+export default function ResetPasswordForm(props: Props) {
 
   const appContext = useAppContext()
   const router = useRouter()
-  const redirect = router.query.redirect as string
   const [loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (data: { email: string, password: string, firstName: string }) => {
+  const handleSubmit = async (data: { email: string }) => {
     setLoading(true)
     try {
 
@@ -39,9 +38,7 @@ export default function RegistrationForm(props: Props) {
   }
 
   const initialValues = {
-    firstName: '',
     email: '',
-    password: '',
   }
 
   const formik = useFormik({
@@ -53,28 +50,20 @@ export default function RegistrationForm(props: Props) {
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <div className={styles.title}>
-          Creating new account
+          Reset pessword
         </div>
-        <InputField placeholder='First Name' name='firstName' label={formik.values.firstName ? 'First Name' : ''}
-          labelType='in'
-          validate={Validator.combine([Validator.requiredName, Validator.email])} />
+        <div className={styles.text}>
+          Enter your email with Jobbro Account. We will send new password to this email.
+        </div>
         <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
           labelType='in'
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
-        <InputField
-          placeholder='Password'
-          type='password'
-          name='password'
-          label={formik.values.password ? 'Password' : ''}
-          labelType='in'
-          obscure
-          validate={Validator.requiredPassword} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            Create
+            Reset
           </Button>
           <Button href={Routes.login} className={styles.btn} styleType='large' color='white'>
-            Log In
+            Cancel
           </Button>
         </div>
       </Form>
