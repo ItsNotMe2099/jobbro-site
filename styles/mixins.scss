@@ -89,13 +89,9 @@
 
 @mixin secondaryText {
   font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-
-  @include mq($PhoneWidth, max) {
-    font-size: 13px;
-    line-height: 20px;
-  }
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.16px;
 }
 
 @mixin container {

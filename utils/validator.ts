@@ -16,8 +16,12 @@ export default class Validator {
     }
   }
 
-  static required(value: string | number): string | undefined {
+  static required(value: string | number, name: string): string | undefined {
     return value || typeof value === 'number' ? undefined : 'Обязательное поле'
+  }
+
+  static requiredName(value: string | number): string | undefined {
+    return value || typeof value === 'number' ? undefined : 'Enter your name'
   }
 
   static requiredEmail(value: string | number): string | undefined {

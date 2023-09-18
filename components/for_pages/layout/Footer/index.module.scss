@@ -8,3 +8,11 @@
   justify-content: flex-end;
   @include list(16px, true);
 }
+
+.icon {
+  fill: $text-secondary;
+
+  &:hover {
+    fill: $black;
+  }
+}
