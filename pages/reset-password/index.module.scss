@@ -6,8 +6,9 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 350px;
+    @include list(90px, true);
 }
 
 .proud {
-    padding-top: 60px;
+    
 }

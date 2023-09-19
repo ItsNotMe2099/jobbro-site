@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 export default function ForgotPassword() {
 
-  const [success, setSuccess] = useState<boolean>(true)
+  const [success, setSuccess] = useState<boolean>(false)
 
   return (
     <Layout>

@@ -49,7 +49,7 @@ export default class Validator {
   }
 
   static passwordsMustMatch = (allValues: any) => (value: string): string | undefined => {
-    return value !== allValues.password ? 'Пароли не совпадают' : undefined
+    return value !== allValues.password ? 'Those passwords didn’t match. Try again.' : undefined
   }
   static password(value: string): string | undefined {
     return value && value.length <= 6

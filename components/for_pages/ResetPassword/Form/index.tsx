@@ -21,7 +21,7 @@ export default function ResetPasswordForm(props: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (data: { email: string }) => {
+  const handleSubmit = async (data: { newPassword: string, confirmPassword: string }) => {
     setLoading(true)
     try {
 
@@ -38,7 +38,8 @@ export default function ResetPasswordForm(props: Props) {
   }
 
   const initialValues = {
-    email: '',
+    newPassword: '',
+    confirmPassword: ''
   }
 
   const formik = useFormik({
@@ -53,14 +54,27 @@ export default function ResetPasswordForm(props: Props) {
           Reset pessword
         </div>
         <div className={styles.text}>
-          Enter your email with Jobbro Account. We will send new password to this email.
+          Password will be reseted. Enter new password for your account
         </div>
-        <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
+        <InputField
+          placeholder='New password'
+          type='password'
+          name='newPassword'
+          label={formik.values.newPassword ? 'New password' : ''}
           labelType='in'
-          validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
+          obscure
+          validate={Validator.requiredPassword} />
+        <InputField
+          placeholder='Confirm password'
+          type='password'
+          name='confirmPassword'
+          label={formik.values.confirmPassword ? 'Confirm password' : ''}
+          labelType='in'
+          obscure
+          validate={Validator.combine([Validator.requiredPassword, Validator.passwordsMustMatch(formik.values)])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            Reset
+            Apply
           </Button>
           <Button href={Routes.login} className={styles.btn} styleType='large' color='white'>
             Cancel
