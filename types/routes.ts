@@ -30,4 +30,28 @@ export class Routes {
   static get lkDashboard() {
     return '/lk/dashboard'
   }
+
+  static get lkJobs() {
+    return '/lk/jobs'
+  }
+
+  static get lkCandidateBase() {
+    return '/lk/candidate-base'
+  }
+
+  static get lkHiringBoards() {
+    return '/lk/hiring-boards'
+  }
+
+  static get lkScorecardsTemplates() {
+    return '/lk/scorecard-templates'
+  }
+
+  static get lkSettings() {
+    return '/lk/settings'
+  }
+
+  static get lkYourCompany() {
+    return '/lk/your-company'
+  }
 }

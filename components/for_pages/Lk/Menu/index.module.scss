@@ -1,0 +1,62 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  background-color: $white;
+  padding: 24px;
+  width: 22%;
+  justify-content: space-between;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.item {
+  padding: 14px 0;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.2px;
+  color: $text-primary;
+
+  &:hover {
+    color: $green;
+  }
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.title {
+  @include h3;
+}
+
+.arrows {
+  position: absolute;
+  right: -24px;
+}
+
+.active {
+  font-weight: 700;
+  color: $green;
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  width: 6px;
+  height: 46px;
+  background-color: $green;
+  top: 0;
+  left: -24px;
+}

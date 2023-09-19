@@ -16,7 +16,9 @@ export default function Layout(props: Props) {
   return (
     <div className={styles.root}>
       <Header />
-      {props.children}
+      <div className={styles.container}>
+        {props.children}
+      </div>
       {!router.asPath.includes(Routes.lk) && <Footer />}
     </div>
   )
