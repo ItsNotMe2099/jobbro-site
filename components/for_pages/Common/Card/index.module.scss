@@ -3,22 +3,11 @@
 .root {
     display: flex;
     flex-direction: column;
-    @include list(24px, false);
+    padding: 24px;
     background-color: $white;
-    border-radius: 24px;
-    padding: 32px;
-    width: 480px;
-    margin-right: 18px;
 }
 
 .title {
-    @include h1;
-}
-
-.text {
-    @include secondaryText;
-}
-
-.btn {
-    max-width: 104px;
+    @include h2;
+    margin-bottom: 20px;
 }

@@ -11,6 +11,7 @@ export default function LkLayout(props: Props) {
   return (
     <div className={styles.root}>
       <Menu />
+      {props.children}
     </div>
   )
 }

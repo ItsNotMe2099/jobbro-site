@@ -2,9 +2,9 @@ import ForgotPasswordForm from '@/components/for_pages/ForgotPassword/Form'
 import styles from './index.module.scss'
 import Layout from "@/components/for_pages/layout/Layout"
 import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
-import Card from '@/components/for_pages/Common/Card'
 import ServerClusterSvg from '@/components/svg/ServerClusterSvg'
 import { useState } from 'react'
+import CardAuth from '@/components/for_pages/Common/CardAuth'
 
 export default function ForgotPassword() {
 
@@ -20,7 +20,7 @@ export default function ForgotPassword() {
           </>
           :
           <>
-            <Card
+            <CardAuth
               title='Reset pessword'
               text='We sended instruction for reset password to your entered email '
               btnText='Complete'

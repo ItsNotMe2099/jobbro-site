@@ -1,0 +1,25 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    padding-top: 14px;
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    @include list(16px, true);
+    align-items: center;
+    flex: 1;
+}
+
+.title {
+    @include h1;
+}
+
+.btn {
+    width: 40px;
+    height: 40px;
+    background-color: $white;
+    padding: 0;
+}

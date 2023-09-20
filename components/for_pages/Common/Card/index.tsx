@@ -1,10 +1,9 @@
-import Button from '@/components/ui/Button'
 import styles from './index.module.scss'
+import { ReactElement } from 'react'
 
 interface Props {
-  title: string
-  text: string
-  btnText: string
+  title: string | ReactElement
+  children: ReactElement
 }
 
 export default function Card(props: Props) {
@@ -14,12 +13,7 @@ export default function Card(props: Props) {
       <div className={styles.title}>
         {props.title}
       </div>
-      <div className={styles.text}>
-        {props.text}
-      </div>
-      <Button className={styles.btn} styleType='large' color='green'>
-        {props.btnText}
-      </Button>
+      {props.children}
     </div>
   )
 }

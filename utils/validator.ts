@@ -16,7 +16,7 @@ export default class Validator {
     }
   }
 
-  static required(value: string | number, name: string): string | undefined {
+  static required(value: string | number): string | undefined {
     return value || typeof value === 'number' ? undefined : 'Обязательное поле'
   }
 

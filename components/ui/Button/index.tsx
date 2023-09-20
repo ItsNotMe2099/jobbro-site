@@ -10,7 +10,7 @@ import {IButton} from '@/types/types'
 
 export type ButtonColor = 'green' | 'white'
 export type ButtonFont = 'normal15' | 'normal16'
-export type ButtonStyleType = 'small' | 'medium' | 'large'
+export type ButtonStyleType = 'small' | 'medium' | 'large' | 'circle'
 
 export interface ButtonProps extends IButton {
   children?: React.ReactNode | null | string
@@ -25,6 +25,7 @@ export interface ButtonProps extends IButton {
   stopPropagation?: boolean
   icon?: ReactElement
   reverse?: boolean
+  circle?: boolean
 }
 
 export default function Button(props: ButtonProps) {
@@ -42,7 +43,7 @@ export default function Button(props: ButtonProps) {
     [styles.fluid]: props.fluid,
     [styles.press]: props.press ?? press,
     [styles.hover]: props.hover ?? hover,
-    [styles.withIcon]: !!props.icon
+    [styles.withIcon]: !!props.icon,
   }, props.className)
   const darkSpinner = props.styleType?.includes('outlined')
 

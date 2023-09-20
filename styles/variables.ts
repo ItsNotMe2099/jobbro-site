@@ -32,5 +32,6 @@ export const colors = {
   textSecondary: '#838383',
   textRed: '#B52454',
   backgroundSecondary: '#EBEBEB',
-  elementAlarm: '#B52454'
+  elementAlarm: '#B52454',
+  simpleGrey: '#939393'
 }

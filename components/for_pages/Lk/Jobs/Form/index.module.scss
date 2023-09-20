@@ -1,0 +1,17 @@
+@import "styles/index";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.item {
+    cursor: pointer;
+}
