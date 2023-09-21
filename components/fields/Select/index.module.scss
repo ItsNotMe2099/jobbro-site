@@ -1,32 +1,40 @@
 @import "styles/index";
 
-.root{
+.root {
   position: relative;
-  background-color: #EEF4F9;
+  background-color: #EBEBEB;
   border-radius: 12px;
+  height: 70px;
+  display: flex;
+  align-items: center;
 }
 
-.input{
+.input {
   outline: none;
-  background-color: #EEF4F9;
+  background-color: #EBEBEB;
   border-radius: 12px;
-  :global{
-    .yg-select__menu{
+  flex: 1;
+
+  :global {
+    .yg-select__menu {
       background-color: #EEF4F9;
       z-index: 2;
       border-radius: $StandartBorderRadius;
-      border: 1px solid $grey400;
+      border: 0;
       filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
       box-shadow: none;
       margin: 0px;
-      &-list{
+
+      &-list {
         padding: 0px;
-        >  .yg-select__option{
-          &:first-of-type{
+
+        >.yg-select__option {
+          &:first-of-type {
             border-top-left-radius: $StandartBorderRadius;
             border-top-right-radius: $StandartBorderRadius;
           }
-          &:last-of-type{
+
+          &:last-of-type {
             border-bottom-left-radius: $StandartBorderRadius;
             border-bottom-right-radius: $StandartBorderRadius;
           }
@@ -34,110 +42,135 @@
         }
       }
     }
-    .yg-select__control{
+
+    .yg-select__control {
       box-shadow: none;
-      background-color: #EEF4F9 !important;
+      background-color: #EBEBEB !important;
       border-radius: 12px !important;
+      border: 0 !important;
     }
-    .yg-select__single-value{
+
+    .yg-select__single-value {
       font-size: 14px;
       font-weight: 600;
-      color: $dark500;
+      color: $simple-grey;
       margin: 0;
     }
-    .yg-select__indicator-separator{
+
+    .yg-select__indicator-separator {
       display: none;
     }
-    .yg-select__option{
+
+    .yg-select__option {
       min-height: $StandartHeight;
       font-size: 14px;
       font-weight: 500;
-      color: $dark500;
+      color: $simple-grey;
       display: flex;
       align-items: center;
       padding: 0px 16px;
       background-color: transparent;
       cursor: pointer;
-      &:active{
-        background: $yellow500;
+
+      &:active {
+        background: $simple-grey;
       }
 
     }
-    .yg-select__option--is-focused{
-      border-color: $dark400;
+
+    .yg-select__option--is-focused {
+      border-color: $simple-grey;
     }
-    .yg-select__option--is-selected{
-      border-color: $dark400;
-      background: $yellow500;
+
+    .yg-select__option--is-selected {
+      border-color: $simple-grey;
+      background: $simple-grey;
     }
   }
-  &.default{
-    :global{
-      .yg-select__value-container{
+
+  &.default {
+    :global {
+      .yg-select__value-container {
         padding: 0 16px;
         height: $StandartHeight;
       }
-      .yg-select__control{
+
+      .yg-select__control {
         transition: background 0.2s;
-        border: 1px solid $grey400;
+        border: 1px solid $simple-grey;
         border-radius: 10px;
         background: $white;
       }
-      .yg-select__placeholder{
+
+      .yg-select__placeholder {
         font-size: 16px;
-        color: $dark500;
+        color: $simple-grey;
         margin: 0;
       }
     }
-    &.hover{
-      :global{
-        .yg-select__control{
+
+    &.hover {
+      :global {
+        .yg-select__control {
           background: $white;
         }
       }
     }
   }
-  &.error{
-    :global{
-      .yg-select__control{
-        border-color: $red500;
+
+  &.error {
+    :global {
+      .yg-select__control {
+        border-color: $text-red;
       }
-      .yg-select__placeholder{
-        color: $red500;
+
+      .yg-select__placeholder {
+        color: $text-red;
       }
     }
   }
-  &.withIcon{
-    :global{
-      .yg-select__control{
+
+  &.withIcon {
+    :global {
+      .yg-select__control {
         padding-left: 50px;
       }
-      .yg-select__value-container{
+
+      .yg-select__value-container {
         padding-left: 0;
       }
     }
   }
 }
 
-.indicator{
+.indicator {
   margin-right: 12px;
-  &.indicatorInverse{
+
+  &.indicatorInverse {
     transform: rotate(180deg);
   }
 }
 
-.label{
+.label {
+  position: absolute;
   z-index: 1;
-  @include label;
-  margin-bottom: 8px;
+  left: 16px;
+  top: 16px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.14px;
+  color: $text-secondary;
 }
 
-.icon{
+.icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
-  &.default{
+
+  &.default {
     left: 17px;
   }
 }

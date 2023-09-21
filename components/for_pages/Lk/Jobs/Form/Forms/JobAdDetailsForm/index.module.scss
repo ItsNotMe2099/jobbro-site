@@ -1,7 +1,27 @@
 @import "styles/index";
 
-.form {
+.root {
     display: flex;
     flex-direction: column;
     @include list(32px, false);
+}
+
+.clear {
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.line {
+    display: flex;
+    @include list(24px, true);
+}
+
+.select {
+    flex: 1;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
 }

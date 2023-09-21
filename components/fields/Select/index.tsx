@@ -136,7 +136,7 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
 function DropdownIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
   return (
     <div>
-      <ChevronDownSvg color={colors.grey500} className={classNames({
+      <ChevronDownSvg color={colors.textSecondary} className={classNames({
         [styles.indicator]: true,
         [styles.indicatorInverse]: props.selectProps.menuIsOpen,
       })} />

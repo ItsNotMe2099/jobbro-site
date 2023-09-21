@@ -215,6 +215,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
           [styles.withPrefix]: !!props.prefix,
           [styles.withSuffix]: !!props.suffix,
           [styles.inputFocused]: focused,
+          [styles.inputError]: showError,
         })}>
 
           {props.prefix && (
@@ -228,10 +229,11 @@ export default function InputField<T extends string | number>(props: InputFieldP
             type={props.obscure ? (obscureShow ? 'text' : 'password') : props.type ?? 'text'}
             className={classNames({
               [styles.input]: true,
-              [styles.inputError]: showError,
+              //[styles.inputError]: showError,
               [styles.inputFocused]: focused,
               [styles.withPrefix]: !!props.prefix,
               [styles.withClear]: props.resettable && !!field.value,
+              [styles.withVal]: field.value
             })}
             {...!props.format ? {
               onChange: (e) => {

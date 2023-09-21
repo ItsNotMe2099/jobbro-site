@@ -3,7 +3,7 @@ import { ReactElement } from 'react'
 
 interface Props {
   title: string | ReactElement
-  children: ReactElement
+  children: ReactElement | ReactElement[]
 }
 
 export default function Card(props: Props) {

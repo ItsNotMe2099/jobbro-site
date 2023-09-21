@@ -52,7 +52,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         hasError={showError}
         noOptionsMessage={props.noOptionsMessage}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
-        placeholder={props.placeholder ?? props.label as string ?? ''}
+        placeholder={props.placeholder ?? ''}
         selectProps={props.selectProps}
         onChange={(value) => {
           helpers.setValue(value)
@@ -70,7 +70,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         noOptionsMessage={props.noOptionsMessage}
         resettable={props.resettable ?? false}
-        placeholder={props.placeholder ?? props.label as string ?? ''}
+        placeholder={props.placeholder ?? ''}
         selectProps={props.selectProps}
         onChange={(value) => {
           helpers.setValue(value)

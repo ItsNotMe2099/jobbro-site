@@ -14,7 +14,6 @@
 
 .input {
   @include input;
-
 }
 
 .top {
@@ -38,6 +37,10 @@
   }
 }
 
+.withVal {
+  margin-top: 16px;
+}
+
 
 .label {}
 
@@ -47,7 +50,12 @@
 
 .inputWrapper {
   position: relative;
-
+  margin: 0 !important;
+  height: 70px;
+  background-color: #EBEBEB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .icon {

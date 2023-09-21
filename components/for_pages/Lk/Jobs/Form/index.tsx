@@ -13,8 +13,17 @@ interface Props {
 
 }
 
-interface FormData {
+export interface FormData {
   title: string
+  category: string
+  subCategory: string
+  empType: string
+  workplace: string
+  office: string
+  salary: string
+  salaryMin: string
+  salaryMax: string
+  salaryPerYear: string
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -40,7 +49,16 @@ export default function CreateJobManuallyForm(props: Props) {
   }
 
   const initialValues = {
-    title: ''
+    title: '',
+    category: '',
+    subCategory: '',
+    empType: '',
+    workplace: '',
+    office: '',
+    salary: '',
+    salaryMin: '',
+    salaryMax: '',
+    salaryPerYear: ''
   }
 
   const formik = useFormik({
@@ -63,7 +81,7 @@ export default function CreateJobManuallyForm(props: Props) {
           <ItemWithText onClick={() => setForm('workflow')}
             className={styles.item} active={form === 'workflow'} text='Workflow' />
         </div>
-        {form === 'ad' && <JobAdDetailsForm />}
+        {form === 'ad' && <JobAdDetailsForm formik={formik} />}
       </Form>
     </FormikProvider>
   )
