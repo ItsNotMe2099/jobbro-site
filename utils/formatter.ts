@@ -1,5 +1,5 @@
-import {formatRelative} from 'date-fns'
-import {ru} from 'date-fns/locale'
+import { formatRelative } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
@@ -38,7 +38,12 @@ export default class Formatter {
     if (!date) {
       return ''
     }
-    return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), {locale})
+    return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), { locale })
+  }
+
+  static truncate = (str: string | null, max: number) => {
+    return (str?.length || 0) < max ? str :
+      `${str!.substr(0, max)}...`
   }
 
   static formatDateRelative(date: string | Date) {
@@ -57,12 +62,12 @@ export default class Formatter {
     if (!date) {
       return ''
     }
-    return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), {locale})
+    return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), { locale })
   }
 
   static formatPhone(phone: string | null) {
     try {
-      if(!phone){
+      if (!phone) {
         return
       }
       const number = phoneUtil.parseAndKeepRawInput(this.cleanPhone(`${phone}`), 'RU')
@@ -101,16 +106,16 @@ export default class Formatter {
   }
 
   static formatTimeString(time: string) {
-    if(!time){
+    if (!time) {
       return ''
     }
-  const parts = time.split(':')
+    const parts = time.split(':')
 
     return `${parts[0]}:${parts[1]}`
   }
 
 
-  static formatSize(bytes: number | undefined){
+  static formatSize(bytes: number | undefined) {
     const sufixes = ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'EB', 'ZB', 'YB']
     const i = Math.floor(Math.log(bytes ?? 0) / Math.log(1024))
     return !bytes && '' || ((bytes ?? 0) / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]

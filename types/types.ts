@@ -57,5 +57,8 @@ export const CONTACTS = {
   facebook: '#'
 }
 
-
+export interface IRichTextLinkData{
+  title: string | null,
+  href: string | null
+}
 

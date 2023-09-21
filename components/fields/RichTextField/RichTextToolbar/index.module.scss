@@ -1,0 +1,37 @@
+@import "styles/index";
+
+
+.root{
+  @include clearfix;
+  .button{
+    &:first-child{
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 0px;
+    }
+    &:last-child{
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 0px;
+    }
+  }
+}
+.button{
+  cursor: pointer;
+  float: left;
+  padding: 3px 5px;
+  line-height: 100%;
+  transition: background-color 0.2s;
+  svg{
+    path{
+      transition: fill 0.2s;
+    }
+  }
+  &:hover{
+    background-color: $black;
+    svg{
+      path{
+        fill: $white !important;
+      }
+    }
+  }
+}
+

@@ -11,6 +11,7 @@ export const breakpoints = {
   StandartBorderRadius: 12,
   StandartHeight: 48,
   StandartHeightPhone: 40,
+  fieldHeightDefault: 66,
 
 
   xsMax: 768,

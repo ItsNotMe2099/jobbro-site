@@ -7,6 +7,7 @@ import { colors } from '@/styles/variables'
 import { FormikProps } from 'formik'
 import SelectField from '@/components/fields/SelectField'
 import { FormData } from '../..'
+import RichTextField from '@/components/fields/RichTextField'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<FormData>
@@ -40,6 +41,12 @@ export default function JobAdDetailsForm(props: Props) {
           </div>
           <SelectField label='Office' className={styles.select} name='office' options={[]} />
         </div>
+      </Card>
+      <Card title='Requirements'>
+        <RichTextField name='requirements' />
+      </Card>
+      <Card title='Experience'>
+        <SelectField className={styles.select} placeholder='Select seniority level' name='experience' options={[]} />
       </Card>
       <Card title='Salary'>
         <div className={styles.line}>
