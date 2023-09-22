@@ -55,7 +55,7 @@ export default function RichTextField(props: Props) {
       Underline,
       Placeholder.configure({
         emptyEditorClass: 'empty',
-        placeholder: 'Введите текст',
+        placeholder: '',
       }),
       Link.extend({
 
@@ -110,7 +110,7 @@ export default function RichTextField(props: Props) {
           </div>
         </BubbleMenu>
         <RichTextToolbar editor={editor} onEditLink={handleEditLink} />
-        <EditorContent editor={editor} />
+        <EditorContent className={styles.editor} editor={editor} />
       </div>
       <FieldError showError={hasError}>{meta.error}</FieldError>
     </div>

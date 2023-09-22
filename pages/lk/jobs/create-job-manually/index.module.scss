@@ -8,6 +8,7 @@
     @include list(32px, false);
     margin-left: 32px;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .switch {
