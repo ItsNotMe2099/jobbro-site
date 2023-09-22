@@ -15,6 +15,7 @@ interface Props {
 export default function ItemWithText(props: Props) {
 
   return (<p onClick={props.onClick} className={classNames(styles.item, { [styles.active]: props.active }, props.className)}>
-    {props.text} {props.removable && <CloseSvg color={colors.textSecondary} onClick={props.onRemove} />}
+    {props.text} {props.removable && <CloseSvg color={colors.textSecondary} 
+    onClick={() => props.onRemove ? props.onRemove() : null} />}
   </p>)
 }

@@ -23,9 +23,13 @@ export interface FormData {
   salary: string
   salaryMin: string
   salaryMax: string
-  salaryPerYear: string,
+  salaryPerYear: string
   experience: string
   requirements: string
+  tasks: string
+  intro: string
+  benefits: string
+  skills: any[] // temp
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -62,10 +66,14 @@ export default function CreateJobManuallyForm(props: Props) {
     salaryMax: '',
     salaryPerYear: '',
     experience: '',
-    requirements: ''
+    requirements: '',
+    tasks: '',
+    intro: '',
+    benefits: '',
+    skills: []
   }
 
-  const formik = useFormik({
+  const formik = useFormik<FormData>({
     initialValues,
     onSubmit: handleSubmit
   })

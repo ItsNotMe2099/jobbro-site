@@ -25,3 +25,21 @@
     flex-direction: column;
     @include list(24px, false);
 }
+
+.top {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.skills {
+    @include clearfix;
+    margin-bottom: 24px;
+}
+
+.skill {
+    border: 1px solid $green;
+    float: left;
+    margin: 0;
+    margin-right: 16px;
+}

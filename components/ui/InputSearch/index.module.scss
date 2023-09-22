@@ -1,31 +1,70 @@
 @import "styles/index";
 
-.root{
+.root {
   width: 100%;
   position: relative;
-  border-radius: 12px;
-  height: 44px;
-  background-color: $light;
-  input{
+  border-radius: 8px;
+  height: 70px;
+  background-color: $background-secondary;
+  display: flex;
+  align-items: center;
+}
+
+.correct {
+  border: 1px solid $green;
+}
+
+.form {
+  width: 100%;
+  position: relative;
+
+  input {
     width: 100%;
-    padding-left: 20px;
+    padding-left: 16px;
     border-radius: 2px;
     border: 0;
     height: 100%;
-    background-color: $light;
-    border-radius: 12px;
-    &::placeholder{
+    background-color: $background-secondary;
+    border-radius: 8px;
+
+    &::placeholder {
       @include mainText;
-      color: #050505;
+      color: $text-secondary;
     }
   }
 }
 
-.btn{
+.btn {
   position: absolute;
   top: 0;
   right: 20px;
   height: 44px;
   border-radius: 0;
   cursor: pointer;
+}
+
+.innerLabel {
+  position: absolute;
+  z-index: 1;
+  left: 16px;
+  top: 16px;
+
+  .label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $text-secondary;
+  }
+}
+
+.withVal {
+  margin-top: 16px;
+}
+
+.enter {
+  position: absolute;
+  right: 20px;
+  padding: 10px;
 }

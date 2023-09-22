@@ -4,6 +4,7 @@ import { useThrottleFn } from '@react-cmpt/use-throttle'
 import SearchSvg from '@/components/svg/SearchSvg'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
+import Button from '../Button'
 
 interface Props {
   placeholder?: string
@@ -11,6 +12,9 @@ interface Props {
   hasAutocomplete?: boolean
   searchRequest: (keywords: string) => void
   className?: string
+  searchIcon?: boolean
+  label?: string
+  onEnterClick?: (value: string) => void
 }
 
 export default function InputSearch(props: Props) {
@@ -27,7 +31,7 @@ export default function InputSearch(props: Props) {
     e.preventDefault()
     e.stopPropagation()
     if (value) {
-      props.searchRequest(value)
+      props.onEnterClick ? props.onEnterClick(value) : null
     }
   }
 
@@ -44,20 +48,33 @@ export default function InputSearch(props: Props) {
   const { callback: search } = useThrottleFn(handleSearch, 300)
 
   return (
-    <form className={classNames(styles.root, props.className)} action="/search" onSubmit={handleSubmit}>
-      <input
-        name="query"
-        type="text"
-        value={value}
-        autoComplete={'off'}
-        onChange={(e) => {
-          const value = e.currentTarget.value
-          setValue(value)
-          search(value)
-        }}
-        placeholder={props.placeholder}
-      />
-      <SearchSvg className={styles.btn} color={colors.textSecondary} />
-    </form>
+    <div className={classNames(styles.root, { [styles.correct]: value })}>
+      {props.label && value &&
+        <div className={styles.innerLabel}>
+          <div className={styles.label}>
+            {props.label}
+          </div>
+        </div>
+      }
+      <form className={classNames(styles.form, props.className)} action="/search" onSubmit={handleSubmit}>
+        <input
+          name="query"
+          type="text"
+          value={value}
+          autoComplete={'off'}
+          className={classNames({ [styles.withVal]: value })}
+          onChange={(e) => {
+            const value = e.currentTarget.value
+            setValue(value)
+            search(value)
+          }}
+          placeholder={props.placeholder}
+        />
+        {props.searchIcon && <SearchSvg className={styles.btn} color={colors.textSecondary} />}
+      </form>
+      {!props.searchIcon && value && <Button onClick={() => props.onEnterClick ? props.onEnterClick(value) : null}
+        className={styles.enter}
+        styleType='small' color='transparent'>Press Enter</Button>}
+    </div>
   )
 }
