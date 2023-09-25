@@ -7,6 +7,8 @@ import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import JobAdDetailsForm from './Forms/JobAdDetailsForm'
 import ItemWithText from '@/components/for_pages/Common/ItemWithText'
+import ApplicationForm from './Forms/ApplicationForm'
+import WorkflowForm from './Forms/WorkflowForm'
 
 
 interface Props {
@@ -30,6 +32,12 @@ export interface FormData {
   intro: string
   benefits: string
   skills: any[] // temp
+  contact: string
+  replyApply: string
+  replyDecline: string
+  cv: string
+  coverLetter: string
+  lang: string
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -70,7 +78,13 @@ export default function CreateJobManuallyForm(props: Props) {
     tasks: '',
     intro: '',
     benefits: '',
-    skills: []
+    skills: [],
+    contact: '',
+    replyApply: '',
+    replyDecline: '',
+    cv: '',
+    coverLetter: '',
+    lang: ''
   }
 
   const formik = useFormik<FormData>({
@@ -94,6 +108,8 @@ export default function CreateJobManuallyForm(props: Props) {
             className={styles.item} active={form === 'workflow'} text='Workflow' />
         </div>
         {form === 'ad' && <JobAdDetailsForm formik={formik} />}
+        {form === 'application' && <ApplicationForm formik={formik} />}
+        {form === 'workflow' && <WorkflowForm formik={formik} />}
       </Form>
     </FormikProvider>
   )

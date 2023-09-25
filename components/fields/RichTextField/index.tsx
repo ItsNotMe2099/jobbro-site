@@ -26,6 +26,7 @@ interface IBubbleShowProps {
   oldState?: EditorState,
   from: number,
   to: number
+  placeholder?: string
 }
 
 
@@ -55,7 +56,7 @@ export default function RichTextField(props: Props) {
       Underline,
       Placeholder.configure({
         emptyEditorClass: 'empty',
-        placeholder: '',
+        placeholder: props.placeholder ? props.placeholder : '',
       }),
       Link.extend({
 
