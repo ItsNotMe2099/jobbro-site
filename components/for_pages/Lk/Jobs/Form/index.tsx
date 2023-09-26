@@ -38,6 +38,7 @@ export interface FormData {
   cv: string
   coverLetter: string
   lang: string
+  stages: { title: string, desc: string }[]
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -84,7 +85,8 @@ export default function CreateJobManuallyForm(props: Props) {
     replyDecline: '',
     cv: '',
     coverLetter: '',
-    lang: ''
+    lang: '',
+    stages: [{ title: '', desc: '' }]
   }
 
   const formik = useFormik<FormData>({
