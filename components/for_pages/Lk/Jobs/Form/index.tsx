@@ -9,6 +9,9 @@ import JobAdDetailsForm from './Forms/JobAdDetailsForm'
 import ItemWithText from '@/components/for_pages/Common/ItemWithText'
 import ApplicationForm from './Forms/ApplicationForm'
 import WorkflowForm from './Forms/WorkflowForm'
+import Button from '@/components/ui/Button'
+import EyeSvg from '@/components/svg/EyeSvg'
+import { colors } from '@/styles/variables'
 
 
 interface Props {
@@ -101,6 +104,18 @@ export default function CreateJobManuallyForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
+        <div className={styles.controls}>
+          <Button type='submit' styleType='large' color='green'>
+            Publish
+          </Button>
+          <Button styleType='large' color='white'>
+            Save Template
+          </Button>
+          <div className={styles.preview}>
+            <EyeSvg color={colors.green} className={styles.eye} />
+            <div className={styles.text}>Preview</div>
+          </div>
+        </div>
         <div className={styles.switch}>
           <ItemWithText onClick={() => setForm('ad')}
             className={styles.item} active={form === 'ad'} text='Job ad Details' />
