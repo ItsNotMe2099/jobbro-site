@@ -7,7 +7,7 @@ import { ReactElement } from 'react'
 interface Props {
   title: string
   right?: ReactElement
-  link: string
+  link?: string
 }
 
 export default function PageTitle(props: Props) {
@@ -15,7 +15,8 @@ export default function PageTitle(props: Props) {
   return (
     <div className={styles.root}>
       <div className={styles.left}>
-        <Button href={props.link} className={styles.btn} icon={<ArrowLeftSvg color={colors.green} />} styleType='circle' />
+        {props.link &&
+          <Button href={props.link} className={styles.btn} icon={<ArrowLeftSvg color={colors.green} />} styleType='circle' />}
         <div className={styles.title}>
           {props.title}
         </div>

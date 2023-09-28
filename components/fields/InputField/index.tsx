@@ -233,7 +233,8 @@ export default function InputField<T extends string | number>(props: InputFieldP
               [styles.inputFocused]: focused,
               [styles.withPrefix]: !!props.prefix,
               [styles.withClear]: props.resettable && !!field.value,
-              [styles.withVal]: field.value
+              [styles.withVal]: field.value && props.label,
+              [styles.disabled]: props.disabled
             })}
             {...!props.format ? {
               onChange: (e) => {

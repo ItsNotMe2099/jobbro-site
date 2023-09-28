@@ -1,0 +1,14 @@
+@import "styles/index";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
+}
+
+.add {
+    position: absolute;
+    right: 16px;
+    cursor: pointer;
+}

@@ -58,6 +58,10 @@
   align-items: center;
 }
 
+.disabled {
+  color: $text-secondary;
+}
+
 .icon {
   position: absolute;
   cursor: pointer;
