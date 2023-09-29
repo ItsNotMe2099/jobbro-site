@@ -58,4 +58,8 @@ export class Routes {
   static get lkYourCompany() {
     return '/lk/your-company'
   }
+
+  static get lkYourCompanyEdit() {
+    return '/lk/your-company/edit'
+  }
 }

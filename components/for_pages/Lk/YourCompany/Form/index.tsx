@@ -12,7 +12,7 @@ import { colors } from '@/styles/variables'
 import DetailsForm from './Forms/DetailsForm'
 import CareerForm from './Forms/CareerForm'
 import TeamForm from './Forms/TeamForm'
-import OfficesForm from './Forms/OfficesForm'
+import Offices from './Forms/Offices'
 
 
 interface Props {
@@ -90,7 +90,7 @@ export default function YourCompanyForm(props: Props) {
         </div>
         {form === 'details' && <DetailsForm formik={formik} />}
         {form === 'career' && <CareerForm formik={formik} />}
-        {form === 'offices' && <OfficesForm />}
+        {form === 'offices' && <Offices />}
         {form === 'team' && <TeamForm />}
         {(form === 'details' || form === 'career') && <div className={styles.controls}>
           <Button type='submit' styleType='large' color='green'>

@@ -1,0 +1,83 @@
+@import "styles/index";
+
+.root {
+    padding: 8px;
+    border-radius: 24px;
+    background-color: $white;
+    width: calc(28% - 24px);
+    height: 230px;
+}
+
+.container {
+    padding: 16px;
+    background-color: $background-secondary;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    height: 100%;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.jobs {
+    padding: 10px 12px;
+    border-radius: 24px;
+    background-color: $white;
+}
+
+.employees {
+    display: flex;
+    @include list(6px, true);
+    align-items: center;
+}
+
+.quantity {
+    @include quantity;
+    color: $text-primary;
+}
+
+.middle {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+    @include list(4px, false);
+}
+
+.country {
+    @include quantity;
+    font-weight: 400;
+    color: $text-secondary;
+}
+
+.city {
+    white-space: nowrap;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 125%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    height: 100%;
+    align-items: flex-end;
+}
+
+.status {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    color: $green;
+    letter-spacing: -0.14px;
+    text-transform: capitalize;
+    line-height: 40px;
+}

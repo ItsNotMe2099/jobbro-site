@@ -52,11 +52,26 @@
   letter-spacing: -0.2px;
 }
 
+@mixin h4 {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+}
+
 @mixin itemWithText {
   font-size: 16px;
   font-weight: 700;
   line-height: 100%;
   letter-spacing: -0.16px;
+}
+
+@mixin quantity {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.14px;
 }
 
 
