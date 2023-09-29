@@ -37,7 +37,7 @@ export default function OfficeCard(props: Props) {
           <div className={styles.status}>
             {props.item.status}
           </div>
-          <MenuSvg color={colors.textPrimary} />
+          <MenuSvg className={styles.menu} color={colors.textPrimary} />
         </div>
       </div>
     </div>
