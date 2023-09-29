@@ -1,0 +1,42 @@
+version: '3'
+
+networks:
+  app:
+    driver: bridge
+  nginx-proxy:
+    external: true
+services:
+    app:
+        build:
+          context: .
+          dockerfile: docker/app/Dockerfile
+          args:
+            - ENV_FILE=.env.prod
+        volumes:
+          - /srv/jobbro-frontend/cache:/usr/src/app/.next/cache
+        image: ${APP_IMAGE}
+        container_name: jobbro-front-app
+        restart: ${DK_RESTART}
+        networks:
+          - app
+    nginx:
+        build:
+          context: .
+          dockerfile: docker/nginx_prod/Dockerfile
+          args:
+            - APP_IMAGE=${APP_IMAGE}
+        image: ${NGINX_IMAGE}
+        container_name: jobbro-front-nginx
+        restart: ${DK_RESTART}
+        ports:
+          - "80:80"
+          - "443:443"
+        networks:
+          - app
+          - nginx-proxy
+        depends_on:
+          - app
+        environment:
+          API_HOST: http://api
+          ADMIN_HOST: http://admin
+

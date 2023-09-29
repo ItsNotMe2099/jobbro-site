@@ -1,0 +1,76 @@
+image: gitlab.glob-com.ru:4567/glob-com/ci/docker-ansible:latest
+
+before_script:
+  - git submodule sync --recursive
+  - git submodule update --init --recursive
+
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
+  IMAGE_TAG_DEV: $CI_REGISTRY_IMAGE:latestdev
+  IMAGE_TAG_DEV_APP: $CI_REGISTRY_IMAGE:app_latestdev
+  IMAGE_TAG_DEV_NGINX: $CI_REGISTRY_IMAGE:nginx_latestdev
+  IMAGE_TAG_APP: $CI_REGISTRY_IMAGE:app_latest
+  IMAGE_TAG_NGINX: $CI_REGISTRY_IMAGE:nginx_latest
+  DOCKER_TLS_CERTDIR: ""
+stages:
+  - build-docker
+  - deploy
+
+build_dev_image:
+  stage: build-docker
+  tags:
+    - docker
+  script:
+    - export APP_IMAGE=$IMAGE_TAG_DEV_APP
+    - export NGINX_IMAGE=$IMAGE_TAG_DEV_NGINX
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose -f docker-compose.dev.yml build app
+    - docker-compose -f docker-compose.dev.yml push app
+    - docker-compose -f docker-compose.dev.yml build --pull nginx
+    - docker-compose -f docker-compose.dev.yml push nginx
+  #  when: manual
+  only:
+    - dev
+
+build_prod_image:
+  stage: build-docker
+  tags:
+    - docker
+  script:
+    - export APP_IMAGE=$IMAGE_TAG_APP
+    - export NGINX_IMAGE=$IMAGE_TAG_NGINX
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose -f docker-compose.prod.yml build app
+    - docker-compose -f docker-compose.prod.yml push app
+    - docker-compose -f docker-compose.prod.yml build  --pull nginx
+    - docker-compose -f docker-compose.prod.yml push nginx
+  #  when: manual
+  only:
+    - master
+
+deploy_dev:
+  stage: deploy
+  tags:
+    - docker
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ansible-playbook deploy/deploy.yml -i deploy/dev  -e CI_COMMIT_SHA="\"$CI_COMMIT_SHA\"" -e "CI_JOB_TOKEN=$CI_JOB_TOKEN" -e "CI_REGISTRY=$CI_REGISTRY" -e "APP_IMAGE=$IMAGE_TAG_DEV_APP" -e "NGINX_IMAGE=$IMAGE_TAG_DEV_NGINX" -e "branch=$CI_COMMIT_REF_NAME"
+  only:
+    - dev
+
+deploy_prod:
+  stage: deploy
+  tags:
+    - docker
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ansible-playbook deploy/deploy.yml -i deploy/production  -e CI_COMMIT_SHA="\"$CI_COMMIT_SHA\"" -e "CI_JOB_TOKEN=$CI_JOB_TOKEN" -e "CI_REGISTRY=$CI_REGISTRY" -e "APP_IMAGE=$IMAGE_TAG_APP" -e "NGINX_IMAGE=$IMAGE_TAG_NGINX" -e "branch=$CI_COMMIT_REF_NAME"
+  only:
+    - master

@@ -1,0 +1,48 @@
+version: '3'
+
+networks:
+  app:
+    driver: bridge
+  nginx-proxy:
+    external: true
+services:
+    app:
+        build:
+          context: .
+          dockerfile: docker/app/Dockerfile
+          args:
+            - ENV_FILE=.env.dev
+        image: ${APP_IMAGE}
+        container_name: jobbro-front-app
+        restart: ${DK_RESTART}
+        logging:
+          driver: 'json-file'
+          options:
+            max-file: '5'
+            max-size: '100m'
+        networks:
+          - app
+    nginx:
+      build:
+        context: .
+        dockerfile: docker/nginx/Dockerfile
+        args:
+          - APP_IMAGE=${APP_IMAGE}
+      image: ${NGINX_IMAGE}
+      container_name: jobbro-front-nginx
+      logging:
+        driver: 'json-file'
+        options:
+          max-file: '5'
+          max-size: '100m'
+      restart: ${DK_RESTART}
+      networks:
+        - app
+        - nginx-proxy
+      depends_on:
+        - app
+      environment:
+        API_HOST: http://jobbro-api-nginx
+        ADMIN_HOST: http://jobbro-admin
+        VIRTUAL_HOST: jobbro.dev.firelabs.ru
+        VIRTUAL_PORT: 80

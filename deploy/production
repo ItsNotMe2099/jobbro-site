@@ -1,0 +1,2 @@
+[web]
+dev ansible_host= ansible_user=glm-ci
