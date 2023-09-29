@@ -1,6 +1,6 @@
 import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import styles from './index.module.scss'
-import Layout from "@/components/for_pages/layout/Layout"
+import Layout from '@/components/for_pages/layout/Layout'
 import RegistrationForm from '@/components/for_pages/Registration/Form'
 import { useState } from 'react'
 import CardAuth from '@/components/for_pages/Common/CardAuth'

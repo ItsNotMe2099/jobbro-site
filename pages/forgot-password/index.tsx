@@ -1,6 +1,6 @@
 import ForgotPasswordForm from '@/components/for_pages/ForgotPassword/Form'
 import styles from './index.module.scss'
-import Layout from "@/components/for_pages/layout/Layout"
+import Layout from '@/components/for_pages/layout/Layout'
 import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import ServerClusterSvg from '@/components/svg/ServerClusterSvg'
 import { useState } from 'react'
