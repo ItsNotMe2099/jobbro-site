@@ -12,3 +12,18 @@
     right: 16px;
     cursor: pointer;
 }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+}
+
+.line {
+    display: flex;
+    @include list(24px, true);
+}
+
+.select{
+    flex: 1;
+}
