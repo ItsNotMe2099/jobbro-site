@@ -1,0 +1,116 @@
+@import "styles/index";
+
+$width: 105px;
+$height: 77px;
+
+.root {
+
+  position: relative;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.avatar {
+  width: $width;
+  height: $height;
+  border-radius: 10px;
+  background: $text-secondary;
+  position: relative;
+
+  &.vertical {
+    margin-bottom: 14px;
+  }
+}
+
+.preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.resultImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s;
+
+  &.hover {
+    opacity: 0.5;
+  }
+}
+
+.resultCameraIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.progressLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: $green;
+  border-radius: 10px;
+}
+
+.text {
+  flex: 1;
+  padding-left: 14px;
+  font-weight: 500;
+}
+
+.error {
+  font-size: 11px;
+  margin-top: 4px;
+  color: red;
+}
+
+.label {
+  color: black;
+  @include btnText;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+.fileListItem{
+  margin-top: 16px;
+}

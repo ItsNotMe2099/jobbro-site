@@ -1,0 +1,20 @@
+@import "styles/index";
+.root{
+  background: rgba(0, 0,0 , 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 0.2s;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  border-radius: 10px;
+  border: 2px dashed grey;
+  &.show{
+    opacity: 1;
+  }
+}

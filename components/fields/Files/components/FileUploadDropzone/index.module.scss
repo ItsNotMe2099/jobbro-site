@@ -1,0 +1,33 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 2px solid $green;
+  padding: 27px 39px 39px 32px;
+
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @include list(12px, false);
+  margin-top: 12px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.description {
+  font-size: 14px;
+}
+
+.icon {}

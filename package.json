@@ -32,18 +32,23 @@
     "next": "13.4.19",
     "normalize.css": "^8.0.1",
     "numeralize-ru": "^1.0.1",
+    "rc-progress": "^3.5.1",
     "react": "18.2.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-imask": "^7.1.3",
     "react-select": "^5.7.4",
     "react-select-async-paginate": "^0.7.3",
     "react-switch": "^7.0.0",
+    "rxjs": "^7.8.1",
     "sass": "^1.67.0",
     "spinners-react": "^1.0.7",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.3"
+    "@types/js-cookie": "^3.0.3",
+    "@types/uuid": "^9.0.4"
   }
 }

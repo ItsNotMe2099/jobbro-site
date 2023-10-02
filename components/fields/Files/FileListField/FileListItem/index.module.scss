@@ -1,0 +1,63 @@
+@import "styles/index";
+
+$width: 105px;
+$height: 77px;
+
+.root{
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  @include list(12px, true);
+}
+.center{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  @include list(4px);
+}
+.left{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(12px, true);
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  @include list(8px, true);
+  overflow: hidden;
+}
+.name{
+  font-weight: 400;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.button{
+  display: flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  &:hover{
+    svg{
+      path{
+        fill: red;
+      }
+    }
+  }
+}
+.progress{
+  margin-bottom: -16px;
+}
+.error{
+  font-size: 11px;
+  margin-top: 4px;
+  color: red;
+}
