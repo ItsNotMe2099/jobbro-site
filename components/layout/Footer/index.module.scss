@@ -1,0 +1,18 @@
+@import "../../../styles/index";
+
+.root {
+  height: 40px;
+  padding: 0 32px;
+  margin-bottom: 35px;
+  display: flex;
+  justify-content: flex-end;
+  @include list(16px, true);
+}
+
+.icon {
+  fill: $text-secondary;
+
+  &:hover {
+    fill: $black;
+  }
+}

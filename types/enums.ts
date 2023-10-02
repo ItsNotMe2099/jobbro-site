@@ -1,3 +1,6 @@
+export enum ModalType {
+  Confirm = 'confirm',
+}
 export enum CookiesType {
   accessToken = 'accessToken',
 }
@@ -17,7 +20,7 @@ export enum InputStyleType {
 }
 
 export enum SidePanelType {
-  
+
 }
 
 export enum SnackbarType {
@@ -50,4 +53,21 @@ export enum Preset {
   xlResize,
   /** 1800px */
   xlCrop,
+}
+export enum Languages {
+  en ='en',
+  de ='de',
+  fr ='fr',
+  cs ='cs',
+  nl ='nl',
+  et ='et',
+  pt ='pt',
+  it ='it',
+  ja ='ja',
+  ko ='ko',
+  lv ='lv',
+  es ='es',
+  uk ='uk',
+  zh ='zh',
+  ru ='ru',
 }

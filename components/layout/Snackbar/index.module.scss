@@ -1,0 +1,31 @@
+@import "../../../styles/index";
+
+.root{
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 8px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  visibility: hidden;
+  z-index: -1;
+
+
+  &.active{
+    opacity: 1;
+    visibility: visible;
+    z-index: 9999999;
+  }
+
+  &.error{
+    background: $element-alarm;
+  }
+
+  &.success{
+    background: $green;
+  }
+}

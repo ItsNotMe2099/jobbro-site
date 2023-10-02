@@ -1,9 +1,11 @@
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import styles from './index.module.scss'
 import LkLayout from '@/components/for_pages/Lk/components/layout'
-import Layout from '@/components/for_pages/layout/Layout'
+import Layout from '@/components/layout/Layout'
 import { Routes } from '@/types/routes'
 import EditForm from '@/components/for_pages/Lk/YourCompany/Form/Forms/EditForm'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
 
 
 export default function YourCompanyEdit() {
@@ -19,3 +21,4 @@ export default function YourCompanyEdit() {
     </Layout>
   )
 }
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

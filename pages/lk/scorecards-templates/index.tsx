@@ -1,4 +1,6 @@
-import Layout from '@/components/for_pages/layout/Layout'
+import Layout from '@/components/layout/Layout'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
 
 
 export default function DashBoard() {
@@ -8,3 +10,4 @@ export default function DashBoard() {
     </Layout>
   )
 }
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

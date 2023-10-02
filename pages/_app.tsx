@@ -8,9 +8,29 @@ import { CookiesType } from 'types/enums'
 import App from 'next/app'
 import { AppWrapper } from '@/context/state'
 import Head from 'next/head'
+import {NextPage} from 'next'
+import {ReactElement, ReactNode, useEffect} from 'react'
+import ModalContainer from '@/components/layout/ModalContainer'
+import Snackbar from '@/components/layout/Snackbar'
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({Component, pageProps}: AppPropsWithLayout) {
+
+  useEffect(() => {
+      if (pageProps.isMobile) {
+        document.body.classList.add('mobile-ua')
+        document.documentElement.className = 'mobile-ua'
+      }
+    },
+    [])
+  const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <AppWrapper isMobile={pageProps.isMobile} token={pageProps.token}>
       <Head>
@@ -19,7 +39,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </Head>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps as any} />)}
+      <ModalContainer/>
+      <Snackbar/>
     </AppWrapper>
   )
 }

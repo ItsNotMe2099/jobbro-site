@@ -3,24 +3,23 @@ export class Routes {
     return `${typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : ''}${url}`
   }
 
+  static login(redirect?: string) {
+    return `/auth/login${redirect ? `?redirect=${redirect}` : ''}`
+  }
+
+  static registration(redirect?: string) {
+    return `/auth/registration${redirect ? `?redirect=${redirect}` : ''}`
+  }
+
+  static get passwordForgot() {
+    return '/auth/password-forgot'
+  }
+  static passwordReset(data: { login: string, code?: string }) {
+    return `/auth/password-reset?login=${data.login}${data.code ? `&code=${data.code}` : ''}`
+  }
+
   static get index() {
     return '/'
-  }
-
-  static get login() {
-    return '/login'
-  }
-
-  static get registration() {
-    return '/registration'
-  }
-
-  static get forgotPassword() {
-    return '/forgot-password'
-  }
-
-  static get resetPassword() {
-    return '/reset-password'
   }
 
   static get lk() {

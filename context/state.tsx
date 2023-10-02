@@ -1,15 +1,27 @@
-import { SidePanelType, SnackbarType } from '@/types/enums'
-import { SnackbarData } from '@/types/types'
-import { createContext, useContext, useState } from 'react'
-import { Subject } from 'rxjs'
+import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
+import {RequestError, SnackbarData} from '@/types/types'
+import {createContext, useContext, useEffect, useState} from 'react'
+import IAboutMe from '@/data/interfaces/IAboutMe'
+import {Subject} from 'rxjs'
+import AuthRepository from '@/data/repositories/AuthRepository'
+import {getIsMobile} from '@/utils/mobile'
+import {CookiesLifeTime} from '@/types/constants'
+import Cookies from 'js-cookie'
+import ReactModal from 'react-modal'
 
 interface IState {
   isMobile: boolean
   isDesktop: boolean
   isLogged: boolean
   isNotLogged: boolean
+  aboutMeLoaded: boolean
+  allLoaded: boolean
   snackbar: SnackbarData | null
   showSnackbar: (text: string, type: SnackbarType) => void
+  modal: ModalType | null
+  modalArguments: any
+  showModal: (type: ModalType, args?: any) => void
+  hideModal: () => void
   sidePanel: SidePanelType | null
   panelArguments: any
   showSidePanel: (type: SidePanelType, args?: any) => void
@@ -17,24 +29,43 @@ interface IState {
   fileUploadingState$: Subject<boolean>
   setIsFilesUploading: (value: boolean) => void
   isFilesUploading: boolean
+  aboutMe: IAboutMe | null,
+  logout: () => void,
+  token: string | null
+  setToken: (token: string) => void
+  updateAboutMe: (newUser?: IAboutMe) => Promise<IAboutMe | null>
+  loginState$: Subject<boolean>
 }
 
 const fileUploadingState$ = new Subject<boolean>()
+const loginState$ = new Subject<boolean>()
 
 const defaultValue: IState = {
   isMobile: false,
   isLogged: false,
   isNotLogged: true,
+  aboutMeLoaded: false,
+  allLoaded: false,
   isDesktop: true,
   snackbar: null,
+  showSnackbar: (text, type) => null,
+  modal: null,
+  modalArguments: null,
+  showModal: (type) => null,
+  hideModal: () => null,
   sidePanel: null,
   panelArguments: null,
-  showSidePanel: (type) => null,
-  showSnackbar: (text, type) => null,
+  showSidePanel: (type, args) => null,
   hidePanel: () => null,
   setIsFilesUploading: (value) => null,
   isFilesUploading: false,
   fileUploadingState$,
+  aboutMe: null,
+  logout: () => null,
+  token: null,
+  setToken: (token: string) => null,
+  updateAboutMe: async () => null,
+  loginState$: loginState$,
 }
 
 const AppContext = createContext<IState>(defaultValue)
@@ -48,16 +79,49 @@ interface Props {
 export function AppWrapper(props: Props) {
   const [snackbar, setSnackbar] = useState<SnackbarData | null>(null)
   const [token, setToken] = useState<string | null>(props.token ?? null)
+  const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
+  const [aboutMeLoaded, setAboutMeLoaded] = useState<boolean>(false)
+  const [isLogged, setIsLogged] = useState<boolean>(false)
+  const [allLoaded, setAllLoaded] = useState<boolean>(false)
+  const [isMobile, setIsMobile] = useState<boolean>(props.isMobile)
   const [sidePanel, setSidePanel] = useState<SidePanelType | null>(null)
   const [panelArguments, setPanelArguments] = useState<any>(null)
   const [isFilesUploading, setIsFilesUploading] = useState<boolean>(false)
+  const [modal, setModal] = useState<ModalType | null>(null)
+  const [modalArguments, setModalArguments] = useState<any>(null)
 
   const showSnackbar = (text: string, type: SnackbarType) => {
+
     setSnackbar({ text, type })
     setTimeout(() => {
       setSnackbar(null)
     }, 2000)
   }
+
+  useEffect(() => {
+    if (props.token) {
+      setIsLogged(true)
+    } else {
+      setIsLogged(false)
+    }
+  }, [props.token])
+
+  useEffect(() => {
+    const promises = []
+
+    if (props.token) {
+      promises.push(
+        updateAboutMe().catch(() => {
+          setIsLogged(false)
+        }),
+      )
+    } else {
+      setAboutMeLoaded(true)
+    }
+
+    Promise.all(promises).then((i) => setTimeout(() => setAllLoaded(true), 1))
+
+  }, [])
 
   const showSidePanel = (type: SidePanelType, args?: any) => {
     setPanelArguments(args)
@@ -69,14 +133,63 @@ export function AppWrapper(props: Props) {
     setPanelArguments(null)
   }
 
+  const updateAboutMe = async (updatedUser?: IAboutMe) => {
+    let newUser: IAboutMe | null = null
+    if (updatedUser) {
+      newUser = updatedUser
+      setAboutMe(updatedUser)
+      setAboutMeLoaded(true)
+    } else {
+      try {
+        newUser = await AuthRepository.fetchAboutMe()
+        if (newUser) {
+          setAboutMe(newUser)
+        }
+
+      } catch (err) {
+        if (err instanceof RequestError) {
+          showSnackbar(err.message, SnackbarType.error)
+        }
+      }
+      setAboutMeLoaded(true)
+    }
+    return newUser
+  }
+
+  useEffect(() => {
+    setIsMobile(getIsMobile(props.isMobile))
+  }, [])
+
+
+  const showModal = (type: ModalType, args?: any) => {
+    console.log('SetModal', type)
+    ReactModal.setAppElement('body')
+    setModalArguments(args)
+    setModal(type)
+  }
+
+  const hideModal = () => {
+    console.log('HideModal')
+    setModal(null)
+    setModalArguments(null)
+  }
   const value: IState = {
     ...defaultValue,
-    isLogged: !!token,
-    isNotLogged: !token,
-    isMobile: props.isMobile,
+    isLogged,
+    isNotLogged: !isLogged,
+    isMobile: isMobile,
     isDesktop: !props.isMobile,
     snackbar,
     showSnackbar,
+    aboutMeLoaded,
+    allLoaded,
+    aboutMe,
+    updateAboutMe,
+    token,
+    modal,
+    modalArguments,
+    showModal,
+    hideModal,
     sidePanel,
     panelArguments,
     showSidePanel,
@@ -85,7 +198,23 @@ export function AppWrapper(props: Props) {
     setIsFilesUploading: (value) => {
       setIsFilesUploading(value)
       fileUploadingState$.next(value)
-    }
+    },
+    setToken: (token: string) => {
+      Cookies.set(CookiesType.accessToken, token, {
+        expires: CookiesLifeTime.accessToken,
+      })
+      setToken(token)
+      setIsLogged(true)
+      loginState$.next(true)
+
+    },
+    logout: () => {
+      Cookies.remove(CookiesType.accessToken)
+      setIsLogged(false)
+      setAboutMe(null)
+
+      loginState$.next(false)
+    },
   }
 
   return (
