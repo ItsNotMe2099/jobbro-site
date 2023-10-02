@@ -2,7 +2,6 @@ import styles from 'components/fields/Files/components/FileUploadDropzone/index.
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
 import DropzoneOverlay from 'components/fields/Files/components/DropzoneOverlay'
-import { colors } from 'styles/variables'
 import { DropEvent, DropzoneOptions, FileRejection, useDropzone } from 'react-dropzone'
 import AddImageSvg from '@/components/svg/AddImageSvg'
 

@@ -5,7 +5,6 @@ import {Preset} from 'types/enums'
 import IFile from 'data/interfaces/IFile'
 import {ReactElement} from 'react'
 import DocumentPreview from 'components/ui/DocumentPreview'
-import {colors} from 'styles/variables'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
 
 
