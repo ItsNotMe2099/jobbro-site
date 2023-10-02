@@ -29,6 +29,7 @@ export interface FormData {
   culture: string
   advantages: string
   domain: string
+  gallery: any[]
 }
 
 export default function YourCompanyForm(props: Props) {
@@ -62,7 +63,8 @@ export default function YourCompanyForm(props: Props) {
     mission: '',
     culture: '',
     advantages: '',
-    domain: 'Jobbro.com/companies/cuprum'
+    domain: 'Jobbro.com/companies/cuprum',
+    gallery: []
   }
 
   const formik = useFormik<FormData>({

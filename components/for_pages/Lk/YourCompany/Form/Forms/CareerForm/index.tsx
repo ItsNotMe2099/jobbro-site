@@ -33,7 +33,7 @@ export default function CareerForm(props: Props) {
         <div className={styles.wrapper}>
           <FileField
             isImage
-            name='passport.scan'
+            name='gallery'
             accept={[FileUploadAcceptType.Image]}
             text=
             {
