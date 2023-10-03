@@ -1,5 +1,19 @@
 @import "styles/index";
 
-.root {
-  
+.root {}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    margin-left: 32px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
 }

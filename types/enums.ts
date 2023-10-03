@@ -71,3 +71,7 @@ export enum Languages {
   zh ='zh',
   ru ='ru',
 }
+
+export enum SidePanelType {
+  JobsFilter = 'jobsFilter',
+}
