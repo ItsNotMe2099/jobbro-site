@@ -6,11 +6,40 @@ import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import Filter from '@/components/for_pages/Lk/Jobs/Filter'
 import { useState } from 'react'
+import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
+import Add from '@/components/for_pages/Common/Add'
+import MenuOptions from '@/components/for_pages/Common/MenuOptions'
+import classNames from 'classnames'
 
 
 export default function Jobs() {
 
-  const [view, setView] = useState<'card' | 'row'>('row')
+  const [view, setView] = useState<'card' | 'row'>('card')
+
+  const data: any[] = [
+    {
+      published: '25 Jun 2023', employees: 86, name: 'Senior Manager of Software Development and Engineering',
+      status: 'draft', salary: '$15 / hr', country: 'Indonesia'
+    },
+    {
+      published: '25 Jun 2023', employees: 86, name: 'Junior Java Development',
+      status: 'published', salary: '$25 / hr', country: 'India'
+    },
+    {
+      published: '25 Jun 2023', employees: 86, name: 'Senior Back-end Development with Python Skills',
+      status: 'published', salary: '$23 / hr', country: 'Indonesia'
+    },
+    {
+      published: '25 Jun 2023', employees: 86, name: 'Product Designer',
+      status: 'published', salary: '$21 / hr', country: 'Indonesia'
+    },
+    {
+      published: '25 Jun 2023', employees: 86, name: 'Graphic Designer',
+      status: 'pause', salary: '$35 / hr', country: 'Canada'
+    },
+  ]
+
+  const [showMenu, setShowMenu] = useState<boolean>(false)
 
   return (
     <Layout>
@@ -19,6 +48,15 @@ export default function Jobs() {
           <PageTitle title='Jobs' />
           <div className={styles.wrapper}>
             <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
+            <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
+              {data.map((i, index) =>
+                <JobCard view={view} className={styles.card} item={i} key={index} />
+              )}
+              <div className={styles.plus}>
+                {showMenu ? <MenuOptions className={styles.menu} /> : <></>}
+                <Add active={showMenu} onClick={() => setShowMenu(!showMenu)} />
+              </div>
+            </div>
           </div>
         </div>
       </LkLayout>

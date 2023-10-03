@@ -25,7 +25,7 @@ export default function Filter(props: Props) {
           Sort
         </div>
       </div>
-      {props.view === 'card' ?
+      {props.view === 'row' ?
         <CardViewSvg className={styles.view} onClick={props.onSetView} color={colors.simpleGrey} />
         :
         <RowViewSvg className={styles.view} onClick={props.onSetView} color={colors.simpleGrey} />
