@@ -10,6 +10,7 @@ import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
+import Link from 'next/link'
 
 interface IFormData {
   email: string,
@@ -82,6 +83,7 @@ export default function LoginForm(props: Props) {
           labelType='in'
           obscure
           validate={Validator.requiredPassword} />
+          <Link className={styles.reset} href={Routes.passwordForgot}>Reset password</Link>
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
             Log In
