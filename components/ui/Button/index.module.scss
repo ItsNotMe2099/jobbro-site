@@ -60,19 +60,27 @@
   color: $white;
 
   &:hover {
-    box-shadow: 1px 4px 23px rgba(36, 181, 99, 0.44);
+    background-color: $green-hover;
+  }
+
+  &:active {
+    background-color: $green-active;
   }
 }
 
 .white {
-  background: $white;
+  background: transparent;
   color: $green;
   border: 1px solid $green;
 
   &:hover {
-    background: $green;
-    color: $white;
-    border: 1px solid $green;
+    border: 1px solid $green-hover;
+    color: $green-hover;
+  }
+
+  &:active {
+    border: 1px solid $green-active;
+    color: $green-active;
   }
 }
 
