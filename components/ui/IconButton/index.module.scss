@@ -1,0 +1,76 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 100%;
+
+
+  &.normal {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  &.medium {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  &.large {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+}
+
+.white {
+  background: $white;
+}
+
+.green {
+  background: $green;
+
+  &:hover {
+    background-color: $green-hover;
+  }
+
+  &:active {
+    background-color: $green-active;
+  }
+}
+
+
+.spinner {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerVisible {
+  visibility: visible;
+}
+
+.text {
+  display: flex;
+  @include list(11px, true);
+  align-items: center;
+  white-space: nowrap;
+}
+
+.textHidden {
+  visibility: hidden;
+}

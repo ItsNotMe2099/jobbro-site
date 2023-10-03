@@ -4,6 +4,7 @@ import ChatSvg from '@/components/svg/ChatSvg'
 import { colors } from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'
 import AccSvg from '@/components/svg/AccSvg'
+import IconButton from '@/components/ui/IconButton'
 
 interface Props {
 
@@ -30,9 +31,15 @@ export default function Header(props: Props) {
         )}
       </div>
       <div className={styles.controls}>
-        <ChatSvg color={colors.white} />
-        <BellSvg color={colors.white} />
-        <AccSvg color={colors.white} />
+        <IconButton bgColor='green'>
+          <ChatSvg color={colors.white} />
+        </IconButton>
+        <IconButton bgColor='green'>
+          <BellSvg color={colors.white} />
+        </IconButton>
+        <IconButton bgColor='green'>
+          <AccSvg color={colors.white} />
+        </IconButton>
       </div>
     </div>
   )
