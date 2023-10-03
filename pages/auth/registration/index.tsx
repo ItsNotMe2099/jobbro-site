@@ -15,7 +15,7 @@ export default function Registration() {
       <div className={styles.root}>
         {!success ?
           <>
-            <RegistrationForm />
+            <RegistrationForm onSubmit={() => setSuccess(true)}/>
             <FeelingProudSvg className={styles.proud} />
           </>
           :

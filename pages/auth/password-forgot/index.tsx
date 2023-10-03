@@ -15,7 +15,7 @@ export default function ForgotPassword() {
       <div className={styles.root}>
         {!success ?
           <>
-            <ForgotPasswordForm />
+            <ForgotPasswordForm onSubmit={() => setSuccess(true)}/>
             <FeelingProudSvg className={styles.proud} />
           </>
           :

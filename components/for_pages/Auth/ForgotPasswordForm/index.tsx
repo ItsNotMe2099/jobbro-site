@@ -15,7 +15,7 @@ interface IFormData{
   email: string
 }
 interface Props {
-
+  onSubmit: () => void
 }
 
 export default function ForgotPasswordForm(props: Props) {
@@ -31,8 +31,7 @@ export default function ForgotPasswordForm(props: Props) {
     try {
       const login = data.email
       const res = await AuthRepository.passwordReset(login)
-
-      router.push(Routes.passwordReset({login, code: res.code}))
+      props.onSubmit()
     } catch (err) {
 
       if (err instanceof RequestError) {

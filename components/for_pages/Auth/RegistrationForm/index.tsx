@@ -17,7 +17,7 @@ interface IFormData{
   password: string
 }
 interface Props {
-
+  onSubmit: () => void
 }
 
 export default function RegistrationForm(props: Props) {
@@ -32,6 +32,8 @@ export default function RegistrationForm(props: Props) {
     setLoading(true)
     try {
       const res = await AuthRepository.register(data)
+      props.onSubmit()
+      return
       if (res.accessToken) {
         appContext.setToken(res.accessToken)
         appContext.updateAboutMe()
