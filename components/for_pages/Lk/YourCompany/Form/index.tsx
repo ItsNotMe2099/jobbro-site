@@ -1,18 +1,16 @@
 import styles from './index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { SnackbarType } from '@/types/enums'
-import { useState } from 'react'
+import {useRef, useState} from 'react'
 import { RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import ItemWithText from '@/components/for_pages/Common/ItemWithText'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
 import DetailsForm from './Forms/DetailsForm'
 import CareerForm from './Forms/CareerForm'
 import TeamForm from './Forms/TeamForm'
 import Offices from './Forms/Offices'
+import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 
 
 interface Props {
@@ -37,7 +35,7 @@ export default function YourCompanyForm(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-
+  let ref = useRef<HTMLFormElement | null>(null)
   const handleSubmit = async (data: FormData) => {
     setLoading(true)
     try {
@@ -78,7 +76,7 @@ export default function YourCompanyForm(props: Props) {
 
   return (
     <FormikProvider value={formik}>
-      <Form className={styles.form}>
+      <Form ref={ref} className={styles.form}>
 
         <div className={styles.switch}>
           <ItemWithText onClick={() => setForm('details')}
@@ -94,18 +92,7 @@ export default function YourCompanyForm(props: Props) {
         {form === 'career' && <CareerForm formik={formik} />}
         {form === 'offices' && <Offices />}
         {form === 'team' && <TeamForm />}
-        {(form === 'details' || form === 'career') && <div className={styles.controls}>
-          <Button type='submit' styleType='large' color='green'>
-            Publish
-          </Button>
-          <Button styleType='large' color='white'>
-            Save Template
-          </Button>
-          <div className={styles.preview}>
-            <EyeSvg color={colors.green} className={styles.eye} />
-            <div className={styles.text}>Preview</div>
-          </div>
-        </div>}
+        {(form === 'details' || form === 'career') &&   <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}/>}
       </Form>
     </FormikProvider>
   )
