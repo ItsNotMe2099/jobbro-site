@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { SnackbarType } from '@/types/enums'
-import { useState } from 'react'
+import {useRef, useState} from 'react'
 import { RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
@@ -12,6 +12,9 @@ import WorkflowForm from './Forms/WorkflowForm'
 import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
+import {RenderPropSticky} from 'react-sticky-el'
+import {usePosition} from '@ernestorb/useposition'
+import {useWindowWidth} from '@react-hook/window-size'
 
 
 interface Props {
@@ -49,7 +52,9 @@ export default function CreateJobManuallyForm(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-
+  let ref = useRef<HTMLFormElement | null>(null)
+  let position = usePosition(ref, {callOnResize: true})
+  const windowWidth = useWindowWidth()
   const handleSubmit = async (data: FormData) => {
     setLoading(true)
     try {
@@ -103,19 +108,7 @@ export default function CreateJobManuallyForm(props: Props) {
 
   return (
     <FormikProvider value={formik}>
-      <Form className={styles.form}>
-        <div className={styles.controls}>
-          <Button type='submit' styleType='large' color='green'>
-            Publish
-          </Button>
-          <Button styleType='large' color='white'>
-            Save Template
-          </Button>
-          <div className={styles.preview}>
-            <EyeSvg color={colors.green} className={styles.eye} />
-            <div className={styles.text}>Preview</div>
-          </div>
-        </div>
+      <Form  ref={ref}  className={styles.form}>
         <div className={styles.switch}>
           <ItemWithText onClick={() => setForm('ad')}
             className={styles.item} active={form === 'ad'} text='Job ad Details' />
@@ -127,6 +120,50 @@ export default function CreateJobManuallyForm(props: Props) {
         {form === 'ad' && <JobAdDetailsForm formik={formik} />}
         {form === 'application' && <ApplicationForm formik={formik} />}
         {form === 'workflow' && <WorkflowForm formik={formik} />}
+
+        <RenderPropSticky disabled={appContext.isMobile} boundaryElement={`.${styles.form}`}
+                          bottomOffset={0}
+                          topOffset={-32}
+                          mode={'bottom'}
+                          isIOSFixEnabled={false}
+                          hideOnBoundaryHit={false}>
+          {({isFixed, wrapperStyles, wrapperRef, holderStyles, holderRef, ...rest}) => (
+            <div {...rest} ref={holderRef} style={holderStyles}>
+              <div
+                {...rest}
+                style={
+                  isFixed ?
+                    {
+                      ...wrapperStyles,
+                      transform: 'translateY(-32px)',
+                      display: 'flex',
+                      width: windowWidth - (position?.left ?? 0) -  32,
+                      zIndex: 2,
+                    } :
+                    {
+                      ...wrapperStyles,
+
+                    }
+                }
+                ref={wrapperRef}
+              >
+                <div className={styles.controls}>
+                  <Button type='submit' styleType='large' color='green'>
+                    Publish
+                  </Button>
+                  <Button styleType='large' color='white'>
+                    Save Template
+                  </Button>
+                  <div className={styles.preview}>
+                    <EyeSvg color={colors.green} className={styles.eye} />
+                    <div className={styles.text}>Preview</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          )}
+        </RenderPropSticky>
       </Form>
     </FormikProvider>
   )

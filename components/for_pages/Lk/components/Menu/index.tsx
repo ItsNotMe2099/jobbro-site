@@ -15,6 +15,7 @@ interface Props {
 }
 
 export default function Menu(props: Props) {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -31,13 +32,19 @@ export default function Menu(props: Props) {
   const [showOptions, setShowOptions] = useState<boolean>(false)
 
   return (
-    <div className={styles.root}>
+    <div className={classNames(styles.root, {[styles.collapsed]: isCollapsed})}>
+
+      <div className={styles.wrapper}>
+
       <div className={styles.first}>
         <div className={styles.top}>
           <div className={styles.title}>
             Actions
           </div>
-          <ArrowsSvg className={styles.arrows} />
+          <div className={styles.arrows} onClick={() => setIsCollapsed(i => !i)}>
+            <ArrowsSvg color={colors.simpleGrey}/>
+          </div>
+
         </div>
         <div className={styles.menu}>
           {menu.map((i, index) =>
@@ -77,6 +84,7 @@ export default function Menu(props: Props) {
         <Button onClick={() => setShowOptions(!showOptions)} styleType='large' color='green'>
           New Job
         </Button>
+      </div>
       </div>
     </div>
   )
