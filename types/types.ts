@@ -33,6 +33,8 @@ export interface IOption<T> {
   badge?: number
 }
 
+export type RadioStyleType = 'default' | 'tile' | 'row'
+
 export class RequestError extends Error {
   message: string
   code: number
@@ -61,4 +63,3 @@ export interface IRichTextLinkData{
   title: string | null,
   href: string | null
 }
-

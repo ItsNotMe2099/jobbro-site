@@ -53,3 +53,10 @@
     position: absolute;
     width: auto !important;
 }
+
+.sort {
+    width: 256px;
+    position: absolute;
+    z-index: 1;
+    top: 32px;
+}

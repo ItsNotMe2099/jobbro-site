@@ -4,11 +4,14 @@ import { colors } from '@/styles/variables'
 import RowViewSvg from '@/components/svg/RowViewSvg'
 import { useAppContext } from '@/context/state'
 import { SidePanelType } from '@/types/enums'
+import { ReactElement } from 'react'
 
 
 interface Props {
   view: 'card' | 'row'
   onSetView: () => void
+  showChild?: () => void
+  children?: ReactElement | ReactElement[]
 }
 
 export default function Filter(props: Props) {
@@ -21,8 +24,9 @@ export default function Filter(props: Props) {
         <div onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter)} className={styles.text}>
           Filter
         </div>
-        <div className={styles.text}>
+        <div className={styles.sort} onClick={props.showChild}>
           Sort
+          {props.children}
         </div>
       </div>
       {props.view === 'row' ?

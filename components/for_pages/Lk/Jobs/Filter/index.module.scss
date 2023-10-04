@@ -18,7 +18,8 @@
     @include list(32px, true);
 }
 
-.text {
+.text,
+.sort {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -26,4 +27,8 @@
     letter-spacing: -0.16px;
     color: $text-primary;
     cursor: pointer;
+}
+
+.sort {
+    position: relative;
 }
