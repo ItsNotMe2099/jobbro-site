@@ -21,7 +21,7 @@ export default function Filter(props: Props) {
   return (
     <div className={styles.root}>
       <div className={styles.left}>
-        <div onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter)} className={styles.text}>
+        <div onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, 'Filters')} className={styles.text}>
           Filter
         </div>
         <div className={styles.sort} onClick={props.showChild}>
