@@ -3,6 +3,8 @@ import styles from './index.module.scss'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
 import MenuSvg from '@/components/svg/MenuSvg'
+import Link from 'next/link'
+import { Routes } from '@/types/routes'
 
 interface Props {
   item: any //temp
@@ -35,7 +37,7 @@ export default function JobCard(props: Props) {
   }
 
   return (
-    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
+    <Link href={Routes.lkJob(props.item.id)} className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
       <div className={classNames(styles.container, { [styles.rowContainer]: props.view === 'row' })}
         style={{ backgroundColor: getColor(props.item.status) }}>
         <div className={styles.wrapper}>
@@ -109,6 +111,6 @@ export default function JobCard(props: Props) {
         </div>}
         <MenuSvg className={styles.menu} color={colors.textPrimary} />
       </div>
-    </div>
+    </Link>
   )
 }

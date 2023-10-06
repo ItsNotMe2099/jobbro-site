@@ -1,0 +1,102 @@
+@import "styles/index";
+
+.root {
+    padding: 8px;
+    border-radius: 24px;
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+    width: calc(28% - 32px);
+}
+
+.container {
+    padding: 16px;
+    background-color: #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    @include list(16px, false);
+    border-radius: 18px;
+}
+
+.avatar {
+    position: relative !important;
+    width: inherit !important;
+    height: inherit !important;
+}
+
+.top {
+    display: flex;
+    @include list(16px, true);
+    align-items: center;
+}
+
+.middle {
+    height: 63px;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $text-secondary;
+    width: 136px;
+}
+
+.salary {
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    @include list(4px, false);
+}
+
+.bottom {
+    display: flex;
+    @include list(10px, true);
+    align-items: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $green;
+}
+
+.comment {
+    display: flex;
+    @include list(8px, true);
+    padding: 16px;
+}
+
+.text {
+    width: 184px;
+    height: 54px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.14px;
+}

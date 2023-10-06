@@ -20,23 +20,23 @@ export default function Jobs() {
   const data: any[] = [
     {
       published: '25 Jun 2023', employees: 86, name: 'Senior Manager of Software Development and Engineering',
-      status: 'draft', salary: '$15 / hr', country: 'Indonesia'
+      status: 'draft', salary: '$15 / hr', country: 'Indonesia', id: 1
     },
     {
       published: '25 Jun 2023', employees: 86, name: 'Junior Java Development',
-      status: 'published', salary: '$25 / hr', country: 'India'
+      status: 'published', salary: '$25 / hr', country: 'India', id: 2
     },
     {
       published: '25 Jun 2023', employees: 86, name: 'Senior Back-end Development with Python Skills',
-      status: 'published', salary: '$23 / hr', country: 'Indonesia'
+      status: 'published', salary: '$23 / hr', country: 'Indonesia', id: 3
     },
     {
       published: '25 Jun 2023', employees: 86, name: 'Product Designer',
-      status: 'published', salary: '$21 / hr', country: 'Indonesia'
+      status: 'published', salary: '$21 / hr', country: 'Indonesia', id: 4
     },
     {
       published: '25 Jun 2023', employees: 86, name: 'Graphic Designer',
-      status: 'pause', salary: '$35 / hr', country: 'Canada'
+      status: 'pause', salary: '$35 / hr', country: 'Canada', id: 5
     },
   ]
 

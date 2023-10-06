@@ -1,0 +1,62 @@
+@import "styles/index";
+
+.root {}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    @include list(24px, true);
+
+    .card:nth-child(4n) {
+        margin-left: 0;
+    }
+}
+
+.rows {
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    .card {
+        margin-left: 0;
+    }
+}
+
+.card {
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.plus {
+    position: absolute;
+    margin: 0 !important;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.menu {
+    position: absolute;
+    width: auto !important;
+}
+
+.sort {
+    width: 256px;
+    position: absolute;
+    z-index: 1;
+    top: 32px;
+}
