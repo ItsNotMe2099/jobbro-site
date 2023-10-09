@@ -57,6 +57,7 @@
     "sass": "^1.67.0",
     "spinners-react": "^1.0.7",
     "typescript": "5.2.2",
+    "use-interval": "^1.4.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

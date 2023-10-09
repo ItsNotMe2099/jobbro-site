@@ -10,6 +10,10 @@ import classNames from 'classnames'
 import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
 import CandidateCard from '@/components/for_pages/Lk/Jobs/CandidateCard'
+import useInterval from 'use-interval'
+import Card from '@/components/for_pages/Common/Card'
+import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
+import CloseSvg from '@/components/svg/CloseSvg'
 
 
 export default function Job() {
@@ -50,7 +54,8 @@ export default function Job() {
       avatar: '/photos/Photo1.png',
       firstName: 'Emily', lastName: 'Ross', salary: '$38 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
-      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.'
+      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.',
+      added: true
     },
     {
       avatar: '/photos/Photo2.png',
@@ -82,8 +87,40 @@ export default function Job() {
     },
   ]
 
+  const [bookmark, setBookmark] = useState<boolean>(false)
+
+  const handleBookmark = () => {
+
+  }
+
+  useInterval(() => {
+    if (bookmark) {
+      setBookmark(false)
+    }
+  }, 5000)
+
   return (
     <Layout>
+      {bookmark ?
+        <Card className={styles.notification} title={''}>
+          <div className={styles.inner}>
+            <div className={styles.checkbox}>
+              <CheckBoxSvg className={styles.check} />
+            </div>
+            <div className={styles.content}>
+              <div className={styles.top}>
+                Candidate added
+              </div>
+              <div className={styles.bottom}>
+                You can find him on candidate<br /> base
+              </div>
+            </div>
+            <div className={styles.closebox}>
+              <CloseSvg className={styles.close} onClick={() => setBookmark(false)} color='#939393' />
+            </div>
+          </div>
+        </Card>
+        : <></>}
       <LkLayout>
         <div className={styles.container}>
           <PageTitle title={item?.name} link={Routes.lkJobs} />
@@ -91,7 +128,7 @@ export default function Job() {
             <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
             <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
               {candidates.map((i, index) =>
-                <CandidateCard view={view} className={styles.card} item={i} key={index} />
+                <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} item={i} key={index} />
               )}
             </div>
           </div>
