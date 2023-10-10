@@ -5,6 +5,7 @@ import RowViewSvg from '@/components/svg/RowViewSvg'
 import { useAppContext } from '@/context/state'
 import { SidePanelType } from '@/types/enums'
 import { ReactElement } from 'react'
+import CircleSvg from '@/components/svg/CircleSvg'
 
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
   onSetView: () => void
   showChild?: () => void
   children?: ReactElement | ReactElement[]
+  sort?: boolean
 }
 
 export default function Filter(props: Props) {
@@ -25,7 +27,7 @@ export default function Filter(props: Props) {
           Filter
         </div>
         <div className={styles.sort} onClick={props.showChild}>
-          Sort
+          <span>Sort</span>{props.sort && <CircleSvg className={styles.circle} color={colors.green} />}
           {props.children}
         </div>
       </div>

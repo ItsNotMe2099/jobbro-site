@@ -8,14 +8,17 @@ interface Props<T> {
   setVal: (val: T | undefined) => void
   options: IOption<T>[]
   className?: string
+  onDefault?: () => void
 }
 
 export default function SortDropdown<T>(props: Props<T>) {
 
   return (
     <div className={classNames(styles.root, props.className)}>
-      <Radio options={props.options} styleType='default' value={props.val} setVal={(val) =>  props.setVal(val)} />
-      
+      <Radio options={props.options} styleType='default' value={props.val} setVal={(val) => props.setVal(val)} />
+      <div onClick={props.onDefault} className={styles.default}>
+        To Default
+      </div>
     </div>
   )
 }

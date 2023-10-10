@@ -5,6 +5,9 @@ import classNames from 'classnames'
 import MenuSvg from '@/components/svg/MenuSvg'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
+import MenuDropdown from './MenuDropdown'
+import { useEffect, useRef, useState } from 'react'
+import { listenForOutsideClicks } from '@/components/hooks/useDetectOutsideClick'
 
 interface Props {
   item: any //temp
@@ -13,6 +16,9 @@ interface Props {
 }
 
 export default function JobCard(props: Props) {
+
+  const dropdownRef = useRef(null)
+  const [listening, setListening] = useState(false)
 
   const getColor = (status: string) => {
     switch (status) {
@@ -36,9 +42,30 @@ export default function JobCard(props: Props) {
     }
   }
 
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  const options = [
+    { label: 'Publish' },
+    { label: 'Pause' },
+    { label: 'Close' },
+  ]
+
+  const operations = [
+    { label: 'Edit' },
+    { label: 'Duplicate' },
+    { label: 'Delete' },
+  ]
+
+  useEffect(listenForOutsideClicks(
+    listening,
+    setListening,
+    dropdownRef,
+    setShowMenu,
+  ))
+
   return (
-    <Link href={Routes.lkJob(props.item.id)} className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
-      <div className={classNames(styles.container, { [styles.rowContainer]: props.view === 'row' })}
+    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
+      <Link href={Routes.lkJob(props.item.id)} className={classNames(styles.container, { [styles.rowContainer]: props.view === 'row' })}
         style={{ backgroundColor: getColor(props.item.status) }}>
         <div className={styles.wrapper}>
           {props.view !== 'row' && <div className={styles.top}>
@@ -99,7 +126,7 @@ export default function JobCard(props: Props) {
         {props.view !== 'row' && <div className={styles.status} style={{ color: getColorStatus(props.item.status) }}>
           {props.item.status}
         </div>}
-      </div>
+      </Link>
       <div className={styles.bottom}>
         {props.view !== 'row' && <div className={styles.left}>
           <div className={styles.salary}>
@@ -109,8 +136,9 @@ export default function JobCard(props: Props) {
             {props.item.country}
           </div>
         </div>}
-        <MenuSvg className={styles.menu} color={colors.textPrimary} />
+        <MenuSvg onClick={() => setShowMenu(!showMenu)} className={styles.menu} color={colors.textPrimary} />
+        {showMenu && <MenuDropdown ref={dropdownRef} className={styles.drop} options={options} operations={operations} />}
       </div>
-    </Link>
+    </div>
   )
 }

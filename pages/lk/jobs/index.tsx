@@ -59,9 +59,10 @@ export default function Jobs() {
         <div className={styles.container}>
           <PageTitle title='Jobs' />
           <div className={styles.wrapper}>
-            <Filter showChild={() => setShowSort(!showSort)}
+            <Filter sort={sort !== ''} showChild={() => setShowSort(!showSort)}
               view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')}>
-              {showSort ? <SortDropdown className={styles.sort} options={sortOptions} val={sort} setVal={(val) => setSort(val as string)} /> : <></>}
+              {showSort ? <SortDropdown onDefault={() => setSort('')}
+                className={styles.sort} options={sortOptions} val={sort} setVal={(val) => setSort(val as string)} /> : <></>}
             </Filter>
             <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
               {data.map((i, index) =>

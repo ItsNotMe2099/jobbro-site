@@ -31,4 +31,11 @@
 
 .sort {
     position: relative;
+    display: flex;
+    @include list(8px, true);
+}
+
+.circle {
+    position: absolute;
+    left: 30px;
 }

@@ -2,8 +2,6 @@ import styles from './index.module.scss'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
 import Image from 'next/image'
-import DotSvg from '@/components/svg/DotSvg'
-import SparksSvg from '@/components/svg/SparksSvg'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import { useState } from 'react'
 

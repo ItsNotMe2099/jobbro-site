@@ -61,6 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .left {
@@ -171,4 +172,12 @@
         align-items: center;
         @include list(8px, true);
     }
+}
+
+.drop {
+    position: absolute;
+    z-index: 1;
+    bottom: -300px;
+    left: -2px;
+    width: 100%;
 }

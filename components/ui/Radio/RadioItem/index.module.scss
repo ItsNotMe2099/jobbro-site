@@ -6,7 +6,8 @@
   cursor: pointer;
   display: flex;
   align-items: flex-start;
-  margin-bottom: 15px;
+  padding: 12px;
+  align-items: center;
 
   &.styleTiles {
     background: grey;
@@ -14,9 +15,7 @@
     padding: 13px 15px;
     margin-bottom: 0px;
 
-    .label {
-      color: $grey;
-    }
+    .label {}
 
     &.active {
       background: $green;
@@ -39,42 +38,40 @@
 }
 
 .label {
-  font-size: 14px;
-  font-weight: 600;
-  color: $grey;
+  color: $text-primary;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.16px;
 }
-.description{
+
+.description {
   font-size: 12px;
   font-weight: 500;
   margin-top: 4px;
 }
-.infoWrapper{
+
+.infoWrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 8px;
+  margin-left: 16px;
 }
+
 .radio {
   position: relative;
   border-radius: 100%;
-  border: 1px solid grey;
-  width: 20px;
-  height: 20px;
-  &.active {
-    border: 1px solid $green;
-    background: $green;
+  border: 2px solid $green;
+  width: 24px;
+  height: 24px;
 
-    &:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: $white;
-      width: 8px;
-      height: 8px;
-      border-radius: 100%;
-    }
+  &.active {
+    border: 0;
   }
 
+}
+
+.checkbox {
+  border-radius: 100%;
 }

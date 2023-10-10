@@ -8,3 +8,17 @@
     box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
     padding: 16px;
 }
+
+.default {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.16px;
+    color: $green;
+    cursor: pointer;
+    border-top: 1px solid #EBEBEB;
+}
