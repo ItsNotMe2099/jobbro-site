@@ -6,8 +6,7 @@ import MenuSvg from '@/components/svg/MenuSvg'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
 import MenuDropdown from './MenuDropdown'
-import { useEffect, useRef, useState } from 'react'
-import { listenForOutsideClicks } from '@/components/hooks/useDetectOutsideClick'
+import { useState } from 'react'
 
 interface Props {
   item: any //temp
@@ -16,9 +15,6 @@ interface Props {
 }
 
 export default function JobCard(props: Props) {
-
-  const dropdownRef = useRef(null)
-  const [listening, setListening] = useState(false)
 
   const getColor = (status: string) => {
     switch (status) {
@@ -55,13 +51,6 @@ export default function JobCard(props: Props) {
     { label: 'Duplicate' },
     { label: 'Delete' },
   ]
-
-  useEffect(listenForOutsideClicks(
-    listening,
-    setListening,
-    dropdownRef,
-    setShowMenu,
-  ))
 
   return (
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
@@ -137,7 +126,7 @@ export default function JobCard(props: Props) {
           </div>
         </div>}
         <MenuSvg onClick={() => setShowMenu(!showMenu)} className={styles.menu} color={colors.textPrimary} />
-        {showMenu && <MenuDropdown ref={dropdownRef} className={styles.drop} options={options} operations={operations} />}
+        {showMenu && <MenuDropdown className={styles.drop} options={options} operations={operations} />}
       </div>
     </div>
   )
