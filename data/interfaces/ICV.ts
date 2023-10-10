@@ -4,6 +4,8 @@ import {IProfile} from '@/data/interfaces/IProfile'
 
 
 export interface ICV {
+  id: number
+  title: string
   businessTrips?: boolean|null,
   portfolio: string|null,
   profileId: number,

@@ -8,6 +8,11 @@ import {getIsMobile} from '@/utils/mobile'
 import {CookiesLifeTime} from '@/types/constants'
 import Cookies from 'js-cookie'
 import ReactModal from 'react-modal'
+import {IManager} from '@/data/interfaces/IManager'
+import {IOffice} from '@/data/interfaces/IOffice'
+import {ICompany} from '@/data/interfaces/ICompany'
+import {ICV} from '@/data/interfaces/ICV'
+import {IVacancy} from '@/data/interfaces/IVacancy'
 
 interface IState {
   isMobile: boolean
@@ -35,10 +40,51 @@ interface IState {
   setToken: (token: string) => void
   updateAboutMe: (newUser?: IAboutMe) => Promise<IAboutMe | null>
   loginState$: Subject<boolean>
+
+
+  vacancyCreateState$: Subject<IVacancy>,
+  vacancyUpdateState$: Subject<IVacancy>,
+  vacancyDeleteState$: Subject<IVacancy>,
+
+  cvCreateState$: Subject<ICV>,
+  cvUpdateState$: Subject<ICV>,
+  cvDeleteState$: Subject<ICV>,
+
+  companyCreateState$: Subject<ICompany>,
+  companyUpdateState$: Subject<ICompany>,
+  companyDeleteState$: Subject<ICompany>,
+
+  officeCreateState$: Subject<IOffice>,
+  officeUpdateState$: Subject<IOffice>,
+  officeDeleteState$: Subject<IOffice>
+
+  managerCreateState$: Subject<IManager>,
+  managerUpdateState$: Subject<IManager>,
+  managerDeleteState$: Subject<IManager>
 }
 
 const fileUploadingState$ = new Subject<boolean>()
 const loginState$ = new Subject<boolean>()
+
+const vacancyCreateState$ = new Subject<IVacancy>()
+const vacancyUpdateState$ = new Subject<IVacancy>()
+const vacancyDeleteState$ = new Subject<IVacancy>()
+
+const cvCreateState$ = new Subject<ICV>()
+const cvUpdateState$ = new Subject<ICV>()
+const cvDeleteState$ = new Subject<ICV>()
+
+const companyCreateState$ = new Subject<ICompany>()
+const companyUpdateState$ = new Subject<ICompany>()
+const companyDeleteState$ = new Subject<ICompany>()
+
+const officeCreateState$ = new Subject<IOffice>()
+const officeUpdateState$ = new Subject<IOffice>()
+const officeDeleteState$ = new Subject<IOffice>()
+
+const managerCreateState$ = new Subject<IManager>()
+const managerUpdateState$ = new Subject<IManager>()
+const managerDeleteState$ = new Subject<IManager>()
 
 const defaultValue: IState = {
   isMobile: false,
@@ -66,6 +112,28 @@ const defaultValue: IState = {
   setToken: (token: string) => null,
   updateAboutMe: async () => null,
   loginState$: loginState$,
+
+
+  vacancyCreateState$,
+  vacancyUpdateState$,
+  vacancyDeleteState$,
+
+  cvCreateState$,
+  cvUpdateState$,
+  cvDeleteState$,
+
+  companyCreateState$,
+  companyUpdateState$,
+  companyDeleteState$,
+
+  officeCreateState$,
+  officeUpdateState$,
+  officeDeleteState$,
+
+  managerCreateState$,
+  managerUpdateState$,
+  managerDeleteState$,
+
 }
 
 const AppContext = createContext<IState>(defaultValue)
@@ -92,7 +160,7 @@ export function AppWrapper(props: Props) {
 
   const showSnackbar = (text: string, type: SnackbarType) => {
 
-    setSnackbar({ text, type })
+    setSnackbar({text, type})
     setTimeout(() => {
       setSnackbar(null)
     }, 2000)

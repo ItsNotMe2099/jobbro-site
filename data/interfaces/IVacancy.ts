@@ -6,6 +6,8 @@ export interface ILanguageKnowledge {
 
 
 export interface IVacancy {
+  id: number
+  header: string
   categoriesIds: number[],
   skillsIds :  number[],
   sourcesIds :  number[],
