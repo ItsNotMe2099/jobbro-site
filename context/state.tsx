@@ -1,18 +1,18 @@
-import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
-import {RequestError, SnackbarData} from '@/types/types'
-import {createContext, useContext, useEffect, useState} from 'react'
+import { CookiesType, ModalType, SidePanelType, SnackbarType } from '@/types/enums'
+import { RequestError, SnackbarData } from '@/types/types'
+import { createContext, useContext, useEffect, useState } from 'react'
 import IAboutMe from '@/data/interfaces/IAboutMe'
-import {Subject} from 'rxjs'
+import { Subject } from 'rxjs'
 import AuthRepository from '@/data/repositories/AuthRepository'
-import {getIsMobile} from '@/utils/mobile'
-import {CookiesLifeTime} from '@/types/constants'
+import { getIsMobile } from '@/utils/mobile'
+import { CookiesLifeTime } from '@/types/constants'
 import Cookies from 'js-cookie'
 import ReactModal from 'react-modal'
-import {IManager} from '@/data/interfaces/IManager'
-import {IOffice} from '@/data/interfaces/IOffice'
-import {ICompany} from '@/data/interfaces/ICompany'
-import {ICV} from '@/data/interfaces/ICV'
-import {IVacancy} from '@/data/interfaces/IVacancy'
+import { IManager } from '@/data/interfaces/IManager'
+import { IOffice } from '@/data/interfaces/IOffice'
+import { ICompany } from '@/data/interfaces/ICompany'
+import { ICV } from '@/data/interfaces/ICV'
+import { IVacancy } from '@/data/interfaces/IVacancy'
 
 interface IState {
   isMobile: boolean
@@ -40,6 +40,9 @@ interface IState {
   setToken: (token: string) => void
   updateAboutMe: (newUser?: IAboutMe) => Promise<IAboutMe | null>
   loginState$: Subject<boolean>
+  isOverlayShown?: boolean
+  showOverlay: () => void
+  hideOverlay: () => void
 
 
   vacancyCreateState$: Subject<IVacancy>,
@@ -112,6 +115,9 @@ const defaultValue: IState = {
   setToken: (token: string) => null,
   updateAboutMe: async () => null,
   loginState$: loginState$,
+  isOverlayShown: false,
+  showOverlay: () => null,
+  hideOverlay: () => null,
 
 
   vacancyCreateState$,
@@ -157,10 +163,11 @@ export function AppWrapper(props: Props) {
   const [isFilesUploading, setIsFilesUploading] = useState<boolean>(false)
   const [modal, setModal] = useState<ModalType | null>(null)
   const [modalArguments, setModalArguments] = useState<any>(null)
+  const [isOverlayShown, setIsOverlayShown] = useState<boolean>(false)
 
   const showSnackbar = (text: string, type: SnackbarType) => {
 
-    setSnackbar({text, type})
+    setSnackbar({ text, type })
     setTimeout(() => {
       setSnackbar(null)
     }, 2000)
@@ -263,6 +270,13 @@ export function AppWrapper(props: Props) {
     showSidePanel,
     hidePanel,
     isFilesUploading,
+    isOverlayShown,
+    showOverlay: () => {
+      setIsOverlayShown(true)
+    },
+    hideOverlay: () => {
+      setIsOverlayShown(false)
+    },
     setIsFilesUploading: (value) => {
       setIsFilesUploading(value)
       fileUploadingState$.next(value)

@@ -1,0 +1,21 @@
+@import "styles/index";
+
+.root{
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+
+  &.show{
+    visibility: visible;
+    background:#000;
+    opacity:0.5;
+    z-index: 1;
+    transition: opacity 0.25s ease;
+
+    }
+}

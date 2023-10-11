@@ -8,10 +8,12 @@ import { CookiesType } from 'types/enums'
 import App from 'next/app'
 import { AppWrapper } from '@/context/state'
 import Head from 'next/head'
-import {NextPage} from 'next'
-import {ReactElement, ReactNode, useEffect} from 'react'
+import { NextPage } from 'next'
+import { ReactElement, ReactNode, useEffect } from 'react'
 import ModalContainer from '@/components/layout/ModalContainer'
 import Snackbar from '@/components/layout/Snackbar'
+import 'react-datepicker/dist/react-datepicker.css'
+import AppOverlay from '@/components/ui/AppOverlay'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -21,14 +23,14 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-function MyApp({Component, pageProps}: AppPropsWithLayout) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
-      if (pageProps.isMobile) {
-        document.body.classList.add('mobile-ua')
-        document.documentElement.className = 'mobile-ua'
-      }
-    },
+    if (pageProps.isMobile) {
+      document.body.classList.add('mobile-ua')
+      document.documentElement.className = 'mobile-ua'
+    }
+  },
     [])
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
@@ -40,8 +42,9 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </Head>
       {getLayout(<Component {...pageProps as any} />)}
-      <ModalContainer/>
-      <Snackbar/>
+      <ModalContainer />
+      <AppOverlay />
+      <Snackbar />
     </AppWrapper>
   )
 }

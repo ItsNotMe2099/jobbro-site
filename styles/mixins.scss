@@ -351,3 +351,12 @@
   -webkit-line-clamp: $count;
   -webkit-box-orient: vertical;
 }
+
+@mixin inputPlaceholder {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.16px;
+  color: $text-secondary;
+}

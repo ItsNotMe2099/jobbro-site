@@ -11,6 +11,7 @@ import Add from '@/components/for_pages/Common/Add'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import classNames from 'classnames'
 import SortDropdown from '@/components/for_pages/Lk/Jobs/Filter/SortDropdown'
+import { JobFilterWrapper } from '@/context/job_filter_state'
 
 
 export default function Jobs() {
@@ -54,29 +55,31 @@ export default function Jobs() {
   const [sort, setSort] = useState<string>('')
 
   return (
-    <Layout>
-      <LkLayout>
-        <div className={styles.container}>
-          <PageTitle title='Jobs' />
-          <div className={styles.wrapper}>
-            <Filter sort={sort !== ''} showChild={() => setShowSort(!showSort)}
-              view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')}>
-              {showSort ? <SortDropdown onDefault={() => setSort('')}
-                className={styles.sort} options={sortOptions} val={sort} setVal={(val) => setSort(val as string)} /> : <></>}
-            </Filter>
-            <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
-              {data.map((i, index) =>
-                <JobCard view={view} className={styles.card} item={i} key={index} />
-              )}
-              <div className={styles.plus}>
-                {showMenu ? <MenuOptions className={styles.menu} /> : <></>}
-                <Add active={showMenu} onClick={() => setShowMenu(!showMenu)} />
+    <JobFilterWrapper>
+      <Layout>
+        <LkLayout>
+          <div className={styles.container}>
+            <PageTitle title='Jobs' />
+            <div className={styles.wrapper}>
+              <Filter sort={sort !== ''} showChild={() => setShowSort(!showSort)}
+                view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')}>
+                {showSort ? <SortDropdown onDefault={() => setSort('')}
+                  className={styles.sort} options={sortOptions} val={sort} setVal={(val) => setSort(val as string)} /> : <></>}
+              </Filter>
+              <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
+                {data.map((i, index) =>
+                  <JobCard view={view} className={styles.card} item={i} key={index} />
+                )}
+                <div className={styles.plus}>
+                  {showMenu ? <MenuOptions className={styles.menu} /> : <></>}
+                  <Add active={showMenu} onClick={() => setShowMenu(!showMenu)} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </LkLayout>
-    </Layout>
+        </LkLayout>
+      </Layout>
+    </JobFilterWrapper>
   )
 }
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

@@ -7,6 +7,7 @@ import Select, { SelectAsync } from '@/components/fields/Select'
 import FieldError from '@/components/fields/FieldError'
 // @ts-ignore
 import { Props as SelectProps } from 'react-select/dist/declarations/src'
+import {InputActionMeta} from 'react-select'
 
 
 export interface SelectFieldProps<T> extends IField<T> {
@@ -22,6 +23,8 @@ export interface SelectFieldProps<T> extends IField<T> {
   initialAsyncData?: any
   resettable?: boolean
   menuPosition?: string
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
+  isSearchable?: boolean
 }
 
 export default function SelectField<T>(props: SelectFieldProps<T>) {
@@ -50,6 +53,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         key={uniqueKey} // Add a unique key to trigger re-render
         value={field.value}
         hasError={showError}
+        onInputChange={props.onInputChange}
         noOptionsMessage={props.noOptionsMessage}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         placeholder={props.placeholder ?? ''}
@@ -67,6 +71,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         options={props.options}
         value={field.value}
         hasError={showError}
+        onInputChange={props.onInputChange}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         noOptionsMessage={props.noOptionsMessage}
         resettable={props.resettable ?? false}

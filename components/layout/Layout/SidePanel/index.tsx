@@ -16,13 +16,20 @@ export default function SidePanel(props: Props) {
 
   const appContext = useAppContext()
 
+  const handleClose = () => {
+    appContext.hidePanel()
+    if (appContext.isOverlayShown) {
+      appContext.hideOverlay()
+    }
+  }
+
   return (
     <div className={classNames(styles.root, props.className)}>
       <div className={styles.top}>
         <div className={styles.title}>
           {props.title}
         </div>
-        <CloseSvg className={styles.close} onClick={appContext.hidePanel} color={colors.textSecondary} />
+        <CloseSvg className={styles.close} onClick={handleClose} color={colors.textSecondary} />
       </div>
       {props.content}
     </div>

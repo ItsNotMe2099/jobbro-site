@@ -6,6 +6,7 @@ import { useAppContext } from '@/context/state'
 import { SidePanelType } from '@/types/enums'
 import { ReactElement } from 'react'
 import CircleSvg from '@/components/svg/CircleSvg'
+import { useJobFilterContext } from '@/context/job_filter_state'
 
 
 interface Props {
@@ -20,11 +21,33 @@ export default function Filter(props: Props) {
 
   const appContext = useAppContext()
 
+  const handleClickOnFilter = () => {
+    appContext.showSidePanel(SidePanelType.JobsFilter, 'Filters')
+    appContext.showOverlay()
+  }
+
+  const jobFilterContext = useJobFilterContext()
+
+  const filtersCount = [
+    jobFilterContext.published,
+    jobFilterContext.draft,
+    jobFilterContext.paused,
+    jobFilterContext.market,
+    jobFilterContext.mobileApp,
+    jobFilterContext.showClosed,
+    jobFilterContext.date,
+    jobFilterContext.projectName
+  ]
+
+  const filtered = filtersCount.filter(i => i)
+
+  console.log(filtered)
+
   return (
     <div className={styles.root}>
       <div className={styles.left}>
-        <div onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, 'Filters')} className={styles.text}>
-          Filter
+        <div onClick={handleClickOnFilter} className={styles.text}>
+          <span>Filter</span>{filtered.length && <div className={styles.count}>{filtered.length}</div>}
         </div>
         <div className={styles.sort} onClick={props.showChild}>
           <span>Sort</span>{props.sort && <CircleSvg className={styles.circle} color={colors.green} />}

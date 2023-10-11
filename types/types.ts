@@ -3,6 +3,8 @@ import { HTMLInputTypeAttribute, MouseEventHandler } from 'react'
 import { FieldConfig } from 'formik'
 import { UrlObject } from 'url'
 
+export type FieldIconName = 'field_phone' | 'field_name' | 'field_comment' | 'field_date' | 'field_time' | 'field_persons' | 'field_email'
+
 export interface IButton {
   type?: 'submit' | 'reset' | 'button' | undefined
   form?: string
@@ -20,6 +22,7 @@ export interface IField<T> extends FieldConfig<T> {
   error?: string
   description?: string
   disabled?: boolean
+  iconName?: FieldIconName
 }
 
 export type Nullable<T> = T | null

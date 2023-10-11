@@ -27,6 +27,7 @@
     letter-spacing: -0.16px;
     color: $text-primary;
     cursor: pointer;
+    position: relative;
 }
 
 .sort {
@@ -38,4 +39,24 @@
 .circle {
     position: absolute;
     left: 30px;
+}
+
+.count {
+    border-radius: 8px;
+    background-color: $green;
+    display: flex;
+    width: 22px;
+    height: 22px;
+    padding: 4px 6px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 40px;
+    top: -10px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    color: $white;
+    letter-spacing: -0.14px;
 }

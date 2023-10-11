@@ -1,0 +1,66 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  width: 100%;
+
+  :global .react-calendar {
+    background: white;
+  }
+
+  .wrapper {
+    :global .react-datepicker-wrapper {
+      width: 100%;
+    }
+  }
+
+
+
+  input {
+    height: 70px;
+    width: 100%;
+    border-radius: 8px;
+    background-color: $background-secondary;
+    border: 0;
+    padding: 24px 16px;
+  }
+
+  .datePicker {
+    display: flex;
+
+    :global .react-date-picker__calendar {
+      z-index: 3;
+    }
+
+    :global .react-date-picker__wrapper {
+      border: 1px solid #C4C4C4;
+      width: 100%;
+
+      padding: 0px 16px;
+      margin: 0px;
+      font-size: 14px;
+
+      &::placeholder {
+        @include inputPlaceholder;
+        color: $text-secondary;
+      }
+
+      height: 44px;
+      border-radius: 6px;
+    }
+  }
+
+}
+
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 2px 7px;
+}
+
+.icon {
+  position: absolute;
+  top: 15px;
+  right: 16px;
+}

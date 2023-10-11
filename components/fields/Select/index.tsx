@@ -14,6 +14,7 @@ import { AsyncPaginate } from 'react-select-async-paginate'
 import { useEffect, useRef, useState } from 'react'
 import ChevronDownSvg from '@/components/svg/ChevronDownSvg'
 import { colors } from '@/styles/variables'
+import SearchSvg from '@/components/svg/SearchSvg'
 
 interface Props<T> {
   selectProps?: Nullable<SelectProps>,
@@ -28,6 +29,7 @@ interface Props<T> {
   noOptionsMessage?: Nullable<string>
   resettable?: boolean
   menuPosition?: string
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
 }
 
 export default function Select<T>(props: Props<T>) {
@@ -59,6 +61,7 @@ export default function Select<T>(props: Props<T>) {
         classNamePrefix="yg-select"
         isSearchable={false}
         placeholder={props.placeholder}
+        onInputChange={props.onInputChange}
         onChange={(option) => {
           props.onChange((option as IOption<T>)?.value)
         }}
@@ -84,6 +87,7 @@ interface AsyncProps<T> {
   selectProps?: Nullable<SelectProps>
   resettable?: boolean
   menuPosition?: string
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
 }
 export function SelectAsync<T>(props: AsyncProps<T>) {
   const [ref, press, hover] = usePressAndHover()
@@ -123,11 +127,12 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
         isSearchable={true}
         isClearable={true}
         placeholder={props.placeholder}
+        onInputChange={props.onInputChange}
         onChange={(option) => {
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}
-        components={{ DropdownIndicator } as any}
+        components={{ Search } as any}
 
       />
     </div>
@@ -139,6 +144,16 @@ function DropdownIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, G
       <ChevronDownSvg color={colors.textSecondary} className={classNames({
         [styles.indicator]: true,
         [styles.indicatorInverse]: props.selectProps.menuIsOpen,
+      })} />
+    </div>
+  )
+}
+
+function Search<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
+  return (
+    <div>
+      <SearchSvg color={colors.textSecondary} className={classNames({
+        [styles.indicator]: true,
       })} />
     </div>
   )
