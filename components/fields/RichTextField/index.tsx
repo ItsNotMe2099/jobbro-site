@@ -32,6 +32,7 @@ interface IBubbleShowProps {
 
 interface Props extends IField<string | null> {
   className?: string
+  text?: boolean
 }
 
 export default function RichTextField(props: Props) {
@@ -71,7 +72,7 @@ export default function RichTextField(props: Props) {
     ],
     content: value,
     onBlur: ({ editor }) => {
-      helpers.setValue(editor.getHTML())
+      helpers.setValue(props.text ? editor.getText() : editor.getHTML())
       setFocus(false)
     },
     onFocus: () => {
@@ -92,6 +93,7 @@ export default function RichTextField(props: Props) {
   if (!editor) {
     return null
   }
+  
   return (
     <div className={cx(styles.root, className, { [styles.hasError]: hasError })}>
       {props.label && <div className={styles.label}>{props.label}</div>}

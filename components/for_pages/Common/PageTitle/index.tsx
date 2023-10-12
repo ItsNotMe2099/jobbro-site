@@ -8,6 +8,7 @@ interface Props {
   title: string
   right?: ReactElement
   link?: string
+  onBack?: () => void
 }
 
 export default function PageTitle(props: Props) {
@@ -17,6 +18,8 @@ export default function PageTitle(props: Props) {
       <div className={styles.left}>
         {props.link &&
           <Button href={props.link} className={styles.btn} icon={<ArrowLeftSvg color={colors.green} />} styleType='circle' />}
+        {props.onBack &&
+          <Button onClick={props.onBack} className={styles.btn} icon={<ArrowLeftSvg color={colors.green} />} styleType='circle' />}
         <div className={styles.title}>
           {props.title}
         </div>

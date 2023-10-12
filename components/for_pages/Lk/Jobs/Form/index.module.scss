@@ -16,3 +16,30 @@
 .item {
     cursor: pointer;
 }
+
+.preview {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.salary {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.2px;
+    color: $green;
+}
+
+.intro {
+    margin-top: 16px;
+}
+
+.title {
+    @include h1;
+}
+
+.tasks {
+    margin-top: 40px;
+}

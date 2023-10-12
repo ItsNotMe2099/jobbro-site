@@ -1,29 +1,32 @@
 import styles from './index.module.scss'
-import {RenderPropSticky} from 'react-sticky-el'
+import { RenderPropSticky } from 'react-sticky-el'
 import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
-import {colors} from '@/styles/variables'
-import {useAppContext} from '@/context/state'
-import {usePosition} from '@ernestorb/useposition'
-import {useWindowWidth} from '@react-hook/window-size'
+import { colors } from '@/styles/variables'
+import { useAppContext } from '@/context/state'
+import { usePosition } from '@ernestorb/useposition'
+import { useWindowWidth } from '@react-hook/window-size'
+import NoEyeSvg from '@/components/svg/NoEyeSvg'
 
 interface Props {
   boundaryElement: string
   formRef: React.RefObject<HTMLElement>
+  onPreview?: () => void
+  preview?: boolean
 }
 
 export default function FormStickyFooter(props: Props) {
   const appContext = useAppContext()
-   let position = usePosition(props.formRef, {callOnResize: true})
+  let position = usePosition(props.formRef, { callOnResize: true })
   const windowWidth = useWindowWidth()
   return (
     <RenderPropSticky disabled={appContext.isMobile} boundaryElement={props.boundaryElement}
-                      bottomOffset={0}
-                      topOffset={-32}
-                      mode={'bottom'}
-                      isIOSFixEnabled={false}
-                      hideOnBoundaryHit={false}>
-      {({isFixed, wrapperStyles, wrapperRef, holderStyles, holderRef, ...rest}) => (
+      bottomOffset={0}
+      topOffset={-32}
+      mode={'bottom'}
+      isIOSFixEnabled={false}
+      hideOnBoundaryHit={false}>
+      {({ isFixed, wrapperStyles, wrapperRef, holderStyles, holderRef, ...rest }) => (
         <div {...rest} ref={holderRef} style={holderStyles}>
           <div
             {...rest}
@@ -33,7 +36,7 @@ export default function FormStickyFooter(props: Props) {
                   ...wrapperStyles,
                   transform: 'translateY(-32px)',
                   display: 'flex',
-                  width: windowWidth - (position?.left ?? 0) -  32,
+                  width: windowWidth - (position?.left ?? 0) - 32,
                   zIndex: 2,
                 } :
                 {
@@ -50,9 +53,15 @@ export default function FormStickyFooter(props: Props) {
               <Button styleType='large' color='white'>
                 Save Template
               </Button>
-              <div className={styles.preview}>
-                <EyeSvg color={colors.green} className={styles.eye} />
-                <div className={styles.text}>Preview</div>
+              <div className={styles.preview} onClick={props.onPreview}>
+                {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
+                  :
+                  <NoEyeSvg color={colors.green} className={styles.eye} />
+                }
+                {!props.preview ? <div className={styles.text}>Preview</div>
+                  :
+                  <div className={styles.text}>Close Preview Mode</div>
+                }
               </div>
             </div>
           </div>
