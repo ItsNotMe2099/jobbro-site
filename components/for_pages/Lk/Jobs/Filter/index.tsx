@@ -47,7 +47,7 @@ export default function Filter(props: Props) {
     <div className={styles.root}>
       <div className={styles.left}>
         <div onClick={handleClickOnFilter} className={styles.text}>
-          <span>Filter</span>{filtered.length && <div className={styles.count}>{filtered.length}</div>}
+          <span>Filter</span>{filtered.length > 0 && <div className={styles.count}>{filtered.length}</div>}
         </div>
         <div className={styles.sort} onClick={props.showChild}>
           <span>Sort</span>{props.sort && <CircleSvg className={styles.circle} color={colors.green} />}

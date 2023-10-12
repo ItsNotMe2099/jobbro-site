@@ -132,7 +132,7 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}
-        components={{ Search } as any}
+        components={{ DropdownIndicator } as any}
 
       />
     </div>
@@ -141,20 +141,15 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
 function DropdownIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
   return (
     <div>
-      <ChevronDownSvg color={colors.textSecondary} className={classNames({
-        [styles.indicator]: true,
-        [styles.indicatorInverse]: props.selectProps.menuIsOpen,
-      })} />
-    </div>
-  )
-}
-
-function Search<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
-  return (
-    <div>
-      <SearchSvg color={colors.textSecondary} className={classNames({
-        [styles.indicator]: true,
-      })} />
+      {props.selectProps.isSearchable ?
+        <SearchSvg color={colors.textSecondary} className={classNames({
+          [styles.indicator]: true,
+        })} />
+        :
+        <ChevronDownSvg color={colors.textSecondary} className={classNames({
+          [styles.indicator]: true,
+          [styles.indicatorInverse]: props.selectProps.menuIsOpen,
+        })} />}
     </div>
   )
 }
