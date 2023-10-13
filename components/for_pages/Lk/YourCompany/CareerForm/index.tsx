@@ -4,7 +4,6 @@ import {Form, FormikProvider, useFormik} from 'formik'
 import InputField from '@/components/fields/InputField'
 import CopySvg from '@/components/svg/CopySvg'
 import {colors} from '@/styles/variables'
-import FileField from '@/components/fields/Files/FileField'
 import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import {useAppContext} from '@/context/state'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
@@ -15,6 +14,7 @@ import {omit} from '@/utils/omit'
 import IFile from '@/data/interfaces/IFile'
 import {useRef} from 'react'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
+import FileListField from '@/components/fields/Files/FileListField'
 
 
 interface IFormData {
@@ -33,6 +33,7 @@ export default function CompanyCareerForm(props: Props) {
 
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     try {
+      console.log('Data111', data)
       const submitData: DeepPartial<ICompany> = {
         ...omit(data, ['images']),
         imagesIds: data.images.map(i => i.id)
@@ -43,7 +44,7 @@ export default function CompanyCareerForm(props: Props) {
         await companyOwnerContext.create(submitData)
       }
     } catch (err) {
-
+      console.error(err)
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
       }
@@ -77,9 +78,9 @@ export default function CompanyCareerForm(props: Props) {
         </Card>
         <Card title='Image Gallery'>
           <div className={styles.wrapper}>
-            <FileField
+            <FileListField
               isImage
-              name='gallery'
+              name='images'
               accept={[FileUploadAcceptType.Image]}
               text=
                 {

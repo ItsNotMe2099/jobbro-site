@@ -28,7 +28,7 @@ export default function OfficeCard(props: Props) {
         </div>
         <div className={styles.middle}>
           <div className={styles.country}>
-            {props.office.country?.name}
+            {props.office.name}
           </div>
           <div className={styles.city}>
             {props.office.city?.name}
