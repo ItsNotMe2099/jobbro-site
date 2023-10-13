@@ -1,8 +1,7 @@
 @import "styles/index";
 
-.modal {
+.root {
   outline: none;
-  height: 100%;
 }
 
 .overlay {
@@ -20,14 +19,9 @@
   overflow-x: hidden;
   overscroll-behavior: none;
   padding: 10px;
-  z-index: $zIndexModal;
+  z-index: 12;
 
   &.mobileMenu {
     overflow-y: hidden;
   }
 }
-
-.none {
-  display: none;
-}
-

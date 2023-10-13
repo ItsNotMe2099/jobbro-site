@@ -43,7 +43,7 @@ const ManagerOwnerContext = createContext<IState>(defaultValue)
 
 interface Props {
   children: React.ReactNode,
-  managerId: Nullable<string> | undefined,
+  managerId?: Nullable<string> | undefined,
   manager?: Nullable<IManager>,
 }
 

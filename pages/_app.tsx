@@ -1,5 +1,6 @@
 import 'normalize.css'
 import '../styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css'
 import { AppContext, AppProps } from 'next/app'
 import { getSelectorsByUserAgent } from 'react-device-detect'
 import { isClient, isXsScreen } from 'utils/media'
@@ -14,6 +15,7 @@ import ModalContainer from '@/components/layout/ModalContainer'
 import Snackbar from '@/components/layout/Snackbar'
 import 'react-datepicker/dist/react-datepicker.css'
 import AppOverlay from '@/components/ui/AppOverlay'
+import {ToastContainer} from 'react-toastify'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -45,6 +47,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ModalContainer />
       <AppOverlay />
       <Snackbar />
+      <ToastContainer
+        closeButton={false}
+        hideProgressBar={true}
+        autoClose={3000}
+        icon={<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.50453 10.6L1.95059 6.4L0.432617 7.8L6.50453 13.4L19.5158 1.4L17.9978 0L6.50453 10.6Z" fill="#27AE60"/>
+        </svg>
+        }
+      />
     </AppWrapper>
   )
 }

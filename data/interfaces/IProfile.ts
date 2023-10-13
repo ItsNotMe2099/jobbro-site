@@ -1,10 +1,11 @@
-import { IImage, TimeStamp } from './Common'
+import { TimeStamp } from './Common'
 import { IGeoName } from './ILocation'
 import {ProfileType} from '@/data/enum/ProfileType'
 import {HirerRole} from '@/data/enum/HirerRole'
+import IFile from '@/data/interfaces/IFile'
 
 export interface IProfile extends TimeStamp {
-  id: number,
+  id: string,
   userId: number,
   profileType: ProfileType,
   hirerRole: HirerRole,
@@ -27,7 +28,7 @@ export interface IProfile extends TimeStamp {
   statsShowNewVacanciesCount: boolean,
   statsShowNewCVsCount: boolean,
   ownerId: null,
-  image: IImage|null,
+  image: IFile | null,
   country: IGeoName,
   city: IGeoName,
 }

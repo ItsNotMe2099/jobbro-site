@@ -2,32 +2,32 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import Validator from '@/utils/validator'
 import InputField from '@/components/fields/InputField'
-import { Form, FormikProvider, useFormik } from 'formik'
-import { useState } from 'react'
-import { useAppContext } from '@/context/state'
-import { RequestError } from '@/types/types'
-import { SnackbarType } from '@/types/enums'
+import {Form, FormikProvider, useFormik} from 'formik'
+import {useAppContext} from '@/context/state'
+import {RequestError} from '@/types/types'
+import {SnackbarType} from '@/types/enums'
 import AddSvg from '@/components/svg/AddSvg'
-import { colors } from '@/styles/variables'
+import {colors} from '@/styles/variables'
+import {ManagerOwnerWrapper, useManagerOwnerContext} from '@/context/manager_owner_state'
+import Spinner from '@/components/ui/Spinner'
+import {useCompanyOwnerContext} from '@/context/company_owner_state'
 
 interface Props {
 
 }
 
-export interface FormData {
+export interface IFormData {
   email: string
 }
 
-export default function TeamForm(props: Props) {
-
-  const [loading, setLoading] = useState<boolean>(false)
-
+const TeamFormInner = (props: Props) => {
   const appContext = useAppContext()
-
-  const handleSubmit = async (data: FormData) => {
-    setLoading(true)
+  const managerOwnerContext = useManagerOwnerContext()
+  const companyOwnerContext = useCompanyOwnerContext()
+  const handleSubmit = async (data: IFormData) => {
     try {
-
+    await managerOwnerContext.create({...data, companyId: companyOwnerContext.company!.id} as any)
+      formik.resetForm()
     } catch (err) {
 
       if (err instanceof RequestError) {
@@ -37,28 +37,36 @@ export default function TeamForm(props: Props) {
     }
 
 
-    setLoading(false)
   }
 
   const initialValues = {
     email: ''
   }
 
-  const formik = useFormik<FormData>({
+  const formik = useFormik<IFormData>({
     initialValues,
     onSubmit: handleSubmit
   })
-
+  const suffix = (managerOwnerContext.editLoading ? <div className={styles.spinner}><Spinner
+    size={24}/> </div>: (formik.values.email && Validator.email(formik.values.email) === undefined ?
+    <div className={styles.add} onClick={() => formik.submitForm()}><AddSvg
+      color={colors.textSecondary}/></div> : undefined))
   return (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <Card title='Invite Team Members'>
-          <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
-            prefix={formik.values.email ? <AddSvg className={styles.add} color={colors.textSecondary} /> : undefined}
+          <InputField disabled={managerOwnerContext.editLoading} placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
+                      suffix={suffix}
 
-            validate={Validator.email} />
+                      validate={Validator.email}/>
         </Card>
       </Form>
     </FormikProvider>
   )
+}
+
+export default function TeamForm(props: Props) {
+  return <ManagerOwnerWrapper>
+    <TeamFormInner/>
+  </ManagerOwnerWrapper>
 }

@@ -101,15 +101,14 @@ export default function ResetPasswordForm(props: Props) {
           placeholder='New password'
           type='password'
           name='password'
-          label={formik.values.password ? 'New password' : ''}
+          label={'New password'}
 
           obscure
           validate={Validator.requiredPassword} />
         <InputField
-          placeholder='Confirm password'
           type='password'
           name='passwordConfirm'
-          label={formik.values.passwordConfirm ? 'Confirm password' : ''}
+          label={'Confirm password'}
 
           obscure
           validate={Validator.combine([Validator.requiredPassword, Validator.passwordsMustMatch(formik.values)])} />

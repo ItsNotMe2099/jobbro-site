@@ -6,9 +6,12 @@
     @include list(32px, false);
     position: relative;
 }
+.spinner{
+  padding-right: 16px;
+}
 
 .add {
-    position: absolute;
-    right: 16px;
+    padding-right: 16px;
     cursor: pointer;
+  line-height: 100%;
 }

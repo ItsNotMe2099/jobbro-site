@@ -43,7 +43,7 @@ export default function CityField(props: Props) {
   return (
     <SelectField<number> {...(props as any)} async={true}
 
-                                   placeholder={'Enter country'} loadOptions={loadOptions} options={[]}
+                                   placeholder={'Enter city'} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>
   )
 }

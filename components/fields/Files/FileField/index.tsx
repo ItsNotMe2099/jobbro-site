@@ -11,6 +11,7 @@ import usePressAndHover from '@/components/hooks/usePressAndHover'
 import FieldError from '@/components/fields/FieldError'
 import FileUploadDropzone from '@/components/fields/Files/components/FileUploadDropzone'
 import FileListItem from '@/components/fields/Files/FileListField/FileListItem'
+import FileRepository from '@/data/repositories/FileRepository'
 
 interface Props extends IField<IFile | null> {
   isImage?: boolean
@@ -80,7 +81,7 @@ export default function FileField(props: Props) {
       setProgress(0)
       abortControllerRef.current = new AbortController()
       try {
-        /*const fileData = await FileRepository.uploadFile(acceptedFiles[0], {
+        const fileData = await FileRepository.uploadFile(acceptedFiles[0], {
           signal: abortControllerRef.current.signal,
           onUploadProgress: (e) => {
             setProgress(e.total ? Math.round((e.loaded / e.total) * 100) : 0)
@@ -90,7 +91,7 @@ export default function FileField(props: Props) {
           setProgress(-1)
           setPreviewPath('')
           helpers.setValue(fileData)
-        }*/
+        }
       } catch (e) {
         if (abortControllerRef.current?.signal?.aborted) {
           setProgress(-1)

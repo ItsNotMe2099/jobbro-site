@@ -1,0 +1,46 @@
+@import "styles/index";
+
+.modalBody {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  @include list(12px)
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: center;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  @include list(12px, true)
+}
+
+.confirmButton {
+  &.green {
+    color: $green;
+  }
+
+  &.red {
+    color: $text-red;
+  }
+
+}
+
+.header {
+  padding-bottom: 0;
+}

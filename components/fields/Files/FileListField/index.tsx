@@ -10,6 +10,7 @@ import {v4 as uuidv4} from 'uuid'
 import FileUploadDropzone from 'components/fields/Files/components/FileUploadDropzone'
 import FileListItem from 'components/fields/Files/FileListField/FileListItem'
 import Converter from '@/utils/converter'
+import FileRepository from '@/data/repositories/FileRepository'
 
 interface IFileListItem {
   id: string
@@ -93,7 +94,7 @@ export default function FileListField(props: Props) {
 
         try {
           (abortController as IAbortControllerWithId).id = file.id
-          /*const fileData = await FileRepository.uploadFile(acceptedFile, {
+          const fileData = await FileRepository.uploadFile(acceptedFile, {
             signal: abortController.signal,
             onUploadProgress: (e) => {
               setFiles(files => files.map(f => f.id === file.id ? ({
@@ -109,7 +110,7 @@ export default function FileListField(props: Props) {
               previewPath: '',
               value: fileData
             }) : f))
-          }*/
+          }
         } catch (e) {
           if (abortController.signal.aborted) {
             setFiles(files => files.map(f => f.id === file.id ? ({...f, progress: -1, previewPath: ''}) : f))

@@ -1,0 +1,21 @@
+@import "../../../../styles/index";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+    background-color: $white;
+    border-radius: 24px;
+    padding: 32px;
+    width: 480px;
+    margin-right: 18px;
+}
+
+.title {
+    @include h1;
+}
+
+.btns {
+    display: flex;
+    @include list(24px, true);
+}

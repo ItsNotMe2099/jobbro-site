@@ -3,40 +3,38 @@ import styles from '@/components/for_pages/Auth/RegistrationForm/index.module.sc
 import { Form, FormikProvider, useFormik } from 'formik'
 import Validator from '@/utils/validator'
 import Button from '@/components/ui/Button'
-import { SnackbarType } from '@/types/enums'
 import { useState } from 'react'
-import { RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
-import AuthRepository from '@/data/repositories/AuthRepository'
 
 interface IFormData{
-  firstName: string
   email: string
   password: string
+  passwordConfirm: string
 }
 interface Props {
   onSubmit: () => void
 }
 
-export default function RegistrationForm(props: Props) {
-
+export default function ManagerInviteConfirmForm(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const redirect = router.query.redirect as string
-  const [loading, setLoading] = useState<boolean>(false)
-
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (data: IFormData) => {
     setLoading(true)
+/*
     try {
-      const res = await AuthRepository.register(data)
-      props.onSubmit()
-      return
+      const res = await AuthRepository.confirmInviteToReceivingPoint({
+        newPassword: data.password,
+        login: data.email,
+        code: router.query.code as string
+      })
       if (res.accessToken) {
         appContext.setToken(res.accessToken)
-        appContext.updateAboutMe()
+        await appContext.updateAboutMe()
         if (redirect) {
           router.replace(redirect)
         } else {
@@ -52,14 +50,17 @@ export default function RegistrationForm(props: Props) {
       }
 
     }
+
+*/
     setLoading(false)
   }
 
-  const initialValues = {
-    firstName: '',
-    email: '',
+  const initialValues:IFormData = {
+    email: router.query.email as string,
     password: '',
+    passwordConfirm: '',
   }
+
 
   const formik = useFormik({
     initialValues,
@@ -72,16 +73,17 @@ export default function RegistrationForm(props: Props) {
         <div className={styles.title}>
           Creating new account
         </div>
-        <InputField label='First Name' name='firstName'
+        <InputField name='firstName' label={'First Name'}
 
           validate={Validator.combine([Validator.requiredName])} />
-        <InputField label='Email' name='email' 
+        <InputField label='Email' name='email'
 
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
           label='Password'
           type='password'
           name='password'
+
           obscure
           validate={Validator.requiredPassword} />
         <div className={styles.btns}>
