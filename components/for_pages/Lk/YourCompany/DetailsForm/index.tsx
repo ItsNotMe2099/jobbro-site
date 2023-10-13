@@ -17,7 +17,6 @@ import {useAppContext} from '@/context/state'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import {useRef} from 'react'
 import CountryField from '@/components/fields/CountryField'
-import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
 
 interface IFormData {
   name: Nullable<string>
@@ -99,8 +98,8 @@ export default function CompanyDetailsForm(props: Props) {
                 />
               <SelectField placeholder='Number of employees' className={styles.select} name='employeesCount'
                            options={[]}/>
-              <ServiceCategoryField placeholder='Industry' className={styles.select} name='industryId' options={[]}/>
-              <CountryField placeholder='Country' className={styles.select} name='countryId' options={[]}/>
+              <InputField placeholder='Industry' className={styles.select} name='industryId' />
+              <CountryField placeholder='Country' className={styles.select} name='countryId'/>
             </div>
           </Card>
           <Card title={<div className={styles.top}>

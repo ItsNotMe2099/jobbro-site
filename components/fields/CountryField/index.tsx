@@ -8,6 +8,7 @@ import SelectField from '@/components/fields/SelectField'
 interface Props extends IField<number> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
+  className?: string
 }
 
 export default function CountryField(props: Props) {

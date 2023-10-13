@@ -11,6 +11,7 @@ interface Props extends IField<number | null> {
   resettable?: boolean
   onChange: (value: Nullable<number>) => void
   categoryId: number
+  className?: string
 }
 
 const ServiceCategoryFieldInner = (props: Props) => {
@@ -19,7 +20,7 @@ const ServiceCategoryFieldInner = (props: Props) => {
 
 
   return (
-   <SelectField<number | null>  {...(props as any)} options={serviceCategoryListContext.data.map(i => ({label: i.name, id: i.id}))}/>
+   <SelectField<number | null>  {...(props as any)}  options={serviceCategoryListContext.data.map(i => ({label: i.name, id: i.id}))}/>
    )
 }
 

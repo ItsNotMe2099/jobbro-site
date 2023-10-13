@@ -82,7 +82,7 @@ export default function CompanyCareerForm(props: Props) {
               isImage
               name='images'
               accept={[FileUploadAcceptType.Image]}
-              text=
+              dropzoneTitle=
                 {
                   <div className={styles.text}>
                     Drag & drop image upload<br/>You can use 5 images smaller than 3.5MB<br/> and at least 752px by
