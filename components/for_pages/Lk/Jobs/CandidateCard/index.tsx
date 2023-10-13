@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import { useState } from 'react'
+import Link from 'next/link'
+import { Routes } from '@/types/routes'
 
 interface Props {
   item: any //temp
@@ -26,7 +28,7 @@ export default function CandidateCard(props: Props) {
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
       <BookmarkSvg onClick={() => bookmark ? null : handleBookmark()} className={styles.bookmark}
         color={(props.item.added || bookmark) ? colors.green : colors.white} />
-      <div className={styles.container}>
+      <Link href={Routes.lkCandidate(props.item.id)} className={styles.container}>
         <div className={styles.top}>
           <Image className={styles.avatar} src={props.item.avatar} alt='' fill />
           <div className={styles.right}>
@@ -57,7 +59,7 @@ export default function CandidateCard(props: Props) {
             {props.item.status}
           </div>
         </div>
-      </div>
+      </Link>
       {props.view !== 'row' && <div className={styles.comment}>
         <div className={styles.percent}>
           {props.item.percent}

@@ -21,7 +21,7 @@ export default function Menu(props: Props) {
   const menu = [
     { label: 'Dashboard', link: Routes.lkDashboard },
     { label: 'Jobs', link: Routes.lkJobs },
-    { label: 'Candidates base', link: Routes.lkCandidateBase },
+    { label: 'Candidates base', link: Routes.lkCandidatesBase },
     { label: 'Hiring Boards', link: Routes.lkHiringBoards },
     { label: 'Your Company', link: Routes.lkYourCompany },
     { label: 'Scorecards Templates', link: Routes.lkScorecardsTemplates },

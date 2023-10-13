@@ -42,8 +42,12 @@ export class Routes {
     return '/lk/jobs/create-job-manually'
   }
 
-  static get lkCandidateBase() {
-    return '/lk/candidate-base'
+  static get lkCandidatesBase() {
+    return '/lk/candidates-base'
+  }
+
+  static lkCandidate(id: string | number) {
+    return `/lk/candidates-base/${id}`
   }
 
   static get lkHiringBoards() {
