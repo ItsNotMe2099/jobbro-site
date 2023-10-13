@@ -234,6 +234,7 @@
 }
 
 @mixin input() {
+  background-color: transparent;
   border-radius: 8px;
   width: 100%;
   padding: 0 16px;
@@ -242,6 +243,9 @@
   -webkit-appearance: none;
   font-size: 16px;
   color: $text-primary;
+  line-height: $fieldHeightDefault;
+
+
 
   &:-webkit-autofill {
     -wкebkit-text-fill-color: $text-primary !important;
@@ -268,7 +272,13 @@
     color: $text-red;
   }
 
-  &.inputFocused {}
+  &.withLabel{
+    &.inputFocused, &.withValue {
+      line-height: 32px;
+      padding-top: 24px;
+    }
+  }
+
 }
 
 
@@ -360,3 +370,4 @@
   letter-spacing: -0.16px;
   color: $text-secondary;
 }
+

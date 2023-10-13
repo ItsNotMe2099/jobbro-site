@@ -23,7 +23,7 @@ export default function Menu(props: Props) {
     { label: 'Jobs', link: Routes.lkJobs },
     { label: 'Candidates base', link: Routes.lkCandidatesBase },
     { label: 'Hiring Boards', link: Routes.lkHiringBoards },
-    { label: 'Your Company', link: Routes.lkYourCompany },
+    { label: 'Your Company', link: Routes.lkCompany },
     { label: 'Scorecards Templates', link: Routes.lkScorecardsTemplates },
     { label: 'Settings', link: Routes.lkSettings },
   ]

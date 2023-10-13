@@ -102,7 +102,7 @@ export default function ResetPasswordForm(props: Props) {
           type='password'
           name='password'
           label={formik.values.password ? 'New password' : ''}
-          labelType='in'
+
           obscure
           validate={Validator.requiredPassword} />
         <InputField
@@ -110,7 +110,7 @@ export default function ResetPasswordForm(props: Props) {
           type='password'
           name='passwordConfirm'
           label={formik.values.passwordConfirm ? 'Confirm password' : ''}
-          labelType='in'
+
           obscure
           validate={Validator.combine([Validator.requiredPassword, Validator.passwordsMustMatch(formik.values)])} />
         <div className={styles.btns}>

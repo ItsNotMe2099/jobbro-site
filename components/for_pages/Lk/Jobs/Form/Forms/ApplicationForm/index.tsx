@@ -32,7 +32,7 @@ export default function ApplicationForm(props: Props) {
             placeholder='Name'
             name='contact'
             label={props.formik.values.contact ? 'Name' : ''}
-            labelType='in'
+
             validate={Validator.required}
           /> : <></>}
       </Card>
@@ -52,7 +52,7 @@ export default function ApplicationForm(props: Props) {
                     key={index}
                     placeholder='Title'
                     label={props.formik.values.stages[index].title ? 'Title' : ''}
-                    labelType='in'
+
                     name={`stages[${index}].title`}
                   />
                   <InputField
@@ -60,7 +60,7 @@ export default function ApplicationForm(props: Props) {
                     key={index}
                     placeholder='Description'
                     label={props.formik.values.stages[index].desc ? 'Description' : ''}
-                    labelType='in'
+
                     name={`stages[${index}].desc`}
                   />
                 </div>

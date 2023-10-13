@@ -13,7 +13,7 @@ import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
 import Formatter from '@/utils/formatter'
 import SearchSvg from '@/components/svg/SearchSvg'
-import Link from 'next/link'
+import FieldLabel from '@/components/fields/FieldLabel'
 
 export type InputValueType<T> = T | null | undefined
 type FormatType = 'phone' | 'phoneAndEmail' | 'cardExpiry' | 'cardPan' | 'cardCvv' | 'number' | 'price' | 'weight'
@@ -24,10 +24,6 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   blurValidate?: FieldValidator
   className?: string
   label?: string
-  labelType?: 'in' | 'out'
-  label2?: string
-  label2ClassName?: string
-  label2Href?: string
   errorClassName?: string
   suffix?: 'clear' | 'arrow' | 'search' | string | ReactElement
   prefix?: 'search' | string | ReactElement
@@ -195,20 +191,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
     })} data-field={props.name}>
       <div className={styles.wrapper}>
         {props.label &&
-          <div className={classNames(styles.top, {[styles.innerLabel]: props.labelType === 'in'})}>
-            <div className={styles.label}>
-              {props.label}
-            </div>
-            {props.label2 &&
-              <>
-                {props.label2Href ?
-                  <Link href={props.label2Href} className={classNames(styles.label2, props.label2ClassName)}>{props.label2}</Link>
-                  :
-                  <div className={classNames(styles.label2, props.label2ClassName)}>{props.label2}</div>
-                }
-              </>
-            }
-          </div>
+          <FieldLabel label={props.label} focused={focused || field.value}/>
         }
         <div className={classNames(styles.inputWrapper, {
           [styles.withLabel]: props.label,
@@ -230,10 +213,11 @@ export default function InputField<T extends string | number>(props: InputFieldP
             className={classNames({
               [styles.input]: true,
               //[styles.inputError]: showError,
+              [styles.withLabel]: props.label,
+              [styles.withValue]: !!field.value,
               [styles.inputFocused]: focused,
               [styles.withPrefix]: !!props.prefix,
               [styles.withClear]: props.resettable && !!field.value,
-              [styles.withVal]: field.value && props.label,
               [styles.disabled]: props.disabled
             })}
             {...!props.format ? {

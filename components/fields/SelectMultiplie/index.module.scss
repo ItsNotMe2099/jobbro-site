@@ -1,0 +1,24 @@
+@import "styles/index";
+
+.root {
+
+}
+
+.options{
+  @include clearfix;
+  margin: -8px -8px 0px -8px;
+}
+.option{
+  cursor: pointer;
+  border-radius: 24px;
+  float: left;
+  margin: 8px;
+  height: 40px;
+  background-color: #F0F0F0;
+  border: 1px solid $green;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 0px 8px 0px 16px;
+  @include list(8px, true)
+}

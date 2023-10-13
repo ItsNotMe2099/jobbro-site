@@ -2,7 +2,6 @@ import request from 'utils/request'
 import {AxiosRequestConfig} from 'axios/index'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
-import {IManagerCreateRequest} from '@/data/interfaces/IManagerCreateRequest'
 import {IManagerListRequest} from '@/data/interfaces/IManagerListRequest'
 import {IOffice} from '@/data/interfaces/IOffice'
 
@@ -25,7 +24,7 @@ export default class OfficeOwnerRepository {
     return res
   }
 
-  static async update(id: number, data: DeepPartial<IManagerCreateRequest>): Promise<IOffice> {
+  static async update(id: number, data: DeepPartial<IOffice>): Promise<IOffice> {
     const res = await request<IOffice>({
       method: 'patch',
       url: `/api/owner/office/${id}`,
@@ -34,7 +33,7 @@ export default class OfficeOwnerRepository {
     return res
   }
 
-  static async create(data: DeepPartial<IManagerCreateRequest>): Promise<IOffice> {
+  static async create(data: DeepPartial<IOffice>): Promise<IOffice> {
     const res = await request<IOffice>({
       method: 'post',
       url: '/api/owner/office',

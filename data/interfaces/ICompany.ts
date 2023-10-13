@@ -2,29 +2,31 @@ import {IBenefit} from '@/data/interfaces/IBenefit'
 import IFile from '@/data/interfaces/IFile'
 import {IServiceCategory} from '@/data/interfaces/IServiceCategory'
 import {IGeoName} from '@/data/interfaces/ILocation'
+import {Nullable} from '@/types/types'
 
 export interface ICompanyPageBlock {
-  description: string;
+  description: Nullable<string>;
   visible: boolean;
 }
 export interface ICompany {
-  name?: string;
+  id: number
+  name?: Nullable<string>;
   logo?: IFile;
-  url?: string;
-  employeesCount?: number;
+  url?: Nullable<string>;
+  employeesCount?:  Nullable<number>;
   industry: IServiceCategory;
   industryId: number;
   country: IGeoName;
-  countryId: number;
+  countryId:  Nullable<number>;
   about: ICompanyPageBlock;
   mission: ICompanyPageBlock;
   culture: ICompanyPageBlock;
   advantages: ICompanyPageBlock;
   benefits: IBenefit[];
   benefitsIds: number[];
-  domain?: string;
+  domain?: Nullable<string>;
   images: IFile[];
   imagesIds: number[];
-  createdAt?: Date;
+  createdAt?:  Nullable<Date>;
 
 }

@@ -24,16 +24,9 @@ export default function ProjecteSearchField(props: Props<string>) {
         }) : [])
       })
   }
-  const handleInputChange = (value: string) => {
-    if (value) {
-      getSearchProject(value)
-    }
-    else {
-      setOptions([])
-    }
-  }
+
 
   return (
-    <SelectField async onInputChange={handleInputChange} options={options} label={props.label} placeholder={props.placeholder} name={props.name} />
+    <SelectField async  options={options} label={props.label} placeholder={props.placeholder} name={props.name} />
   )
 }

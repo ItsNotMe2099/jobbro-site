@@ -7,7 +7,7 @@ import {ModalType, SnackbarType} from '@/types/enums'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 
 interface IState {
-  companyId: number,
+  companyId: number | undefined,
   company: Nullable<ICompany>,
   deleteLoading: boolean,
   publishLoading: boolean,
@@ -15,8 +15,9 @@ interface IState {
   editLoading: boolean,
   fetch: () => Promise<Nullable<ICompany>>
   delete: () => Promise<Nullable<ICompany>>,
-  edit: () => void,
-  editRequest: (data: DeepPartial<ICompany>) => Promise<Nullable<ICompany>>,
+  update: (data: DeepPartial<ICompany>) => Promise<Nullable<ICompany>>,
+  create: (data: DeepPartial<ICompany>) => Promise<Nullable<ICompany>>,
+
 }
 
 const defaultValue: IState = {
@@ -28,21 +29,21 @@ const defaultValue: IState = {
   editLoading: false,
   fetch: async () => null,
   delete: async () => null,
-  edit: () => null,
-  editRequest: async (data) => null
+  update: async (data) => null,
+  create: async (data: DeepPartial<ICompany>) => null,
+
 }
 
 const CompanyOwnerContext = createContext<IState>(defaultValue)
 
 interface Props {
   children: React.ReactNode,
-  companyId: number,
+  companyId?: number,
   company?: Nullable<ICompany>,
 }
 
 export function CompanyOwnerWrapper(props: Props) {
   const appContext = useAppContext()
-  const [items, setItems] = useState<ICompany[]>([])
   const [company, setCompany] = useState<Nullable<ICompany>>(props.company as Nullable<ICompany>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [publishLoading, setPublishLoading] = useState<boolean>(false)
@@ -53,15 +54,20 @@ export function CompanyOwnerWrapper(props: Props) {
 
   }, [props.company])
   const fetch = async (): Promise<Nullable<ICompany>> => {
-    const res = await CompanyOwnerRepository.fetch()
-    if((res?.length ?? 0) === 0){
+    try {
+      const res = await CompanyOwnerRepository.fetch()
+      if ((res?.length ?? 0) === 0) {
+        return null
+      }
+      setCompany(res[0])
+      return res[0]
+    }catch (e) {
+      console.error(e)
       return null
     }
-    setCompany(res[0])
-    return res[0]
   }
   useEffect(() => {
-    if (!props.company && props.companyId) {
+    if (!props.company) {
       setLoading(true)
       fetch().then((i) => setLoading(false))
     }
@@ -69,25 +75,46 @@ export function CompanyOwnerWrapper(props: Props) {
   const handleUpdate = (entity: ICompany) => {
     appContext.companyUpdateState$.next(entity)
   }
+  const handleCreate = (entity: ICompany) => {
+    appContext.companyCreateState$.next(entity)
+  }
   const handleDelete = (entity: ICompany) => {
     appContext.companyDeleteState$.next(entity)
   }
 
 
-  const editRequest = async (data: DeepPartial<ICompany>): Promise<Nullable<ICompany>> => {
+  const create = async (data: DeepPartial<ICompany>): Promise<Nullable<ICompany>> => {
     try {
       setEditLoading(true)
-      const res = await CompanyOwnerRepository.update(props.companyId, data)
-      setCompany(i => ({...i, ...res}))
+      const res = await CompanyOwnerRepository.create(data)
+      setCompany(res)
+      handleCreate(res)
       setEditLoading(false)
       return res
     } catch (err) {
-
+      if (err instanceof RequestError) {
+        appContext.showSnackbar(err.message, SnackbarType.error)
+      }
       setEditLoading(false)
       throw err
     }
   }
-
+  const update = async (data: DeepPartial<ICompany>): Promise<Nullable<ICompany>> => {
+    try {
+      setEditLoading(true)
+      const res = await CompanyOwnerRepository.update(company!.id, data)
+      setCompany(res)
+      handleUpdate(res)
+      setEditLoading(false)
+      return res
+    } catch (err) {
+      if (err instanceof RequestError) {
+        appContext.showSnackbar(err.message, SnackbarType.error)
+      }
+      setEditLoading(false)
+      throw err
+    }
+  }
   const deleteRequest = async (): Promise<Nullable<ICompany>> => {
     return new Promise<Nullable<ICompany>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
@@ -96,7 +123,7 @@ export function CompanyOwnerWrapper(props: Props) {
           try {
             appContext.hideModal()
             setDeleteLoading(true)
-            const res = await CompanyOwnerRepository.delete(props.companyId)
+            const res = await CompanyOwnerRepository.delete(props.company!.id!)
             handleDelete(company!)
             resolve(company)
           } catch (err) {
@@ -120,7 +147,8 @@ export function CompanyOwnerWrapper(props: Props) {
     loading,
     deleteLoading,
     fetch,
-    editRequest,
+    update,
+    create,
     delete: deleteRequest,
   }
   return (

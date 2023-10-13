@@ -62,7 +62,7 @@ export default function ForgotPasswordForm(props: Props) {
           Enter your email with Jobbro Account. We will send new password to this email.
         </div>
         <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
-          labelType='in'
+
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>

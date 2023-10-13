@@ -1,13 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useField } from 'formik'
 import { IField, IOption, Nullable } from '@/types/types'
 import styles from './index.module.scss'
 import classNames from 'classnames'
-import Select, { SelectAsync } from '@/components/fields/Select'
+import Select, { SelectAsync, CreateSelectAsync } from '@/components/fields/Select'
 import FieldError from '@/components/fields/FieldError'
+
 // @ts-ignore
 import { Props as SelectProps } from 'react-select/dist/declarations/src'
-import {InputActionMeta} from 'react-select'
 
 
 export interface SelectFieldProps<T> extends IField<T> {
@@ -19,12 +19,13 @@ export interface SelectFieldProps<T> extends IField<T> {
   noOptionsMessage?: Nullable<string>
   selectProps?: Nullable<SelectProps> | undefined,
   async?: boolean
+  creatable?: boolean
   loadOptions?: (search: string, loadedOptions: IOption<T>[], data: any) => Promise<{ options: IOption<T>[], hasMore: boolean, additional?: any | null }>
   initialAsyncData?: any
   resettable?: boolean
-  menuPosition?: string
-  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
-  isSearchable?: boolean
+  menuPosition?: 'fixed' | 'absolute'
+  onCreateOption?: (data: string) => void
+
 }
 
 export default function SelectField<T>(props: SelectFieldProps<T>) {
@@ -42,23 +43,41 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
       return ''
     }
   }
-
+  useEffect(() => {
+    console.log('ReRender2')
+  }, [])
   // Generate a unique key based on Formik field name and value
-  const uniqueKey = `${props.name}_${field.value}`
-
+  const uniqueKey = `${props.name}`
+  console.log('OnChangeValue4', field.value)
   return (
     <div className={classNames(styles.root, props.className)} data-field={props.name}>
-      {props.async ? <SelectAsync<T>
+      {props.creatable ? <CreateSelectAsync<T>
         label={props.label as string}
         key={uniqueKey} // Add a unique key to trigger re-render
         value={field.value}
         hasError={showError}
-        onInputChange={props.onInputChange}
         noOptionsMessage={props.noOptionsMessage}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         placeholder={props.placeholder ?? ''}
-        selectProps={props.selectProps}
+        onCreateOption={props.onCreateOption}
         onChange={(value) => {
+          helpers.setValue(value)
+          props.onChange?.(value)
+        }}
+        resettable={props.resettable ?? false}
+        loadOptions={props.loadOptions!}
+        initialAsyncData={props.initialAsyncData}
+      /> : props.async ? <SelectAsync<T>
+        label={props.label as string}
+        key={uniqueKey} // Add a unique key to trigger re-render
+        value={field.value}
+        hasError={showError}
+        noOptionsMessage={props.noOptionsMessage}
+        menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
+        placeholder={props.placeholder ?? ''}
+        selectProps={{defaultValue: field.value}}
+        onChange={(value) => {
+          console.log('OnChangeValue', value)
           helpers.setValue(value)
           props.onChange?.(value)
         }}
@@ -71,7 +90,6 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         options={props.options}
         value={field.value}
         hasError={showError}
-        onInputChange={props.onInputChange}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         noOptionsMessage={props.noOptionsMessage}
         resettable={props.resettable ?? false}

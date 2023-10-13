@@ -62,11 +62,29 @@ export class Routes {
     return '/lk/settings'
   }
 
-  static get lkYourCompany() {
-    return '/lk/your-company'
+  static get lkCompany() {
+    return '/lk/company'
+  }
+  static get lkCompanyDetails() {
+    return '/lk/company/details'
   }
 
-  static get lkYourCompanyEdit() {
-    return '/lk/your-company/edit'
+  static get lkCompanyCareer() {
+    return '/lk/company/career'
+  }
+
+  static get lkCompanyOffices(){
+    return '/lk/company/offices'
+  }
+
+  static lkCompanyOffice(id: number){
+    return `/lk/company/offices/${id}`
+  }
+  static get lkCompanyOfficeCreate(){
+    return '/lk/company/offices/new'
+  }
+
+  static get lkCompanyTeam() {
+    return '/lk/company/team'
   }
 }

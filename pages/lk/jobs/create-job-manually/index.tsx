@@ -1,6 +1,6 @@
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import styles from './index.module.scss'
-import LkLayout from '@/components/for_pages/Lk/components/layout'
+import LkLayout from '@/components/for_pages/Lk/components/LkLayout'
 import Layout from '@/components/layout/Layout'
 import { Routes } from '@/types/routes'
 import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'

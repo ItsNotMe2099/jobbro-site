@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 interface Props {
   title: string | ReactElement
-  children: ReactElement | ReactElement[]
+  children: ReactElement | ReactElement[] | boolean
   className?: string
 }
 

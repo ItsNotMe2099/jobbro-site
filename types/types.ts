@@ -34,6 +34,7 @@ export interface IOption<T> {
   description?: string
   name?: string
   badge?: number
+  href?: string
 }
 
 export type RadioStyleType = 'default' | 'tile' | 'row'

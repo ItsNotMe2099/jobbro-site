@@ -73,17 +73,17 @@ export default function RegistrationForm(props: Props) {
           Creating new account
         </div>
         <InputField placeholder='First Name' name='firstName' label={formik.values.firstName ? 'First Name' : ''}
-          labelType='in'
+
           validate={Validator.combine([Validator.requiredName])} />
         <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
-          labelType='in'
+
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
           placeholder='Password'
           type='password'
           name='password'
           label={formik.values.password ? 'Password' : ''}
-          labelType='in'
+
           obscure
           validate={Validator.requiredPassword} />
         <div className={styles.btns}>

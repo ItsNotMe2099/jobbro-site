@@ -18,7 +18,7 @@
   :global {
     .yg-select__menu {
       background-color: #EEF4F9;
-      z-index: 2;
+      z-index: 3;
       border-radius: $StandartBorderRadius;
       border: 0;
       filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
@@ -79,12 +79,13 @@
     }
 
     .yg-select__option--is-focused {
-      border-color: $simple-grey;
+      background: $green;
     }
 
     .yg-select__option--is-selected {
-      border-color: $simple-grey;
-      background: $simple-grey;
+      border-color: transparent;
+      background: $green;
+      color: $white;
     }
   }
 

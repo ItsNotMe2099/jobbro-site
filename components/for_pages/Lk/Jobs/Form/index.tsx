@@ -1,18 +1,23 @@
 import styles from './index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { SnackbarType } from '@/types/enums'
-import { useRef, useState } from 'react'
-import { RequestError } from '@/types/types'
+import {useRef, useState} from 'react'
+import {IOption, RequestError} from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import JobAdDetailsForm from './Forms/JobAdDetailsForm'
-import ItemWithText from '@/components/for_pages/Common/ItemWithText'
 import ApplicationForm from './Forms/ApplicationForm'
 import WorkflowForm from './Forms/WorkflowForm'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-import Card from '@/components/for_pages/Common/Card'
+
+import Tabs from '@/components/ui/Tabs'
 
 
+enum TabKey{
+  AdDetails = 'adDetails',
+  ApplicationForm = 'applicationForm',
+  Workflow = 'workflow'
+}
 interface Props {
   onPreview?: () => void
   preview?: boolean
@@ -97,52 +102,22 @@ export default function CreateJobManuallyForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  const [form, setForm] = useState<'ad' | 'application' | 'workflow'>('ad')
-
+  const [tab, setTab] = useState<TabKey>(TabKey.ApplicationForm)
+  const options: IOption<TabKey>[] = [
+    {label: 'Job ad Details', value: TabKey.AdDetails},
+    {label: 'Application Form', value: TabKey.ApplicationForm},
+    {label: 'Workflow', value: TabKey.Workflow}
+  ]
   console.log('FORMIK', formik.values)
 
   return (
     <FormikProvider value={formik}>
-      <Form ref={ref} className={styles.form}>
-        {!props.preview && <div className={styles.switch}>
-          <ItemWithText onClick={() => setForm('ad')}
-            className={styles.item} active={form === 'ad'} text='Job ad Details' />
-          <ItemWithText onClick={() => setForm('application')}
-            className={styles.item} active={form === 'application'} text='Application Form' />
-          <ItemWithText onClick={() => setForm('workflow')}
-            className={styles.item} active={form === 'workflow'} text='Workflow' />
-        </div>}
-        {!props.preview ?
-          <>
-            {form === 'ad' && <JobAdDetailsForm formik={formik} />}
-            {form === 'application' && <ApplicationForm formik={formik} />}
-            {form === 'workflow' && <WorkflowForm formik={formik} />}
-          </>
-          :
-          <div className={styles.preview}>
-            <Card title={formik.values.title}>
-              <div className={styles.salary}>
-                {formik.values.salary}{formik.values.salaryMin}-{formik.values.salaryMax}{formik.values.salaryPerYear}
-              </div>
-              <div className={styles.intro}>
-                {formik.values.intro}
-              </div>
-              <div className={styles.tasks}>
-                <div className={styles.title}>
-                  Tasks
-                </div>
-                <>{formik.values.tasks}</>
-              </div>
-              <div className={styles.tasks}>
-                <div className={styles.title}>
-                  Requirements
-                </div>
-                <>{formik.values.requirements}</>
-              </div>
-            </Card>
-          </div>
-        }
-        <FormStickyFooter preview={props.preview} boundaryElement={`.${styles.form}`} formRef={ref} onPreview={props.onPreview} />
+      <Form  ref={ref}  className={styles.form}>
+        <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
+        {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik} />}
+        {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik} />}
+        {tab === TabKey.Workflow && <WorkflowForm formik={formik} />}
+        <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}/>
       </Form>
     </FormikProvider>
   )

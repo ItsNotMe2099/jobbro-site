@@ -1,18 +1,12 @@
-//import styles from './index.module.scss'
-
-import LkLayout from '@/components/for_pages/Lk/components/layout'
-import Layout from '@/components/layout/Layout'
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
+import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
 
 
-export default function DashBoard() {
-  return (
-    <Layout>
-      <LkLayout>
-
-      </LkLayout>
-    </Layout>
-  )
+const DashBoardPage = () => {
+  return null
 }
+DashBoardPage.getLayout = LkPageLayout
+
+export default  DashBoardPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

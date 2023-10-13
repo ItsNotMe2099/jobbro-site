@@ -10,6 +10,7 @@ import { FormData } from '../..'
 import RichTextField from '@/components/fields/RichTextField'
 import Switch from '@/components/ui/Switch'
 import { useState } from 'react'
+import KeywordField from '@/components/fields/KeywordField'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<FormData>
@@ -27,7 +28,7 @@ export default function JobAdDetailsForm(props: Props) {
     <div className={styles.root}>
       <Card title='Header'>
         <InputField placeholder='Title' name='title' label={props.formik.values.title ? 'Title' : ''}
-          labelType='in'
+
           validate={Validator.required}
           suffix={props.formik.values.title ?
             <CloseBigSvg className={styles.clear}
@@ -61,14 +62,15 @@ export default function JobAdDetailsForm(props: Props) {
       </Card>
       <Card title='Tasks'>
         <RichTextField name='tasks' />
+        <KeywordField name={'keywordIds'}/>
       </Card>
       <Card title='Salary'>
         <div className={styles.line}>
           <SelectField className={styles.select} placeholder='EUR' name='salary' options={[]} />
           <InputField className={styles.select} format={'number'} placeholder='Salary maximum' name='salaryMax' label={props.formik.values.salaryMax ? 'Salary maximum' : ''}
-            labelType='in' />
+             />
           <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin' label={props.formik.values.salaryMin ? 'Salary minimum' : ''}
-            labelType='in' />
+             />
           <SelectField className={styles.select} placeholder='Per Year' name='salaryPerYear' options={[]} />
         </div>
       </Card>

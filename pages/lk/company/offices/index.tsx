@@ -1,0 +1,62 @@
+import AddOfficeSvg from '@/components/svg/AddOfficeSvg'
+import styles from './index.module.scss'
+import Button from '@/components/ui/Button'
+import { Routes } from '@/types/routes'
+import OfficeCard from 'components/for_pages/Lk/YourCompany/Offices/OfficeCard'
+import classNames from 'classnames'
+import {OfficeListOwnerWrapper, useOfficeListOwnerContext} from '@/context/office_owner_list_state'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
+import {LkCompanyPageLayout} from '@/components/for_pages/Lk/YourCompany/LkCompanyLayout'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import ContentLoader from '@/components/ui/ContentLoader'
+
+
+interface Props {
+
+}
+
+const LkCompanyOfficesPageInner = (props: Props) => {
+  const officeListOwnerContext = useOfficeListOwnerContext()
+  useEffectOnce(() => {
+    officeListOwnerContext.reFetch()
+  })
+  return (
+    <div className={classNames(styles.root, {[styles.cards]: officeListOwnerContext.data.total > 0})}>
+      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total === 0 && <div className={styles.add}>
+          <AddOfficeSvg />
+          <div className={styles.right}>
+            <div className={styles.title}>
+              Failed find any office
+            </div>
+            <div className={styles.desc}>
+              Every job for publication requires at least the one office<br /> to be added on Jobbro. You can add
+              more details so that<br /> candidates find your jobs more easily. Contact us if you<br />
+              have issues creating an office.
+            </div>
+            <Button href={Routes.lkCompanyOfficeCreate} className={styles.btn} styleType='large' color='green'>
+              Add office
+            </Button>
+          </div>
+        </div>}
+      {!officeListOwnerContext.isLoaded && officeListOwnerContext.isLoading&& <ContentLoader style={'page'} isOpen={true}/>}
+        {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 && <div className={styles.offices}>
+          {officeListOwnerContext.data.data.map((i, index) =>
+            <OfficeCard className={styles.office} key={index} office={i} />
+          )}
+        </div>}
+    </div>
+  )
+}
+
+
+const LKCompanyOfficesPage = (props: Props) => {
+  return <OfficeListOwnerWrapper>
+    <LkCompanyOfficesPageInner {...props}/>
+  </OfficeListOwnerWrapper>
+}
+
+LKCompanyOfficesPage.getLayout = LkCompanyPageLayout
+export default LKCompanyOfficesPage
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+

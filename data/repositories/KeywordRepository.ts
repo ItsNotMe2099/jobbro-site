@@ -10,7 +10,7 @@ export default class KeywordRepository {
   static async fetch(data: IKeywordListRequest, config?: AxiosRequestConfig): Promise<IPagination<IKeyword>> {
     const res = await request<IPagination<IKeyword>>({
       url: '/api/keyword',
-      method: 'post',
+      method: 'get',
       data,
       config,
     })

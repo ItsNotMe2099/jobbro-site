@@ -1,0 +1,6 @@
+@import "styles/index";
+
+.root {}
+.label{
+  @include label();
+}

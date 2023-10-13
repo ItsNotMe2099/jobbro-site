@@ -1,0 +1,52 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  justify-content: center;
+  padding-top: 5%;
+}
+
+.add {
+  display: flex;
+  @include list(32px, true);
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  @include list(20px, false);
+}
+
+.title {
+  @include h4;
+  color: $text-primary;
+}
+
+.desc {
+  @include mainText;
+  color: $text-primary;
+}
+
+.btn {
+  width: 144px;
+}
+
+.offices {
+  display: flex;
+  flex-wrap: wrap;
+  @include list(24px, true);
+
+  .office:nth-child(4n) {
+    margin-left: 0;
+  }
+}
+
+.cards {
+  padding-top: 0;
+  justify-content: flex-start;
+}
+
+.office {
+  margin-bottom: 24px;
+}

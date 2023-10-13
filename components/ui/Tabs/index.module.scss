@@ -1,0 +1,27 @@
+@import "styles/index";
+.root {
+
+  &.fluid{
+    .tab{
+      flex: 1;
+    }
+  }
+
+  &.default{
+    display: flex;
+    @include list(16px, true);
+    @include mq($SmDesktopWidth, max) {
+      display: block;
+      @include list(0px, true);
+      margin: -4px;
+    }
+    .tab{
+      padding: 0px 16px;
+      @include mq($SmDesktopWidth, max) {
+        display: inline-flex;
+        margin: 4px;
+      }
+    }
+  }
+}
+

@@ -73,14 +73,14 @@ export default function LoginForm(props: Props) {
           Login to the Jobbro
         </div>
         <InputField placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
-          labelType='in'
+
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
           placeholder='Password'
           type='password'
           name='password'
           label={formik.values.password ? 'Password' : ''}
-          labelType='in'
+
           obscure
           validate={Validator.requiredPassword} />
           <Link className={styles.reset} href={Routes.passwordForgot}>Reset password</Link>
