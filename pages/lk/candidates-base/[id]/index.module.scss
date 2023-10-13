@@ -11,7 +11,7 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    @include list(32px, false);
+    @include list(28px, false);
     position: relative;
 }
 
@@ -112,4 +112,26 @@
 
 .close {
     cursor: pointer;
+}
+
+.top {
+    display: flex;
+    @include list(33px, true);
+}
+
+.aiSum {
+    flex: 1;
+}
+
+.decline {
+    background-color: transparent;
+}
+
+.cancel{
+    border: 0;
+    background-color: transparent;
+
+    &:hover{
+        border: 0;
+    }
 }

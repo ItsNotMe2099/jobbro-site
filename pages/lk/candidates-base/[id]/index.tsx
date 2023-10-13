@@ -1,15 +1,23 @@
 import styles from './index.module.scss'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import { LkPageLayout } from '@/components/for_pages/Lk/components/LkLayout'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
 import useInterval from 'use-interval'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
+import CardWithPhoto from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardWithPhoto'
+import CardAiSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardAiSummary'
+import CardAiComment from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardAiComment'
+import CardCandidateSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardCandidateSummary'
+import CardMatching from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardMatching'
+import CardProfExp from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardProfExp'
+import ControlsStickyFooter from '@/components/for_pages/Common/ControlsStickyFooter'
+import Button from '@/components/ui/Button'
 
 const CandidatePage = () => {
 
@@ -21,39 +29,135 @@ const CandidatePage = () => {
 
   const candidates = [
     {
-      avatar: '/photos/Photo1.png',
+      avatar: '/photos/PhotoL.png',
       firstName: 'Emily', lastName: 'Ross', salary: '$38 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
+      skills: [{ text: 'Proficient in Java programming language' },
+      { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+      { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+      { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+      { text: 'Experience with version control systems such as Git' },
+      ],
+      tags: [{ label: 'HTML' },
+      { label: 'CSS' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+      { label: 'Oracle' },
+      { label: 'MySQL' },
+      ],
+      langs: [{ label: 'English — C1' },
+      { label: 'Franch — B1' },
+      ],
+      education: 'Bachelors degree in Computer Science, 2022',
       aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.',
-      added: true, id: 1
+      added: true, id: 1, readyToRelocate: false, country: 'Indonesia', email: 'emilly.rose1981@gmail.com', phone: '(62 361) 761 869',
+      about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.'
+
     },
     {
       avatar: '/photos/Photo2.png',
       firstName: 'Lynn', lastName: 'Wolfsmith-Grandelglokershenfelder',
       salary: '$26 / hr', position: 'Senior Manager of Software Development and Engineering', percent: '80%',
       status: 'Invited',
-      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.', id: 2
+      skills: [{ text: 'Proficient in Java programming language' },
+      { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+      { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+      { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+      { text: 'Experience with version control systems such as Git' },
+      ],
+      tags: [{ label: 'HTML' },
+      { label: 'CSS' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+      { label: 'Oracle' },
+      { label: 'MySQL' },
+      ],
+      langs: [{ label: 'English — C1' },
+      { label: 'Franch — B1' },
+      ],
+      education: 'Bachelors degree in Computer Science, 2022',
+      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.', id: 2,
+      readyToRelocate: false, country: 'Indonesia', email: 'emilly.rose1981@gmail.com', phone: '(62 361) 761 869',
+      about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.'
+
     },
     {
       avatar: '/photos/Photo3.png',
       firstName: 'Noah', lastName: 'Clark',
       salary: '$26 / hr', position: 'Middle Backend Development', percent: '80%',
       status: 'Invited',
-      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.', id: 3
+      skills: [{ text: 'Proficient in Java programming language' },
+      { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+      { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+      { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+      { text: 'Experience with version control systems such as Git' },
+      ],
+      tags: [{ label: 'HTML' },
+      { label: 'CSS' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+      { label: 'Oracle' },
+      { label: 'MySQL' },
+      ],
+      langs: [{ label: 'English — C1' },
+      { label: 'Franch — B1' },
+      ],
+      education: 'Bachelors degree in Computer Science, 2022',
+      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.',
+      id: 3, readyToRelocate: false, country: 'Indonesia', email: 'emilly.rose1981@gmail.com', phone: '(62 361) 761 869',
+      about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.'
     },
     {
       avatar: '/photos/Photo4.png',
       firstName: 'Josef', lastName: 'Poletski',
       salary: '$8 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
-      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.', id: 4
+      skills: [{ text: 'Proficient in Java programming language' },
+      { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+      { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+      { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+      { text: 'Experience with version control systems such as Git' },
+      ],
+      tags: [{ label: 'HTML' },
+      { label: 'CSS' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+      { label: 'Oracle' },
+      { label: 'MySQL' },
+      ],
+      langs: [{ label: 'English — C1' },
+      { label: 'Franch — B1' },
+      ],
+      education: 'Bachelors degree in Computer Science, 2022',
+      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.',
+      id: 4, readyToRelocate: false, country: 'Indonesia', email: 'emilly.rose1981@gmail.com', phone: '(62 361) 761 869',
+      about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.'
     },
     {
       avatar: '/photos/Photo5.png',
       firstName: 'Josef', lastName: 'Poletski',
       salary: '$8 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
-      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.', id: 5
+      skills: [{ text: 'Proficient in Java programming language' },
+      { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+      { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+      { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+      { text: 'Experience with version control systems such as Git' },
+      ],
+      tags: [{ label: 'HTML' },
+      { label: 'CSS' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+      { label: 'Oracle' },
+      { label: 'MySQL' },
+      ],
+      langs: [{ label: 'English — C1' },
+      { label: 'Franch — B1' },
+      ],
+      education: 'Bachelors degree in Computer Science, 2022',
+      aiComment: 'This candidate is a great candidate for the position of Senior Manager of Software Development and Engineering.',
+      id: 5, readyToRelocate: false, country: 'Indonesia', email: 'emilly.rose1981@gmail.com', phone: '(62 361) 761 869',
+      about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.'
     },
   ]
 
@@ -70,6 +174,8 @@ const CandidatePage = () => {
       setBookmark(false)
     }
   }, 5000)
+
+  let ref = useRef<HTMLDivElement | null>(null)
 
   return (
     <>
@@ -94,15 +200,33 @@ const CandidatePage = () => {
         </Card>
         : <></>}
 
-        <div className={styles.container}>
-          <PageTitle title={item?.position as string} link={Routes.lkCandidatesBase} />
-          <div className={styles.wrapper}>
-
+      <div ref={ref} className={styles.container}>
+        <PageTitle title={item?.position as string} link={Routes.lkCandidatesBase} />
+        <div className={styles.wrapper}>
+          <div className={styles.top}>
+            <CardWithPhoto item={item} />
+            <CardAiSummary className={styles.aiSum} item={item} />
           </div>
+          <CardCandidateSummary item={item} />
+          <CardProfExp item={item} />
+          <CardAiComment item={item} />
+          <CardMatching item={item} />
         </div>
+        <ControlsStickyFooter btns={[
+          <Button type='submit' styleType='large' color='green'>
+            Send Invite
+          </Button>,
+          <Button className={styles.decline} styleType='large' color='white'>
+            Decline
+          </Button>,
+          <Button className={styles.cancel} styleType='large' color='white' >
+            Cancel
+          </Button>
+        ]} boundaryElement={`.${styles.form}`} formRef={ref} />
+      </div>
     </>
   )
 }
 CandidatePage.getLayout = LkPageLayout
-export default  CandidatePage
+export default CandidatePage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

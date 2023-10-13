@@ -10,7 +10,7 @@ import {IButton} from '@/types/types'
 
 export type ButtonColor = 'green' | 'white' | 'transparent'
 export type ButtonFont = 'normal15' | 'normal16'
-export type ButtonStyleType = 'small' | 'medium' | 'large' | 'circle'
+export type ButtonStyleType = 'small' | 'medium' | 'large' | 'circle' | 'noBorder'
 
 export interface ButtonProps extends IButton {
   children?: React.ReactNode | null | string

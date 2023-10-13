@@ -1,0 +1,17 @@
+@import "styles/index";
+
+.root {}
+
+.container {
+  display: flex;
+  @include list(16px, true);
+}
+
+.text {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}

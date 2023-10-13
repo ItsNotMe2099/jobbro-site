@@ -1,0 +1,65 @@
+@import "styles/index";
+
+.root {}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  @include list(40px, false);
+}
+
+.about {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+
+.title {
+  @include h2;
+}
+
+.list {
+  list-style-position: initial !important;
+  color: $text-primary !important;
+  list-style-type: disc !important;
+  padding-left: 15px !important;
+
+  li {
+    height: 26px;
+
+    &::marker {
+      color: $green;
+      font-size: 1em;
+    }
+  }
+}
+
+.tags {
+  @include clearfix;
+}
+
+.tag {
+  float: left;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: #F0F0F0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.14px;
+  margin-right: 16px;
+}
