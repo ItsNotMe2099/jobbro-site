@@ -1,6 +1,5 @@
 import styles from './index.module.scss'
-import LkLayout from '@/components/for_pages/Lk/components/LkLayout'
-import Layout from '@/components/layout/Layout'
+import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
@@ -16,7 +15,7 @@ import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 
 
-export default function Job() {
+const JobPage = () =>  {
 
   const [view, setView] = useState<'card' | 'row'>('card')
 
@@ -100,7 +99,7 @@ export default function Job() {
   }, 5000)
 
   return (
-    <Layout>
+    <>
       {bookmark ?
         <Card className={styles.notification} title={''}>
           <div className={styles.inner}>
@@ -121,7 +120,6 @@ export default function Job() {
           </div>
         </Card>
         : <></>}
-      <LkLayout>
         <div className={styles.container}>
           <PageTitle title={item?.name} link={Routes.lkJobs} />
           <div className={styles.wrapper}>
@@ -133,8 +131,9 @@ export default function Job() {
             </div>
           </div>
         </div>
-      </LkLayout>
-    </Layout >
+      </>
   )
 }
+JobPage.getLayout = LkPageLayout
+export default JobPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

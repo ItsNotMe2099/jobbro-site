@@ -1,13 +1,11 @@
 import styles from './index.module.scss'
-import LkLayout from '@/components/for_pages/Lk/components/layout'
-import Layout from '@/components/layout/Layout'
+import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import Filter from '@/components/for_pages/Lk/Jobs/Filter'
 import { useState } from 'react'
 import classNames from 'classnames'
-import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
 import CandidateCard from '@/components/for_pages/Lk/Jobs/CandidateCard'
 import useInterval from 'use-interval'
@@ -15,8 +13,7 @@ import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 
-
-export default function Candidates() {
+const CandidatesPage = () => {
 
   const [view, setView] = useState<'card' | 'row'>('card')
 
@@ -99,8 +96,7 @@ export default function Candidates() {
     }
   }, 5000)
 
-  return (
-    <Layout>
+  return (<>
       {bookmark ?
         <Card className={styles.notification} title={''}>
           <div className={styles.inner}>
@@ -121,7 +117,6 @@ export default function Candidates() {
           </div>
         </Card>
         : <></>}
-      <LkLayout>
         <div className={styles.container}>
           <PageTitle title={'Candidates base'} />
           <div className={styles.wrapper}>
@@ -133,8 +128,9 @@ export default function Candidates() {
             </div>
           </div>
         </div>
-      </LkLayout>
-    </Layout >
+    </>
   )
 }
+CandidatesPage.getLayout = LkPageLayout
+export default  CandidatesPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
