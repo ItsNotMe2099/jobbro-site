@@ -1,0 +1,105 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  @include list(24px, true);
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  background-color: $light-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: -0.36px;
+  color: $blue2;
+  position: relative;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.24px;
+}
+
+.info {
+  display: flex;
+  @include list(24px, true);
+  align-items: center;
+}
+
+.specs {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-secondary;
+  letter-spacing: -0.16px;
+}
+
+.employees {
+  display: flex;
+  align-items: center;
+}
+
+.quantity {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.links {
+  display: flex;
+  @include list(24px, true);
+  margin-top: 18px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  @include list(8px, true);
+
+  a {
+    color: $green;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+  }
+}
+
+.confirmed {
+  border-radius: 100%;
+  background-color: $white;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: -5px;
+  bottom: -5px;
+}
+
+.check {
+  border-radius: 100%;
+}

@@ -1,6 +1,7 @@
 import { colors } from '@/styles/variables'
 import styles from './index.module.scss'
 import LocationSvg from '@/components/svg/LocationSvg'
+import Company from '../Company'
 
 interface Props {
   period: any //temp
@@ -16,6 +17,7 @@ export default function Period(props: Props) {
         <div className={styles.full}>{props.item.experience}</div>
       </div>
       <div className={styles.info}>
+      {props.period.company && <Company company={props.period.company} />}
         <div className={styles.top}>
           <div className={styles.position}>{props.period.position}</div>
           <div className={styles.country}>

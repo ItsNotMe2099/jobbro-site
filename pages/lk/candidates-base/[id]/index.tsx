@@ -33,6 +33,12 @@ const CandidatePage = () => {
       experience: '6 years 3 month',
       periods: [
         {
+          company:
+          {
+            confirmed: true,
+            name: 'Pronto', specs: 'Retail, E-commerce', employees: '11-50 employees', link: '#', news: '#',
+            img: ''
+          },
           dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
           about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
           skills: [{ text: 'Proficient in Java programming language' },
