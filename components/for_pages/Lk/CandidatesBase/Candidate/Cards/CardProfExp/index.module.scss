@@ -8,3 +8,8 @@
   flex-direction: column;
   @include list(16px, false);
 }
+
+.separator {
+  height: 1px;
+  background-color: #EBEBEB;
+}

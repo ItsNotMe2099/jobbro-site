@@ -10,14 +10,14 @@ import useInterval from 'use-interval'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
-import CardWithPhoto from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardWithPhoto'
-import CardAiSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardAiSummary'
-import CardAiComment from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardAiComment'
-import CardCandidateSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardCandidateSummary'
-import CardMatching from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardMatching'
-import CardProfExp from '@/components/for_pages/Lk/CandidatesBase/Candidate/CardProfExp'
 import ControlsStickyFooter from '@/components/for_pages/Common/ControlsStickyFooter'
 import Button from '@/components/ui/Button'
+import CardWithPhoto from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardWithPhoto'
+import CardAiSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardAiSummary'
+import CardCandidateSummary from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardCandidateSummary'
+import CardProfExp from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardProfExp'
+import CardAiComment from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardAiComment'
+import CardMatching from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardMatching'
 
 const CandidatePage = () => {
 
@@ -30,6 +30,29 @@ const CandidatePage = () => {
   const candidates = [
     {
       avatar: '/photos/PhotoL.png',
+      experience: '6 years 3 month',
+      periods: [
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        },
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        },
+      ],
       firstName: 'Emily', lastName: 'Ross', salary: '$38 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
       skills: [{ text: 'Proficient in Java programming language' },
@@ -56,6 +79,19 @@ const CandidatePage = () => {
     },
     {
       avatar: '/photos/Photo2.png',
+      periods: [
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        }
+      ],
+      experience: '6 years 3 month',
       firstName: 'Lynn', lastName: 'Wolfsmith-Grandelglokershenfelder',
       salary: '$26 / hr', position: 'Senior Manager of Software Development and Engineering', percent: '80%',
       status: 'Invited',
@@ -83,6 +119,19 @@ const CandidatePage = () => {
     },
     {
       avatar: '/photos/Photo3.png',
+      periods: [
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        }
+      ],
+      experience: '6 years 3 month',
       firstName: 'Noah', lastName: 'Clark',
       salary: '$26 / hr', position: 'Middle Backend Development', percent: '80%',
       status: 'Invited',
@@ -109,6 +158,19 @@ const CandidatePage = () => {
     },
     {
       avatar: '/photos/Photo4.png',
+      periods: [
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        }
+      ],
+      experience: '6 years 3 month',
       firstName: 'Josef', lastName: 'Poletski',
       salary: '$8 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
@@ -135,6 +197,19 @@ const CandidatePage = () => {
     },
     {
       avatar: '/photos/Photo5.png',
+      periods: [
+        {
+          dates: 'Apr 2013 — May 2019', position: 'Senior Python Developer', country: 'Indonesia',
+          about: 'I am a highly motivated Junior Java Developer with strong analytical and problem-solving skills. I have a solid understanding of Java programming language and experience in developing web applications using Java frameworks.',
+          skills: [{ text: 'Proficient in Java programming language' },
+          { text: 'Experience with Java frameworks such as Spring, Hibernate, and Struts' },
+          { text: 'Familiarity with web technologies such as HTML, CSS, and JavaScript' },
+          { text: 'Knowledge of database management systems such as MySQL and Oracle' },
+          { text: 'Experience with version control systems such as Git' },
+          ]
+        }
+      ],
+      experience: '6 years 3 month',
       firstName: 'Josef', lastName: 'Poletski',
       salary: '$8 / hr', position: 'Senior Python Development', percent: '80%',
       status: 'Invited',
