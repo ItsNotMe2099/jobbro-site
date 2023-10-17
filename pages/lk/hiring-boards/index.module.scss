@@ -1,5 +1,16 @@
 @import "styles/index";
 
-.root {
-  
+.root {}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    margin-top: 32px;
 }

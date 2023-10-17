@@ -1,0 +1,42 @@
+@import "styles/index";
+
+.root {
+    border-radius: 24px;
+    background-color: $white;
+}
+
+.stages {
+    display: flex;
+    @include list(16px, true);
+}
+
+.stage {
+    display: flex;
+    flex-direction: column;
+    @include list(12px, false);
+    width: 100%;
+}
+
+.title {
+    padding: 6px 16px;
+    height: 30px;
+    border-radius: 16px;
+    background-color: $background-secondary;
+    color: $text-secondary;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 125%;
+    letter-spacing: -0.14px;
+}
+
+.avatar {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.photos {
+    display: flex;
+    @include list(4px, true);
+}

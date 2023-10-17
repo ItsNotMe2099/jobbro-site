@@ -7,14 +7,16 @@ import { SidePanelType } from '@/types/enums'
 import { ReactElement } from 'react'
 import CircleSvg from '@/components/svg/CircleSvg'
 import { useJobFilterContext } from '@/context/job_filter_state'
+import classNames from 'classnames'
 
 
 interface Props {
-  view: 'card' | 'row'
-  onSetView: () => void
+  view?: 'card' | 'row'
+  onSetView?: () => void
   showChild?: () => void
   children?: ReactElement | ReactElement[]
   sort?: boolean
+  options?: string[]
 }
 
 export default function Filter(props: Props) {
@@ -45,7 +47,7 @@ export default function Filter(props: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.left}>
+      <div className={classNames(styles.left, {[styles.wide]: props.options})}>
         <div onClick={handleClickOnFilter} className={styles.text}>
           <span>Filter</span>{filtered.length > 0 && <div className={styles.count}>{filtered.length}</div>}
         </div>
@@ -53,11 +55,18 @@ export default function Filter(props: Props) {
           <span>Sort</span>{props.sort && <CircleSvg className={styles.circle} color={colors.green} />}
           {props.children}
         </div>
+        {props.options?.map((i: any, index: number) =>
+          <div className={styles.text} key={index}>
+            <span>{i}</span>
+          </div>
+        )}
       </div>
-      {props.view === 'row' ?
+      {props.view ? (props.view === 'row' ?
         <CardViewSvg className={styles.view} onClick={props.onSetView} color={colors.simpleGrey} />
         :
-        <RowViewSvg className={styles.view} onClick={props.onSetView} color={colors.simpleGrey} />
+        <RowViewSvg className={styles.view} onClick={props.onSetView} color={colors.simpleGrey} />)
+        :
+        null
       }
     </div>
   )

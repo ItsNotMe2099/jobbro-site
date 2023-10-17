@@ -54,6 +54,10 @@ export class Routes {
     return '/lk/hiring-boards'
   }
 
+  static lkHiringBoard(id: string | number) {
+    return `/lk/hiring-boards/${id}`
+  }
+
   static get lkScorecardsTemplates() {
     return '/lk/scorecard-templates'
   }
