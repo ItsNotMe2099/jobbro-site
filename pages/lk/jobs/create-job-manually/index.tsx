@@ -6,9 +6,10 @@ import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { useState } from 'react'
+import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 
 
-const CreateJobManuallyPage = () => {
+const CreateJobManuallyPageInner = () => {
 
   const [preview, setPreview] = useState<boolean>(false)
 
@@ -19,6 +20,11 @@ const CreateJobManuallyPage = () => {
           <CreateJobManuallyForm preview={preview} onPreview={() => setPreview(!preview)} />
         </div>
   )
+}
+const CreateJobManuallyPage = () => {
+  return <VacancyOwnerWrapper>
+    <CreateJobManuallyPageInner/>
+  </VacancyOwnerWrapper>
 }
 CreateJobManuallyPage.getLayout = LkPageLayout
 export default  CreateJobManuallyPage

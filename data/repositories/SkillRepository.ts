@@ -10,7 +10,7 @@ export default class SkillRepository {
   static async fetch(data: ISkillListRequest, config?: AxiosRequestConfig): Promise<IPagination<ISkill>> {
     const res = await request<IPagination<ISkill>>({
       url: '/api/skill',
-      method: 'post',
+      method: 'get',
       data,
       config,
     })

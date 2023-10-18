@@ -10,7 +10,7 @@ export default class BenefitRepository {
   static async fetch(data: IBenefitListRequest, config?: AxiosRequestConfig): Promise<IPagination<IBenefit>> {
     const res = await request<IPagination<IBenefit>>({
       url: '/api/benefit',
-      method: 'post',
+      method: 'get',
       data,
       config,
     })

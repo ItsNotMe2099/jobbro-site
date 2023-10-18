@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {IField, Nullable} from '@/types/types'
 import SelectField from '@/components/fields/SelectField'
 import {
@@ -9,18 +9,20 @@ import {
 
 interface Props extends IField<number | null> {
   resettable?: boolean
-  onChange: (value: Nullable<number>) => void
-  categoryId: number
+  onChange?: (value: Nullable<number>) => void
+  categoryId?: Nullable<number>
   className?: string
 }
 
 const ServiceCategoryFieldInner = (props: Props) => {
   const abortControllerRef = useRef<AbortController | null>(null)
   const serviceCategoryListContext = useServiceCategoryListOwnerContext()
-
+  useEffect(() => {
+    serviceCategoryListContext.reFetch()
+  }, [props.categoryId])
 
   return (
-   <SelectField<number | null>  {...(props as any)}  options={serviceCategoryListContext.data.map(i => ({label: i.name, id: i.id}))}/>
+   <SelectField<number | null> isLoading={serviceCategoryListContext.isLoading}  {...(props as any)}   options={serviceCategoryListContext.data.map(i => ({label: i.name, value: i.id}))}/>
    )
 }
 

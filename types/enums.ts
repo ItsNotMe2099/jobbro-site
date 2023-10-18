@@ -75,3 +75,8 @@ export enum Languages {
 export enum SidePanelType {
   JobsFilter = 'jobsFilter',
 }
+
+export enum CardViewType {
+  Card = 'card',
+  Row = 'row'
+}

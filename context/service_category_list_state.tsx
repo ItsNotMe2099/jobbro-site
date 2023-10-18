@@ -4,6 +4,7 @@ import {useAppContext} from '@/context/state'
 import {CanceledError} from 'axios'
 import {IServiceCategoryListRequest} from '@/data/interfaces/IServiceCategoryListRequest'
 import ServiceCategoryRepository from '@/data/repositories/ServiceCategoryRepository'
+import {Nullable} from '@/types/types'
 
 export interface IServiceCategoryFilter extends IServiceCategoryListRequest {
 }
@@ -29,7 +30,7 @@ const ServiceCategoryListOwnerContext = createContext<IState>(defaultValue)
 interface Props {
   children: React.ReactNode
   limit?: number
-  categoryId?: number
+  categoryId?: Nullable<number> | undefined
 }
 
 export function ServiceCategoryListOwnerWrapper(props: Props) {

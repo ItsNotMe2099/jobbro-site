@@ -2,16 +2,19 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import {LkCompanyPageLayout} from '@/components/for_pages/Lk/YourCompany/LkCompanyLayout'
 import CompanyOfficeForm from '@/components/for_pages/Lk/YourCompany/Offices/CompanyOfficeForm'
-import {OfficeOwnerWrapper} from '@/context/office_owner_state'
+import {OfficeOwnerWrapper, useOfficeOwnerContext} from '@/context/office_owner_state'
 import {useRouter} from 'next/router'
+import ContentLoader from '@/components/ui/ContentLoader'
 
 interface Props {
 
 }
 
 const LkOfficeEditPageInner = (props: Props) => {
+  const officeOwnerContext = useOfficeOwnerContext()
+
   return (
-    <CompanyOfficeForm/>
+    officeOwnerContext.loading ? <ContentLoader style={'block'} isOpen={true}/> :  <CompanyOfficeForm/>
   )
 }
 

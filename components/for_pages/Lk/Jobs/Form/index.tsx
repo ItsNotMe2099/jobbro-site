@@ -1,108 +1,136 @@
 import styles from './index.module.scss'
-import { Form, FormikProvider, useFormik } from 'formik'
-import { SnackbarType } from '@/types/enums'
+import {Form, FormikProvider, useFormik} from 'formik'
+import {SnackbarType} from '@/types/enums'
 import {useRef, useState} from 'react'
-import {IOption, RequestError} from '@/types/types'
-import { useAppContext } from '@/context/state'
-import { useRouter } from 'next/router'
+import {DeepPartial, IOption, Nullable, RequestError} from '@/types/types'
+import {useAppContext} from '@/context/state'
+import {useRouter} from 'next/router'
 import JobAdDetailsForm from './Forms/JobAdDetailsForm'
 import ApplicationForm from './Forms/ApplicationForm'
 import WorkflowForm from './Forms/WorkflowForm'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 
 import Tabs from '@/components/ui/Tabs'
+import Button from '@/components/ui/Button'
+import EyeSvg from '@/components/svg/EyeSvg'
+import {colors} from '@/styles/variables'
+import NoEyeSvg from '@/components/svg/NoEyeSvg'
+import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
+import {Employment} from '@/data/enum/Employment'
+import {IOffice} from '@/data/interfaces/IOffice'
+import {Workplace} from '@/data/enum/Workplace'
+import {Experience} from '@/data/enum/Experience'
+import {SalaryType} from '@/data/enum/SalaryType'
+import {IBenefit} from '@/data/interfaces/IBenefit'
+import {ISkill} from '@/data/interfaces/ISkill'
+import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
+import {omit} from '@/utils/omit'
+import {IVacancy} from '@/data/interfaces/IVacancy'
+import {IKeyword} from '@/data/interfaces/IKeyword'
+import {Routes} from '@/types/routes'
 
 
-enum TabKey{
+enum TabKey {
   AdDetails = 'adDetails',
   ApplicationForm = 'applicationForm',
   Workflow = 'workflow'
 }
+
 interface Props {
   onPreview?: () => void
   preview?: boolean
 }
 
-export interface FormData {
-  title: string
-  category: string
-  subCategory: string
-  empType: string
-  workplace: string
-  office: string
-  salary: string
-  salaryMin: string
-  salaryMax: string
-  salaryPerYear: string
-  experience: string
-  requirements: string
-  tasks: string
-  intro: string
-  benefits: string
-  skills: any[] // temp
-  contact: string
-  replyApply: string
-  replyDecline: string
-  cv: string
-  coverLetter: string
-  lang: string
-  stages: { title: string, desc: string }[]
+export interface IVacancyFormData {
+  name: Nullable<string>
+  intro: { description: Nullable<string>, visible: boolean }
+  categoryId: Nullable<number>
+  subCategoryId: Nullable<number>
+  employment: Nullable<Employment>
+  workplace: Nullable<Workplace>
+  office: Nullable<IOffice>
+  salaryMin: Nullable<number>
+  salaryMax: Nullable<number>
+  salaryType: Nullable<SalaryType>
+  experience: Nullable<Experience>
+  benefitsDescription: { description: Nullable<string>, visible: boolean }
+  requirements: Nullable<string>
+  tasks: Nullable<string>
+  cvRequired: Nullable<ApplicationInfoRequirements>
+  coverLetterRequired: Nullable<ApplicationInfoRequirements>
+  benefits: IBenefit[]
+  skills: ISkill[]
+  keywords: IKeyword[]
+  applicationFormLanguage: Nullable<string>
+  applyAutoMessage: {template: Nullable<string>, enabled: boolean}
+  declineAutoMessage: {template: Nullable<string>, enabled: boolean}
+  stages: { title: string, description: string }[]
 }
 
 export default function CreateJobManuallyForm(props: Props) {
 
   const appContext = useAppContext()
+  const vacancyContext = useVacancyOwnerContext()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   let ref = useRef<HTMLFormElement | null>(null)
-  const handleSubmit = async (data: FormData) => {
+  const handleSubmit = async (data: IVacancyFormData) => {
     setLoading(true)
+    console.log('Data', data)
+    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
+      skillsIds: data.skills.map(i => i.id),
+      benefitsIds: data.benefits.map(i => i.id),
+      keywordsIds: data.keywords?.map(i => i.id) ?? [],
+      officeId: data?.office?.id
+    } as  DeepPartial<IVacancy>
     try {
-
+      if (vacancyContext.vacancy) {
+        await vacancyContext.update(newData)
+      } else {
+        await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
+      }
+      await router.push(Routes.lkJobs)
     } catch (err) {
-
+      console.error(err)
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
       }
 
     }
-
-
-    setLoading(false)
   }
 
-  const initialValues = {
-    title: '',
-    category: '',
-    subCategory: '',
-    empType: '',
-    workplace: '',
-    office: '',
-    salary: '',
-    salaryMin: '',
-    salaryMax: '',
-    salaryPerYear: '',
-    experience: '',
-    requirements: '',
-    tasks: '',
-    intro: '',
-    benefits: '',
-    skills: [],
-    contact: '',
-    replyApply: '',
-    replyDecline: '',
-    cv: '',
-    coverLetter: '',
-    lang: '',
-    stages: [{ title: '', desc: '' }]
+  const initialValues: IVacancyFormData = {
+    name: vacancyContext.vacancy?.name ?? null,
+    intro: vacancyContext.vacancy?.intro ??  { description: null, visible: false },
+    categoryId: vacancyContext.vacancy?.categoryId?? null,
+    subCategoryId: vacancyContext.vacancy?.subCategoryId?? null,
+    employment: vacancyContext.vacancy?.employment?? null,
+    workplace: vacancyContext.vacancy?.workplace?? null,
+    office: vacancyContext.vacancy?.office?? null,
+    salaryMin: vacancyContext.vacancy?.salaryMin?? null,
+    salaryMax: vacancyContext.vacancy?.salaryMax?? null,
+    salaryType: vacancyContext.vacancy?.salaryType?? null,
+    experience: vacancyContext.vacancy?.experience?? null,
+    benefitsDescription: vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
+    requirements: vacancyContext.vacancy?.requirements?? null,
+    tasks: vacancyContext.vacancy?.tasks?? null,
+    cvRequired: vacancyContext.vacancy?.cvRequired ?? null,
+    coverLetterRequired: vacancyContext.vacancy?.coverLetterRequired ?? null,
+    benefits: vacancyContext.vacancy?.benefits ?? [],
+    skills: vacancyContext.vacancy?.skills ?? [],
+    keywords: vacancyContext.vacancy?.keywords ?? [],
+    applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
+    applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
+    declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
+    stages: []
   }
 
-  const formik = useFormik<FormData>({
+  const formik = useFormik<IVacancyFormData>({
     initialValues,
     onSubmit: handleSubmit
   })
 
-  const [tab, setTab] = useState<TabKey>(TabKey.ApplicationForm)
+  const [tab, setTab] = useState<TabKey>(TabKey.AdDetails)
   const options: IOption<TabKey>[] = [
     {label: 'Job ad Details', value: TabKey.AdDetails},
     {label: 'Application Form', value: TabKey.ApplicationForm},
@@ -112,12 +140,29 @@ export default function CreateJobManuallyForm(props: Props) {
 
   return (
     <FormikProvider value={formik}>
-      <Form  ref={ref}  className={styles.form}>
+      <Form ref={ref} className={styles.form}>
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
-        {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik} />}
-        {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik} />}
-        {tab === TabKey.Workflow && <WorkflowForm formik={formik} />}
-        <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}/>
+        {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
+        {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
+        {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
+        <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
+          <Button type='submit' styleType='large' color='green'>
+            Publish
+          </Button>
+          <Button styleType='large' color='white'>
+            Save Template
+          </Button>
+          <div className={styles.preview} onClick={props.onPreview}>
+            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
+              :
+              <NoEyeSvg color={colors.green} className={styles.eye}/>
+            }
+            {!props.preview ? <div className={styles.text}>Preview</div>
+              :
+              <div className={styles.text}>Close Preview Mode</div>
+            }
+          </div>
+        </FormStickyFooter>
       </Form>
     </FormikProvider>
   )

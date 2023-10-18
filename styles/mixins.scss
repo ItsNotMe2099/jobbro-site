@@ -303,6 +303,24 @@
 }
 
 
+@mixin menuDropDown() {
+  z-index: $zIndexDropDown;
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+  border-radius: 24px;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  &.opened {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
 @mixin dropDown() {
   z-index: $zIndexDropDown;
   background: $white;

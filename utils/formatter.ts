@@ -96,7 +96,7 @@ export default class Formatter {
     if (!price) {
       return ''
     }
-    return `${this.formatNumber(Math.ceil(price))} ${suffix ?? '₽'}`
+    return `${this.formatNumber(price)} ${suffix ?? '$'}`
   }
   static formatDeliveryPrice(price?: number): string {
     if (!price) {
@@ -120,6 +120,8 @@ export default class Formatter {
     const i = Math.floor(Math.log(bytes ?? 0) / Math.log(1024))
     return !bytes && '' || ((bytes ?? 0) / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
   };
+
+
 }
 
 export const pad = Formatter.pad

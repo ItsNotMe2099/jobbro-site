@@ -9,6 +9,7 @@ import BenefitRepository from '@/data/repositories/BenefitRepository'
 interface Props extends IField<IBenefit[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
+  className?: string
 }
 
 export default function BenefitField(props: Props) {
@@ -49,7 +50,7 @@ export default function BenefitField(props: Props) {
                                      label: i.title,
                                      value: i
                                    }))}
-                                   placeholder={'Enter benefit'}
+                                   placeholder={props.placeholder ?? 'Search benefits'}
                                    onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>
   )

@@ -6,3 +6,22 @@
     @include list(32px, false);
     position: relative;
 }
+
+
+
+.preview {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  @include list(8px, true);
+
+  .text {
+    @include btnText;
+    color: $green;
+  }
+}
+
+.eye {
+  width: 24px;
+  height: 24px;
+}

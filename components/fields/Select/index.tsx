@@ -13,7 +13,7 @@ import type {
 
 import Creatable, {CreatableProps} from 'react-select/creatable'
 import {AsyncPaginate, ComponentProps, UseAsyncPaginateParams, withAsyncPaginate} from 'react-select-async-paginate'
-import {ReactElement, ReactNode, useEffect, useRef, useState} from 'react'
+import {ReactElement, ReactNode, useRef, useState} from 'react'
 import ChevronDownSvg from '@/components/svg/ChevronDownSvg'
 import { colors } from '@/styles/variables'
 import SearchSvg from '@/components/svg/SearchSvg'
@@ -31,6 +31,7 @@ interface Props<T> {
   noOptionsMessage?: Nullable<string>
   resettable?: boolean
   menuPosition?: string
+  isLoading?: boolean | undefined
  }
 
 export default function Select<T>(props: Props<T>) {
@@ -59,6 +60,7 @@ export default function Select<T>(props: Props<T>) {
           [styles.hover]: hover,
           [styles.press]: press,
         })}
+        isLoading={props.isLoading}
         classNamePrefix="yg-select"
         isSearchable={false}
         placeholder={props.placeholder}
@@ -66,7 +68,7 @@ export default function Select<T>(props: Props<T>) {
           props.onChange((option as IOption<T>)?.value)
         }}
         options={props.options as any}
-        components={{ DropdownIndicator } as any}
+        components={{  DropdownIndicator: DropdownChevronIndicator } as any}
         {...(props.selectProps ? { ...props.selectProps } : {})}
         {...(selected ? { defaultValue: selected } : {})}
       />
@@ -87,16 +89,14 @@ interface AsyncProps<T> {
   selectProps?: Nullable<SelectProps>
   resettable?: boolean
   menuPosition?: 'fixed' | 'absolute'
+  defaultOption?: Nullable<IOption<T>>
 }
 export function SelectAsync<T>(props: AsyncProps<T>) {
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
   const [selected, setSelected] = useState<any>(null)
-  useEffect(() => {
-console.log('ReRender')
-  }, [])
-  console.log('Selected1', selected)
+
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
       {props.label && (
@@ -107,8 +107,8 @@ console.log('ReRender')
         </div>
       )}
       <AsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
-        defaultValue={selected}
-        value={selected}
+        defaultValue={selected ?? props.defaultOption}
+        value={selected ?? props.defaultOption}
         ref={mainRef}
         selectRef={(ref) => selectRef.current = ref as any}
         loadOptions={props.loadOptions!}
@@ -132,7 +132,7 @@ console.log('ReRender')
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}
-        components={{ DropdownIndicator } as any}
+        components={{ DropdownIndicator: DropdownChevronIndicator } as any}
         {...props.selectProps}
 
       />
@@ -213,7 +213,7 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}
-        components={{ DropdownIndicator } as any}
+        components={{  DropdownIndicator: DropdownChevronIndicator } as any}
 
       />
     </div>
@@ -222,18 +222,25 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
 
 
 
-function DropdownIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
+function DropdownChevronIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
   return (
     <div>
-      {props.selectProps.isSearchable ?
-        <SearchSvg color={colors.textSecondary} className={classNames({
-          [styles.indicator]: true,
-        })} />
-        :
         <ChevronDownSvg color={colors.textSecondary} className={classNames({
           [styles.indicator]: true,
           [styles.indicatorInverse]: props.selectProps.menuIsOpen,
-        })} />}
+        })} />
+    </div>
+  )
+}
+
+
+function DropdownSearchIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
+  return (
+    <div>
+     <SearchSvg color={colors.textSecondary} className={classNames({
+          [styles.indicator]: true,
+        })} />
+
     </div>
   )
 }

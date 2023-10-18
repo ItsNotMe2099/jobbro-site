@@ -1,46 +1,43 @@
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import { FormikProps } from 'formik'
-import { FormData } from '../..'
-import Switch from '@/components/ui/Switch'
-import { useState } from 'react'
 import RichTextField from '@/components/fields/RichTextField'
 import SelectField from '@/components/fields/SelectField'
+import SwitchField from '@/components/fields/SwitchField'
+import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
+import Dictionary from '@/utils/Dictionary'
+import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 
 // Define a type for the Formik instance
-type MyFormikType = FormikProps<FormData>
+type MyFormikType = FormikProps<IVacancyFormData>
 
 interface Props {
   formik: MyFormikType
 }
 
 export default function WorkflowForm(props: Props) {
-
-  const [replyApply, setReplyApply] = useState<boolean>(false)
-  const [replyDecline, setReplyDecline] = useState<boolean>(false)
-
   return (
     <div className={styles.root}>
       <Card title='Settings'>
         <div className={styles.wrapper}>
           <div className={styles.line}>
-            <SelectField label='CV' className={styles.select} name='cv' options={[]} />
-            <SelectField label='Cover letter' className={styles.select} name='coverLetter' options={[]} />
+            <SelectField<ApplicationInfoRequirements> label='CV' className={styles.select} name='cvRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
+            <SelectField<ApplicationInfoRequirements> label='Cover letter' className={styles.select} name='coverLetterRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
           </div>
-          <SelectField label='Application form language' className={styles.select} name='office' options={[]} />
+          <SelectField label='Application form language' className={styles.select} name='applicationFormLanguage' options={[]} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>Automated reply when apply</div>
-        <Switch checked={replyApply} onChange={() => setReplyApply(!replyApply)} />
+        <SwitchField name={'applyAutoMessage.enabled'} />
       </div>}>
-        {replyApply ? <RichTextField placeholder='Type your reply when apply' name='replyApply' /> : <></>}
+        {props.formik.values.applyAutoMessage?.enabled ? <RichTextField placeholder='Type your reply when apply' name='applyAutoMessage.template' /> : <></>}
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>Automated reply when decline</div>
-        <Switch checked={replyDecline} onChange={() => setReplyDecline(!replyDecline)} />
+        <SwitchField name={'declineAutoMessage.enabled'} />
       </div>}>
-        {replyDecline ? <RichTextField placeholder='Type your reply when decline' name='replyDecline' /> : <></>}
+        {props.formik.values.declineAutoMessage?.enabled ? <RichTextField placeholder='Type your reply when decline' name='declineAutoMessage.template' /> : <></>}
       </Card>
     </div>
   )

@@ -49,7 +49,7 @@ export default function KeywordField(props: Props) {
                                      label: i.title,
                                      value: i
                                    }))}
-                                   placeholder={'Enter keyword'}
+                                   placeholder={props.placeholder ?? 'Enter keywords'}
                                    onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>
   )

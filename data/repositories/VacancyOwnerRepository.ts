@@ -2,7 +2,6 @@ import request from 'utils/request'
 import {AxiosRequestConfig} from 'axios/index'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
-import {IManagerCreateRequest} from '@/data/interfaces/IManagerCreateRequest'
 import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListRequest'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 
@@ -25,7 +24,7 @@ export default class VacancyOwnerRepository {
     return res
   }
 
-  static async update(id: number, data: DeepPartial<IManagerCreateRequest>): Promise<IVacancy> {
+  static async update(id: number, data: DeepPartial<IVacancy>): Promise<IVacancy> {
     const res = await request<IVacancy>({
       method: 'patch',
       url: `/api/vacancy/${id}`,

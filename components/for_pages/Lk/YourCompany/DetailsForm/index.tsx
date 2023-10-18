@@ -14,16 +14,17 @@ import {FormikHelpers} from 'formik/dist/types'
 import {omit} from '@/utils/omit'
 import {ICompany} from '@/data/interfaces/ICompany'
 import {useAppContext} from '@/context/state'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import {useRef} from 'react'
 import CountryField from '@/components/fields/CountryField'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
+import {IGeoName} from '@/data/interfaces/ILocation'
 
 interface IFormData {
   name: Nullable<string>
   url: Nullable<string>
   employeesCount: Nullable<number>
   industryId: Nullable<number>
-  countryId: Nullable<number>
+  country: Nullable<IGeoName>
   about: {description: Nullable<string>, visible: boolean}
   mission: {description: Nullable<string>, visible: boolean}
   culture: {description: Nullable<string>, visible: boolean}
@@ -43,9 +44,11 @@ export default function CompanyDetailsForm(props: Props) {
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     console.log('handleSubmit')
     try {
+
       const submitData: DeepPartial<ICompany> = {
-        ...omit(data, ['benefits', 'images']),
-        benefitsIds: data.benefits.map(i => i.id)
+        ...omit(data, ['benefits', 'images', 'country']),
+        benefitsIds: data.benefits.map(i => i.id),
+        countryId: data.country?.geonameid,
       } as DeepPartial<ICompany>
 
       if(companyOwnerContext.company){
@@ -69,7 +72,7 @@ export default function CompanyDetailsForm(props: Props) {
     url: companyOwnerContext.company?.url ?? '',
     employeesCount: companyOwnerContext.company?.employeesCount ?? null,
     industryId: companyOwnerContext.company?.industryId ?? null,
-    countryId: companyOwnerContext.company?.countryId ?? null,
+    country: companyOwnerContext.company?.country ?? null,
     about: companyOwnerContext.company?.about ?? {description: null, visible: false},
     mission: companyOwnerContext.company?.mission ?? {description: null, visible: false},
     culture: companyOwnerContext.company?.culture ?? {description: null, visible: false},
@@ -78,6 +81,7 @@ export default function CompanyDetailsForm(props: Props) {
     domain: companyOwnerContext.company?.domain ?? null,
     images: companyOwnerContext.company?.images ?? [],
   }
+  console.log('InitialValues', initialValues, companyOwnerContext.loading, companyOwnerContext.company)
 
   const formik = useFormik<IFormData>({
     initialValues,
@@ -99,7 +103,7 @@ export default function CompanyDetailsForm(props: Props) {
               <SelectField placeholder='Number of employees' className={styles.select} name='employeesCount'
                            options={[]}/>
               <InputField placeholder='Industry' className={styles.select} name='industryId' />
-              <CountryField placeholder='Country' className={styles.select} name='countryId'/>
+              <CountryField placeholder='Country' className={styles.select} name='country'/>
             </div>
           </Card>
           <Card title={<div className={styles.top}>
@@ -127,7 +131,7 @@ export default function CompanyDetailsForm(props: Props) {
           </div>}>
             {formik.values.advantages.visible && <RichTextField name='advantages.description'/>}
           </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}/>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} loading={companyOwnerContext.editLoading}/>
       </Form>
     </FormikProvider>
   )

@@ -1,18 +1,17 @@
 import styles from './index.module.scss'
 import { RenderPropSticky } from 'react-sticky-el'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
 import { useAppContext } from '@/context/state'
 import { usePosition } from '@ernestorb/useposition'
 import { useWindowWidth } from '@react-hook/window-size'
-import NoEyeSvg from '@/components/svg/NoEyeSvg'
+import {ReactElement} from 'react'
 
-interface Props {
+export interface FormStickyFooterProps {
   boundaryElement: string
   formRef: React.RefObject<HTMLElement>
-  onPreview?: () => void
-  preview?: boolean
+
+}
+interface Props extends FormStickyFooterProps{
+  children?: ReactElement | ReactElement[]
 }
 
 export default function FormStickyFooter(props: Props) {
@@ -47,22 +46,8 @@ export default function FormStickyFooter(props: Props) {
             ref={wrapperRef}
           >
             <div className={styles.root}>
-              <Button type='submit' styleType='large' color='green'>
-                Publish
-              </Button>
-              <Button styleType='large' color='white'>
-                Save Template
-              </Button>
-              <div className={styles.preview} onClick={props.onPreview}>
-                {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
-                  :
-                  <NoEyeSvg color={colors.green} className={styles.eye} />
-                }
-                {!props.preview ? <div className={styles.text}>Preview</div>
-                  :
-                  <div className={styles.text}>Close Preview Mode</div>
-                }
-              </div>
+              {props.children}
+
             </div>
           </div>
         </div>

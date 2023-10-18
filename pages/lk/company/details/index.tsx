@@ -2,14 +2,16 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import {LkCompanyPageLayout} from '@/components/for_pages/Lk/YourCompany/LkCompanyLayout'
 import CompanyDetailsForm from '@/components/for_pages/Lk/YourCompany/DetailsForm'
+import {useCompanyOwnerContext} from '@/context/company_owner_state'
 
 interface Props {
 
 }
 
 const LkCompanyDetailsPage = (props: Props) => {
+  const companyOwnerContext = useCompanyOwnerContext()
   return (
-    <CompanyDetailsForm/>
+    companyOwnerContext.loading ? null : <CompanyDetailsForm/>
   )
 }
 

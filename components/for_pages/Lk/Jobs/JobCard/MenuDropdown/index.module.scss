@@ -1,18 +1,20 @@
 @import "styles/index";
 
 .root {
-    display: flex;
-    flex-direction: column;
-    @include list(16px, false);
-    background-color: $white;
-    border-radius: 24px;
-    width: 100%;
-    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
-    padding-bottom: 24px;
+@include menuDropDown;
+  width: 265px;
 }
+.group{
+  display: flex;
+  flex-direction: column;
 
-.status,
-.operations {
+}
+.options{
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+.groupName {
     color: $text-secondary;
     font-size: 16px;
     font-style: normal;
@@ -23,13 +25,6 @@
     padding: 0 24px;
 }
 
-.status {
-    padding-top: 24px;
-}
-
-.operations {
-    margin-top: 36px;
-}
 
 .option {
     font-size: 16px;
@@ -38,7 +33,17 @@
     line-height: 100%;
     letter-spacing: -0.16px;
     color: $text-primary;
-    padding: 0 24px;
+    padding: 8px 24px;
+  cursor: pointer;
+  &:first-of-type{
+    padding-top: 16px;
+  }
+  &:last-of-type{
+    padding-bottom: 16px;
+  }
+  &:hover{
+    color: $green;
+  }
 }
 
 .separator {

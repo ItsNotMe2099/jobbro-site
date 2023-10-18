@@ -47,11 +47,11 @@ export function CompanyOwnerWrapper(props: Props) {
   const [company, setCompany] = useState<Nullable<ICompany>>(props.company as Nullable<ICompany>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [publishLoading, setPublishLoading] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   const [editLoading, setEditLoading] = useState<boolean>(false)
   useEffect(() => {
     setCompany(props.company as Nullable<ICompany>)
-
+    setLoading(false)
   }, [props.company])
   const fetch = async (): Promise<Nullable<ICompany>> => {
     try {

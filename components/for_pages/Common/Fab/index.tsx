@@ -9,7 +9,7 @@ interface Props {
   active?: boolean
 }
 
-export default function Add(props: Props) {
+export default function Fab(props: Props) {
 
   return (
     <div onClick={props.onClick} className={classNames(styles.root, props.className)}>

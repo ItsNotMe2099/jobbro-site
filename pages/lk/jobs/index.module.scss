@@ -39,20 +39,22 @@
     position: relative;
 }
 
+
 .plus {
-    position: absolute;
-    margin: 0 !important;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
+  position: absolute;
+  margin: 0 !important;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .menu {
-    position: absolute;
-    width: auto !important;
+  position: absolute;
+  width: auto !important;
 }
+
 
 .sort {
     width: 256px;

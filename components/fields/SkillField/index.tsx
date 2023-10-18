@@ -9,9 +9,10 @@ import SkillRepository from '@/data/repositories/SkillRepository'
 interface Props extends IField<ISkill[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
+  className?: string
 }
 
-export default function BenefitField(props: Props) {
+export default function SkillField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field] = useField<ISkill[]>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<ISkill>[], data: any): Promise<{ options: IOption<ISkill>[], hasMore: boolean, additional?: any | null }> => {
@@ -49,7 +50,7 @@ export default function BenefitField(props: Props) {
                                      label: i.title,
                                      value: i
                                    }))}
-                                   placeholder={'Enter benefit'}
+                                   placeholder={props.placeholder ?? 'Search skills'}
                                    onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>
   )

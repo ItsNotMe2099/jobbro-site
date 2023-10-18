@@ -16,6 +16,9 @@
   flex: 1;
 
   :global {
+    .yg-select__menu-portal {
+      z-index: 2;
+    }
     .yg-select__menu {
       background-color: #EEF4F9;
       z-index: 3;
@@ -71,15 +74,14 @@
       padding: 0px 16px;
       background-color: transparent;
       cursor: pointer;
-
       &:active {
         background: $simple-grey;
       }
-
     }
 
     .yg-select__option--is-focused {
       background: $green;
+      color: $white;
     }
 
     .yg-select__option--is-selected {

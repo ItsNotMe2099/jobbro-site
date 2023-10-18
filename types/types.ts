@@ -27,6 +27,10 @@ export interface IField<T> extends FieldConfig<T> {
 
 export type Nullable<T> = T | null
 
+export interface IOptionGroup<T>{
+  title: string
+  options: IOption<T>[]
+}
 export interface IOption<T> {
   label?: string
   value?: T

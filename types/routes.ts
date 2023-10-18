@@ -37,6 +37,9 @@ export class Routes {
   static lkJob(id: string | number) {
     return `/lk/jobs/${id}`
   }
+  static lkJobEdit(id: string | number) {
+    return `/lk/jobs/${id}/edit`
+  }
 
   static get lkJobsCreateJobManually() {
     return '/lk/jobs/create-job-manually'

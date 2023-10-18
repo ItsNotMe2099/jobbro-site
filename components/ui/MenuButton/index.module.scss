@@ -1,0 +1,10 @@
+@import "styles/index";
+.root {
+  position: relative;
+  &.fluid{
+    width: 100%;
+  }
+}
+.menu {
+  cursor: pointer;
+}
