@@ -45,7 +45,7 @@ export default function StickyFab(props: Props) {
             ref={wrapperRef}
           >
             <div className={styles.root}>
-              {props.children ? props.children :  <Fab active={true} onClick={props.onClick}/>}
+              {props.children ? props.children :  <Fab active={false} onClick={props.onClick}/>}
             </div>
           </div>
         </div>

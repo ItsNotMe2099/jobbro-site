@@ -28,6 +28,7 @@ import {omit} from '@/utils/omit'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {IKeyword} from '@/data/interfaces/IKeyword'
 import {Routes} from '@/types/routes'
+import {PublishStatus} from '@/data/enum/PublishStatus'
 
 
 enum TabKey {
@@ -138,6 +139,19 @@ export default function CreateJobManuallyForm(props: Props) {
   ]
   console.log('FORMIK', formik.values)
 
+  const handleSaveClick = async () => {
+    if(!vacancyContext.vacancy){
+      await formik.setFieldValue('status', PublishStatus.Draft)
+    }
+
+    await formik.submitForm()
+  }
+
+
+  const handlePublishClick = async () => {
+    await formik.setFieldValue('status', PublishStatus.Published)
+    await formik.submitForm()
+  }
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.form}>
@@ -146,11 +160,12 @@ export default function CreateJobManuallyForm(props: Props) {
         {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
         {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
         <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
-          <Button type='submit' styleType='large' color='green'>
+          <>
+          {(!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} styleType='large' color='green'>
             Publish
-          </Button>
-          <Button styleType='large' color='white'>
-            Save Template
+          </Button>}
+          <Button onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
+            {!vacancyContext.vacancy! ? 'Save as draft' : 'Save'}
           </Button>
           <div className={styles.preview} onClick={props.onPreview}>
             {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
@@ -162,6 +177,7 @@ export default function CreateJobManuallyForm(props: Props) {
               <div className={styles.text}>Close Preview Mode</div>
             }
           </div>
+          </>
         </FormStickyFooter>
       </Form>
     </FormikProvider>

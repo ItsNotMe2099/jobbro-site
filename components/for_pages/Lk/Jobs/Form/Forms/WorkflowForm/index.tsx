@@ -24,7 +24,7 @@ export default function WorkflowForm(props: Props) {
             <SelectField<ApplicationInfoRequirements> label='CV' className={styles.select} name='cvRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
             <SelectField<ApplicationInfoRequirements> label='Cover letter' className={styles.select} name='coverLetterRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
           </div>
-          <SelectField label='Application form language' className={styles.select} name='applicationFormLanguage' options={[]} />
+          <SelectField<string> label='Application form language' className={styles.select} name='applicationFormLanguage' options={[{label: 'English', value: 'en'}]} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>
