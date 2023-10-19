@@ -6,6 +6,7 @@ import PageTitle from '@/components/for_pages/Common/PageTitle'
 import Filter from '@/components/for_pages/Lk/Jobs/Filter'
 import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
+import Stages from '@/components/for_pages/Lk/HiringBoards/Stages'
 
 
 const HiringBoard = () => {
@@ -35,13 +36,13 @@ const HiringBoard = () => {
   const item = jobs.find(i => i.id.toString() === router.query.id)
 
   const candidates = [
-    { avatar: '/photos/photo1.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo2.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo3.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo1.png', status: 'interview', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo2.png', status: 'awaiting-response', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo1.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
-    { avatar: '/photos/photo2.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr' },
+    { avatar: '/photos/photo1.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 1 },
+    { avatar: '/photos/photo2.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 2 },
+    { avatar: '/photos/photo3.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 3 },
+    { avatar: '/photos/photo1.png', status: 'interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 4 },
+    { avatar: '/photos/photo2.png', status: 'awaiting-response', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 5 },
+    { avatar: '/photos/photo1.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 6 },
+    { avatar: '/photos/photo2.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 7 },
   ]
 
   const options = [
@@ -53,6 +54,7 @@ const HiringBoard = () => {
       <PageTitle title={item?.name} link={Routes.lkHiringBoards} />
       <div className={styles.wrapper}>
         <Filter options={options} />
+        <Stages candidates={candidates} />
       </div>
     </div>
   )

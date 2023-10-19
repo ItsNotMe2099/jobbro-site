@@ -1,0 +1,8 @@
+@import "styles/index";
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+    width: 312px;
+}
