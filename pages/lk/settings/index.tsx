@@ -1,15 +1,17 @@
-//import styles from './index.module.scss'
-
-import Layout from '@/components/layout/Layout'
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
+import {Routes} from '@/types/routes'
 
 
-export default function DashBoard() {
-  return (
-    <Layout>
+export default function SettingsPage() {
 
-    </Layout>
-  )
+  return null
 }
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee, async (context) => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: Routes.lkSettingsPayments,
+    }
+  }
+})

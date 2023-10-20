@@ -1,0 +1,23 @@
+@import "styles/index";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+  position: relative;
+}
+
+.line {
+  display: flex;
+  @include list(24px, true);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  @include list(24px, false);
+}
+
+.select {
+  width: 100%;
+}

@@ -69,6 +69,30 @@ export class Routes {
     return '/lk/settings'
   }
 
+  static get lkSettingsPayments() {
+    return '/lk/settings/payments'
+  }
+
+  static get lkSettingsPaymentsMethod() {
+    return '/lk/settings/payments/method'
+  }
+
+  static get lkSettingsReferrals() {
+    return '/lk/settings/referrals'
+  }
+
+  static get lkSettingsIntegrations() {
+    return '/lk/settings/integrations'
+  }
+
+  static get lkSettingsSocialSharing() {
+    return '/lk/settings/social-sharing'
+  }
+
+  static get lkSettingsJobWidget() {
+    return '/lk/settings/job-widget'
+  }
+
   static get lkCompany() {
     return '/lk/company'
   }
@@ -80,14 +104,14 @@ export class Routes {
     return '/lk/company/career'
   }
 
-  static get lkCompanyOffices(){
+  static get lkCompanyOffices() {
     return '/lk/company/offices'
   }
 
-  static lkCompanyOffice(id: number){
+  static lkCompanyOffice(id: number) {
     return `/lk/company/offices/${id}`
   }
-  static get lkCompanyOfficeCreate(){
+  static get lkCompanyOfficeCreate() {
     return '/lk/company/offices/new'
   }
 
