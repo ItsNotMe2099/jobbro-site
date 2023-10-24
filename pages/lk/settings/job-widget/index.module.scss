@@ -1,4 +1,101 @@
 @import "styles/index";
-.root{
 
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.top {
+    display: flex;
+    @include list(32px, true);
+}
+
+.title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    color: $text-primary;
+}
+
+.text,
+.text2 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-primary;
+    margin-top: 14px;
+}
+
+.controls {
+    display: flex;
+    @include list(24px, true);
+    margin-top: 16px;
+    align-items: center;
+}
+
+.contact {
+    padding: 0 12px;
+    background-color: $background-success;
+    color: $green;
+}
+
+.more {
+    color: $green;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+}
+
+.share {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.link {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.copy {
+    padding: 6px 12px;
+    background-color: $background-success;
+    border-radius: 8px;
+    display: flex;
+    @include list(8px, true);
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .text {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px;
+        color: $green;
+    }
+}
+
+.code {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-secondary;
+    margin: 0;
+    letter-spacing: -0.16px;
 }

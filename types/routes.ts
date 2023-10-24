@@ -93,6 +93,22 @@ export class Routes {
     return '/lk/settings/job-widget'
   }
 
+  static get lkSettingsConfigWidgetSettings() {
+    return '/lk/settings/job-widget/configure-widget/settings'
+  }
+
+  static get lkSettingsConfigWidgetDesign() {
+    return '/lk/settings/job-widget/configure-widget/design'
+  }
+
+  static get lkSettingsConfigWidgetIncludedJobs() {
+    return '/lk/settings/job-widget/configure-widget/included-jobs'
+  }
+
+  static get lkSettingsConfigWidget() {
+    return '/lk/settings/job-widget/configure-widget'
+  }
+
   static get lkCompany() {
     return '/lk/company'
   }

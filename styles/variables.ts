@@ -43,5 +43,6 @@ export const colors = {
   darkBlue: '#476BB2',
   darkOrange: '#CC8552',
   lightBlue: '#C7DDFF',
-  blue2: '#0D54BE'
+  blue2: '#0D54BE',
+  backgroundSuccess: '#DBF9DD'
 }

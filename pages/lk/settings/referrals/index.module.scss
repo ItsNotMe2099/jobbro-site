@@ -1,4 +1,113 @@
 @import "styles/index";
-.root{
 
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.top {
+    display: flex;
+    @include list(32px, true);
+}
+
+.title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    color: $text-primary;
+}
+
+.text,
+.text2 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-secondary;
+    margin-top: 16px;
+}
+
+.share {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.link {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.copy {
+    padding: 6px 12px;
+    background-color: $background-success;
+    border-radius: 8px;
+    display: flex;
+    @include list(8px, true);
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .text {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px;
+        color: $green;
+    }
+}
+
+.stats {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+}
+
+.cardTitle {
+    @include h2;
+}
+
+.text2 {
+    margin-top: 8px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+}
+
+.name {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.desc {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-secondary;
+    letter-spacing: -0.16px;
 }
