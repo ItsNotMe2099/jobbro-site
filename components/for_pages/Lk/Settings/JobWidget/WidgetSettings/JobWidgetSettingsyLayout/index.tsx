@@ -26,7 +26,7 @@ const JobConfigureWidgetPageLayoutInner = (props: Props) => {
 
   return (
     <div className={styles.root}>
-      <PageTitle title='Settings' link={Routes.lkSettingsJobWidget} />
+      <PageTitle title='Configure Widget' link={Routes.lkSettingsJobWidget} />
       <Tabs<TabKey> options={options} />
       {props.children}
     </div>

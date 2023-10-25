@@ -75,15 +75,15 @@
 .white {
   background: transparent;
   color: $green;
-  border: 1px solid $green;
+  border: 2px solid $green;
 
   &:hover {
-    border: 1px solid $green-hover;
+    border: 2px solid $green-hover;
     color: $green-hover;
   }
 
   &:active {
-    border: 1px solid $green-active;
+    border: 2px solid $green-active;
     color: $green-active;
   }
 }

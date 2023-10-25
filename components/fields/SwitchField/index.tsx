@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 interface Props {
   onChange?: (val: boolean) => void
-  label?: string
+  label?: string | React.ReactNode
   className?: string
 }
 

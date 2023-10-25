@@ -1,6 +1,7 @@
-import {getAuthServerSideProps} from '@/utils/auth'
-import {ProfileType} from '@/data/enum/ProfileType'
+import { getAuthServerSideProps } from '@/utils/auth'
+import { ProfileType } from '@/data/enum/ProfileType'
 import { JobWidgetSettingsPageLayout } from '@/components/for_pages/Lk/Settings/JobWidget/WidgetSettings/JobWidgetSettingsyLayout'
+import IncludedJobsForm from '@/components/for_pages/Lk/Settings/JobWidget/WidgetSettings/IncludedJobsForm'
 
 interface Props {
 
@@ -9,7 +10,7 @@ interface Props {
 const ConfigWidgetIncludedJobsPage = (props: Props) => {
 
   return (
-    <></>
+    <IncludedJobsForm />
   )
 }
 
