@@ -9,7 +9,7 @@ interface Props {
   label?: string | React.ReactNode
   className?: string
   visible?: boolean
-  setVisible?: () => void
+  setVisible: () => void
   color: string
   disabled?: boolean
 }
@@ -29,10 +29,10 @@ export default function HexColorPickerField(props: Props & FieldConfig) {
     <div
       className={classNames(styles.picker, props.className,
         { [styles.default]: !props.visible, [styles.disabled]: props.disabled })}
-      onClick={props.setVisible}>
+      onClick={() => !props.disabled ? props.setVisible() : null}>
       <div className={styles.color} style={{ backgroundColor: props.color }} />
       <div className={styles.hex}>{props.color}</div>
-      {props.visible && <HexColorPicker className={styles.colors} color={field.value} onChange={handleChange} />}
+      {props.visible && !props.disabled && <HexColorPicker className={styles.colors} color={field.value} onChange={handleChange} />}
     </div>
   )
 }
