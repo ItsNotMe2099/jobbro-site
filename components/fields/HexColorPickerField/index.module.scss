@@ -1,14 +1,50 @@
 @import "styles/index";
 
-.root{
-  position: relative;
-  gap: 12px;
+.picker {
   display: flex;
-}
-
-.label{
+  align-items: center;
+  @include list(16px, true);
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid $simple-grey;
   cursor: pointer;
-  @include mainText;
-
+  position: relative;
 }
 
+.color {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+.hex {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+  text-transform: uppercase;
+}
+
+.colors {}
+
+.default {
+  width: 185px;
+}
+
+.disabled {
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+
+  .hex{
+    color: #c1c1c1;
+  }
+
+  .color{
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    background-color: #f5f5f5 !important;
+  }
+}

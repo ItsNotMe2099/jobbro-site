@@ -2,11 +2,16 @@ import styles from './index.module.scss'
 import { FieldConfig, useField, useFormikContext } from 'formik'
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
+import classNames from 'classnames'
 
 interface Props {
   onChange?: (val: string) => void
   label?: string | React.ReactNode
   className?: string
+  visible?: boolean
+  setVisible?: () => void
+  color: string
+  disabled?: boolean
 }
 
 export default function HexColorPickerField(props: Props & FieldConfig) {
@@ -21,6 +26,13 @@ export default function HexColorPickerField(props: Props & FieldConfig) {
   }
 
   return (
-    <HexColorPicker className={styles.colors} color={field.value} onChange={handleChange} />
+    <div
+      className={classNames(styles.picker, props.className,
+        { [styles.default]: !props.visible, [styles.disabled]: props.disabled })}
+      onClick={props.setVisible}>
+      <div className={styles.color} style={{ backgroundColor: props.color }} />
+      <div className={styles.hex}>{props.color}</div>
+      {props.visible && <HexColorPicker className={styles.colors} color={field.value} onChange={handleChange} />}
+    </div>
   )
 }

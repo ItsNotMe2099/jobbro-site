@@ -57,12 +57,13 @@ export default function SocialSharingForm(props: Props) {
                   Personalise your ad with a colour that fits your brand
                 </div>
               </div>
-              <div className={styles.picker} onClick={() => setVisible(true)}>
-                <div className={styles.color} style={{ backgroundColor: props.color }} />
-                <div className={styles.hex}>{props.color}</div>
-                {visible && <HexColorPickerField name='color'
-                  className={styles.colors} onChange={handlePickColor} />}
-              </div>
+              <HexColorPickerField
+                setVisible={() => setVisible(true)}
+                color={props.color}
+                name='color'
+                onChange={handlePickColor}
+                visible={visible}
+              />
             </div>
             <div className={styles.text}>
               <div className={styles.title}>
