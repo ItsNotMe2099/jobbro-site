@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
 import NoEyeSvg from '@/components/svg/NoEyeSvg'
+import Card from '@/components/for_pages/Common/Card'
 
 
 interface IFormData {
@@ -40,7 +41,15 @@ export default function IncludedJobsForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
+        <Card title={'Category'}>
+          
+        </Card>
+        <Card title={'Location'}>
 
+        </Card>
+        <Card title={'Employment Type'}>
+
+        </Card>
         <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
           <Button spinner={false} type='submit' styleType='large' color='green'>
             Save

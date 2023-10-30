@@ -22,6 +22,18 @@ export class Routes {
     return '/'
   }
 
+  static get profile() {
+    return '/profile'
+  }
+
+  static get profileSettings() {
+    return '/profile/settings'
+  }
+
+  static get profileResume() {
+    return '/profile/resume'
+  }
+
   static get lk() {
     return '/lk'
   }
