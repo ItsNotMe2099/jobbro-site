@@ -12,18 +12,18 @@ interface Props {
 
 export const Calendar = (props: Props) => {
   return (
-    <Card>
+    <Card className={styles.root}>
       <div className={styles.wrapper}>
         <div className={styles.top}>
           <div className={styles.calendar}>
             <CalendarSvg color={colors.white} />
           </div>
           <div className={styles.date}>
-            {format(new Date(), 'EEEE, MMMM dd')}
+            {format(new Date(), 'EEEE, MMM dd')}
           </div>
         </div>
         <div className={styles.separator} />
-        <CalendarPictureSvg />
+        <CalendarPictureSvg className={styles.pic} />
         <div className={styles.schedule}>
           No scheduled meets
         </div>

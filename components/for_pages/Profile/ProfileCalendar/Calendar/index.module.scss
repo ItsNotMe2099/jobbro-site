@@ -1,12 +1,8 @@
 @import "styles/index";
 
 .root {
-  display: flex;
-  -webkit-box-flex: 1;
-  flex-grow: 1;
-  transition: margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  @include list(32px, true);
   width: 325px;
+  max-height: 470px;
 }
 
 .container {
@@ -33,6 +29,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pic {
+  margin-top: 34px;
+  margin-bottom: 10px;
 }
 
 .date {

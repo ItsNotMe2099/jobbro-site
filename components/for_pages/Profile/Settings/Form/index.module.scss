@@ -1,0 +1,165 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(16px, false);
+}
+
+.text {
+    display: flex;
+    align-items: center;
+
+    .title, .titleWithSwitch {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        color: $text-primary;
+        letter-spacing: -0.16px;
+        width: 164px;
+    }
+
+    .titleWithSwitch{
+        width: 120px;
+    }
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    @include list(40px, true);
+}
+
+.picker {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid $simple-grey;
+    cursor: pointer;
+    position: relative;
+}
+
+.color {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.hex {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+    text-transform: uppercase;
+}
+
+.colors {}
+
+.preview {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    @include list(8px, true);
+
+    .text {
+        @include btnText;
+        color: $green;
+    }
+}
+
+.eye {
+    width: 24px;
+    height: 24px;
+}
+
+.default {
+    width: 185px;
+}
+
+.cardTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+        @include h2;
+    }
+
+    .reset {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        color: $green;
+        letter-spacing: -0.16px;
+        cursor: pointer;
+    }
+}
+
+.title {
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.24px;
+}
+
+.field {
+    padding: 16px;
+    background-color: $background-secondary;
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+    border-radius: 8px;
+}
+
+.site {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-secondary;
+    letter-spacing: -0.14px;
+}
+
+.link {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.desc {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.more {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    color: $green;
+    letter-spacing: -0.18px;
+    margin-top: 16px;
+    cursor: pointer;
+}
