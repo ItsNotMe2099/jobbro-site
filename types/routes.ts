@@ -34,6 +34,10 @@ export class Routes {
     return '/profile/resume'
   }
 
+  static profileResumeEdit(id: string | number) {
+    return `/profile/resume/edit/${id}`
+  }
+
   static get lk() {
     return '/lk'
   }

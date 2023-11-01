@@ -1,0 +1,91 @@
+@import "styles/index";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+  position: relative;
+}
+
+
+
+.preview {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  @include list(8px, true);
+
+  .text {
+    @include btnText;
+    color: $green;
+  }
+}
+
+.eye {
+  width: 24px;
+  height: 24px;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+}
+
+.clear {
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.line {
+  display: flex;
+  @include list(24px, true);
+}
+
+.select {
+  flex: 1;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  @include list(24px, false);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  @include list(16px, true);
+}
+
+.skills {
+  @include clearfix;
+  margin-bottom: 24px;
+}
+
+.skill {
+  border: 1px solid $green;
+  float: left;
+  margin: 0;
+  margin-right: 16px;
+}
+
+.add {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.16px;
+  cursor: pointer;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+
+.remove {
+  cursor: pointer;
+}

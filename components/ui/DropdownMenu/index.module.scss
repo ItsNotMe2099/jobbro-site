@@ -22,7 +22,7 @@
 .dropDown {
   background-color: $black;
   visibility: hidden;
-  width: 265px;
+  width: 265px !important;
   border-radius: 24px;
   background-color: $white;
   padding: 24px;

@@ -6,6 +6,7 @@ import Tabs from '@/components/ui/Tabs'
 import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
 import { ProfileCalendar } from '../ProfileCalendar'
+import { useRouter } from 'next/router'
 
 enum TabKey {
   Resume = 'resume',
@@ -22,10 +23,13 @@ const ProfilePageLayoutInner = (props: Props) => {
     { label: 'Settings', value: TabKey.Settings, href: Routes.profileSettings },
   ]
 
+  const router = useRouter()
+
   return (
     <div className={styles.root}>
-      <PageTitle title='Profile' />
-      <Tabs<TabKey> options={options} />
+      <PageTitle title={router.asPath.includes('edit') ? 'Editor resume' : 'Profile'}
+        link={router.asPath.includes('edit') ? Routes.profile : ''} />
+      {!router.asPath.includes('edit') && <Tabs<TabKey> options={options} />}
       {props.children}
     </div>
   )

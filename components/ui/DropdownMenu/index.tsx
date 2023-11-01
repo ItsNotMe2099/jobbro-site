@@ -6,6 +6,7 @@ import { IOption } from '@/types/types'
 import { usePopper } from 'react-popper'
 import { beforeWrite } from '@popperjs/core'
 import DropdownSvg from '@/components/svg/DropdownSvg'
+import Link from 'next/link'
 
 const popperSameWidth = {
   name: 'sameWidth',
@@ -112,7 +113,17 @@ export default function DropdownMenu<T>(props: Props<T>) {
         <div className={styles.chevron}><DropdownSvg /></div>
       </div>
       <div ref={setPopperElement} className={classNames(styles.dropDown, { [styles.opened]: isActive })} style={popperStyles.popper}  {...attributes.popper}>
-        {props.options.map((item, index) => renderOption(item, item.value === props.value, () => handleOptionClick(item)))}
+        {props.options.map((item, index) =>
+          item.href ?
+            <Link href={item.href} key={index} className={classNames(styles.option, { [styles.optionActive]: isActive })}>
+              {item.label}
+            </Link>
+            :
+            <div key={index} className={classNames(styles.option, { [styles.optionActive]: isActive })} onClick={() => handleOptionClick(item)}>
+              {item.label}
+            </div>
+        )
+        }
       </div>
     </div>
   )
