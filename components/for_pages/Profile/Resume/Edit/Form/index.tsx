@@ -24,6 +24,7 @@ import SkillField from '@/components/fields/SkillField'
 import CurrencyField from '@/components/fields/CurrencyField'
 import LanguageField from '@/components/fields/LanguageField'
 import CloseSvg from '@/components/svg/CloseSvg'
+import CountryField from '@/components/fields/CountryField'
 
 interface Props {
   onPreview?: () => void
@@ -41,6 +42,12 @@ export interface IResumeFormData {
   skillsDescription: { description: Nullable<string>, visible: boolean }
   education: any[]
   courses: any[]
+  employer: {
+    locate: string,
+    dateOfHiring: string,
+    dateOfDismissal: string,
+    jobTitle: string
+  }
 }
 
 export default function ResumeEditForm(props: Props) {
@@ -80,6 +87,12 @@ export default function ResumeEditForm(props: Props) {
     skillsDescription: { description: null, visible: false },
     education: [{ education: '' }],
     courses: [{ course: '' }],
+    employer: {
+      locate: '',
+      dateOfHiring: '',
+      dateOfDismissal: '',
+      jobTitle: '',
+    }
   }
 
   const formik = useFormik<IResumeFormData>({
@@ -166,7 +179,6 @@ export default function ResumeEditForm(props: Props) {
               )}
             </FieldArray>
           </Card>
-
           <Card title={<div className={styles.top}>
             <div className={styles.title}>Skills</div>
             <SwitchField name={'skillsDescription.visible'} />
@@ -178,6 +190,17 @@ export default function ResumeEditForm(props: Props) {
           </Card>
           <Card title='Language Tags'>
             <LanguageField className={styles.select} placeholder='Search tags' name='skills' />
+          </Card>
+          <Card title={'Professional Experience'}>
+            <div className={styles.fields}>
+              <SelectField placeholder='Employer name' className={styles.select} name='employer' options={[]} />
+              <CountryField placeholder='Locate' className={styles.select} name='employer.locate' />
+              <div className={styles.line}>
+                <InputField name={'employer.dateOfHiring'} label={'Date of hiring'} />
+                <InputField name={'employer.dateOfDismissal'} label={'Date of dismissal'} />
+              </div>
+              <InputField name={'employer.jobTitle'} label={'Job title'} />
+            </div>
           </Card>
         </div>
         <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
