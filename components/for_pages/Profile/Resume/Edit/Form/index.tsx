@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import { FieldArray, Form, FormikProvider, useFormik } from 'formik'
-import { SnackbarType } from '@/types/enums'
+import { FileUploadAcceptType, SnackbarType } from '@/types/enums'
 import { useRef, useState } from 'react'
 import { Nullable, RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
@@ -25,6 +25,7 @@ import CurrencyField from '@/components/fields/CurrencyField'
 import LanguageField from '@/components/fields/LanguageField'
 import CloseSvg from '@/components/svg/CloseSvg'
 import CountryField from '@/components/fields/CountryField'
+import FileListField from '@/components/fields/Files/FileListField'
 
 interface Props {
   onPreview?: () => void
@@ -33,8 +34,12 @@ interface Props {
 
 export interface IResumeFormData {
   name: Nullable<string>
+  image: any
   categoryId: Nullable<number>
   subCategoryId: Nullable<number>
+  firstName: Nullable<string>
+  locate: Nullable<string>
+  relocate: any[]
   salaryMin: Nullable<number>
   salaryMax: Nullable<number>
   salaryType: Nullable<SalaryType>
@@ -42,12 +47,9 @@ export interface IResumeFormData {
   skillsDescription: { description: Nullable<string>, visible: boolean }
   education: any[]
   courses: any[]
-  employer: {
-    locate: string,
-    dateOfHiring: string,
-    dateOfDismissal: string,
-    jobTitle: string
-  }
+  employer: any[]
+  contacts: any[]
+  contactsFields: { visible: boolean }
 }
 
 export default function ResumeEditForm(props: Props) {
@@ -78,8 +80,12 @@ export default function ResumeEditForm(props: Props) {
 
   const initialValues: IResumeFormData = {
     name: null,
+    image: null,
     categoryId: null,
     subCategoryId: null,
+    firstName: null,
+    locate: null,
+    relocate: [{ label: null }],
     salaryMin: null,
     salaryMax: null,
     salaryType: null,
@@ -87,12 +93,15 @@ export default function ResumeEditForm(props: Props) {
     skillsDescription: { description: null, visible: false },
     education: [{ education: '' }],
     courses: [{ course: '' }],
-    employer: {
+    employer: [{
       locate: '',
       dateOfHiring: '',
       dateOfDismissal: '',
       jobTitle: '',
-    }
+      desc: ''
+    }],
+    contacts: [{ type: null, val: null }],
+    contactsFields: { visible: true }
   }
 
   const formik = useFormik<IResumeFormData>({
@@ -123,6 +132,32 @@ export default function ResumeEditForm(props: Props) {
               </div>
             </div>
           </Card>
+          <Card title='Details'>
+            <div className={styles.wrapper}>
+              <FileListField
+                className={styles.file}
+                isImage
+                name='image'
+                accept={[FileUploadAcceptType.Image]}
+                dropzoneTitle=
+                {
+                  <div className={styles.text}>
+                    Drag & drop image upload<br />You can use 1 images smaller than 3.5MB and at least 752px by
+                    480px.</div>
+                }
+              />
+              <InputField name='firstName' label={'Name'}
+                validate={Validator.required}
+              />
+              <div className={styles.line}>
+                <CountryField label='Locate' className={styles.select} name='locate' />
+                <SelectField
+                  className={styles.select}
+                  label='Relocate' name={'relocate'}
+                  options={[{ label: 'Not ready', value: 'no' }, { label: 'Ready', value: 'yes' }]} />
+              </div>
+            </div>
+          </Card>
           <Card title='Salary'>
             <div className={styles.line}>
               <CurrencyField className={styles.select} placeholder='EUR' name='salary' />
@@ -132,6 +167,37 @@ export default function ResumeEditForm(props: Props) {
               />
               <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryPerYear' options={Dictionary.getSalaryTypeOptions()} />
             </div>
+          </Card>
+          <Card title={<div className={styles.top}>
+            <div className={styles.title}>Contacts</div>
+            <SwitchField name={'contactsFields.visible'} />
+          </div>}>
+            {formik.values.contactsFields.visible && <FieldArray name={'contacts'}>
+              {arrayHelpers => (
+                <div className={styles.root} data-field={'contacts'}>
+                  <div className={styles.fields}>
+                    {(formik.values.contacts ?? []).map((i, index) =>
+                      <div className={styles.line} key={index}>
+                        <SelectField
+                          className={styles.select}
+                          label='Type' name={`contacts[${index}].type`}
+                          options={[{ label: 'Email', value: 'email' }, { label: 'Phone', value: 'phone' }]} />
+                        <InputField
+                          label={formik.values.contacts[index].type === 'email' ? 'Email' : 'Phone'}
+                          name={`contacts[${index}].val`}
+                          validate={formik.values.contacts[index].type === 'email' ? Validator.email : Validator.phone} />
+                        <div>
+                          <CloseSvg
+                            className={styles.remove}
+                            onClick={() => arrayHelpers.remove(index)} color={colors.textSecondary} />
+                        </div>
+                      </div>)}
+                    <div onClick={() => arrayHelpers.push({ type: null, val: null })} className={styles.add}>
+                      Add Type
+                    </div>
+                  </div>
+                </div>)}
+            </FieldArray>}
           </Card>
           <Card title={<div className={styles.top}>
             <div className={styles.title}>About me</div>
@@ -192,15 +258,32 @@ export default function ResumeEditForm(props: Props) {
             <LanguageField className={styles.select} placeholder='Search tags' name='skills' />
           </Card>
           <Card title={'Professional Experience'}>
-            <div className={styles.fields}>
-              <SelectField placeholder='Employer name' className={styles.select} name='employer' options={[]} />
-              <CountryField placeholder='Locate' className={styles.select} name='employer.locate' />
-              <div className={styles.line}>
-                <InputField name={'employer.dateOfHiring'} label={'Date of hiring'} />
-                <InputField name={'employer.dateOfDismissal'} label={'Date of dismissal'} />
-              </div>
-              <InputField name={'employer.jobTitle'} label={'Job title'} />
-            </div>
+            <FieldArray name={'employer'}>
+              {arrayHelpers => (
+                <div className={styles.root} data-field={'employer'}>
+                  <div className={styles.fields}>
+                    <SelectField placeholder='Employer name' className={styles.select} name='employer' options={[]} />
+                    <CountryField placeholder='Locate' className={styles.select} name='employer.locate' />
+                    <div className={styles.line}>
+                      <InputField name={'employer.dateOfHiring'} label={'Date of hiring'} />
+                      <InputField name={'employer.dateOfDismissal'} label={'Date of dismissal'} />
+                    </div>
+                    <InputField name={'employer.jobTitle'} label={'Job title'} />
+                    <RichTextField name='employer.desc' />
+                  </div>
+                  <div onClick={() => arrayHelpers.push({
+                    locate: '',
+                    dateOfHiring: '',
+                    dateOfDismissal: '',
+                    jobTitle: '',
+                    desc: ''
+                  })} className={styles.add}>
+                    Add Employer
+                  </div>
+                </div>
+              )}
+            </FieldArray>
+
           </Card>
         </div>
         <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>

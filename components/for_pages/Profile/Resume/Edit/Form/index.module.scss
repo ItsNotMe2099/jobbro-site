@@ -40,10 +40,11 @@
 .line {
   display: flex;
   @include list(24px, true);
+  align-items: center;
 }
 
 .select {
-  flex: 1;
+  width: 100%;
 }
 
 .wrapper {
@@ -88,4 +89,20 @@
 
 .remove {
   cursor: pointer;
+}
+
+.text {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: -0.16px;
+  color: $text-secondary;
+}
+
+.file {
+  flex-direction: row;
+  padding: 26px 24px;
+  justify-content: flex-start;
+  @include list(24px, true);
 }

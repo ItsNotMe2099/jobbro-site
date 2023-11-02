@@ -34,6 +34,7 @@ interface Props extends IField<IFile[] | null> {
   maxSize?: number
   labelLoading?: string
   dropzoneTitle?: string | ReactElement
+  className?: string
 }
 
 export default function FileListField(props: Props) {
@@ -139,6 +140,7 @@ export default function FileListField(props: Props) {
     <div className={styles.root} data-field={props.name}>
       {props.label && <div className={styles.label}>{props.label}</div>}
       <FileUploadDropzone
+        className={props.className}
         isImage={props.isImage}
         onDrop={onDrop}
         maxFiles={props.maxFiles}

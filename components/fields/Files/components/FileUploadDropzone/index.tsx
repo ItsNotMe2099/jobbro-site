@@ -12,6 +12,7 @@ interface Props extends DropzoneOptions {
   description?: string
   showDropzone?: boolean
   icon?: ReactElement
+  className?: string
 }
 
 export default function FileUploadDropzone(props: Props) {
@@ -38,7 +39,7 @@ export default function FileUploadDropzone(props: Props) {
 
   }
   return (
-    <div className={classNames(styles.root)} {...getRootProps()}>
+    <div className={classNames(styles.root, props.className)} {...getRootProps()}>
       <input {...getInputProps()} />
       {getIcon()}
       <div className={styles.info}>
