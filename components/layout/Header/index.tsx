@@ -5,6 +5,7 @@ import { colors } from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'
 import AccSvg from '@/components/svg/AccSvg'
 import IconButton from '@/components/ui/IconButton'
+import DropdownMenu from '@/components/ui/DropdownMenu'
 
 interface Props {
 
@@ -17,6 +18,9 @@ export default function Header(props: Props) {
     { label: 'Resources', link: '#' },
     { label: 'Pricing', link: '#' },
   ]
+    const accountOptions = [
+
+    ]
 
   return (
     <div className={styles.root}>
@@ -39,6 +43,7 @@ export default function Header(props: Props) {
         </IconButton>
         <IconButton bgColor='green'>
           <AccSvg color={colors.white} />
+          <DropdownMenu options={accountOptions}/>
         </IconButton>
       </div>
     </div>

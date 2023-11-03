@@ -15,12 +15,18 @@ import {Education} from '@/data/enum/Education'
 import {Relocation} from '@/data/enum/Relocation'
 import {BusinessTrips} from '@/data/enum/BusinessTrips'
 import {ISkill} from '@/data/interfaces/ISkill'
+import {Nullable} from '@/types/types'
+import {IProfile} from '@/data/interfaces/IProfile'
 
 
 export interface ICV {
   id: number
   profileId: number;
+  profile: Nullable<IProfile>
   title: string;
+  firstName?: Nullable<string>
+  lastName?: Nullable<string>
+  patronymic?: Nullable<string>
   category: IServiceCategory;
   categoryId: number;
   subCategory: IServiceCategory;

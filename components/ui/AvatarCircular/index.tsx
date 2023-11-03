@@ -10,7 +10,7 @@ import { colors } from 'styles/variables'
 
 
 interface Props {
-  file?: IFile | null
+  file?: IFile | null | undefined
   alt?: string
   size?: number
   sizeXs?: number

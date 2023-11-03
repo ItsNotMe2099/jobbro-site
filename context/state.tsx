@@ -1,18 +1,19 @@
-import { CookiesType, ModalType, SidePanelType, SnackbarType } from '@/types/enums'
-import { RequestError, SnackbarData } from '@/types/types'
-import { createContext, useContext, useEffect, useState } from 'react'
+import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
+import {RequestError, SnackbarData} from '@/types/types'
+import {createContext, useContext, useEffect, useState} from 'react'
 import IAboutMe from '@/data/interfaces/IAboutMe'
-import { Subject } from 'rxjs'
+import {Subject} from 'rxjs'
 import AuthRepository from '@/data/repositories/AuthRepository'
-import { getIsMobile } from '@/utils/mobile'
-import { CookiesLifeTime } from '@/types/constants'
+import {getIsMobile} from '@/utils/mobile'
+import {CookiesLifeTime} from '@/types/constants'
 import Cookies from 'js-cookie'
 import ReactModal from 'react-modal'
-import { IManager } from '@/data/interfaces/IManager'
-import { IOffice } from '@/data/interfaces/IOffice'
-import { ICompany } from '@/data/interfaces/ICompany'
-import { ICV } from '@/data/interfaces/ICV'
-import { IVacancy } from '@/data/interfaces/IVacancy'
+import {IManager} from '@/data/interfaces/IManager'
+import {IOffice} from '@/data/interfaces/IOffice'
+import {ICompany} from '@/data/interfaces/ICompany'
+import {ICV} from '@/data/interfaces/ICV'
+import {IVacancy} from '@/data/interfaces/IVacancy'
+import {ICandidate} from '@/data/interfaces/ICandidate'
 
 interface IState {
   isMobile: boolean
@@ -64,6 +65,10 @@ interface IState {
   managerCreateState$: Subject<IManager>,
   managerUpdateState$: Subject<IManager>,
   managerDeleteState$: Subject<IManager>
+
+  candidateCreateState$: Subject<ICandidate>,
+  candidateUpdateState$: Subject<ICandidate>,
+  candidateDeleteState$: Subject<ICandidate>,
 }
 
 const fileUploadingState$ = new Subject<boolean>()
@@ -88,6 +93,10 @@ const officeDeleteState$ = new Subject<IOffice>()
 const managerCreateState$ = new Subject<IManager>()
 const managerUpdateState$ = new Subject<IManager>()
 const managerDeleteState$ = new Subject<IManager>()
+
+const candidateCreateState$ = new Subject<ICandidate>()
+const candidateUpdateState$ = new Subject<ICandidate>()
+const candidateDeleteState$ = new Subject<ICandidate>()
 
 const defaultValue: IState = {
   isMobile: false,
@@ -140,6 +149,9 @@ const defaultValue: IState = {
   managerUpdateState$,
   managerDeleteState$,
 
+  candidateCreateState$,
+  candidateUpdateState$,
+  candidateDeleteState$,
 }
 
 const AppContext = createContext<IState>(defaultValue)
@@ -167,7 +179,7 @@ export function AppWrapper(props: Props) {
 
   const showSnackbar = (text: string, type: SnackbarType) => {
 
-    setSnackbar({ text, type })
+    setSnackbar({text, type})
     setTimeout(() => {
       setSnackbar(null)
     }, 2000)

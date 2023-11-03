@@ -1,14 +1,17 @@
 import styles from './index.module.scss'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
-import Image from 'next/image'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import { useState } from 'react'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
+import UserUtils from '@/utils/UserUtils'
+import VacancyUtils from '@/utils/VacancyUtils'
+import AvatarCircular from '@/components/ui/AvatarCircular'
+import {ICV} from '@/data/interfaces/ICV'
 
 interface Props {
-  item: any //temp
+  cv: ICV
   className?: string
   view: 'row' | 'card'
   onAddBookmark: (bookmark: boolean) => void
@@ -17,7 +20,11 @@ interface Props {
 export default function CandidateCard(props: Props) {
 
   const [bookmark, setBookmark] = useState<boolean>(false)
-
+const cv = props.item.cv
+  const ai = {
+    percent: null,
+    description: null
+  }
   const handleBookmark = () => {
     const newState = true
     setBookmark(newState)
@@ -27,44 +34,44 @@ export default function CandidateCard(props: Props) {
   return (
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
       <BookmarkSvg onClick={() => bookmark ? null : handleBookmark()} className={styles.bookmark}
-        color={(props.item.added || bookmark) ? colors.green : colors.white} />
+        color={colors.green} />
       <Link href={Routes.lkCandidate(props.item.id)} className={styles.container}>
         <div className={styles.top}>
-          <Image className={styles.avatar} src={props.item.avatar} alt='' fill />
+          <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
           <div className={styles.right}>
             <div className={styles.name}>
-              {props.item.firstName} {props.item.lastName}
+              {UserUtils.getName(cv)}
             </div>
             <div className={styles.forRow}>
               {props.view === 'row' && <div className={styles.middle}>
-                {props.item.position}
+                {cv.position}
               </div>}
               <div className={styles.salary}>
-                {props.item.salary}
+                {VacancyUtils.formatSalary(cv)}
               </div>
             </div>
           </div>
         </div>
         {props.view !== 'row' && <div className={styles.middle}>
-          {props.item.position}
+          {cv.position}
         </div>}
         <div className={styles.bottom}>
-          {props.view === 'row' && <div className={styles.comment}>
+          {props.view === 'row' && ai.percent != null && <div className={styles.comment}>
             <div className={styles.percent}>
-              {props.item.percent}
+              {ai.percent}
             </div>
-            <div className={styles.text}>{props.item.aiComment}</div>
+            <div className={styles.text}>{ai.description}</div>
           </div>}
           <div className={styles.status}>
-            {props.item.status}
+            Invited
           </div>
         </div>
       </Link>
-      {props.view !== 'row' && <div className={styles.comment}>
+      {props.view !== 'row' && ai.percent != null && <div className={styles.comment}>
         <div className={styles.percent}>
-          {props.item.percent}
+          {ai.percent}
         </div>
-        <div className={styles.text}>{props.item.aiComment}</div>
+        <div className={styles.text}>{ai.description}</div>
       </div>}
     </div>
   )

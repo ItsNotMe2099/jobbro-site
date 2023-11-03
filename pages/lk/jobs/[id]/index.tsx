@@ -126,6 +126,7 @@ const JobPage = () =>  {
             <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
             <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
               {candidates.map((i, index) =>
+
                 <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} item={i} key={index} />
               )}
             </div>
