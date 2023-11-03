@@ -98,11 +98,13 @@
   line-height: 160%;
   letter-spacing: -0.16px;
   color: $text-secondary;
+  margin-top: 0 !important;
 }
 
 .file {
-  flex-direction: row;
-  padding: 26px 24px;
-  justify-content: flex-start;
+  flex-direction: row !important;
+  padding: 26px 24px !important;
+  justify-content: flex-start !important;
   @include list(24px, true);
+  align-items: center !important;
 }

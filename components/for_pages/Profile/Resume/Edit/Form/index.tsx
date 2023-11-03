@@ -262,14 +262,15 @@ export default function ResumeEditForm(props: Props) {
               {arrayHelpers => (
                 <div className={styles.root} data-field={'employer'}>
                   <div className={styles.fields}>
-                    <SelectField placeholder='Employer name' className={styles.select} name='employer' options={[]} />
-                    <CountryField placeholder='Locate' className={styles.select} name='employer.locate' />
-                    <div className={styles.line}>
-                      <InputField name={'employer.dateOfHiring'} label={'Date of hiring'} />
-                      <InputField name={'employer.dateOfDismissal'} label={'Date of dismissal'} />
-                    </div>
-                    <InputField name={'employer.jobTitle'} label={'Job title'} />
-                    <RichTextField name='employer.desc' />
+                    {(formik.values.employer ?? []).map((i, index) => <>
+                      <SelectField placeholder='Employer name' className={styles.select} name='employer' options={[]} />
+                      <CountryField placeholder='Locate' className={styles.select} name={`employer[${index}].locate`} />
+                      <div className={styles.line}>
+                        <InputField name={`employer[${index}].dateOfHiring`} label={'Date of hiring'} />
+                        <InputField name={`employer[${index}].dateOfDismissal`} label={'Date of dismissal'} />
+                      </div>
+                      <InputField name={`employer[${index}].jobTitle`} label={'Job title'} />
+                      <RichTextField name={`employer[${index}].desc`} /></>)}
                   </div>
                   <div onClick={() => arrayHelpers.push({
                     locate: '',
