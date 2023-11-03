@@ -87,4 +87,4 @@ const LkSettingsRefferalsPage = (props: Props) => {
 
 LkSettingsRefferalsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsRefferalsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

@@ -27,15 +27,15 @@ export class Routes {
   }
 
   static get profileSettings() {
-    return '/profile/settings'
+    return '/lk/profile/settings'
   }
 
   static get profileResume() {
-    return '/profile/resume'
+    return '/lk/profile/resume'
   }
 
   static profileResumeEdit(id: string | number) {
-    return `/profile/resume/edit/${id}`
+    return `/lk/profile/resume/edit/${id}`
   }
 
   static get lk() {

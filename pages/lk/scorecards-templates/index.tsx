@@ -10,4 +10,4 @@ export default function DashBoard() {
     </Layout>
   )
 }
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

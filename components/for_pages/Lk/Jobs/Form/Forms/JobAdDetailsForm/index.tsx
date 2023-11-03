@@ -69,7 +69,7 @@ export default function JobAdDetailsForm(props: Props) {
       </Card>
       <Card title='Salary'>
         <div className={styles.line}>
-          <CurrencyField className={styles.select} placeholder='EUR' name='salary'  />
+          <CurrencyField className={styles.select}  name='currency'  />
           <InputField className={styles.select} format={'number'} placeholder='Salary maximum' name='salaryMax' label={props.formik.values.salaryMax ? 'Salary maximum' : ''}
              />
           <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin' label={props.formik.values.salaryMin ? 'Salary minimum' : ''}

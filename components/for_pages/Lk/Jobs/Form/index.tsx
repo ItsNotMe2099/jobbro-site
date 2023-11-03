@@ -29,6 +29,8 @@ import {IVacancy} from '@/data/interfaces/IVacancy'
 import {IKeyword} from '@/data/interfaces/IKeyword'
 import {Routes} from '@/types/routes'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
+import {useCompanyOwnerContext} from '@/context/company_owner_state'
 
 
 enum TabKey {
@@ -50,6 +52,7 @@ export interface IVacancyFormData {
   employment: Nullable<Employment>
   workplace: Nullable<Workplace>
   office: Nullable<IOffice>
+  currency: Nullable<string>
   salaryMin: Nullable<number>
   salaryMax: Nullable<number>
   salaryType: Nullable<SalaryType>
@@ -72,9 +75,10 @@ export default function CreateJobManuallyForm(props: Props) {
 
   const appContext = useAppContext()
   const vacancyContext = useVacancyOwnerContext()
+  const companyContext = useCompanyOwnerContext()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-  let ref = useRef<HTMLFormElement | null>(null)
+  let ref = useRef<HTMLDivElement | null>(null)
   const handleSubmit = async (data: IVacancyFormData) => {
     setLoading(true)
     console.log('Data', data)
@@ -108,6 +112,7 @@ export default function CreateJobManuallyForm(props: Props) {
     employment: vacancyContext.vacancy?.employment?? null,
     workplace: vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
+    currency: 'EUR',
     salaryMin: vacancyContext.vacancy?.salaryMin?? null,
     salaryMax: vacancyContext.vacancy?.salaryMax?? null,
     salaryType: vacancyContext.vacancy?.salaryType?? null,
@@ -152,34 +157,41 @@ export default function CreateJobManuallyForm(props: Props) {
     await formik.setFieldValue('status', PublishStatus.Published)
     await formik.submitForm()
   }
-  return (
+  const form = (
     <FormikProvider value={formik}>
-      <Form ref={ref} className={styles.form}>
+      <Form className={styles.form}>
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
         {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
         {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
         {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
-        <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
-          <>
-          {(!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} styleType='large' color='green'>
-            Publish
-          </Button>}
-          <Button onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
-            {!vacancyContext.vacancy! ? 'Save as draft' : 'Save'}
-          </Button>
-          <div className={styles.preview} onClick={props.onPreview}>
-            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
-              :
-              <NoEyeSvg color={colors.green} className={styles.eye}/>
-            }
-            {!props.preview ? <div className={styles.text}>Preview</div>
-              :
-              <div className={styles.text}>Close Preview Mode</div>
-            }
-          </div>
-          </>
-        </FormStickyFooter>
+
       </Form>
     </FormikProvider>
   )
+  const preview = ( <JobPreview job={formik.values as any as IVacancy} company={companyContext.company}/>)
+
+  return <div className={styles.root} ref={ref} >
+    {!props.preview && form}
+    {props.preview && preview}
+    <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
+      <>
+        {!props.preview && (!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} styleType='large' color='green'>
+          Publish
+        </Button>}
+        {!props.preview && <Button onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
+          {!vacancyContext.vacancy! ? 'Save as draft' : 'Save'}
+        </Button>}
+        <div className={styles.preview} onClick={props.onPreview}>
+          {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
+            :
+            <NoEyeSvg color={colors.green} className={styles.eye}/>
+          }
+          {!props.preview ? <div className={styles.text}>Preview</div>
+            :
+            <div className={styles.text}>Close Preview Mode</div>
+          }
+        </div>
+      </>
+    </FormStickyFooter>
+  </div>
 }

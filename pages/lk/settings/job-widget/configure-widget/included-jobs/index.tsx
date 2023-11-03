@@ -16,4 +16,4 @@ const ConfigWidgetIncludedJobsPage = (props: Props) => {
 
 ConfigWidgetIncludedJobsPage.getLayout = JobWidgetSettingsPageLayout
 export default ConfigWidgetIncludedJobsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

@@ -1,9 +1,6 @@
 @import "styles/index";
-.root{
-
-}
-.card{
+.root {
   display: flex;
   flex-direction: column;
-  @include list(24px, false);
+  @include list(32px, false);
 }

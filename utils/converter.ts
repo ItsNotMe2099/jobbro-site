@@ -1,4 +1,5 @@
 import { FileUploadAcceptType } from 'types/enums'
+import {runtimeConfig} from '@/config/runtimeConfig'
 
 export default class Converter {
 
@@ -60,5 +61,8 @@ export default class Converter {
       return fullKey
     })
 
+  }
+  static replaceTextImageSource(text: string): string {
+    return text?.replace(/src="\/api\/asset\/(.*?)/gi, `src="${runtimeConfig.HOST}/api/asset/`)
   }
 }

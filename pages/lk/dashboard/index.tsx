@@ -9,4 +9,4 @@ const DashBoardPage = () => {
 DashBoardPage.getLayout = LkPageLayout
 
 export default  DashBoardPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

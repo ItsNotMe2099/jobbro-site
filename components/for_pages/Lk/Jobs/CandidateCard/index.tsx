@@ -20,7 +20,7 @@ interface Props {
 export default function CandidateCard(props: Props) {
 
   const [bookmark, setBookmark] = useState<boolean>(false)
-const cv = props.item.cv
+const cv = props.cv
   const ai = {
     percent: null,
     description: null
@@ -35,7 +35,7 @@ const cv = props.item.cv
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
       <BookmarkSvg onClick={() => bookmark ? null : handleBookmark()} className={styles.bookmark}
         color={colors.green} />
-      <Link href={Routes.lkCandidate(props.item.id)} className={styles.container}>
+      <Link href={Routes.lkCandidate(cv.id)} className={styles.container}>
         <div className={styles.top}>
           <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
           <div className={styles.right}>

@@ -310,4 +310,4 @@ const CandidatePage = () => {
 }
 CandidatePage.getLayout = LkPageLayout
 export default CandidatePage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

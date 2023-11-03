@@ -10,10 +10,12 @@ export default class Dictionary {
 
   static getEmploymentNames(): {[key in Employment]: string}{
     return {
-      [Employment.temporaryContract]: 'Temporary contract',
-      [Employment.permanent]: 'Permanent',
-      [Employment.temporaryFreelance]: 'Temporary Freelance',
-      [Employment.traineeship]: 'Traineeship',
+      [Employment.FullTime]: 'FullTime',
+      [Employment.PartTime]: 'PartTime',
+      [Employment.Casual]: 'Casual',
+      [Employment.Contract]: 'Contract',
+      [Employment.Apprenticeship]: 'Apprenticeship',
+      [Employment.Traineeship]: 'Traineeship',
     }
   }
   static getEmploymentOptions(): IOption<Employment>[]{
@@ -23,9 +25,25 @@ export default class Dictionary {
     return Dictionary.getEmploymentNames()[value]
   }
 
+  static getEmployeeCountNames(): {[key: number]: string}{
+    return {
+      1: '1-10',
+      2: '10-50',
+      3: '50-100',
+      4: '100-1000',
+      5: '1000+',
+    }
+  }
+  static getEmployeeCountOptions(): IOption<number>[]{
+    return [1, 2,3,4,5].map(i => ({label: Dictionary.getEmployeeCountName(i as number), value: i as number}))
+  }
+  static getEmployeeCountName(value: number) : string {
+    return Dictionary.getEmployeeCountNames()[value]
+  }
+
   static getWorkplaceNames(): {[key in Workplace]: string}{
     return {
-      [Workplace.onSite]: 'On site',
+      [Workplace.onSite]: 'Onsite',
       [Workplace.hybrid]: 'Hybrid',
       [Workplace.remote]: 'Remote',
     }
@@ -40,10 +58,10 @@ export default class Dictionary {
 
   static getExperienceNames(): {[key in Experience]: string}{
     return {
-      [Experience.noExperience]: 'noExperience',
-      [Experience.from1to3]: '1-3 years',
-      [Experience.from3to6]: '3-6 years',
-      [Experience.from6]: '6+ years',
+      [Experience.Junior]: 'Junior',
+      [Experience.Middle]: 'Middle',
+      [Experience.Senior]: 'Senior',
+      [Experience.None]: 'None',
     }
   }
 

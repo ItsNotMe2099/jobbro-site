@@ -1,6 +1,8 @@
 export enum Employment {
-  temporaryContract = 'temporaryContract',
-  permanent = 'permanent',
-  temporaryFreelance = 'temporaryFreelance',
-  traineeship = 'traineeship',
+  FullTime = 'fullTime',
+  PartTime = 'partTime',
+  Casual = 'casual',
+  Contract = 'contract',
+  Apprenticeship = 'apprenticeship',
+  Traineeship = 'traineeship'
 }

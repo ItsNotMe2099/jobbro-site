@@ -8,7 +8,6 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
-import CandidateCard from '@/components/for_pages/Lk/Jobs/CandidateCard'
 import useInterval from 'use-interval'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
@@ -125,10 +124,10 @@ const JobPage = () =>  {
           <div className={styles.wrapper}>
             <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
             <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
-              {candidates.map((i, index) =>
+              {/*candidates.map((i, index) =>
 
                 <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} item={i} key={index} />
-              )}
+              )*/}
             </div>
           </div>
         </div>
@@ -137,4 +136,4 @@ const JobPage = () =>  {
 }
 JobPage.getLayout = LkPageLayout
 export default JobPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

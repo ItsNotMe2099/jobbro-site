@@ -59,4 +59,4 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
 
 LkSettingsJobWidgetsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsJobWidgetsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

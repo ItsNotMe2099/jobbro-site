@@ -7,11 +7,11 @@ export default function SettingsPage() {
 
   return null
 }
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee, async (context) => {
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, async (context) => {
   return {
     redirect: {
       permanent: false,
-      destination: Routes.lkSettingsPayments,
+      destination: Routes.lkSettingsSocialSharing,
     }
   }
 })

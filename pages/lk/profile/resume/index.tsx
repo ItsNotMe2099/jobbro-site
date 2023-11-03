@@ -1,7 +1,7 @@
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { ProfilePageLayout } from '@/components/for_pages/Profile/ProfileLayout'
-import styles from './index.module.scss'
+import styles from 'pages/lk/profile/resume/index.module.scss'
 import { ResumeCard } from '@/components/for_pages/Profile/Resume/ResumeCard'
 
 interface Props {

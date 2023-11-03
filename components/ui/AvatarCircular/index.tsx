@@ -7,6 +7,7 @@ import { Preset } from 'types/enums'
 import ImageHelper from 'utils/ImageHelper'
 import PersonSvg from 'components/svg/PersonSvg'
 import { colors } from 'styles/variables'
+import {Nullable} from '@/types/types'
 
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
   sizeXs?: number
   className?: string
   icon?: ReactElement
+  initials?: Nullable<string>
 }
 
 export default function AvatarCircular(props: Props) {
@@ -39,7 +41,8 @@ export default function AvatarCircular(props: Props) {
   return (
     <div className={classNames([styles.root,props.className], {[styles.withIcon]: !props.file})} style={inlineStyle}>
       {props.file && <img src={ImageHelper.urlFromFile(props.file, Preset.xsCrop)} alt={props.alt} className={styles.image} />}
-      {!props.file && icon}
+      {!props.file && !props.initials && icon}
+      {props.initials ? props.initials : null}
     </div>
   )
 }

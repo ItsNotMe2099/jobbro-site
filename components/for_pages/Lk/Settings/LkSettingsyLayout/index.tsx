@@ -21,9 +21,9 @@ interface Props {
 }
 const LkSettingsPageLayoutInner = (props: Props) => {
   const options: IOption<TabKey>[] = [
-    { label: 'Payments', value: TabKey.Payments, href: Routes.lkSettingsPayments },
-    { label: 'Integrations', value: TabKey.Integrations, href: Routes.lkSettingsIntegrations },
-    { label: 'Refferals', value: TabKey.Refferals, href: Routes.lkSettingsReferrals },
+  //  { label: 'Payments', value: TabKey.Payments, href: Routes.lkSettingsPayments },
+  //  { label: 'Integrations', value: TabKey.Integrations, href: Routes.lkSettingsIntegrations },
+  //  { label: 'Refferals', value: TabKey.Refferals, href: Routes.lkSettingsReferrals },
     { label: 'Social Sharing', value: TabKey.SocialSharing, href: Routes.lkSettingsSocialSharing },
     { label: 'Job Widget', value: TabKey.JobWidget, href: Routes.lkSettingsJobWidget },
   ]

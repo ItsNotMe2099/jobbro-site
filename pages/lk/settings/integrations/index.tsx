@@ -47,4 +47,4 @@ const LkSettingsIntegrationsPage = (props: Props) => {
 
 LkSettingsIntegrationsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsIntegrationsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

@@ -23,4 +23,4 @@ const LkOfficeCreatePage = (props: Props) => {
 
 LkOfficeCreatePage.getLayout = LkCompanyPageLayout
 export default LkOfficeCreatePage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

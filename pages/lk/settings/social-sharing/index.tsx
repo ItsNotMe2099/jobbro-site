@@ -22,4 +22,4 @@ const LkSettingsSocialSharingPage = (props: Props) => {
 
 LkSettingsSocialSharingPage.getLayout = LkSettingsPageLayout
 export default LkSettingsSocialSharingPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

@@ -43,4 +43,4 @@ const LkTeamPage = (props: Props) => {
 
 LkTeamPage.getLayout = LkCompanyPageLayout
 export default LkTeamPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

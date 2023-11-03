@@ -18,6 +18,8 @@ import {useRef} from 'react'
 import CountryField from '@/components/fields/CountryField'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import {IGeoName} from '@/data/interfaces/ILocation'
+import Dictionary from '@/utils/Dictionary'
+import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
 
 interface IFormData {
   name: Nullable<string>
@@ -81,7 +83,6 @@ export default function CompanyDetailsForm(props: Props) {
     domain: companyOwnerContext.company?.domain ?? null,
     images: companyOwnerContext.company?.images ?? [],
   }
-  console.log('InitialValues', initialValues, companyOwnerContext.loading, companyOwnerContext.company)
 
   const formik = useFormik<IFormData>({
     initialValues,
@@ -100,9 +101,9 @@ export default function CompanyDetailsForm(props: Props) {
                 className={styles.select}
                 label='Website' name='url'
                 />
-              <SelectField placeholder='Number of employees' className={styles.select} name='employeesCount'
-                           options={[]}/>
-              <InputField placeholder='Industry' className={styles.select} name='industryId' />
+              <SelectField<number> placeholder='Number of employees' className={styles.select} name='employeesCount'
+                           options={Dictionary.getEmployeeCountOptions()}/>
+              <ServiceCategoryField label='Industry' className={styles.select} name='industryId' />
               <CountryField placeholder='Country' className={styles.select} name='country'/>
             </div>
           </Card>

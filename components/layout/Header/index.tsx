@@ -5,14 +5,14 @@ import { colors } from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'
 import AccSvg from '@/components/svg/AccSvg'
 import IconButton from '@/components/ui/IconButton'
-import DropdownMenu from '@/components/ui/DropdownMenu'
+import {useAppContext} from '@/context/state'
 
 interface Props {
 
 }
 
 export default function Header(props: Props) {
-
+  const appContext = useAppContext()
   const menu = [
     { label: 'Products', link: '#' },
     { label: 'Resources', link: '#' },
@@ -21,6 +21,12 @@ export default function Header(props: Props) {
     const accountOptions = [
 
     ]
+  const handleLogout = () => {
+    appContext.logout()
+    setTimeout(() => {
+      window.location.href = ''
+    }, 100)
+  }
 
   return (
     <div className={styles.root}>
@@ -41,9 +47,8 @@ export default function Header(props: Props) {
         <IconButton bgColor='green'>
           <BellSvg color={colors.white} />
         </IconButton>
-        <IconButton bgColor='green'>
+        <IconButton bgColor='green' onClick={handleLogout}>
           <AccSvg color={colors.white} />
-          <DropdownMenu options={accountOptions}/>
         </IconButton>
       </div>
     </div>

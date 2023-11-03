@@ -25,4 +25,4 @@ const LkSettingsPaymentsMethodPage = (props: Props) => {
 
 LkSettingsPaymentsMethodPage.getLayout = LkPageLayout
 export default LkSettingsPaymentsMethodPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

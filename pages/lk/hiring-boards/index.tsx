@@ -51,4 +51,4 @@ const HiringBoards = () => {
 HiringBoards.getLayout = LkPageLayout
 
 export default HiringBoards
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

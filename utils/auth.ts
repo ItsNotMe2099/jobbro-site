@@ -36,7 +36,9 @@ export  function getAuthServerSideProps<Props extends { [key: string]: any } = {
        },
      }
    }
-   if (profileType && (!Array.isArray(profileType) && user.profileType !== profileType) && (Array.isArray(profileType) && profileType.includes(user.profileType!))) {
+
+   console.log('User11', profileType , !Array.isArray(profileType) , user.profileType !== profileType)
+   if (profileType && (!Array.isArray(profileType) && user.profileType !== profileType) || (Array.isArray(profileType) && profileType.includes(user.profileType!))) {
      return {
        notFound: true
      }

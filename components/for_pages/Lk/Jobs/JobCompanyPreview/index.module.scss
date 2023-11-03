@@ -1,0 +1,46 @@
+@import "styles/index";
+.root {
+  display: flex;
+  flex-direction: row;
+  @include list(32px, true)
+}
+.left{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  @include list(24px, true);
+}
+.right{
+  flex: 1;
+}
+.stats{
+  display: flex;
+  flex-direction: column;
+  @include list(4px);
+}
+.companyInfo{
+  display: flex;
+  flex-direction: column;
+  @include list(4px);
+}
+.desc{
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-secondary;
+}
+.name{
+  font-weight: 700;
+  font-size: 24px;
+  color: $text-primary;
+}
+.item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(4px, true);
+}
+.itemValue{
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-secondary;
+}

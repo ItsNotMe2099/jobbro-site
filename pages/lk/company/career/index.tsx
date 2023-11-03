@@ -15,4 +15,4 @@ const LkCompanyCareerPage = (props: Props) => {
 
 LkCompanyCareerPage.getLayout = LkCompanyPageLayout
 export default LkCompanyCareerPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

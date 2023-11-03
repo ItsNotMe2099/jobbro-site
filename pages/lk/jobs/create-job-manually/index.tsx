@@ -7,6 +7,7 @@ import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { useState } from 'react'
 import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
+import {CompanyOwnerWrapper} from '@/context/company_owner_state'
 
 
 const CreateJobManuallyPageInner = () => {
@@ -22,10 +23,12 @@ const CreateJobManuallyPageInner = () => {
   )
 }
 const CreateJobManuallyPage = () => {
-  return <VacancyOwnerWrapper>
+  return (<CompanyOwnerWrapper>
+  <VacancyOwnerWrapper>
     <CreateJobManuallyPageInner/>
   </VacancyOwnerWrapper>
+  </CompanyOwnerWrapper>)
 }
 CreateJobManuallyPage.getLayout = LkPageLayout
 export default  CreateJobManuallyPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

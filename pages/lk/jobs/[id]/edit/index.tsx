@@ -9,6 +9,7 @@ import { useState } from 'react'
 import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 import {useRouter} from 'next/router'
 import ContentLoader from '@/components/ui/ContentLoader'
+import {CompanyOwnerWrapper} from '@/context/company_owner_state'
 
 
 const JobEditPageInner = () => {
@@ -25,10 +26,12 @@ const JobEditPageInner = () => {
 }
 const JobEditPage = () => {
   const router = useRouter()
-  return <VacancyOwnerWrapper  vacancyId={parseInt(router.query.id as string, 10)}>
+  return (<CompanyOwnerWrapper>
+    <VacancyOwnerWrapper  vacancyId={parseInt(router.query.id as string, 10)}>
     <JobEditPageInner/>
-  </VacancyOwnerWrapper>
+    </VacancyOwnerWrapper>
+  </CompanyOwnerWrapper>)
 }
 JobEditPage.getLayout = LkPageLayout
 export default  JobEditPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
