@@ -27,15 +27,15 @@ export class Routes {
   }
 
   static get profileSettings() {
-    return '/lk/profile/settings'
+    return '/profile/settings'
   }
 
   static get profileResume() {
-    return '/lk/profile/resume'
+    return '/profile/resume'
   }
 
   static profileResumeEdit(id: string | number) {
-    return `/lk/profile/resume/edit/${id}`
+    return `/profile/resume/edit/${id}`
   }
 
   static get lk() {
@@ -149,5 +149,21 @@ export class Routes {
 
   static get lkCompanyTeam() {
     return '/lk/company/team'
+  }
+
+  static get chat() {
+    return '/chat'
+  }
+
+  static get chatAll() {
+    return '/chat/all'
+  }
+
+  static get chatInvites() {
+    return '/chat/invites'
+  }
+
+  static get chatRequirementsAnswer() {
+    return '/chat/requirements-answer'
   }
 }
