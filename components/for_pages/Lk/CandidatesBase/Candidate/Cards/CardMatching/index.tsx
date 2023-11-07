@@ -3,7 +3,6 @@ import styles from './index.module.scss'
 import classNames from 'classnames'
 
 interface Props {
-  item: any //temp
   className?: string
 }
 

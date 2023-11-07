@@ -21,15 +21,23 @@ export interface ISource extends TimeStamp {
   title: string,
 }
 
-export interface ExperienceInfo extends TimeLine {
+export interface ExperienceInfo {
   company: string,
   position: string,
   description: string
+  toMonth: number
+  toYear: number
+  fromMonth: number
+  fromYear: number
 }
 
-export interface EducationInfo extends TimeLine {
+export interface EducationInfo {
   institution: string,
-  speciality: string
+  speciality: string,
+  toMonth: number
+  toYear: number
+  fromMonth: number
+  fromYear: number
 }
 
 export interface CoursesInfo extends TimeLine {

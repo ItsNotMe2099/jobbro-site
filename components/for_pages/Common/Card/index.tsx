@@ -5,7 +5,7 @@ import classNames from 'classnames'
 interface Props {
   title?: string | ReactElement
   children: ReactElement | ReactElement[] | boolean
-  className?: string
+  className?: string | undefined
   ref?: (element: HTMLElement | null) => void
 }
 

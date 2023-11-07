@@ -120,7 +120,9 @@ export default class Formatter {
     const i = Math.floor(Math.log(bytes ?? 0) / Math.log(1024))
     return !bytes && '' || ((bytes ?? 0) / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
   };
-
+  static formatRangeMonthYear({fromMonth, fromYear, toMonth, toYear}: {fromMonth: number, fromYear: number, toMonth: number, toYear: number}){
+    return [[fromMonth, fromYear].filter(i => !!i).join(' '),[toMonth, toYear].filter(i => !!i).join(' ')].filter(i => !!i).join(' — ')
+  }
 
 }
 

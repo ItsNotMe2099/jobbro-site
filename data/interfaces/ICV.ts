@@ -17,7 +17,10 @@ import {BusinessTrips} from '@/data/enum/BusinessTrips'
 import {ISkill} from '@/data/interfaces/ISkill'
 import {Nullable} from '@/types/types'
 import {IProfile} from '@/data/interfaces/IProfile'
-
+interface ILanguageKnowledge{
+  language: string
+  level: string
+}
 
 export interface ICV {
   id: number
@@ -53,7 +56,7 @@ export interface ICV {
   contacts: IVacancyContactPerson;
   employment: Employment;
   nativeLanguage: string;
-  languageKnowledges: string[];
+  languageKnowledges: ILanguageKnowledge[];
   experienceInfo: ExperienceInfo[];
   educationInfo: EducationInfo[];
   coursesInfo: CoursesInfo[];

@@ -136,6 +136,4 @@ export default class Dictionary {
 
     return Dictionary.getVacancyStatusNames()[value]
   }
-
-
 }

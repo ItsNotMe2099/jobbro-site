@@ -1,55 +1,59 @@
 import Card from '@/components/for_pages/Common/Card'
 import styles from './index.module.scss'
-import Image from 'next/image'
 import classNames from 'classnames'
 import LocationSvg from '@/components/svg/LocationSvg'
-import { colors } from '@/styles/variables'
+import {colors} from '@/styles/variables'
 import IconInCircleSvg from '@/components/svg/IconInCircleSvg'
+import {ICV} from '@/data/interfaces/ICV'
+import UserUtils from '@/utils/UserUtils'
+import VacancyUtils from '@/utils/VacancyUtils'
+import {Relocation} from '@/data/enum/Relocation'
+import AvatarCircular from '@/components/ui/AvatarCircular'
 
 interface Props {
-  item: any //temp
+  cv: ICV
 }
 
 export default function CardWithPhoto(props: Props) {
-
+  const {cv} = props
   return (
     <Card>
       <div className={styles.container}>
-        <Image className={styles.avatar} src={props.item.avatar} alt='' fill />
+        <AvatarCircular size={120} file={cv.image ?? cv.profile?.image}/>
         <div className={styles.right}>
           <div className={styles.positionAndSalary}>
             <div className={styles.position}>
-              <div>{props.item.position}</div>
+              <div>{cv.position}</div>
               <div className={styles.name}>
-                {props.item.firstName} {props.item.lastName}
+                {UserUtils.getName(cv)}
               </div>
             </div>
             <div className={styles.salary}>
-              {props.item.salary}
+              {VacancyUtils.formatSalary(cv)}
             </div>
           </div>
           <div className={styles.location}>
-            <div className={classNames(styles.ready, { [styles.notReady]: !props.item.readyToRelocate })}>
-              {props.item.readyToRelocate ? 'Ready to relocate' : 'Not ready to relocate'}
+            <div className={classNames(styles.ready, { [styles.notReady]: cv.relocation !== Relocation.yes  })}>
+              {cv.relocation === Relocation.yes ? 'Ready to relocate' : 'Not ready to relocate'}
             </div>
-            <div className={styles.country}>
+            {cv.country && <div className={styles.country}>
               <LocationSvg color={colors.textSecondary} />
-              <div>{props.item.country}</div>
-            </div>
+              <div>{cv.country?.name}</div>
+            </div>}
           </div>
-          <div className={styles.contacts}>
+          {(cv.contacts?.email || cv.contacts?.phone) && <div className={styles.contacts}>
             <div className={styles.title}>
               Contacts
             </div>
-            <div className={styles.email}>
+            {cv.contacts?.email && <div className={styles.email}>
               <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' />
-              <div>{props.item.email}</div>
-            </div>
-            <div className={styles.email}>
+              <div>{cv.contacts?.email}</div>
+            </div>}
+            {cv.contacts?.phone && <div className={styles.email}>
               <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' phone />
-              <div>{props.item.phone}</div>
-            </div>
-          </div>
+              <div>{cv.contacts?.phone}</div>
+            </div>}
+          </div>}
         </div>
       </div>
     </Card>

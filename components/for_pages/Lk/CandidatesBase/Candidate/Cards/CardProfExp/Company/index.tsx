@@ -1,14 +1,8 @@
-import Image from 'next/image'
 import styles from './index.module.scss'
-import PersonSvg from '@/components/svg/PersonSvg'
-import { colors } from '@/styles/variables'
-import InternetSvg from '@/components/svg/InternetSvg'
-import Link from 'next/link'
-import NewsSvg from '@/components/svg/NewsSvg'
-import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
+import AvatarCircular from '@/components/ui/AvatarCircular'
 
 interface Props {
-  company: any
+  companyName: string
 }
 
 export default function Company(props: Props) {
@@ -16,14 +10,14 @@ export default function Company(props: Props) {
   return (
     <div className={styles.root}>
       <div className={styles.avatar}>
-        {props.company.confirmed && <div className={styles.confirmed}><CheckBoxSvg className={styles.check} /></div>}
-        {props.company.img ? <Image src={props.company.img} alt='' fill /> : props.company.name.slice(0, 2)}
-      </div>
+        {/* <div className={styles.confirmed}><CheckBoxSvg className={styles.check} /></div>*/}
+        <AvatarCircular initials={props.companyName.slice(0, 2) ?? null}/>
+         </div>
       <div className={styles.right}>
         <div className={styles.name}>
-          {props.company.name}
+          {props.companyName}
         </div>
-        <div className={styles.info}>
+        {/*<div className={styles.info}>
           <div className={styles.specs}>
             {props.company.specs}
           </div>
@@ -31,8 +25,8 @@ export default function Company(props: Props) {
             <PersonSvg color={colors.textSecondary} />
             <div className={styles.quantity}>{props.company.employees}</div>
           </div>
-        </div>
-        <div className={styles.links}>
+        </div>*/}
+        {/*<div className={styles.links}>
           <div className={styles.item}>
             <InternetSvg color={colors.green} />
             <Link href={props.company.link}>Go to Website</Link>
@@ -41,7 +35,7 @@ export default function Company(props: Props) {
             <NewsSvg color={colors.green} />
             <Link href={props.company.news}>News</Link>
           </div>
-        </div>
+        </div>*/}
       </div>
     </div>
   )

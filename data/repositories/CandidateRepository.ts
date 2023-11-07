@@ -15,6 +15,15 @@ export default class CandidateRepository {
     return res
   }
 
+  static async fetchById(id: number, config?: AxiosRequestConfig): Promise<ICandidate> {
+    const res = await request<ICandidate>({
+      method: 'get',
+      url: `/api/owner/candidate/${id}`,
+      config,
+    })
+    return res
+  }
+
 
   static async create(cvId: number): Promise<ICandidate> {
     const res = await request<ICandidate>({
