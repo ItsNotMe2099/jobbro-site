@@ -1,13 +1,13 @@
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
-import { ProfilePageLayout } from '@/components/for_pages/Profile/ProfileLayout'
 import styles from './index.module.scss'
+import { ChatPageLayout } from '@/components/for_pages/Chat/ChatLayout'
 
 interface Props {
 
 }
 
-const ChatInvitesPage = (props: Props) => {
+const ChatId = (props: Props) => {
 
   return (
     <div className={styles.root}>
@@ -16,6 +16,6 @@ const ChatInvitesPage = (props: Props) => {
   )
 }
 
-ChatInvitesPage.getLayout = ProfilePageLayout
-export default ChatInvitesPage
+ChatId.getLayout = ChatPageLayout
+export default ChatId
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

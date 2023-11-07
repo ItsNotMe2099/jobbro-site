@@ -18,4 +18,4 @@ const ChatRequirementsAnswerPage = (props: Props) => {
 
 ChatRequirementsAnswerPage.getLayout = ProfilePageLayout
 export default ChatRequirementsAnswerPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

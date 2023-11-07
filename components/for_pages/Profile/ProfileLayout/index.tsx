@@ -46,11 +46,11 @@ const ProfilePageLayoutInner = (props: Props) => {
     <div className={styles.root}>
       <PageTitle title={router.asPath.includes('edit') ? 'Editor resume' : router.asPath.includes('chat') ? 'Chat' : 'Profile'}
         link={router.asPath.includes('edit') ? Routes.profile : ''} />
-      {!router.asPath.includes('edit') && <Tabs<TabKey> options={options} />}
       {router.asPath.includes('chat') &&
         <Card>
           <InputSearch searchIcon searchRequest={(value) => serachRequest(value)} />
         </Card>}
+      {!router.asPath.includes('edit') && <Tabs<TabKey> options={options} />}
       {props.children}
     </div>
   )

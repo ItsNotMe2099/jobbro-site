@@ -23,19 +23,19 @@ export class Routes {
   }
 
   static get profile() {
-    return '/profile'
+    return '/lk/profile'
   }
 
   static get profileSettings() {
-    return '/profile/settings'
+    return '/lk/profile/settings'
   }
 
   static get profileResume() {
-    return '/profile/resume'
+    return '/lk/profile/resume'
   }
 
   static profileResumeEdit(id: string | number) {
-    return `/profile/resume/edit/${id}`
+    return `/lk/profile/resume/edit/${id}`
   }
 
   static get lk() {
@@ -153,6 +153,10 @@ export class Routes {
 
   static get chat() {
     return '/chat'
+  }
+
+  static chatId(id: number) {
+    return `/chat/${id}`
   }
 
   static get chatAll() {
