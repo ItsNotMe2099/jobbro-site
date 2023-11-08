@@ -177,6 +177,6 @@ const JobCardInner = (props: Props) => {
 }
 export default function JobCard(props: Props) {
   return <VacancyOwnerWrapper vacancy={props.vacancy} vacancyId={props.vacancy.id}>
-    <JobCardInner vacancy={props.vacancy} view={props.view}/>
+    <JobCardInner className={props.className} vacancy={props.vacancy} view={props.view}/>
   </VacancyOwnerWrapper>
 }

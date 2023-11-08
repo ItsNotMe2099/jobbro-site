@@ -11,6 +11,7 @@
     flex-direction: column;
     @include list(24px, false);
     height: 306px;
+    min-width: 250px;
 }
 
 .row {
