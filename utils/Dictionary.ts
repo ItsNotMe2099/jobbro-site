@@ -43,7 +43,7 @@ export default class Dictionary {
 
   static getWorkplaceNames(): {[key in Workplace]: string}{
     return {
-      [Workplace.onSite]: 'Onsite',
+      [Workplace.office]: 'Office',
       [Workplace.hybrid]: 'Hybrid',
       [Workplace.remote]: 'Remote',
     }

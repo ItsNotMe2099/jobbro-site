@@ -1,6 +1,6 @@
 
 export enum Workplace {
-  onSite = 'onSite',
+  office = 'office',
   hybrid = 'hybrid',
   remote = 'remote',
 }
