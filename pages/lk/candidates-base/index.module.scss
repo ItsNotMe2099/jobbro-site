@@ -18,10 +18,10 @@
 .cards {
     display: flex;
     flex-wrap: wrap;
-    @include list(24px, true);
 
-    .card:nth-child(4n) {
-        margin-left: 0;
+    .card {
+        margin-right: 24px;
+        min-width: 250px;
     }
 }
 
