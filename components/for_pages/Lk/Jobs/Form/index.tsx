@@ -86,7 +86,8 @@ export default function CreateJobManuallyForm(props: Props) {
       skillsIds: data.skills.map(i => i.id),
       benefitsIds: data.benefits.map(i => i.id),
       keywordsIds: data.keywords?.map(i => i.id) ?? [],
-      officeId: data?.office?.id
+      officeId: data?.office?.id,
+      companyId: companyContext.company?.id
     } as  DeepPartial<IVacancy>
     try {
       if (vacancyContext.vacancy) {
