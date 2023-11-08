@@ -122,7 +122,7 @@ export default function CreateJobManuallyForm(props: Props) {
     requirements: vacancyContext.vacancy?.requirements?? null,
     tasks: vacancyContext.vacancy?.tasks?? null,
     cvRequired: vacancyContext.vacancy?.cvRequired ?? ApplicationInfoRequirements.Optional,
-    coverLetterRequired: vacancyContext.vacancy?.coverLetterRequired ?? ApplicationInfoRequirements,
+    coverLetterRequired: vacancyContext.vacancy?.coverLetterRequired ?? ApplicationInfoRequirements.Optional,
     benefits: vacancyContext.vacancy?.benefits ?? [],
     skills: vacancyContext.vacancy?.skills ?? [],
     keywords: vacancyContext.vacancy?.keywords ?? [],
