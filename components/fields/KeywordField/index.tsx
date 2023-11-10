@@ -15,7 +15,7 @@ export default function KeywordField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field] = useField<IKeyword[]>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<IKeyword>[], data: any): Promise<{ options: IOption<IKeyword>[], hasMore: boolean, additional?: any | null }> => {
-    console.log('loadOptionsSearch', search)
+
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()

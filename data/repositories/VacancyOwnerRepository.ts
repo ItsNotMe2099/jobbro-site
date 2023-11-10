@@ -17,6 +17,7 @@ export default class VacancyOwnerRepository {
   }
 
   static async fetchById(id: number): Promise<IVacancy> {
+    console.log('GetV', `/api/vacancy/${id}`)
     const res = await request<IVacancy>({
       method: 'get',
       url: `/api/vacancy/${id}`,
