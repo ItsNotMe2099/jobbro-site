@@ -1,4 +1,4 @@
-import { formatRelative } from 'date-fns'
+import {format, formatRelative} from 'date-fns'
 import { ru } from 'date-fns/locale'
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat
@@ -65,6 +65,11 @@ export default class Formatter {
     return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), { locale })
   }
 
+
+  static formatDateTime(date: string | Date) {
+    return format(typeof date === 'string' ? new Date(date) : date,'dd.MM.yyyy HH:MM')
+  }
+
   static formatPhone(phone: string | null) {
     try {
       if (!phone) {
@@ -122,6 +127,10 @@ export default class Formatter {
   };
   static formatRangeMonthYear({fromMonth, fromYear, toMonth, toYear}: {fromMonth: number, fromYear: number, toMonth: number, toYear: number}){
     return [[fromMonth, fromYear].filter(i => !!i).join(' '),[toMonth, toYear].filter(i => !!i).join(' ')].filter(i => !!i).join(' — ')
+  }
+
+  static formatRangeYear(fromYear: number, toYear: number){
+    return [fromYear, toYear].filter(i => !!i).join(' — ')
   }
 
 }

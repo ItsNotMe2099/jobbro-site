@@ -16,11 +16,12 @@ export default class VacancyOwnerRepository {
     return res
   }
 
-  static async fetchById(id: number): Promise<IVacancy> {
+  static async fetchById(id: number, token?: string): Promise<IVacancy> {
     console.log('GetV', `/api/vacancy/${id}`)
     const res = await request<IVacancy>({
       method: 'get',
       url: `/api/vacancy/${id}`,
+      token
     })
     return res
   }

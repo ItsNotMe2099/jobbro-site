@@ -65,7 +65,7 @@ export default function JobDetailsPreview(props: Props) {
           </div>}
           {job.keywords.length > 0 && <div className={styles.tasks}>
             <div className={styles.title}>
-              Skills
+              Keywords
             </div>
 
             <ChipList>

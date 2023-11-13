@@ -74,7 +74,7 @@ export default function JobAdDetailsForm(props: Props) {
              />
           <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin' label={props.formik.values.salaryMin ? 'Salary minimum' : ''}
              />
-          <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryPerYear' options={Dictionary.getSalaryTypeOptions()} />
+          <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryType' options={Dictionary.getSalaryTypeOptions()} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>

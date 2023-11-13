@@ -1,5 +1,6 @@
 export enum ModalType {
   Confirm = 'confirm',
+  ApplicationCreate = 'applicationCreate'
 }
 export enum CookiesType {
   accessToken = 'accessToken',

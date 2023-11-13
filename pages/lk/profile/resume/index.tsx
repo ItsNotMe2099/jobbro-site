@@ -2,32 +2,34 @@ import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { ProfilePageLayout } from '@/components/for_pages/Profile/ProfileLayout'
 import styles from 'pages/lk/profile/resume/index.module.scss'
-import { ResumeCard } from '@/components/for_pages/Profile/Resume/ResumeCard'
+import {CvOwnerCard} from '@/components/for_pages/Common/CvOwnerCard'
+import {CVListOwnerWrapper, useCVListOwnerContext} from '@/context/cv_owner_list_state'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 
 interface Props {
 
 }
 
-const ProfileResumePage = (props: Props) => {
-
-  const resumes = [
-    {
-      id: 1,
-      name: 'Product Designer', updated: '05.08.2023 at 6:20 PM',
-      stats: { jobs: '1 313', impressions: '9', invites: '2', views: '0' },
-
-    }
-  ]
+const ProfileResumePageInner = (props: Props) => {
+  const cvListContext = useCVListOwnerContext()
+  useEffectOnce(() => {
+    cvListContext.reFetch()
+  })
 
   return (
     <div className={styles.root}>
-      {resumes.map((i, index) =>
-        <ResumeCard item={i} key={index} />
+      {cvListContext.data.map((i, index) =>
+        <CvOwnerCard cv={i} key={i.id} />
       )}
     </div>
   )
 }
 
+const ProfileResumePage = () => {
+  return (<CVListOwnerWrapper>
+    <ProfileResumePageInner/>
+  </CVListOwnerWrapper>)
+}
 ProfileResumePage.getLayout = ProfilePageLayout
-export default ProfileResumePage
+export default  ProfileResumePage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Employee)

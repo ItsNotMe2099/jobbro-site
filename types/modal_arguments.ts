@@ -7,3 +7,7 @@ export interface ConfirmModalArguments {
   cancel?: string
   confirmColor?: 'red' | 'blue'
 }
+
+export interface ApplicationCreateModalArguments{
+  vacancyId: number
+}

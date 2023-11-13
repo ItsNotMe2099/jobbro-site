@@ -24,7 +24,7 @@ export default function CardCandidateSummary(props: Props) {
             Education
           </div>
           <div className={styles.about}>
-            {cv.educationInfo.map((i) => <div>{[i.institution, i.speciality, Formatter.formatRangeMonthYear(i)].filter(i => !!i).join(', ')}</div>)}
+            {cv.educationInfo.map((i) => <div>{[i.institution, i.speciality, Formatter.formatRangeYear(i.fromYear, i.toYear)].filter(i => !!i).join(', ')}</div>)}
           </div>
         </div>}
         {cv.skills.length >0 && <div className={styles.section}>

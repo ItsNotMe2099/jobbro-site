@@ -11,6 +11,7 @@ import IFile from '@/data/interfaces/IFile'
 import IHiringStage from '@/data/interfaces/IHiringStage'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
+import {ICompany} from '@/data/interfaces/ICompany'
 
 
 export interface IAutoMessage{
@@ -34,6 +35,7 @@ export interface IVacancy {
   id: number;
   profileId: number;
   name: string;
+  company: ICompany
   intro: IVacancyPageBlock;
   category: IServiceCategory;
   categoryId: number;

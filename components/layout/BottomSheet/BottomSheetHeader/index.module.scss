@@ -1,0 +1,21 @@
+@import "styles/index";
+
+.root{
+  padding: 0px $space-modal-mobile 8px $space-modal-mobile;
+  color: $black;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: center;
+  &.withSuffix{
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+}
+
+.title{
+
+  display: block;
+  flex: 1;
+  padding-right: 4px;
+}

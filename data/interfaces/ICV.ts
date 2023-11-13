@@ -5,7 +5,7 @@ import IFile from '@/data/interfaces/IFile'
 import {ModerationStatus} from '@/data/enum/ModerationStatus'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {SalaryType} from '@/data/enum/SalaryType'
-import {IVacancyContactPerson, IVacancyPageBlock} from '@/data/interfaces/IVacancy'
+import { IVacancyPageBlock} from '@/data/interfaces/IVacancy'
 import {VacancyLookType} from '@/data/enum/VacancyLookType'
 import {Employment} from '@/data/enum/Employment'
 import {IServiceCategory} from '@/data/interfaces/IServiceCategory'
@@ -17,16 +17,26 @@ import {BusinessTrips} from '@/data/enum/BusinessTrips'
 import {ISkill} from '@/data/interfaces/ISkill'
 import {Nullable} from '@/types/types'
 import {IProfile} from '@/data/interfaces/IProfile'
-interface ILanguageKnowledge{
+export interface ILanguageKnowledge{
   language: string
   level: string
 }
+export enum CvContactPersonType {
+  Email = 'email',
+  Phone = 'phone'
+}
+export interface ICvContactPerson {
+  email?: string;
+  phone?: string;
+}
+
 
 export interface ICV {
   id: number
   profileId: number;
   profile: Nullable<IProfile>
   title: string;
+  name?: Nullable<string>
   firstName?: Nullable<string>
   lastName?: Nullable<string>
   patronymic?: Nullable<string>
@@ -53,7 +63,8 @@ export interface ICV {
   skillsDescription: IVacancyPageBlock;
   vacancyLookType: VacancyLookType;
   currency: string;
-  contacts: IVacancyContactPerson;
+  contactsVisible: boolean;
+  contacts: ICvContactPerson[];
   employment: Employment;
   nativeLanguage: string;
   languageKnowledges: ILanguageKnowledge[];
@@ -80,4 +91,5 @@ export interface ICV {
   hashCV: string;
   hash: string;
   createdAt: string;
+  updatedAt: string;
 }

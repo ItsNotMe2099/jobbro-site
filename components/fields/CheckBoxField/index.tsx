@@ -2,10 +2,10 @@ import { useField } from 'formik'
 import styles from 'components/fields/CheckBoxField/index.module.scss'
 import { IField } from '@/types/types'
 // @ts-ignore
-import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import classNames from 'classnames'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
 import MarkdownText from '@/components/ui/MarkdownText'
+import Checkbox from '@/components/ui/Checkbox'
 
 interface Props extends IField<boolean> {
   label?: string | React.ReactNode
@@ -25,16 +25,7 @@ const CheckBoxField = (props: Props) => {
   }
   return (
     <div ref={ref} className={styles.root} onClick={handleChange} data-field={props.name}>
-      <div
-        className={classNames({
-          [styles.checkbox]: true,
-          [styles.hover]: hover,
-          [styles.checked]: field.value,
-          [styles.error]: showError,
-        })}
-      >
-        {field.value && <CheckBoxSvg />}
-      </div>
+     <Checkbox checked={field.value} hover={hover} showError={showError}/>
       <div
         className={classNames({
           [styles.label]: true,

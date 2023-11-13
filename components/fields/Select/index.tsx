@@ -17,6 +17,7 @@ import {ReactElement, ReactNode, useRef, useState} from 'react'
 import ChevronDownSvg from '@/components/svg/ChevronDownSvg'
 import { colors } from '@/styles/variables'
 import SearchSvg from '@/components/svg/SearchSvg'
+import FieldLabel from '@/components/fields/FieldLabel'
 
 interface Props<T> {
   selectProps?: Nullable<SelectProps>,
@@ -36,17 +37,14 @@ interface Props<T> {
 
 export default function Select<T>(props: Props<T>) {
   const selected = props.options.find(item => item.value == props.value)
+  const [focused, setFocus] = useState(false)
   const [ref, press, hover] = usePressAndHover()
 
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
-      {props.label && (
-        <div className={classNames({
-          [styles.label]: true,
-        })}>
-          {props.label}
-        </div>
-      )}
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
       <ReactSelect<IOption<T>, false, GroupBase<IOption<T>>>
         value={selected as any}
         isClearable={props.resettable}
@@ -59,7 +57,16 @@ export default function Select<T>(props: Props<T>) {
           [styles.error]: props.hasError,
           [styles.hover]: hover,
           [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
         })}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
         isLoading={props.isLoading}
         classNamePrefix="yg-select"
         isSearchable={false}
@@ -96,16 +103,12 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
   const [selected, setSelected] = useState<any>(null)
-
+  const [focused, setFocus] = useState(false)
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
-      {props.label && (
-        <div className={classNames({
-          [styles.label]: true,
-        })}>
-          {props.label}
-        </div>
-      )}
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
       <AsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
         defaultValue={selected ?? props.defaultOption}
         value={selected ?? props.defaultOption}
@@ -121,12 +124,21 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
           [styles.error]: props.hasError,
           [styles.hover]: hover,
           [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
         })}
         //  onFocus={props.onFocus}
         classNamePrefix="yg-select"
         isSearchable={true}
         isClearable={true}
         placeholder={props.placeholder}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
         onChange={(option) => {
           console.log('Selected2', option)
           setSelected(option)
@@ -175,16 +187,12 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
   const [selected, setSelected] = useState<any>(null)
-
+  const [focused, setFocus] = useState(false)
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
-      {props.label && (
-        <div className={classNames({
-          [styles.label]: true,
-        })}>
-          {props.label}
-        </div>
-      )}
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
       <CreatableAsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
         defaultValue={selected}
         value={selected}
@@ -203,8 +211,16 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
           [styles.error]: props.hasError,
           [styles.hover]: hover,
           [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
         })}
-        //  onFocus={props.onFocus}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
         classNamePrefix="yg-select"
         isSearchable={true}
         isClearable={true}

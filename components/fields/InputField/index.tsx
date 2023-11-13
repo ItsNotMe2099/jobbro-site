@@ -63,7 +63,6 @@ const getInitialPatternFromFormat = (format: FormatType | undefined) => {
   }
 }
 export default function InputField<T extends string | number>(props: InputFieldProps<T>) {
-
   const [focused, setFocus] = useState(false)
   const [obscureShow, setObscureShow] = useState(false)
   const [field, meta, helpers] = useField(props as any)
