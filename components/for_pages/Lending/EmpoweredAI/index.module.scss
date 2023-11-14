@@ -1,0 +1,99 @@
+@import "styles/index";
+
+.root {
+  margin: 40px 0;
+}
+
+.wrapper {
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 40px;
+  background: linear-gradient(0deg, #08A357 0%, #08A357 100%), #D9D9D9;
+}
+
+.container {
+  @include container;
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recruitment {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $white;
+  font-family: 'Work Sans';
+}
+
+.everything {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  color: $white;
+  font-family: 'Work Sans';
+}
+
+.line {
+  margin-top: 8px;
+  height: 1px;
+  background-color: $white;
+}
+
+.middle {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+
+.icon {
+  height: 104px;
+}
+
+.bottom {
+  border-radius: 24px;
+  border: 1px solid #52BE89;
+  margin-top: 40px
+}
+
+.inner {
+  @include container;
+  display: flex;
+  width: 887px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.percent {
+  font-size: 197px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: $white;
+  font-family: 'Work Sans';
+
+  span {
+    font-size: 89px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: 'Work Sans';
+  }
+}
+
+.hr {
+  font-size: 57px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 65px;
+  color: $white;
+  font-family: 'Work Sans';
+}

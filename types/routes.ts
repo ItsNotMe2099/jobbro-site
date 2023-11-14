@@ -170,4 +170,8 @@ export class Routes {
   static get chatRequirementsAnswer() {
     return '/chat/requirements-answer'
   }
+
+  static get lending() {
+    return '/lending'
+  }
 }

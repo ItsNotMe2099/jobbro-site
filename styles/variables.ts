@@ -44,5 +44,9 @@ export const colors = {
   darkOrange: '#CC8552',
   lightBlue: '#C7DDFF',
   blue2: '#0D54BE',
-  backgroundSuccess: '#DBF9DD'
+  backgroundSuccess: '#DBF9DD',
+  greenLending: '#08A357',
+  backgroundLending: '#161815',
+  white90: '#D9D9D9',
+  footerLending: '#1E201D'
 }

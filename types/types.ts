@@ -27,7 +27,7 @@ export interface IField<T> extends FieldConfig<T> {
 
 export type Nullable<T> = T | null
 
-export interface IOptionGroup<T>{
+export interface IOptionGroup<T> {
   title: string
   options: IOption<T>[]
 }
@@ -64,10 +64,15 @@ export interface SnackbarData {
 export const CONTACTS = {
   twitter: '#',
   instagram: '#',
-  facebook: '#'
+  facebook: '#',
+  linkedIn: '#',
+  youtube: '#',
+  adress: '12140 Jl H Nawi Raya 9-A, Dki Jakarta, Indonesia',
+  phone: '518-564-3200',
+  email: 'contact@jobbro.com',
 }
 
-export interface IRichTextLinkData{
+export interface IRichTextLinkData {
   title: string | null,
   href: string | null
 }
