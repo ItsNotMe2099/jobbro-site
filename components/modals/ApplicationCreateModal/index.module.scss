@@ -1,0 +1,6 @@
+@import "styles/index";
+.list{
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}

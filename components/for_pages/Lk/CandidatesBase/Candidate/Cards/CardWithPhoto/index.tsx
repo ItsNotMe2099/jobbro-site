@@ -41,17 +41,17 @@ export default function CardWithPhoto(props: Props) {
               <div>{cv.country?.name}</div>
             </div>}
           </div>
-          {(cv.contacts?.email || cv.contacts?.phone) && <div className={styles.contacts}>
+          {(cv.contacts?.length > 0) && <div className={styles.contacts}>
             <div className={styles.title}>
               Contacts
             </div>
-            {cv.contacts?.email && <div className={styles.email}>
+            {cv.contacts.filter(i => !!i.email).length > 0 && <div className={styles.email}>
               <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' />
-              <div>{cv.contacts?.email}</div>
+              {cv.contacts?.filter(i => !!i.email).map(i => <a href={`mailto:${i.email}`}>{i.email}</a>)}
             </div>}
-            {cv.contacts?.phone && <div className={styles.email}>
+            {cv.contacts.filter(i => !!i.phone).length > 0  && <div className={styles.email}>
               <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' phone />
-              <div>{cv.contacts?.phone}</div>
+              {cv.contacts?.filter(i => !!i.phone).map(i => <a href={`tel:${i.phone}`}>{i.phone}</a>)}
             </div>}
           </div>}
         </div>

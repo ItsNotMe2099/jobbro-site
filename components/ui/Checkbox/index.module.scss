@@ -1,0 +1,24 @@
+@import "styles/index";
+
+.checkbox {
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  margin-right: 16px;
+  border: 2px solid $green;
+  transition: background 0.2s, border 0.2s;
+
+  &.hover {}
+
+  &.checked {
+    background: $green;
+  }
+
+  &.error {
+    border-color: red;
+  }
+}

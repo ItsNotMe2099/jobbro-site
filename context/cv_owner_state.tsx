@@ -5,6 +5,7 @@ import {useAppContext} from '@/context/state'
 import {ModalType, SnackbarType} from '@/types/enums'
 import CvOwnerRepository from '@/data/repositories/CvOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
+import {PublishStatus} from '@/data/enum/PublishStatus'
 
 interface IState {
   cvId?: Nullable<number> | undefined
@@ -12,12 +13,14 @@ interface IState {
   deleteLoading: boolean,
   loading: boolean
   editLoading: boolean,
+  editStatusLoading: boolean,
   fetch: () => Promise<Nullable<ICV>>
   delete: () => Promise<Nullable<ICV>>,
   edit: () => void,
   update: (data: DeepPartial<ICV>) => Promise<Nullable<ICV>>,
   create: (data: DeepPartial<ICV>) => Promise<Nullable<ICV>>,
-
+  publish: () => Promise<Nullable<ICV>>,
+  pause: () => Promise<Nullable<ICV>>,
 }
 
 const defaultValue: IState = {
@@ -26,11 +29,14 @@ const defaultValue: IState = {
   deleteLoading: false,
   loading: false,
   editLoading: false,
+  editStatusLoading: false,
   fetch: async () => null,
   delete: async () => null,
   edit: () => null,
   update: async (data) => null,
   create: async (data: DeepPartial<ICV>) => null,
+  publish: async () => null,
+  pause: async () => null,
 }
 
 const CVOwnerContext = createContext<IState>(defaultValue)
@@ -47,6 +53,8 @@ export function CVOwnerWrapper(props: Props) {
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [editLoading, setEditLoading] = useState<boolean>(false)
+  const [editStatusLoading, setEditStatusLoading] = useState<boolean>(false)
+
   useEffect(() => {
     setCV(props.cv as Nullable<ICV>)
 
@@ -131,6 +139,46 @@ export function CVOwnerWrapper(props: Props) {
     })
 
   }
+
+  const updateStatusRequest = async (status: PublishStatus): Promise<Nullable<ICV>> => {
+    try {
+      setEditStatusLoading(true)
+      const res = await CvOwnerRepository.update(props.cvId!, {status})
+      handleUpdate(res)
+      setEditStatusLoading(false)
+    } catch (err) {
+      if (err instanceof RequestError) {
+        appContext.showSnackbar(err.message, SnackbarType.error)
+      }
+      setEditStatusLoading(false)
+    }
+    return null
+  }
+  const publish = async (): Promise<Nullable<ICV>> => {
+    return new Promise<Nullable<ICV>>((resolve, reject) => {
+      appContext.showModal(ModalType.Confirm, {
+        text: `Are you sure that you want to publish «${cv?.title}» ?`,
+        onConfirm: async () => {
+          await updateStatusRequest(PublishStatus.Published)
+          appContext.hideModal()
+        }
+      } as ConfirmModalArguments)
+    })
+  }
+
+  const pause = async (): Promise<Nullable<ICV>> => {
+    return new Promise<Nullable<ICV>>((resolve, reject) => {
+      appContext.showModal(ModalType.Confirm, {
+        text: `Are you sure that you want to pause «${cv?.title}» ?`,
+        onConfirm: async () => {
+          await updateStatusRequest(PublishStatus.Paused)
+          appContext.hideModal()
+        }
+      } as ConfirmModalArguments)
+    })
+  }
+
+
   const value: IState = {
     ...defaultValue,
     cv,
@@ -138,10 +186,13 @@ export function CVOwnerWrapper(props: Props) {
     editLoading,
     loading,
     deleteLoading,
+    editStatusLoading,
     fetch,
     update,
     delete: deleteRequest,
     create,
+    publish,
+    pause,
   }
   return (
     <CVOwnerContext.Provider value={value}>

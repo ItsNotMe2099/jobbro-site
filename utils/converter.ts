@@ -65,4 +65,10 @@ export default class Converter {
   static replaceTextImageSource(text: string): string {
     return text?.replace(/src="\/api\/asset\/(.*?)/gi, `src="${runtimeConfig.HOST}/api/asset/`)
   }
+
+  static nameToFirstLast(name: string): { firstName: string | null, lastName: string | null } {
+    const [firstName, ...lastName] = name.split(' ')
+
+    return {firstName, lastName: lastName.join(' ')}
+  }
 }

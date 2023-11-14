@@ -45,7 +45,7 @@ export default function CountryField(props: Props) {
                 console.log('OnChangeValue5', val)
               }}
                            defaultOption={field.value ? {label: field.value?.name, value: field.value} : null}
-                                   placeholder={'Enter country'}  loadOptions={loadOptions} options={[]}
+                           loadOptions={loadOptions} options={[]}
 
                                 initialAsyncData={{page: 1}}/>
   )

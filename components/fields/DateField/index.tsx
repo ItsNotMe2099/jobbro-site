@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
-import { IField } from 'types/types'
+import {DeepPartial, IField} from 'types/types'
 import { useField } from 'formik'
-import DatePicker from 'react-datepicker'
+import DatePicker, {ReactDatePickerProps} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import classNames from 'classnames'
 import FieldIconSvg from 'components/svg/FieldIconSvg'
@@ -15,6 +15,7 @@ interface Props extends IField<string> {
   minDate?: Date
   visibleYearSelector?: boolean
   excludeDates?: Date[]
+  datePickerProps?: DeepPartial<ReactDatePickerProps<string, false>>
 }
 
 export default function DateField(props: Props) {
@@ -24,7 +25,7 @@ export default function DateField(props: Props) {
   return (
     <div className={styles.root} data-field={props.name}>
       <div className={styles.wrapper} ref={wrapperRef}>
-        <DatePicker
+        <DatePicker<string, false>
           name={props.name}
           className={classNames({
             [styles.input]: true,
@@ -53,6 +54,7 @@ export default function DateField(props: Props) {
               helpers.setValue(format(date, 'dd.MM.yyyy'))
             }
           }}
+          {...props.datePickerProps as any}
         />
         {props.iconName && (
           <FieldIconSvg

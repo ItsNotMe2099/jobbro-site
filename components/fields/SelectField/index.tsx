@@ -28,6 +28,7 @@ export interface SelectFieldProps<T> extends IField<T> {
   selectKey?: string
   defaultOption?: Nullable<IOption<T>>
   isLoading?: boolean | undefined
+  fluid?: boolean
 }
 
 export default function SelectField<T>(props: SelectFieldProps<T>) {
@@ -48,7 +49,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
 
   const uniqueKey = props.selectKey ?? `${props.name}`
   return (
-    <div className={classNames(styles.root, props.className)} data-field={props.name}>
+    <div className={classNames(styles.root, props.className, {[styles.fluid]: props.fluid})} data-field={props.name}>
       {props.creatable ? <CreateSelectAsync<T>
         label={props.label as string}
         key={uniqueKey}
@@ -76,7 +77,6 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         placeholder={props.placeholder ?? ''}
         selectProps={{defaultValue: field.value}}
         onChange={(value) => {
-          console.log('OnChangeValue', value)
           helpers.setValue(value)
           props.onChange?.(value)
         }}

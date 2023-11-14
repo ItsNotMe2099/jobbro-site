@@ -1,0 +1,21 @@
+@import "styles/index";
+
+.root {}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.addressList {
+
+  :global .react-modal-sheet-container {
+    height: min(800px, calc(100% - env(safe-area-inset-top) - 34px)) !important;
+    background: #F0ECFB !important;
+  }
+}

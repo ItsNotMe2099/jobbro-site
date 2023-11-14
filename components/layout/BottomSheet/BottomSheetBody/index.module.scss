@@ -1,0 +1,8 @@
+@import "styles/index";
+
+.root{
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+  padding: $space-modal-mobile;
+}

@@ -10,6 +10,7 @@ interface Props extends IField<IGeoName> {
   resettable?: boolean
   onChange?: (value: Nullable<IGeoName>) => void
   country?: Nullable<string>
+  className?: string
 }
 
 export default function CityField(props: Props) {
@@ -45,7 +46,7 @@ export default function CityField(props: Props) {
     <SelectField<IGeoName> {...(props as any)} async={true}
                            selectKey={`${props.country}`}
                            defaultOption={field.value ? {label: field.value?.name, value: field.value} : null}
-                                   placeholder={'Enter city'} loadOptions={loadOptions} options={[]}
+                            loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>
   )
 }

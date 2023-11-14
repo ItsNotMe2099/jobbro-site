@@ -77,11 +77,8 @@ export default function CreateJobManuallyForm(props: Props) {
   const vacancyContext = useVacancyOwnerContext()
   const companyContext = useCompanyOwnerContext()
   const router = useRouter()
-  const [loading, setLoading] = useState<boolean>(false)
   let ref = useRef<HTMLDivElement | null>(null)
   const handleSubmit = async (data: IVacancyFormData) => {
-    setLoading(true)
-    console.log('Data', data)
     const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
       skillsIds: data.skills.map(i => i.id),
       benefitsIds: data.benefits.map(i => i.id),

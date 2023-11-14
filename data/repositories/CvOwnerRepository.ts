@@ -1,13 +1,12 @@
 import request from 'utils/request'
 import {AxiosRequestConfig} from 'axios/index'
-import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
 import {ICV} from '@/data/interfaces/ICV'
 import {ICvOwnerListRequest} from '@/data/interfaces/ICvOwnerListRequest'
 
 export default class CvOwnerRepository {
-  static async fetch(data: ICvOwnerListRequest, config?: AxiosRequestConfig): Promise<IPagination<ICV>> {
-    const res = await request<IPagination<ICV>>({
+  static async fetch(data: ICvOwnerListRequest, config?: AxiosRequestConfig): Promise<ICV[]> {
+    const res = await request<ICV[]>({
       method: 'get',
       url: '/api/cv/currentUser',
       data,

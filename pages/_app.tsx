@@ -16,6 +16,7 @@ import Snackbar from '@/components/layout/Snackbar'
 import 'react-datepicker/dist/react-datepicker.css'
 import AppOverlay from '@/components/ui/AppOverlay'
 import {ToastContainer} from 'react-toastify'
+import BottomSheetContainer from '@/components/layout/BottomSheetContainer'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -46,6 +47,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       {getLayout(<Component {...pageProps as any} />)}
       <ModalContainer />
+      <BottomSheetContainer />
       <AppOverlay />
       <Snackbar />
       <ToastContainer

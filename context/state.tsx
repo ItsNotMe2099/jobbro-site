@@ -26,8 +26,13 @@ interface IState {
   showSnackbar: (text: string, type: SnackbarType) => void
   modal: ModalType | null
   modalArguments: any
+  modalNonSkippable: boolean
+  setModalNonSkippable: (val: boolean) => void
+  bottomSheet: ModalType | null
   showModal: (type: ModalType, args?: any) => void
   hideModal: () => void
+  showBottomSheet: (type: ModalType, args?: any) => void,
+  hideBottomSheet: () => void
   sidePanel: SidePanelType | null
   panelArguments: any
   showSidePanel: (type: SidePanelType, args?: any) => void
@@ -109,8 +114,13 @@ const defaultValue: IState = {
   showSnackbar: (text, type) => null,
   modal: null,
   modalArguments: null,
+  modalNonSkippable: false,
+  setModalNonSkippable: () => null,
+  bottomSheet: null,
   showModal: (type) => null,
+  showBottomSheet: (type) => null,
   hideModal: () => null,
+  hideBottomSheet: () => null,
   sidePanel: null,
   panelArguments: null,
   showSidePanel: (type, args) => null,
@@ -154,6 +164,11 @@ const defaultValue: IState = {
   candidateDeleteState$,
 }
 
+const ModalsBottomSheet: ModalType[] = [
+
+]
+
+
 const AppContext = createContext<IState>(defaultValue)
 
 interface Props {
@@ -176,7 +191,8 @@ export function AppWrapper(props: Props) {
   const [modal, setModal] = useState<ModalType | null>(null)
   const [modalArguments, setModalArguments] = useState<any>(null)
   const [isOverlayShown, setIsOverlayShown] = useState<boolean>(false)
-
+  const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
+  const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
   const showSnackbar = (text: string, type: SnackbarType) => {
 
     setSnackbar({text, type})
@@ -249,19 +265,42 @@ export function AppWrapper(props: Props) {
 
 
   const showModal = (type: ModalType, args?: any) => {
-    console.log('SetModal', type)
+    if (props.isMobile && ModalsBottomSheet.includes(type)) {
+      showBottomSheet(type, args)
+      return
+    }
+
     ReactModal.setAppElement('body')
     setModalArguments(args)
     setModal(type)
+    if (bottomSheet) {
+      hideBottomSheet()
+    }
   }
 
   const hideModal = () => {
+    if (bottomSheet) {
+      hideBottomSheet()
+    }
     console.log('HideModal')
     setModal(null)
     setModalArguments(null)
   }
+
+  const showBottomSheet = (type: ModalType, props?: any) => {
+    ReactModal.setAppElement('body')
+    setModalArguments(props)
+    setBottomSheet(type)
+  }
+
+  const hideBottomSheet = () => {
+    setBottomSheet(null)
+  }
+
   const value: IState = {
     ...defaultValue,
+    modalNonSkippable,
+    setModalNonSkippable,
     isLogged,
     isNotLogged: !isLogged,
     isMobile: isMobile,
@@ -275,8 +314,11 @@ export function AppWrapper(props: Props) {
     token,
     modal,
     modalArguments,
+    bottomSheet,
     showModal,
+    showBottomSheet,
     hideModal,
+    hideBottomSheet,
     sidePanel,
     panelArguments,
     showSidePanel,
