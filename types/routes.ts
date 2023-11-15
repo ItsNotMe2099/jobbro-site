@@ -174,4 +174,11 @@ export class Routes {
   static get lending() {
     return '/lending'
   }
+  static get applies() {
+    return '/chat'
+  }
+
+  static get marks() {
+    return '/chat'
+  }
 }

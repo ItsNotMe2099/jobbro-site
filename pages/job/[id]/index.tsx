@@ -10,6 +10,7 @@ import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
 import {useRef} from 'react'
 import {useAppContext} from '@/context/state'
+import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 
 interface Props{
   job: IVacancy
@@ -21,7 +22,7 @@ const JobPageInner = (props: Props) => {
         <div ref={ref} className={styles.root}>
           <JobPreview job={props.job} company={props.job.company} />
           <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-            <Button spinner={false} type='submit' styleType='large' color='green' onClick={() => appContext.showModal(ModalType.ApplicationCreate)}>
+            <Button spinner={false} type='submit' styleType='large' color='green' onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
               Apply
             </Button>
           </FormStickyFooter>

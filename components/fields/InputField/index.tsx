@@ -169,7 +169,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
   }
   const renderPrefix = () => {
     if (props.prefix === 'search') {
-      return <div className={cx(styles.prefix)}><SearchSvg color={colors.black} /></div>
+      return <div className={cx(styles.prefix)}><SearchSvg color={colors.textSecondary} /></div>
     } else if (typeof props.prefix === 'string') {
       return <div className={cx(styles.prefix)}>{props.prefix}</div>
     }

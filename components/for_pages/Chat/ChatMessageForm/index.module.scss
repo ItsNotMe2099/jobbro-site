@@ -2,24 +2,24 @@
 
 .root {
   position: relative;
-    background: $white;
+  background: $white;
   left: 0px;
   right: 0px;
   bottom: 0px;
-  padding: 1px;
-  padding-left: 47px;
+  padding: 24px;
+  border-radius: 24px;
 }
 
 .field {
-  background: $white;
   display: flex;
   align-items: center;
-
 }
-.textarea{
+
+.textarea {
   flex: 1;
 }
-.sendBtn{
+
+.sendBtn {
   padding: 10px !important;
 }
 

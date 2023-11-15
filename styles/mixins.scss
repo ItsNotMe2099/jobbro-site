@@ -283,7 +283,7 @@
 
 
 @mixin inputWrapper() {
-  border: 1px solid $grey400;
+  border: 1px solid $text-secondary;
   border-radius: $StandartBorderRadius;
 
   &.withPrefix,
@@ -294,11 +294,11 @@
   }
 
   &.inputError {
-    border-color: $red500;
+    border-color: $text-red;
   }
 
   &.inputFocused {
-    border-color: $dark400;
+    border-color: $text-secondary;
   }
 }
 
@@ -325,7 +325,7 @@
   z-index: $zIndexDropDown;
   background: $white;
   border-radius: 8px;
-  border: 1px solid $grey400;
+  border: 1px solid $text-secondary;
   margin-top: 2px;
   opacity: 0;
   visibility: hidden;
@@ -351,7 +351,7 @@
 
 
 @mixin infoLabel() {
-  color: $grey500;
+  color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
 }

@@ -1,8 +1,9 @@
-import { IChat, TimeStamp } from './Common'
+import {  TimeStamp } from './Common'
 import { ICV } from './ICV'
 import { IVacancy } from './IVacancy'
 import {ApplicationStatus} from '@/data/enum/ApplicationStatus'
 import {IProfile} from '@/data/interfaces/IProfile'
+import IChat from '@/data/interfaces/IChat'
 
 export interface IApplication extends TimeStamp{
   id: number,

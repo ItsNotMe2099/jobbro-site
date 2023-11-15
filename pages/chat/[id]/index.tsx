@@ -1,21 +1,24 @@
 import { getAuthServerSideProps } from '@/utils/auth'
-import { ProfileType } from '@/data/enum/ProfileType'
 import styles from './index.module.scss'
-import { ChatPageLayout } from '@/components/for_pages/Chat/ChatLayout'
+import Layout from '@/components/layout/Layout'
+import ChatDialog from '@/components/for_pages/Chat/ChatDialog'
+import {useRouter} from 'next/router'
 
 interface Props {
 
 }
 
-const ChatId = (props: Props) => {
-
+const ChatPage = (props: Props) => {
+  const router = useRouter()
   return (
+    <Layout>
     <div className={styles.root}>
-      
+      <ChatDialog chatId={parseInt(router.query.id as string)}/>
     </div>
+    </Layout>
   )
 }
 
-ChatId.getLayout = ChatPageLayout
-export default ChatId
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+
+export default ChatPage
+export const getServerSideProps = getAuthServerSideProps()

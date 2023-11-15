@@ -1,3 +1,5 @@
+import IFile from '@/data/interfaces/IFile'
+
 export interface ConfirmModalArguments {
   onConfirm: () => void
   onCancel?: () => void
@@ -11,3 +13,13 @@ export interface ConfirmModalArguments {
 export interface ApplicationCreateModalArguments{
   vacancyId: number
 }
+export interface ChatFileUploadModalArguments {
+  message?: string | null
+}
+
+export interface GalleryModalArguments {
+  images: IFile[]
+  title: string
+  selectedId: number
+}
+

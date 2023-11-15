@@ -1,0 +1,30 @@
+@import "styles/index";
+.root{
+background-color: $white;
+  border-radius: 24px;
+  padding: 4px;
+}
+.title{
+  padding: 16px 20px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.details{
+
+  background-color: $background-secondary;
+  border-radius: 0px 0px 20px 20px;
+  padding: 24px 20px;
+}
+.detail{
+  display: flex;
+  flex-direction: row;
+  @include list(8px, true);
+  font-size: 16px;
+}
+.label{
+  color: $text-secondary;
+}
+.value{
+  color: $green;
+  font-weight: 700;
+}

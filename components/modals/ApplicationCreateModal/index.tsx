@@ -1,9 +1,9 @@
 import styles from './index.module.scss'
-import { colors } from 'styles/variables'
+import {colors} from 'styles/variables'
 import BottomSheetLayout from 'components/layout/BottomSheet/BottomSheetLayout'
 import ModalLayout from 'components/layout/Modal/ModalLayout'
 import BottomSheetBody from 'components/layout/BottomSheet/BottomSheetBody'
-import { useAppContext } from 'context/state'
+import {useAppContext} from 'context/state'
 import ModalBody from 'components/layout/Modal/ModalBody'
 import ModalFooter from 'components/layout/Modal/ModalFooter'
 import {CVListOwnerWrapper, useCVListOwnerContext} from '@/context/cv_owner_list_state'
@@ -17,6 +17,8 @@ import {Nullable, RequestError} from '@/types/types'
 import {SnackbarType} from '@/types/enums'
 import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import {PublishStatus} from '@/data/enum/PublishStatus'
 
 interface Props {
   isBottomSheet?: boolean
@@ -30,8 +32,9 @@ const ApplicationCreateModalInner = (props: Props) => {
   const [selectedCv, setSelectedCv] = useState<Nullable<ICV>>(null)
   const args = appContext.modalArguments as ApplicationCreateModalArguments
 
-  console.log('ApplicationCreateModalInner')
-
+  useEffectOnce(() => {
+    cvListContext.reFetch()
+  })
   const handleApply = async () => {
     setSending(true)
     if(!selectedCv){
@@ -39,9 +42,10 @@ const ApplicationCreateModalInner = (props: Props) => {
     }
     try{
       await ApplicationRepository.create({
-        vacancyId: args.vacancyId,
+        vacancyId: args?.vacancyId,
         cvId: selectedCv.id
       })
+      appContext.hideModal()
 
     } catch (err) {
       if (err instanceof RequestError) {
@@ -60,11 +64,11 @@ const ApplicationCreateModalInner = (props: Props) => {
 
   const body = ( cvListContext.isLoaded && cvListContext.data.length === 0
       ? <StubEmpty>No resume</StubEmpty>
-    : cvListContext.isLoaded ? (<ContentLoader isOpen={true}/>) : (<>
+    : (!cvListContext.isLoaded ? (<ContentLoader isOpen={true}/>) : (<>
         <div className={styles.list}>
-          {cvListContext.data.map(i => <CvOwnerSmallCard cv={i} checked={selectedCv?.id === i.id} onClick={() => setSelectedCv(i)}/>)}
+          {cvListContext.data.filter(i => i.status === PublishStatus.Published).map(i => <CvOwnerSmallCard key={i.id} cv={i} checked={selectedCv?.id === i.id} onClick={() => selectedCv?.id === i.id ? setSelectedCv(null) : setSelectedCv(i)}/>)}
         </div>
-      </>)
+      </>))
   )
 
   const footer = <div className={styles.buttons}>

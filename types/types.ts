@@ -2,6 +2,7 @@ import { SnackbarType } from './enums'
 import { HTMLInputTypeAttribute, MouseEventHandler } from 'react'
 import { FieldConfig } from 'formik'
 import { UrlObject } from 'url'
+import IChatMessage from '@/data/interfaces/IChatMessage'
 
 export type FieldIconName = 'field_phone' | 'field_name' | 'field_comment' | 'field_date' | 'field_time' | 'field_persons' | 'field_email'
 
@@ -80,4 +81,9 @@ export interface IRichTextLinkData {
 
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
+}
+
+export interface ChatMessageProps{
+  message: IChatMessage
+  side: 'my' | 'other' | undefined | null
 }

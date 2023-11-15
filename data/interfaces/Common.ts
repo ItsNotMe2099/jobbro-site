@@ -82,17 +82,6 @@ export interface IVideo extends TimeStamp {
   userId: number|null
 }
 
-export interface IChat extends  TimeStamp {
-  id: number,
-  type: 'chat',
-  name: string|null,
-  isGroup: boolean,
-  profileId: number,
-  participantId: number,
-  applicationId: number,
-  proposalId: number|null,
-  lastMessageAt: string,
-}
 
 export interface ISpecializationCategory extends TimeStamp {
   id: number,

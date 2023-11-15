@@ -1,45 +1,72 @@
-import { getAuthServerSideProps } from '@/utils/auth'
-import { ProfileType } from '@/data/enum/ProfileType'
-import { ProfilePageLayout } from '@/components/for_pages/Profile/ProfileLayout'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfilePageLayout} from '@/components/for_pages/Profile/ProfileLayout'
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
-import SocialNetworkCard from '@/components/for_pages/Chat/SocilaNetworkCard'
+import ChatDialogCard from '@/components/for_pages/Chat/ChatDialogList/ChatDialogCard'
+import {ChatWrapper, useChatContext} from '@/context/chat_state'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import ContentLoader from '@/components/ui/ContentLoader'
+import FlipMove from 'react-flip-move'
+import PageTitle from '@/components/for_pages/Common/PageTitle'
+import ChatDialogSearch from '@/components/for_pages/Chat/ChatDialogList/ChatDialogSearch'
+import {debounce} from 'debounce'
+import {InputValueType} from '@/components/fields/InputField'
+import {ChatSocketWrapper} from '@/context/chat_socket_state'
 
 interface Props {
 
 }
 
-const ChatAllPage = (props: Props) => {
+const ChatAllPageInner = (props: Props) => {
+  const chatContext = useChatContext()
+  const debouncedSearchChange = debounce(async (search: InputValueType<string>) => {
+    chatContext.setFilter({...chatContext.filter, search})
+  }, 300)
 
-  const chats = [
-    {
-      id: 1,
-      icon: '/profiles/linkedin.svg', name: 'LinkedIn',
-      lastMsg: { name: 'Roise', msg: 'Senior Manager of Software Development and Engineering', date: '11:53' }, unreadMsgs: 1
-    },
-    {
-      id: 2, icon: '/profiles/greenhouse.svg', name: 'Greenhouse',
-      lastMsg: { name: 'Emeli:', msg: 'Senior Manager of Software Development and Engineering', date: '10:18' }, unreadMsgs: 100
-    },
-    {
-      id: 3, icon: '/profiles/xing.svg', name: 'Xing',
-      lastMsg: { name: 'Josef:', msg: 'Senior Manager of Software Development and Engineering', date: '9:46' }, unreadMsgs: 23
-    },
-  ]
-
-  return (
-    <div className={styles.root}>
+  return (<div className={styles.root}>
+      <PageTitle title={'Chat'}/>
       <Card>
-        <div className={styles.socials}>
-          {chats.map((i, index) =>
-            <SocialNetworkCard item={i} key={index} />
-          )}
+        <ChatDialogSearch onChange={(val) => debouncedSearchChange(val)}/>
+      </Card>
+      <Card>
+        <div className={styles.dialogs}>
+          {!chatContext.loading && !chatContext.filterIsEmpty && chatContext.totalChats === 0 ?
+            <div className={styles.empty}>
+              По вашей запросу ничего не найдено
+            </div> : <InfiniteScroll
+              dataLength={chatContext.chats.length}
+              next={chatContext.fetchMore}
+              style={{overflow: 'inherit'}}
+              loader={chatContext.totalChats > 0 ? <ContentLoader style={'infiniteScroll'} isOpen={true}/> : null}
+              hasMore={chatContext.totalChats > chatContext.chats.length}
+              scrollThreshold={0.6}>
+              <div className={styles.list}>
+                <FlipMove
+                  staggerDurationBy="30"
+                  duration={500}
+                  enterAnimation={'accordionVertical'}
+                  leaveAnimation={'accordionVertical'}
+                >
+                  {chatContext.chats.map((i, index) => <ChatDialogCard key={`${i.id}`}
+                                                                       highlight={chatContext.filter?.search ?? ''}
+                                                                       chat={i}
+                  />)}
+                </FlipMove>
+              </div>
+            </InfiniteScroll>}
         </div>
       </Card>
     </div>
   )
 }
 
+const ChatAllPage = (props: Props) => {
+  return (<ChatSocketWrapper>
+    <ChatWrapper>
+      <ChatAllPageInner/>
+    </ChatWrapper>
+  </ChatSocketWrapper>)
+}
 ChatAllPage.getLayout = ProfilePageLayout
 export default ChatAllPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps()

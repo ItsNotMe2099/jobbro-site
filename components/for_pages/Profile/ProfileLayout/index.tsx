@@ -7,8 +7,6 @@ import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
 import { ProfileCalendar } from '../ProfileCalendar'
 import { useRouter } from 'next/router'
-import Card from '../../Common/Card'
-import InputSearch from '@/components/ui/InputSearch'
 
 enum TabKey {
   Resume = 'resume',
@@ -24,13 +22,9 @@ interface Props {
 }
 const ProfilePageLayoutInner = (props: Props) => {
   const router = useRouter()
-  const options: IOption<TabKey>[] = router.asPath.includes('profile') ? [
+  const options: IOption<TabKey>[] = [
     { label: 'Resume', value: TabKey.Resume, href: Routes.profileResume },
     { label: 'Settings', value: TabKey.Settings, href: Routes.profileSettings },
-  ] : [
-    { label: 'All', value: TabKey.All, href: Routes.chatAll },
-    { label: 'Invites', value: TabKey.Invites, href: Routes.chatInvites },
-    { label: 'Requirements answer', value: TabKey.RequirementsAnswer, href: Routes.chatRequirementsAnswer },
   ]
 
   const [page, setPage] = useState<number>(1)
@@ -46,10 +40,7 @@ const ProfilePageLayoutInner = (props: Props) => {
     <div className={styles.root}>
       <PageTitle title={router.asPath.includes('edit') ? 'Editor resume' : router.asPath.includes('chat') ? 'Chat' : 'Profile'}
         link={router.asPath.includes('edit') ? Routes.profile : ''} />
-      {router.asPath.includes('chat') &&
-        <Card>
-          <InputSearch searchIcon searchRequest={(value) => serachRequest(value)} />
-        </Card>}
+
       {!router.asPath.includes('edit') && <Tabs<TabKey> options={options} />}
       {props.children}
     </div>
