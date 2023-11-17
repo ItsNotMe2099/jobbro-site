@@ -87,3 +87,9 @@ export interface ChatMessageProps{
   message: IChatMessage
   side: 'my' | 'other' | undefined | null
 }
+
+export interface IFormStep<S> {
+  name?: string,
+  description?: string | null
+  key: S
+}

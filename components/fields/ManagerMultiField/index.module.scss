@@ -1,0 +1,48 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}
+.list{
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}
+.employee{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(24px, true);
+  &.selected{
+    .avatar{
+      position: relative;
+      &:after{
+        content: '';
+        position: absolute;
+        border-radius: 100%;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        top: 0px;
+        background: rgba(36, 181, 99, 0.6);
+      }
+    }
+  }
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+}
+.name{
+  font-weight: 700;
+  font-size: 20px;
+}
+.role{
+  color: $text-secondary;
+  font-weight: 400;
+  font-size: 20px;
+}

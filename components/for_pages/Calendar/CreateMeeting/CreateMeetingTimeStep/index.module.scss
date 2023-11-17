@@ -1,0 +1,15 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+}
+.left{
+  flex: 1;
+}
+.right{
+  flex-basis: 330px;
+  max-height: 100%;
+}

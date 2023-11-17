@@ -1,0 +1,61 @@
+@import "styles/index";
+.root{
+  position: relative;
+}
+.hasSlots{
+  background: $background-success;
+  color: $green;
+}
+.calendar{
+
+    max-width: 100%;
+
+  button{
+    border: none;
+  }
+
+
+}
+
+.toolbar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+.label{
+  cursor: pointer;
+  text-transform: capitalize;
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+}
+.arrows{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .arrow{
+      padding: 8px;
+    cursor: pointer;
+    svg {
+      width: 7px;
+      height: 12px;
+    }
+    &:hover{
+      svg{
+        path{
+
+        }
+      }
+    }
+  }
+}
+.year{
+
+}

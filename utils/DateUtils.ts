@@ -190,6 +190,5 @@ export default class DateUtils {
 
     return formatRelative(new Date(date), new Date(), { locale })
   }
-
 }
 
