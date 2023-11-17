@@ -7,6 +7,7 @@ import CloseSvg from '@/components/svg/CloseSvg'
 import SelectTimeField from '@/components/fields/SelectTimeField'
 import {format} from 'date-fns'
 import ClockSvg from '@/components/svg/ClockSvg'
+import { useRef } from 'react'
 
 interface Props {
   value: Date,
@@ -20,6 +21,8 @@ interface Props {
 
 
 export default function MeetingDaySlots(props: Props) {
+  const slotsRef = useRef<HTMLDivElement>(null!)
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -30,9 +33,10 @@ export default function MeetingDaySlots(props: Props) {
           <div className={styles.value}>{format(new Date(), 'zzz')}</div>
         </div>
       </div>
+      <div className={styles.bottom}>
       <FieldArray name={`slots[${format(props.value, 'yyyy-MM-dd')}]`}>
         {(arrayHelpers: FieldArrayRenderProps) => (<>
-            <div className={styles.slots}>
+            <div className={styles.slots}  ref={slotsRef}>
               {(props.slots[format(props.value, 'yyyy-MM-dd')] ?? []).map((i, index) => <div className={styles.slot}
                                                                                              key={index}>
                   <div className={styles.slotHeader}>
@@ -40,7 +44,7 @@ export default function MeetingDaySlots(props: Props) {
                       onClick={() => arrayHelpers.remove(index)}>
                       <CloseSvg color={colors.textSecondary}/>
                     </IconButton>
-                    Time slot {index}
+                    Time slot {index+1}
                   </div>
                   <div className={styles.fields}>
                     <SelectTimeField
@@ -61,13 +65,20 @@ export default function MeetingDaySlots(props: Props) {
 
             </div>
             <div className={styles.footer}>
-              <div className={styles.add} onClick={() => arrayHelpers.push({start: null, description: null})}>
+              <div className={styles.add} onClick={() => {
+                arrayHelpers.push({start: null, description: null})
+                setTimeout(()=> {
+                  slotsRef.current.scrollTop = slotsRef.current.scrollHeight
+                }, 50)
+                
+                }}>
                 Add slot
               </div>
             </div>
           </>
         )}
       </FieldArray>
+      </div>
     </div>
   )
 }
