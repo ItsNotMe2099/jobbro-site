@@ -29,7 +29,7 @@ export interface IField<T> extends FieldConfig<T> {
 export type Nullable<T> = T | null
 
 export interface IOptionGroup<T> {
-  title: string
+  title?: string
   options: IOption<T>[]
 }
 export interface IOption<T> {
@@ -40,6 +40,7 @@ export interface IOption<T> {
   name?: string
   badge?: number
   href?: string
+  color?: string
 }
 
 export type RadioStyleType = 'default' | 'tile' | 'row'

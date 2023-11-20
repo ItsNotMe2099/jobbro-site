@@ -1,19 +1,18 @@
 import styles from './index.module.scss'
 import classNames from 'classnames'
 import {IButton, Nullable} from 'types/types'
-import {ReactElement, RefObject} from 'react'
+import React, {ReactElement} from 'react'
 import Spinner from '@/components/ui/Spinner'
 
 interface Props extends IButton{
   children: React.ReactNode
   className?: string
-  buttonRef?: RefObject<any>
   bgColor?: 'transparent' | 'white' | 'green' | 'grey' | 'lightGreen'
   size?: 'normal' | 'medium' | 'large' | 'small'
   badge?: Nullable<ReactElement>
 }
 
-export default function IconButton(props: Props) {
+function IconButtonInner(props: Props,  ref: React.ForwardedRef<HTMLAnchorElement> | React.ForwardedRef<HTMLButtonElement>) {
   if (props.onClick && props.href) {
     console.warn('IconButton: must have either onClick or href') // eslint-disable-line
   }
@@ -21,7 +20,7 @@ export default function IconButton(props: Props) {
   if (props.href) {
     return (
       <a // eslint-disable-line
-        ref={props.buttonRef}
+        ref={ref as React.ForwardedRef<HTMLAnchorElement>}
         href={typeof props.href == 'object' ? props.href.href! : props.href}
         target={props.isExternalHref ? '_blank' : ''}
         rel={props.isExternalHref ? 'noreferrer' : ''}
@@ -36,7 +35,7 @@ export default function IconButton(props: Props) {
 
   return (
     <button
-      ref={props.buttonRef}
+      ref={ref as React.ForwardedRef<HTMLButtonElement>}
       className={classNames([styles.root, props.className], props.bgColor && styles[props.bgColor], styles[props.size ?? 'normal'])}
       type={props.type ?? 'button'}
       form={props.form}
@@ -58,3 +57,8 @@ export default function IconButton(props: Props) {
   )
 }
 
+
+
+const IconButton = React.forwardRef(IconButtonInner)
+
+export default IconButton

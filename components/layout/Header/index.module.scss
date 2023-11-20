@@ -1,4 +1,4 @@
-@import "../../../styles/index";
+@import "styles/index";
 
 .root {
   display: flex;
@@ -29,4 +29,10 @@
 .controls {
   display: flex;
   @include list(16px, true);
+}
+.dropDownNotifications{
+  width: 404px;
+}
+.dropDownChats{
+  width: 404px;
 }

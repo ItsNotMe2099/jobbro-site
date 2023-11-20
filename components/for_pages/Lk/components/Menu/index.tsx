@@ -32,9 +32,7 @@ export default function Menu(props: Props) {
 
   return (
     <div className={classNames(styles.root, { [styles.collapsed]: isCollapsed })}>
-
       <div className={styles.wrapper}>
-
         <div className={styles.first}>
           <div className={styles.top}>
             <div className={styles.title}>

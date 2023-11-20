@@ -8,21 +8,28 @@
   padding: 0 4px;
 
   border-radius: 100px;
-
+  border-style: solid;
+  border-width: 4px;
+  background: $white;
   &.green{
-    background: $green;
+    border-color: $green;
+    color: $white;
+  }
+
+  &.red{
+    border-color: $text-red;
     color: $white;
   }
 
   &.white{
-    background: $white;
+    border-color: $white;
     color: $green;
   }
 
   &.small{
-    height: 20px;
-    line-height: 20px;
-    min-width: 20px;
+    height: 16px;
+    line-height: 16px;
+    min-width: 16px;
     font-size: 10px;
     font-weight: 400;
   }

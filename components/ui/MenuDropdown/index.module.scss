@@ -1,18 +1,27 @@
 @import "styles/index";
 
 .root {
-@include menuDropDown;
+  @include menuDropDown;
   width: 265px;
+  text-align: left;
+  &.separator{
+    @include list(0px, false);
+  }
+
 }
 .group{
   display: flex;
   flex-direction: column;
+  > .separator{
+    height: 2px;
+    background: $background-secondary;
+  }
 
 }
 .options{
   display: flex;
   flex-direction: column;
-  @include list(16px, false);
+
 }
 .groupName {
     color: $text-secondary;
@@ -46,8 +55,3 @@
   }
 }
 
-.separator {
-    width: 100%;
-    height: 1px;
-    background-color: #EBEBEB;
-}

@@ -5,7 +5,7 @@ import MenuSvg from '@/components/svg/MenuSvg'
 import {IOption, IOptionGroup} from '@/types/types'
 import {useDetectOutsideClick} from '@/components/hooks/useDetectOutsideClick'
 import {usePopper} from 'react-popper'
-import {MenuDropdown} from '@/components/for_pages/Lk/Jobs/JobCard/MenuDropdown'
+import {MenuDropdown} from '@/components/ui/MenuDropdown'
 
 
 interface Props<T> {

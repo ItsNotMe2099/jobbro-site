@@ -1,0 +1,32 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  @include list(8px, true);
+}
+
+
+.name {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.message {
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+  @include maxLines(2);
+}
+
+.messenger {
+  font-weight: 600;
+}
+
+

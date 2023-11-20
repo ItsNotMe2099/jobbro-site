@@ -62,7 +62,7 @@ export default function CreateMeeting(props: Props) {
       const curIndex = steps.findIndex(i => i.key === step)
       setStep(steps[curIndex + 1].key)
     } else {
-      const dates = Object.keys(data.slots)
+       const dates = Object.keys(data.slots)
       let slots: {start: string, end: string}[] = []
       for (const date of dates) {
         const toDate = parse(date, 'yyyy-MM-dd', new Date())
@@ -82,6 +82,13 @@ export default function CreateMeeting(props: Props) {
       }
       const newData = {...omit(data, ['slots']), slots}
       console.log('Submit', newData)
+      setFormLoading(true)
+      try{
+
+      }catch (e) {
+
+      }
+      setFormLoading(false)
     }
   }
     const initialValues: IFormData = {
