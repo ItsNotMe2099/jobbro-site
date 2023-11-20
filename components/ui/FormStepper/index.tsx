@@ -15,7 +15,7 @@ export default function FormStepper<S>(props: Props<S>) {
   return <div className={styles.root}>
     {props.steps.map((step, index) => <div key={`${step.key}`} className={styles.step}>
       <div className={styles.title}>{step.name}</div>
-      <Line className={styles.progress} percent={currentIndex >= index ? 100 : 0} trailWidth={1.5} strokeWidth={1.5} strokeColor={colors.green} trailColor={colors.grey} />
+      <Line className={styles.progress}  percent={currentIndex >= index ? 100 : 0} trailWidth={1.5} strokeWidth={1.5} strokeColor={colors.green} trailColor={colors.grey} />
     </div>)}
   </div>
 }

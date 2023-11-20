@@ -4,10 +4,11 @@ import {FieldArray, FieldArrayRenderProps} from 'formik'
 import {colors} from '@/styles/variables'
 import IconButton from '@/components/ui/IconButton'
 import CloseSvg from '@/components/svg/CloseSvg'
-import SelectTimeField from '@/components/fields/SelectTimeField'
 import {format} from 'date-fns'
 import ClockSvg from '@/components/svg/ClockSvg'
 import { useRef } from 'react'
+import TimeField from '@/components/fields/TimeField'
+import Validator from '@/utils/validator'
 
 interface Props {
   value: Date,
@@ -41,23 +42,28 @@ export default function MeetingDaySlots(props: Props) {
                                                                                              key={index}>
                   <div className={styles.slotHeader}>
                     <IconButton
+                      size={'small'}
                       onClick={() => arrayHelpers.remove(index)}>
-                      <CloseSvg color={colors.textSecondary}/>
+                      <CloseSvg className={styles.deleteIcon} color={colors.textSecondary}/>
                     </IconButton>
                     Time slot {index+1}
                   </div>
                   <div className={styles.fields}>
-                    <SelectTimeField
+                    <TimeField
                       className={styles.field}
                       key={index}
                       label={'Start time'}
+                      resettable={true}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].start`}
+                      validate={Validator.required}
                     />
-                    <SelectTimeField
+                    <TimeField
                       className={styles.field}
                       key={index}
                       label={'End time'}
+                      resettable={true}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].end`}
+                      validate={Validator.required}
                     />
                   </div>
                 </div>
@@ -70,7 +76,7 @@ export default function MeetingDaySlots(props: Props) {
                 setTimeout(()=> {
                   slotsRef.current.scrollTop = slotsRef.current.scrollHeight
                 }, 50)
-                
+
                 }}>
                 Add slot
               </div>

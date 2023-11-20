@@ -1,6 +1,7 @@
 import 'normalize.css'
 import '../styles/globals.scss'
 import 'react-toastify/dist/ReactToastify.css'
+import 'rc-time-picker/assets/index.css'
 import { AppContext, AppProps } from 'next/app'
 import { getSelectorsByUserAgent } from 'react-device-detect'
 import { isClient, isXsScreen } from 'utils/media'

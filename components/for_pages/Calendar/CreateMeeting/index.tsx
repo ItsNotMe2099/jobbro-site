@@ -38,27 +38,32 @@ enum FormStep {
 }
 
 interface Props {
-  cvId: number
+
 }
 
 
 export default function CreateMeeting(props: Props) {
   const [formLoading, setFormLoading] = useState(false)
-  const formRef = useRef<HTMLFormElement | null>(null)
+  const formRef = useRef<HTMLDivElement | null>(null)
   const steps: IFormStep<FormStep>[] = [
     {key: FormStep.Participants, name: 'Members to meetings'},
     {key: FormStep.Details, name: 'Theme adn duration'},
     {key: FormStep.Time, name: 'Available days'},
   ]
   const [step, setStep] = useState<FormStep>(FormStep.Participants)
-
+  const handlePrevious = () => {
+    const curIndex = steps.findIndex(i => i.key === step)
+    if(curIndex > 0) {
+      setStep(steps[curIndex - 1].key)
+    }
+  }
   const handleSubmit = (data: IFormData) => {
     if (step !== FormStep.Time) {
       const curIndex = steps.findIndex(i => i.key === step)
       setStep(steps[curIndex + 1].key)
     } else {
       const dates = Object.keys(data.slots)
-      let slots = []
+      let slots: {start: string, end: string}[] = []
       for (const date of dates) {
         const toDate = parse(date, 'yyyy-MM-dd', new Date())
         const timeStrToDate = (time: string, date: Date) => {
@@ -71,7 +76,7 @@ export default function CreateMeeting(props: Props) {
           return copiedDate
         }
         const items = data.slots[date].filter(i => i.start && i.end).map(i => {
-          return {start: timeStrToDate(i.start, toDate), end: timeStrToDate(i.end, toDate)}
+          return {start: timeStrToDate(i.start, toDate).toISOString(), end: timeStrToDate(i.end, toDate).toISOString()}
         })
         slots = [...slots, ...items]
       }
@@ -94,10 +99,10 @@ export default function CreateMeeting(props: Props) {
     })
 
 
-    return (<>
-      <Card className={styles.root}>
+    return (<div className={styles.root}  ref={formRef}>
+      <Card className={styles.card}>
         <FormikProvider value={formik}>
-          <Form className={styles.form} ref={formRef}>
+          <Form className={styles.form}>
             <FormStepper<FormStep> steps={steps} currentStep={step}/>
             <div className={styles.content}>
               {step === FormStep.Participants && <CreateMeetingParticipantsStep/>}
@@ -109,10 +114,15 @@ export default function CreateMeeting(props: Props) {
         </FormikProvider>
 
       </Card>
-      <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={formRef}>
+      <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={formRef}>
         <Button spinner={formLoading} type='button' styleType='large' color='green' onClick={() => formik.submitForm()}>
           Next
         </Button>
+        <>
+        {step !== FormStep.Participants && <Button disabled={formLoading} type='button' styleType='large' color='white' onClick={handlePrevious}>
+          Previous
+        </Button>}
+        </>
       </FormStickyFooter>
-    </>)
+    </div>)
   }

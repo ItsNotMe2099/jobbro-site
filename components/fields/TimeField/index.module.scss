@@ -1,0 +1,87 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+
+  &.default {
+    left: 17px;
+  }
+}
+
+.wrapper {
+  @include inputWrapper;
+  background-color: $white;
+  border-color: transparent;
+
+}
+
+.label {
+  font-size: 14px;
+  transform: translate(16px, 18px);
+}
+
+.labelFocused {
+  transform: translate(16px, 8px);
+}
+
+.timePicker {
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  &.withLabel {
+    &.inputFocused, &.withValue {
+
+      :global {
+        .rc-time-picker-input {
+          line-height: 28px;
+          padding-top: 20px;
+        }
+      }
+    }
+  }
+
+  :global {
+    .rc-time-picker-input {
+      @include input;
+      height: 50px;
+
+    }
+
+    .rc-time-picker-clear {
+      display: none;
+    }
+  }
+}
+
+.popup {
+  z-index: 9999999;
+  padding-top: 9px;
+  position: relative;
+}
+
+.input {
+
+}
+
+.failIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+}
+
+.clear {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transform: translate(-8px, 50%);
+}
+

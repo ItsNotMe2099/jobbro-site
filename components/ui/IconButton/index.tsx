@@ -8,8 +8,8 @@ interface Props extends IButton{
   children: React.ReactNode
   className?: string
   buttonRef?: RefObject<any>
-  bgColor?: 'transparent' | 'white' | 'green' | 'grey'
-  size?: 'normal' | 'medium' | 'large'
+  bgColor?: 'transparent' | 'white' | 'green' | 'grey' | 'lightGreen'
+  size?: 'normal' | 'medium' | 'large' | 'small'
   badge?: Nullable<ReactElement>
 }
 

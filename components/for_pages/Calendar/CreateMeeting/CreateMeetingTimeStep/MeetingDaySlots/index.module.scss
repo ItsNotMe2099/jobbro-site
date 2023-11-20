@@ -41,8 +41,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 510px);
-  max-height: calc(100dvh - 510px);
+  max-height: calc(100vh - 554px);
+  max-height: calc(100dvh - 554px);
   @include list(24px);
 }
 .slot{
@@ -59,6 +59,7 @@
 }
 .field{
   flex: 1;
+  min-width: 50%;
 }
 .slotHeader{
   display: flex;
@@ -66,6 +67,11 @@
   align-items: center;
   color: $text-primary;
   font-weight: 500;
+  font-size: 16px;
+  .deleteIcon{
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .add{
@@ -92,5 +98,5 @@
 .bottom {
   background-color: #ebebeb;
   padding: 16px;
-  
+
 }
