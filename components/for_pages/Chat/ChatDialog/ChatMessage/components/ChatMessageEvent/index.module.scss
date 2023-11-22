@@ -4,6 +4,11 @@ display: flex;
   flex-direction: row;
   @include list(24px, true);
 }
+.title{
+  font-size: 20px;
+  font-weight: 500;
+  color: $text-secondary;
+}
 .date{
   display: flex;
   flex-direction: column;
@@ -35,11 +40,6 @@ display: flex;
   display: flex;
   flex-direction: column;
   @include list(10px);
-  .title{
-    color: $text-primary;
-    font-weight: 500;
-    font-size: 20px;
-  }
 }
 .slot{
   position: relative;
@@ -76,4 +76,7 @@ display: flex;
 }
 .date{
 
+}
+
+.startMeet{
 }
