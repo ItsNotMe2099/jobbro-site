@@ -42,7 +42,7 @@ function MenuDropdownInner<T>(props: Props<T>,  ref: React.ForwardedRef<HTMLDivE
       {!props.groups?.length && (props.options?.length ?? 0) > 0 && <div className={styles.options}>
           {props.options?.map((option) => <div className={styles.option} style={{...(option.color ? {color: option.color} : {})}} key={`${option.label}`} onClick={() => handleClick(option)}>{option.label}</div>)}
         </div>}
-      {props.children}
+      {props.children ? props.children : null}
     </div>
   )
 }
