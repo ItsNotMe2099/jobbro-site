@@ -1,12 +1,12 @@
 import {getAuthServerSideProps} from '@/utils/auth'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
-import CreateMeeting from '@/components/for_pages/Calendar/CreateMeeting'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import CreateMeeting from '@/components/for_pages/Calendar/EventOwnerForm'
 
 
 const DashBoardPage = () => {
   return <CreateMeeting/>
 }
-DashBoardPage.getLayout = LkPageLayout
+DashBoardPage.getLayout = LkPageHirerLayout
 
 export default  DashBoardPage
 export const getServerSideProps = getAuthServerSideProps()

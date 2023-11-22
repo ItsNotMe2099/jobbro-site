@@ -1,9 +1,0 @@
-@import "styles/index";
-
-.root {}
-
-.socials {
-    display: flex;
-    flex-direction: column;
-    @include list(24px, false);
-}

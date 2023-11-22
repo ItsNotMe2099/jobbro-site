@@ -1,22 +1,24 @@
 import styles from './index.module.scss'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
-import { getAuthServerSideProps } from '@/utils/auth'
-import { ProfileType } from '@/data/enum/ProfileType'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import Filter from '@/components/for_pages/Lk/Jobs/Filter'
-import { useState } from 'react'
+import {useState} from 'react'
 import classNames from 'classnames'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 import CandidateCard from '@/components/for_pages/Lk/Jobs/CandidateCard'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {CandidateListWrapper, useCandidateListContext} from '@/context/candidate_list_state'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
+import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
+import {CardViewType} from '@/types/enums'
 
 const CandidatesPageInner = () => {
   const candidateListContext = useCandidateListContext()
-  const [view, setView] = useState<'card' | 'row'>('card')
+  const [view, setView] = useState<CardViewType>(CardViewType.Card)
 
   const router = useRouter()
 
@@ -54,8 +56,8 @@ const CandidatesPageInner = () => {
         <div className={styles.container}>
           <PageTitle title={'Candidates base'} />
           <div className={styles.wrapper}>
-            <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
-            <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
+            <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+            <div className={classNames(styles.cards, { [styles.rows]: view === CardViewType.Row })}>
               {candidateListContext.data.data.map((i, index) =>
                 <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} cv={i.cv} key={i.id} />
               )}
@@ -73,6 +75,6 @@ const CandidatesPage = () => {
     <CandidatesPageInner/>
   </CandidateListWrapper>
 }
-CandidatesPage.getLayout = LkPageLayout
+CandidatesPage.getLayout = LkPageHirerLayout
 export default  CandidatesPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

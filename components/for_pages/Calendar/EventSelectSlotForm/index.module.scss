@@ -1,0 +1,48 @@
+@import "styles/index";
+
+.root {
+
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  @include list(24px, true);
+}
+.left{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}
+
+.right{
+
+}
+.card{
+  width: 100%;
+  height: calc(100vh - 354px);
+}
+.form{
+
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  .calendar{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .slots{
+    flex-basis: 330px;
+    max-height: 100%;
+  }
+}
+
+.right{
+  flex-basis: 330px;
+  max-height: 100%;
+}

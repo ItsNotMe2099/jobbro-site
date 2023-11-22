@@ -1,0 +1,15 @@
+@import "styles/index";
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+  max-width: 432px;
+}
+
+.hasSlots {
+  > abbr {
+    background: $background-success !important;
+    color: $green !important;
+  }
+}

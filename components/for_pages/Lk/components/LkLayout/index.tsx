@@ -7,7 +7,7 @@ interface Props {
   children?: ReactElement | ReactElement[]
 }
 
-const LkPageLayoutInner = (props: Props) => {
+const LkPageHirerLayoutInner = (props: Props) => {
   return (
     <Layout>
       <div className={styles.root}>
@@ -19,5 +19,5 @@ const LkPageLayoutInner = (props: Props) => {
     </Layout>
   )
 }
-export default LkPageLayoutInner
-export const LkPageLayout = (page: ReactElement) => <LkPageLayoutInner>{page}</LkPageLayoutInner>
+export default LkPageHirerLayoutInner
+export const LkPageHirerLayout = (page: ReactElement) => <LkPageHirerLayoutInner>{page}</LkPageHirerLayoutInner>

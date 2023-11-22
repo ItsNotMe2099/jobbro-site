@@ -1,5 +1,5 @@
 import styles from './index.module.scss'
-import { LkPageLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
@@ -95,6 +95,6 @@ const CandidatePage = () => {
     <CandidatePageInner/>
   </CandidateWrapper>
 }
-CandidatePage.getLayout = LkPageLayout
+CandidatePage.getLayout = LkPageHirerLayout
 export default CandidatePage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

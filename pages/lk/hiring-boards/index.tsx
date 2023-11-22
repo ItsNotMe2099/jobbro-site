@@ -1,12 +1,12 @@
 import styles from './index.module.scss'
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
-import { LkPageLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import Filter from '@/components/for_pages/Lk/Jobs/Filter'
 import JobCard from '@/components/for_pages/Lk/HiringBoards/JobCard'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
+import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 
 const options = [
   'Status', 'Project'
@@ -36,7 +36,7 @@ const HiringBoards = () => {
     <div className={styles.container}>
       <PageTitle title={'Hiring boards'} />
       <div className={styles.wrapper}>
-        <Filter options={options} />
+        <FilterToolbar left={[]} />
         <div className={styles.cards}>
           {jobs.map((i, index) =>
             <Link href={Routes.lkHiringBoard(i.id)}>
@@ -48,7 +48,7 @@ const HiringBoards = () => {
     </div>
   )
 }
-HiringBoards.getLayout = LkPageLayout
+HiringBoards.getLayout = LkPageHirerLayout
 
 export default HiringBoards
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

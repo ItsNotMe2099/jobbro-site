@@ -1,22 +1,24 @@
 import styles from './index.module.scss'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
-import { getAuthServerSideProps } from '@/utils/auth'
-import { ProfileType } from '@/data/enum/ProfileType'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import Filter from '@/components/for_pages/Lk/Jobs/Filter'
-import { useState } from 'react'
+import {useState} from 'react'
 import classNames from 'classnames'
-import { Routes } from '@/types/routes'
-import { useRouter } from 'next/router'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
 import useInterval from 'use-interval'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
+import {CardViewType} from '@/types/enums'
+import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
+import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 
 
 const JobPage = () =>  {
 
-  const [view, setView] = useState<'card' | 'row'>('card')
+  const [view, setView] = useState<CardViewType>(CardViewType.Card)
 
   const data: any[] = [
     {
@@ -122,8 +124,9 @@ const JobPage = () =>  {
         <div className={styles.container}>
           <PageTitle title={item?.name} link={Routes.lkJobs} />
           <div className={styles.wrapper}>
-            <Filter view={view} onSetView={() => setView(view === 'card' ? 'row' : 'card')} />
-            <div className={classNames(styles.cards, { [styles.rows]: view === 'row' })}>
+            <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+
+            <div className={classNames(styles.cards, { [styles.rows]: view === CardViewType.Row })}>
               {/*candidates.map((i, index) =>
 
                 <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} item={i} key={index} />
@@ -134,6 +137,6 @@ const JobPage = () =>  {
       </>
   )
 }
-JobPage.getLayout = LkPageLayout
+JobPage.getLayout = LkPageHirerLayout
 export default JobPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

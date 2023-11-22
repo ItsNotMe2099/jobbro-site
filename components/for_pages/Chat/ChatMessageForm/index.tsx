@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import {Form, FormikProvider, useFormik} from 'formik'
 import React, {KeyboardEventHandler, useRef, useState} from 'react'
 import cx from 'classnames'
-import {useChatDialogContext} from 'context/chat_dialog_state'
+import {ChatDialogRoute, useChatDialogContext} from 'context/chat_dialog_state'
 import {RequestError} from 'types/types'
 import {ModalType, SnackbarType} from 'types/enums'
 import {useAppContext} from 'context/state'
@@ -13,9 +13,9 @@ import SendSvg from '@/components/svg/SendSvg'
 import Modal from '@/components/ui/Modal'
 import {ChatFileUploadModal} from '@/components/modals/ChatFileUploadModal'
 import {RemoveScroll} from 'react-remove-scroll'
-import AttachSvg from '@/components/svg/AttachSvg'
-import {ChatFileUploadModalArguments} from '@/types/modal_arguments'
 import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateRequest'
+import ChatMessageAttachButton from '@/components/for_pages/Chat/ChatMessageForm/ChatMessageAttachButton'
+import {ChatFileUploadModalArguments} from '@/types/modal_arguments'
 
 interface Props {
 }
@@ -63,15 +63,18 @@ export default function ChatMessageForm() {
       formik.submitForm()
     }
   }
-
+  const handleNewEventClick = () => {
+    chatContext.setRoute(ChatDialogRoute.CreateEvent, {cvId: chatContext.chat?.cvId, vacancyId: chatContext.chat?.vacancyId})
+  }
+  const handleFileClick = () => {
+    appContext.showModal(ModalType.ChatFileUpload, {message: formik.values.message} as ChatFileUploadModalArguments)
+  }
   return (
     <div>
       <FormikProvider value={formik}>
         <Form className={styles.root}>
           <div className={styles.field}>
-            <IconButton disabled={chatContext.disabled} type={'submit'} bgColor={'grey'} onClick={() => appContext.showModal(ModalType.ChatFileUpload, {message: formik.values.message} as ChatFileUploadModalArguments)}>
-              <AttachSvg color={colors.textSecondary}/>
-            </IconButton>
+            <ChatMessageAttachButton disabled={chatContext.disabled} onEventClick={handleNewEventClick} onFileClick={handleFileClick} />
             <TextAreaChatField
               ref={inputRef}
               name={'message'}

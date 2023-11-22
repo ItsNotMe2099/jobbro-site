@@ -9,7 +9,7 @@ interface Props {
   title: string
   right?: ReactElement
   link?: string
-  onBack?: () => void
+  onBack?: (() => void) | undefined
   className?: string
 }
 

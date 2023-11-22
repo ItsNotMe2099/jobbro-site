@@ -67,11 +67,11 @@ export function ChatWrapper(props: Props) {
 
   const getFilterChatListRequest = (): IChatListRequest => {
     return {
-      ...(filterRef.current?.search ? {search: filterRef.current.search} : {}),
+      ...(filterRef.current ? {...filterRef.current} : {}),
     }
   }
   const checkIsFilterEmpty = (): boolean => {
-    return !filterRef.current?.search
+    return !filterRef.current?.search && !filterRef.current?.filter
   }
   const debouncedReconnect = debounce(async () => {
     const data = await ChatRepository.fetchAll({page, limit: chats.length > limit ? chats.length : limit, ...getFilterChatListRequest()})

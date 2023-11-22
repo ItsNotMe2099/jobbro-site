@@ -1,0 +1,50 @@
+@import "styles/index";
+
+.root {
+display: flex;
+  flex-direction: column;
+  @include list(8px);
+}
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  background: $grey;
+  border-radius: 16px;
+  padding: 16px;
+  height: 168px;
+  @include list(20px, true);
+}
+.photo{
+  width: 40px;
+}
+.right{
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+}
+.title{
+  font-weight: 600;
+  font-size: 16px;
+  color: $text-primary;
+  @include maxLines(3);
+}
+.desc{
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-secondary;
+  flex: 1;
+}
+.startTime{
+  font-weight: 400;
+  font-size: 20px;
+  color: $text-primary;
+}
+.times{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(4px, true);
+  color: $green;
+  font-weight: 500;
+  font-size: 14px;
+}

@@ -1,12 +1,12 @@
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 
 
 const DashBoardPage = () => {
   return null
 }
-DashBoardPage.getLayout = LkPageLayout
+DashBoardPage.getLayout = LkPageHirerLayout
 
 export default  DashBoardPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

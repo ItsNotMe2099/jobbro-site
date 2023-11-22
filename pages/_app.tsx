@@ -19,6 +19,7 @@ import AppOverlay from '@/components/ui/AppOverlay'
 import {ToastContainer} from 'react-toastify'
 import BottomSheetContainer from '@/components/layout/BottomSheetContainer'
 import {NotificationWrapper} from '@/context/notifications_state'
+import {EventListWrapper} from '@/context/event_list_context'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -41,6 +42,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
   return (
     <AppWrapper isMobile={pageProps.isMobile} token={pageProps.token}>
       <NotificationWrapper>
+        <EventListWrapper>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
           <link rel="preconnect" href="https://fonts.gstatic.com"/>
@@ -69,6 +71,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
           </svg>
           }
         />
+      </EventListWrapper>
       </NotificationWrapper>
     </AppWrapper>
   )

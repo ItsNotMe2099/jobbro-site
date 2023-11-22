@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import {ReactElement} from 'react'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {nestLayout} from '@/utils/nestLayout'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import Tabs from '@/components/ui/Tabs'
 import {IOption} from '@/types/types'
 import {Routes} from '@/types/routes'
@@ -50,4 +50,4 @@ const LkCompanyPageLayoutWrapper = (props: Props) => {
 }
 
 
-export const LkCompanyPageLayout = nestLayout(LkPageLayout, (page: ReactElement) => <LkCompanyPageLayoutWrapper>{page}</LkCompanyPageLayoutWrapper>)
+export const LkCompanyPageLayout = nestLayout(LkPageHirerLayout, (page: ReactElement) => <LkCompanyPageLayoutWrapper>{page}</LkCompanyPageLayoutWrapper>)

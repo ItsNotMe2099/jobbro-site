@@ -14,6 +14,7 @@ import {ICompany} from '@/data/interfaces/ICompany'
 import {ICV} from '@/data/interfaces/ICV'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {ICandidate} from '@/data/interfaces/ICandidate'
+import IEvent from '@/data/interfaces/IEvent'
 
 interface IState {
   isMobile: boolean
@@ -74,6 +75,10 @@ interface IState {
   candidateCreateState$: Subject<ICandidate>,
   candidateUpdateState$: Subject<ICandidate>,
   candidateDeleteState$: Subject<ICandidate>,
+
+
+  eventCreateState$: Subject<IEvent>,
+  eventUpdateState$: Subject<IEvent>,
 }
 
 const fileUploadingState$ = new Subject<boolean>()
@@ -102,6 +107,9 @@ const managerDeleteState$ = new Subject<IManager>()
 const candidateCreateState$ = new Subject<ICandidate>()
 const candidateUpdateState$ = new Subject<ICandidate>()
 const candidateDeleteState$ = new Subject<ICandidate>()
+
+const eventCreateState$ = new Subject<IEvent>()
+const eventUpdateState$ = new Subject<IEvent>()
 
 const defaultValue: IState = {
   isMobile: false,
@@ -162,6 +170,9 @@ const defaultValue: IState = {
   candidateCreateState$,
   candidateUpdateState$,
   candidateDeleteState$,
+
+  eventCreateState$,
+  eventUpdateState$,
 }
 
 const ModalsBottomSheet: ModalType[] = [

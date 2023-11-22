@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import {useAppContext} from 'context/state'
 import ContentLoader from 'components/ui/ContentLoader'
-import {ChatDialogWrapper, ChatDisabledType, useChatDialogContext} from 'context/chat_dialog_state'
+import {ChatDialogRoute, ChatDialogWrapper, ChatDisabledType, useChatDialogContext} from 'context/chat_dialog_state'
 import Spacer from 'components/ui/Spacer'
 import {ReactElement, RefObject} from 'react'
 import classNames from 'classnames'
@@ -12,6 +12,8 @@ import ChatHeader from '@/components/for_pages/Chat/ChatDialog/ChatHeader'
 import {ChatSocketWrapper} from '@/context/chat_socket_state'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import EventOwnerForm from '@/components/for_pages/Calendar/EventOwnerForm'
+import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlotForm'
 
 interface Props {
   className?: string
@@ -39,9 +41,9 @@ const ChatDialogInner = (props: Props) => {
   return (<div className={classNames(styles.root, props.className)}>
       {chatContext.chat?.cv &&
         <PageTitle className={styles.title} title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
-                   onBack={() => null}/>}
+                   onBack={props.onBackClick}/>}
       {<ChatHeader hasBack={props.hasBack ?? false} showBothChatNames={props.showBothChatNames}
-                   onBackClick={props.onBackClick} chat={chatContext.chat}
+                   chat={chatContext.chat}
                    title={props.title ?? null}/>}
       <div className={styles.messages} id={'chat-messages'}
            ref={chatContext.scrollableTarget as RefObject<HTMLDivElement>}>
@@ -73,12 +75,29 @@ const ChatDialogInner = (props: Props) => {
   )
 }
 
+const ChatDialogRouteWrapper = (props: Props) => {
+
+  const chatContext = useChatDialogContext()
+  const args = chatContext.routeArguments
+  if(chatContext.loading){
+    return <ContentLoader isOpen={true} style={'page'}/>
+  }
+  switch (chatContext.route) {
+    case ChatDialogRoute.CreateEvent:
+      return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+    case ChatDialogRoute.SelectEventSlot:
+      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+    case ChatDialogRoute.Dialog:
+    default:
+      return <ChatDialogInner {...props}/>
+  }
+}
+
 
 export default function ChatDialog(props: Props) {
-  console.log('props.receivingPointId', props.receivingPointId)
   return <ChatSocketWrapper>
     <ChatDialogWrapper chatId={props.chatId}>
-      <ChatDialogInner {...props}/>
+      <ChatDialogRouteWrapper {...props}/>
     </ChatDialogWrapper>
   </ChatSocketWrapper>
 }

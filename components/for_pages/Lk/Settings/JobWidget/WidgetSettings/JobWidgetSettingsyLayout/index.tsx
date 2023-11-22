@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import { ReactElement } from 'react'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import { nestLayout } from '@/utils/nestLayout'
-import { LkPageLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
 import Tabs from '@/components/ui/Tabs'
 import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
@@ -42,4 +42,4 @@ const JobConfigureWidgetPageLayoutWrapper = (props: Props) => {
 }
 
 
-export const JobWidgetSettingsPageLayout = nestLayout(LkPageLayout, (page: ReactElement) => <JobConfigureWidgetPageLayoutWrapper>{page}</JobConfigureWidgetPageLayoutWrapper>)
+export const JobWidgetSettingsPageLayout = nestLayout(LkPageHirerLayout, (page: ReactElement) => <JobConfigureWidgetPageLayoutWrapper>{page}</JobConfigureWidgetPageLayoutWrapper>)

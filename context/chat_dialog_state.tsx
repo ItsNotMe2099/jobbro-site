@@ -14,6 +14,12 @@ import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateReq
 
 const chatIds: number[] = []
 const markReadList: number[] = []
+export enum ChatDialogRoute {
+  Dialog = 'dialog',
+  CreateEvent = 'createMeeting',
+  SelectEventSlot = 'selectEventSlot',
+  EditEvent = 'edintEvent'
+}
 export enum ChatDisabledType {
   OtherManager = 'otherManager',
   Auth = 'auth',
@@ -33,6 +39,9 @@ interface IState {
   isDisabledByOtherManager: boolean
   disabledType: Nullable<any>,
   disabled: boolean
+  route: Nullable<ChatDialogRoute>
+  routeArguments: Nullable<any>
+  setRoute: (route: ChatDialogRoute, args?: any) => void,
 }
 
 
@@ -48,7 +57,10 @@ const defaultValue: IState = {
   scrollableTarget: null,
   isDisabledByOtherManager: false,
   disabled: false,
-  disabledType: ChatDisabledType
+  disabledType: ChatDisabledType,
+  route: null,
+  routeArguments: null,
+  setRoute: (route: ChatDialogRoute, args: any) => null
 }
 
 const ChatDialogContext = createContext<IState>(defaultValue)
@@ -79,6 +91,8 @@ export function ChatDialogWrapper(props: Props) {
   const[disabled, setIsDisabled] = useState(false)
   const[disabledType, setDisabledType] = useState<ChatDisabledType | null>(null)
   const [loading, setLoading] = useState(false)
+  const [route, setRoute] = useState<ChatDialogRoute>(ChatDialogRoute.Dialog)
+  const [routeArguments, setRouteArguments] = useState(null)
   const windowFocusInit = useRef(false)
   const chatIdRef = useRef<number | null>(null)
   const vacancyIdRef = useRef<number | null | undefined>(props.vacancyId)
@@ -374,7 +388,13 @@ export function ChatDialogWrapper(props: Props) {
     markReadMulti,
     scrollableTarget,
     disabled,
-    disabledType
+    disabledType,
+    route,
+    routeArguments,
+    setRoute: (route, args) => {
+      setRouteArguments(args)
+      setRoute(route)
+    }
   }
 
   return (

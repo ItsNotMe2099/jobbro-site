@@ -13,7 +13,7 @@ interface Props<T> {
   options?: IOption<T>[]
   groups?: IOptionGroup<T>[]
   icon: ReactElement
-  menuRender: (isOpen: boolean) => ReactElement
+  menuRender?: (isOpen: boolean) => ReactElement
   badge?: number
   onClickItem?: (value: T) => void
   dropdownClassName?: string
@@ -61,7 +61,7 @@ export default function HeaderButton<T>(props: Props<T>) {
     setReferenceElement(ref)
   }
   return (
-    <IconButton bgColor='green' onClick={handleClick} ref={handleRootRef} badge={<NotificationBadge className={styles.badge} color={'red'} total={props.badge ?? 0}/>}>
+    <IconButton bgColor='green' onClick={handleClick} ref={handleRootRef} badge={<NotificationBadge className={styles.badge} style={'border'} color={'red'} total={props.badge ?? 0}/>}>
       {props.icon}
       <MenuDropdown ref={setPopperElement}
                        styleType={'separator'}

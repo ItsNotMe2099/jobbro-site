@@ -6,6 +6,7 @@ import ChatMessagePhotos from 'components/for_pages/Chat/ChatDialog/ChatMessage/
 import ChatMessageFiles from 'components/for_pages/Chat/ChatDialog/ChatMessage/components/ChatMessageFiles'
 import ChatMessageSystemOwner
   from 'components/for_pages/Chat/ChatDialog/ChatMessage/components/ChatMessageSystemOwner'
+import ChatMessageEvent from '@/components/for_pages/Chat/ChatDialog/ChatMessage/components/ChatMessageEvent'
 
 
 interface Props extends ChatMessageProps{
@@ -23,6 +24,8 @@ export default function ChatMessage(props: Props) {
       }else{
         return <ChatMessageFiles {...props}/>
       }
+    case ChatMessageType.Event:
+      return <ChatMessageEvent {...props}/>
     case ChatMessageType.Application:
     case ChatMessageType.Proposal:
       return <ChatMessageSystemOwner {...props}/>

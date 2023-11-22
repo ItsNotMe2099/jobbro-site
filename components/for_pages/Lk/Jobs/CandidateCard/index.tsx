@@ -1,19 +1,20 @@
 import styles from './index.module.scss'
-import { colors } from '@/styles/variables'
+import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
-import { useState } from 'react'
+import {useState} from 'react'
 import Link from 'next/link'
-import { Routes } from '@/types/routes'
+import {Routes} from '@/types/routes'
 import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import {ICV} from '@/data/interfaces/ICV'
+import {CardViewType} from '@/types/enums'
 
 interface Props {
   cv: ICV
   className?: string
-  view: 'row' | 'card'
+  view: CardViewType
   onAddBookmark: (bookmark: boolean) => void
 }
 
@@ -32,7 +33,7 @@ const cv = props.cv
   }
 
   return (
-    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
+    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === CardViewType.Row })}>
       <BookmarkSvg onClick={() => bookmark ? null : handleBookmark()} className={styles.bookmark}
         color={colors.green} />
       <Link href={Routes.lkCandidate(cv.id)} className={styles.container}>

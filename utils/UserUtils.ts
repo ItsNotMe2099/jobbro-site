@@ -10,8 +10,7 @@ export default class UserUtils {
     if (!user) {
       return ''
     }
-    return  `${ (user?.firstName || user?.lastName) ? ` ${user?.lastName || ''}${user?.firstName ? ` ${user?.firstName }` : ''}${user?.patronymic ? ` ${user?.patronymic }` : ''}` : ''}`
-
+    return [user?.firstName , user.lastName, user.patronymic].filter(i => !!i).join(' ')
   }
 
   static getHirerRoleNames(): {[key in HirerRole]: string}{

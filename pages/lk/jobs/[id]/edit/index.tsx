@@ -1,6 +1,6 @@
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import styles from './index.module.scss'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import { Routes } from '@/types/routes'
 import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'
 import { getAuthServerSideProps } from '@/utils/auth'
@@ -32,6 +32,6 @@ const JobEditPage = () => {
     </VacancyOwnerWrapper>
   </CompanyOwnerWrapper>)
 }
-JobEditPage.getLayout = LkPageLayout
+JobEditPage.getLayout = LkPageHirerLayout
 export default  JobEditPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

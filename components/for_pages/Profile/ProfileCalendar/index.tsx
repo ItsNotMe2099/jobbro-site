@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import { ReactElement } from 'react'
 import Layout from '@/components/layout/Layout'
-import { Calendar } from './Calendar'
+import { MyEvents} from '../../Calendar/MyEvents'
 
 interface Props {
   children?: ReactElement | ReactElement[]
@@ -14,7 +14,7 @@ const ProfileCalendarInner = (props: Props) => {
         <div className={styles.container}>
           {props.children}
         </div>
-        <Calendar />
+        <MyEvents />
       </div>
     </Layout>
   )

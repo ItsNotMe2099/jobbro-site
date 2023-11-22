@@ -1,0 +1,16 @@
+@import "styles/index";
+
+.root{
+  position: relative;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+  color: $text-primary;
+  cursor: pointer;
+  .circle {
+    position: absolute;
+    left: 30px;
+  }
+}

@@ -9,7 +9,6 @@ interface Props {
   title?: string | ReactElement | null
   actions?: ReactElement
   hasBack?: boolean
-  onBackClick?: () => void | undefined
   showBothChatNames?: boolean | undefined
 }
 

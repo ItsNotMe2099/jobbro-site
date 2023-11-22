@@ -8,6 +8,7 @@ interface Props {
  color: 'green' | 'white' | 'red'
   position?: 'static' | 'absolute',
   size?: 'small' | 'large'
+  style?: 'normal' | 'border'
 }
 
 export default function NotificationBadge(props: Props) {
@@ -20,6 +21,7 @@ export default function NotificationBadge(props: Props) {
     [styles[props.color]]: true,
     [styles[props.position ?? 'absolute']]: true,
     [styles[props.size ?? 'small']]: true,
-  },props.className)}>{/*props.total ? `+${props.total}` : ''*/}</div>)
+    [styles[props.style ?? 'normal']]: true,
+  },props.className)}>{(!props.style || props.style === 'normal') && props.total ? `${props.total}` : ''}</div>)
 }
 

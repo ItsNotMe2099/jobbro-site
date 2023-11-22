@@ -1,14 +1,12 @@
 import styles from './index.module.scss'
-import {LkPageLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import Filter from '@/components/for_pages/Lk/Jobs/Filter'
 import {useRef, useState} from 'react'
 import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import classNames from 'classnames'
-import SortDropdown from '@/components/for_pages/Lk/Jobs/Filter/SortDropdown'
 import {JobFilterWrapper} from '@/context/job_filter_state'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
 import {Nullable} from '@/types/types'
@@ -16,6 +14,8 @@ import Fab from '@/components/for_pages/Common/Fab'
 import {useVacancyListOwnerContext, VacancyListOwnerWrapper} from '@/context/vacancy_owner_list_state'
 import {CardViewType} from '@/types/enums'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
+import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 
 
 const JobsPageInner = () => {
@@ -43,12 +43,7 @@ const JobsPageInner = () => {
       <div ref={ref} className={styles.container}>
         <PageTitle title='Jobs'/>
         <div className={styles.wrapper}>
-          <Filter sort={sort !== ''} showChild={() => setShowSort(!showSort)}
-                  view={view} onSetView={() => setView(view === CardViewType.Card ? CardViewType.Row : CardViewType.Card)}>
-            {showSort ? <SortDropdown onDefault={() => setSort('')}
-                                      className={styles.sort} options={sortOptions} val={sort}
-                                      setVal={(val) => setSort(val as string)}/> : <></>}
-          </Filter>
+          <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
           <div className={classNames(styles.cards, {[styles.rows]: view === 'row'})}>
             {vacancyListContext.data.data.map((i, index) =>
               <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>
@@ -73,6 +68,6 @@ const JobsPage = () => {
     <JobsPageInner/>
   </VacancyListOwnerWrapper>
 }
-JobsPage.getLayout = LkPageLayout
+JobsPage.getLayout = LkPageHirerLayout
 export default JobsPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
