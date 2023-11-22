@@ -12,6 +12,9 @@ export default class ImageHelper {
       : ''
     return `${runtimeConfig.HOST}/api/asset/files/${file.source}?${imageParamsStr}`
   }
+  static urlFromSource(source: string): string {
+    return `${runtimeConfig.HOST}/api/asset/files/${source}`
+  }
 
   static getImageSize(preset: Preset): number {
     switch (preset) {

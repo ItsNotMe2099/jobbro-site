@@ -4,13 +4,14 @@ import ChatMessageCardLayout from 'components/for_pages/Chat/ChatDialog/ChatMess
 import DocumentPreview from '@/components/ui/DocumentPreview'
 import Link from 'next/link'
 import IFile from '@/data/interfaces/IFile'
+import ImageHelper from '@/utils/ImageHelper'
 interface Props extends ChatMessageProps{
 }
 
 export default function ChatMessageFiles(props: Props) {
   return <ChatMessageCardLayout message={props.message} side={props.side}>
     <div className={styles.root}>
-      {props.message.assets?.map((i: IFile) => <Link href={i.source ?? '#'} className={styles.file}>
+      {props.message.assets?.map((i: IFile) => <Link href={ImageHelper.urlFromSource(i.source)} target={'_blank'} className={styles.file}>
           <DocumentPreview file={i.source}  className={styles.icon}/>
         <div className={styles.name}>{i.name}</div>
       </Link>)}

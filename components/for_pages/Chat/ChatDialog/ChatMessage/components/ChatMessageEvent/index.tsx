@@ -37,7 +37,7 @@ export default function ChatMessageEvent(props: Props) {
           <div className={styles.time}>{format(new Date(i.start), 'HH:mm')} - {format(new Date(i.end), 'HH:mm')}</div>
         </div>)}
         {event.status !== EventStatus.Confirmed && <div className={styles.edit} onClick={() => chatDialogContext.setRoute(ChatDialogRoute.SelectEventSlot, {eventId: event.id})}>Edit</div>}
-        {event.status == EventStatus.Confirmed && !!event.place  &&  <div className={styles.startMeet}><Button  type='button'  styleType='medium' color='green'>
+        {event.status == EventStatus.Confirmed && !!event.place  &&  <div className={styles.startMeet}><Button  type='button' href={event.place} isExternalHref={true}  styleType='medium' color='green'>
           Start Meet
         </Button></div>}
       </div>

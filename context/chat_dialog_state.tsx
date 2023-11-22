@@ -320,8 +320,8 @@ export function ChatDialogWrapper(props: Props) {
           setMessages(i => [message, ...i])
           setTotalMessages(i => i + 1)
         }
-        if (message.profileId === appContext.aboutMe!.id || (scrollableTarget.current?.scrollTop ?? 0) < 50) {
-          debouncedScroll()
+        if (message.profileId === appContext.aboutMe!.id || (scrollableTarget.current?.scrollTop ?? 0) > -200) {
+         debouncedScroll()
         }
 
 
@@ -341,10 +341,17 @@ export function ChatDialogWrapper(props: Props) {
         init()
       }
     })
+
+    const subscriptionEventUpdate = appContext.eventUpdateState$.subscribe((event) => {
+      if (messages.find(i => i.event?.id === event.id)) {
+          setMessages(i => i.map(i => i.event?.id === event.id ? {...i, event: {...i.event, ...event}} : i))
+      }
+    })
     return () => {
       subscription.unsubscribe()
       subscriptionChatUpdate.unsubscribe()
       subscriptionChatCreated.unsubscribe()
+      subscriptionEventUpdate.unsubscribe()
     }
   }, [chat, messages])
 

@@ -61,20 +61,22 @@ export default function HeaderButton<T>(props: Props<T>) {
     setReferenceElement(ref)
   }
   return (
+    <div>
     <IconButton bgColor='green' onClick={handleClick} ref={handleRootRef} badge={<NotificationBadge className={styles.badge} style={'border'} color={'red'} total={props.badge ?? 0}/>}>
       {props.icon}
+    </IconButton>
       <MenuDropdown ref={setPopperElement}
-                       styleType={'separator'}
-                       isOpen={isActive as boolean}
-                       onClick={handleClickItem}
-                       className={classNames(styles.drop, props.dropdownClassName)}
-                       options={props.options}
-                       groups={props.groups}
-                       style={popperStyles.popper}
-                       {...attributes.popper} >
+                    styleType={'separator'}
+                    isOpen={isActive as boolean}
+                    onClick={handleClickItem}
+                    className={classNames(styles.drop, props.dropdownClassName)}
+                    options={props.options}
+                    groups={props.groups}
+                    style={popperStyles.popper}
+                    {...attributes.popper} >
         {props.menuRender?.(isActive as boolean)}
       </MenuDropdown>
-    </IconButton>
+    </div>
   )
 }
 
