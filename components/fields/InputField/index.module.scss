@@ -97,3 +97,13 @@
   align-items: center;
 
 }
+
+.line {
+  height: 1px;
+  background-color: #E8E9E8;
+  margin-top: 0;
+}
+
+.lineError {
+  background-color: $element-alarm;
+}

@@ -23,6 +23,8 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   format?: FormatType
   blurValidate?: FieldValidator
   className?: string
+  classNameInputWrapper?: string
+  classNameInput?: string
   label?: string
   errorClassName?: string
   suffix?: 'clear' | 'arrow' | 'search' | string | ReactElement
@@ -36,6 +38,7 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   resettable?: boolean
   formatValue?: (val: InputValueType<T>) => InputValueType<T>
   parseValue?: (val: InputValueType<T>) => InputValueType<T>
+  lendingInput?: boolean
 }
 
 const defaultPhonePattern = '+0[00000000000000000000]'
@@ -190,15 +193,15 @@ export default function InputField<T extends string | number>(props: InputFieldP
     })} data-field={props.name}>
       <div className={styles.wrapper}>
         {props.label &&
-          <FieldLabel label={props.label} focused={focused || field.value}/>
+          <FieldLabel label={props.label} focused={focused || field.value} />
         }
         <div className={classNames(styles.inputWrapper, {
           [styles.withLabel]: props.label,
           [styles.withPrefix]: !!props.prefix,
           [styles.withSuffix]: !!props.suffix,
           [styles.inputFocused]: focused,
-          [styles.inputError]: showError,
-        })}>
+          [styles.inputError]: showError && !props.lendingInput,
+        }, props.classNameInputWrapper)}>
 
           {props.prefix && (
             renderPrefix()
@@ -218,7 +221,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
               [styles.withPrefix]: !!props.prefix,
               [styles.withClear]: props.resettable && !!field.value,
               [styles.disabled]: props.disabled
-            })}
+            }, props.classNameInput)}
             {...!props.format ? {
               onChange: (e) => {
                 const formatted = formatValue(e.currentTarget.value as InputValueType<T>)
@@ -253,6 +256,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
             renderSuffix()
           )}
         </div>
+        {props.lendingInput && <div className={classNames(styles.line, {[styles.lineError]: showError})} />}
         <FieldError showError={showError}>{meta.error}</FieldError>
       </div>
     </div>

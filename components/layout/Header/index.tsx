@@ -73,7 +73,7 @@ export default function Header(props: Props) {
           NotificationType.userUnBlocked,
           NotificationType.cvRejected,
           NotificationType.vacancyRejected])} icon={<BellSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuNotification isOpen={isOpen}/>}/>
-        <HeaderButton<MenuProfileKey> onClickItem={handleClickProfileItem} icon={<AccSvg color={colors.white} />} groups={[{options: [ {label: 'User profile', value: MenuProfileKey.UserProfile}], }, {options: [ {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]} options={[
+        <HeaderButton<MenuProfileKey> menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen} />} onClickItem={handleClickProfileItem} icon={<AccSvg color={colors.white} />} groups={[{options: [ {label: 'User profile', value: MenuProfileKey.UserProfile}], }, {options: [ {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]} options={[
           {label: 'User profile', value: MenuProfileKey.UserProfile},
           {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed},
         ]}/>

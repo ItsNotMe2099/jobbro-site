@@ -1,0 +1,30 @@
+@import "styles/index";
+
+.root {}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  @include container;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  @include list(25px, false);
+}
+
+.title {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $white;
+}
+
+.text{
+  color: $white-90;
+}

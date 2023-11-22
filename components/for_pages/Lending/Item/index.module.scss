@@ -1,0 +1,61 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 80px;
+  text-align: center;
+  margin-bottom: 150px;
+  align-items: center;
+  position: relative;
+}
+
+.title {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $white;
+}
+
+.text {
+  margin-top: 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  color: $white-90;
+}
+
+.bottom {
+  position: relative;
+  margin-top: 35px;
+  height: 456px;
+  width: 100%;
+
+  img {
+    top: -50% !important;
+    right: 0 !important;
+    height: auto !important;
+  }
+}
+
+.btn {
+  height: 56px;
+  border-radius: 80px;
+  box-shadow: 0px 16px 48px 0px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  color: $white;
+  padding: 8px 8px 8px 16px;
+  border: 1px solid $white-90;
+  font-family: 'Work Sans';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  width: 12%;
+  margin-top: 40px;
+  z-index: 1;
+  position: relative;
+}
