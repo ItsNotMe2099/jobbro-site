@@ -8,6 +8,16 @@
   @include container;
   padding: 0;
   border-bottom: 1px solid #2D2F2C;
+
+  @include mq(1320px, max) {
+    max-width: 100%;
+    padding: 0 60px;
+  }
+
+  @include mq($PhoneWidth, max) {
+    padding: 0 24px;
+    border: 0;
+  }
 }
 
 .logo {
@@ -19,11 +29,24 @@
   display: flex;
   align-items: center;
   @include list(40px, true);
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    align-items: flex-start;
+    @include list(24px, false);
+    margin-top: 24px;
+  }
 }
 
 .links {
   display: flex;
   @include list(24px, true);
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    align-items: flex-start;
+    @include list(24px, false);
+  }
 }
 
 .link {
@@ -49,4 +72,16 @@
   font-style: normal;
   font-weight: 500;
   line-height: 140%;
+}
+
+.dropdownMobile {
+  background-color: #212121;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 72px;
+  z-index: 4;
+  padding: 0 23px;
+  margin-top: 16px;
 }

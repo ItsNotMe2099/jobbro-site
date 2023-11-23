@@ -38,6 +38,10 @@ body{
   background-color: $background-secondary;
   color: $text-primary;
 
+  &.modal-open {
+    overflow-y: hidden;
+  }
+
 }
 input, button{
   outline:none;

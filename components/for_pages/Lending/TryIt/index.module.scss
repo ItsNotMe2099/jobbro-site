@@ -12,6 +12,23 @@
   justify-content: space-between;
   position: relative;
   @include container;
+
+  @include mq(1320px, max) {
+    max-width: 100%;
+    padding: 0 60px;
+    padding-right: 120px;
+  }
+
+  @include mq($SmDesktopWidth, max) {
+    padding: 0 60px;
+  }
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include list(40px, false);
+  }
 }
 
 .left {
@@ -31,6 +48,14 @@
   font-weight: 400;
   line-height: 100%;
   color: $white;
+
+  @include mq($TabletWidth, max) {
+    text-align: center;
+  }
+
+  @include mq($PhoneWidth, max) {
+    font-size: 24px;
+  }
 }
 
 .text {
@@ -40,4 +65,12 @@
   font-weight: 400;
   line-height: 140%;
   color: $white;
+
+  @include mq($TabletWidth, max) {
+    text-align: center;
+  }
+
+  @include mq($PhoneWidth, max) {
+    font-size: 14px;
+  }
 }

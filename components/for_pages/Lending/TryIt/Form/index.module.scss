@@ -9,6 +9,10 @@
     padding: 40px;
     width: 440px;
     box-shadow: -8px 106px 124px 0px rgba(0, 0, 0, 0.47);
+
+    @include mq($PhoneWidth, max) {
+        width: 300px;
+    }
 }
 
 .btn {

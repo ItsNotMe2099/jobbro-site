@@ -7,9 +7,12 @@ import Item from '@/components/for_pages/Lending/Item'
 import OneClick from '@/components/for_pages/Lending/OneClick'
 import TryIt from '@/components/for_pages/Lending/TryIt'
 import Layout from '@/components/for_pages/Lending/layout/Layout'
+import { useResize } from '@/components/hooks/useResize'
 
 
 export default function LendingPage() {
+
+  const { isPhoneWidth } = useResize()
 
   return (
     <Layout>

@@ -17,6 +17,10 @@
   font-weight: 400;
   line-height: 100%;
   color: $white;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 24px;
+  }
 }
 
 .text {
@@ -26,6 +30,10 @@
   font-weight: 400;
   line-height: 140%;
   color: $white-90;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 14px;
+  }
 }
 
 .bottom {
@@ -34,10 +42,31 @@
   height: 456px;
   width: 100%;
 
+  @include mq($PhoneWidth, max) {
+    display: flex;
+    justify-content: center;
+    height: 172px;
+  }
+
   img {
     top: -50% !important;
     right: 0 !important;
     height: auto !important;
+
+    @include mq($DesktopWidth + 1, max) {
+      top: -35% !important;
+    }
+
+    @include mq($SmDesktopWidth, max) {
+      top: -20% !important;
+    }
+
+    @include mq($PhoneWidth, max) {
+      width: 160% !important;
+      left: -30% !important;
+      top: -50% !important;
+      
+    }
   }
 }
 
@@ -54,8 +83,13 @@
   font-style: normal;
   font-weight: 500;
   line-height: 140%;
-  width: 12%;
+  width: 142px;
   margin-top: 40px;
   z-index: 1;
   position: relative;
+
+  @include mq($PhoneWidth, max) {
+    height: 40px;
+    margin-top: 24px;
+  }
 }

@@ -5,7 +5,7 @@ interface Props {
 
 export default function SocialsSvg(props: Props) {
   return (
-    <svg width="835" height="630" viewBox="0 0 835 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={props.className} width="835" height="630" viewBox="0 0 835 630" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g opacity="0.3" filter="url(#filter0_f_2091_9176)">
         <circle cx="417.5" cy="333.5" r="111.5" fill="#05FF00" />
       </g>

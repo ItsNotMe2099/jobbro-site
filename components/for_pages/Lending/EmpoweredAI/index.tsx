@@ -4,12 +4,15 @@ import styles from './index.module.scss'
 import SortSvg from '@/components/svg/SortSvg'
 import DataBaseSvg from '@/components/svg/DataBaseSvg'
 import ClickSvg from '@/components/svg/ClickSvg'
+import { useResize } from '@/components/hooks/useResize'
 
 interface Props {
 
 }
 
 export default function EmpoweredAI(props: Props) {
+
+  const { isPhoneWidth } = useResize()
 
   return (
     <div className={styles.root}>
@@ -27,10 +30,10 @@ export default function EmpoweredAI(props: Props) {
             </div>
           </div>
           <div className={styles.middle}>
-            <Item icon={<GearSvg className={styles.icon} />} text={<>Automatically create<br />job posts →</>} />
-            <Item icon={<SortSvg className={styles.icon} />} text={<>The system will sort <br />applications to help you →</>} />
-            <Item icon={<DataBaseSvg className={styles.icon} />} text={<>Easy access to your<br />candidate database →</>} />
-            <Item icon={<ClickSvg className={styles.icon} />} text={<>Poste your jobs on each<br />main platform in one click →</>} />
+            <Item icon={<GearSvg className={styles.icon} />} text={<>Automatically{isPhoneWidth && <br />} create<br />job posts →</>} />
+            <Item icon={<SortSvg className={styles.icon} />} text={<>The system will{isPhoneWidth && <br />} sort <br />applications{isPhoneWidth && <br />} to help you →</>} />
+            <Item icon={<DataBaseSvg className={styles.icon} />} text={<>Easy access{isPhoneWidth && <br />} to your<br />candidate{isPhoneWidth && <br />} database →</>} />
+            <Item icon={<ClickSvg className={styles.icon} />} text={<>Poste your jobs{isPhoneWidth && <br />} on each<br />main platform{isPhoneWidth && <br />} in one click →</>} />
           </div>
           <div className={styles.bottom}>
             <div className={styles.inner}>
@@ -38,7 +41,7 @@ export default function EmpoweredAI(props: Props) {
                 300<span>%</span>
               </div>
               <div className={styles.hr}>
-                HR<br />
+                HR {!isPhoneWidth && <br />}
                 effectiveness
               </div>
             </div>
