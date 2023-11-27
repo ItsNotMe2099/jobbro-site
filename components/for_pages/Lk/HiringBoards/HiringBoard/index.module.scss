@@ -2,8 +2,11 @@
 
 .root{
   background-color: white;
-  overflow-y: hidden;
-  min-width: min-content
+  // overflow-y: hidden;
+  overflow: scroll;
+  width: calc(100vw - 420px);
+
+  // min-width: min-content
 }
 .wrapper{
   min-height: calc(100vh - 270px); /* 88px is header heigth */
