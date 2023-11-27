@@ -83,3 +83,8 @@ export enum CardViewType {
   Card = 'card',
   Row = 'row'
 }
+
+export enum SortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}

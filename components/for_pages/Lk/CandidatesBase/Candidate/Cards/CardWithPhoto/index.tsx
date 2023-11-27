@@ -23,7 +23,7 @@ export default function CardWithPhoto(props: Props) {
         <div className={styles.right}>
           <div className={styles.positionAndSalary}>
             <div className={styles.position}>
-              <div>{cv.position}</div>
+              <div>{cv.title ?? cv.position}</div>
               <div className={styles.name}>
                 {UserUtils.getName(cv)}
               </div>

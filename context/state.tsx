@@ -11,7 +11,7 @@ import ReactModal from 'react-modal'
 import {IManager} from '@/data/interfaces/IManager'
 import {IOffice} from '@/data/interfaces/IOffice'
 import {ICompany} from '@/data/interfaces/ICompany'
-import {ICV} from '@/data/interfaces/ICV'
+import {ICV, ICVWithApply} from '@/data/interfaces/ICV'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import IEvent from '@/data/interfaces/IEvent'
@@ -60,6 +60,9 @@ interface IState {
   cvUpdateState$: Subject<ICV>,
   cvDeleteState$: Subject<ICV>,
 
+  cvApplyUpdateState$: Subject<ICVWithApply>,
+  cvApplyDeleteState$: Subject<ICVWithApply>,
+
   companyCreateState$: Subject<ICompany>,
   companyUpdateState$: Subject<ICompany>,
   companyDeleteState$: Subject<ICompany>,
@@ -91,6 +94,9 @@ const vacancyDeleteState$ = new Subject<IVacancy>()
 const cvCreateState$ = new Subject<ICV>()
 const cvUpdateState$ = new Subject<ICV>()
 const cvDeleteState$ = new Subject<ICV>()
+
+const cvApplyUpdateState$ = new Subject<ICVWithApply>()
+const cvApplyDeleteState$ = new Subject<ICVWithApply>()
 
 const companyCreateState$ = new Subject<ICompany>()
 const companyUpdateState$ = new Subject<ICompany>()
@@ -155,6 +161,8 @@ const defaultValue: IState = {
   cvUpdateState$,
   cvDeleteState$,
 
+  cvApplyUpdateState$,
+  cvApplyDeleteState$,
   companyCreateState$,
   companyUpdateState$,
   companyDeleteState$,

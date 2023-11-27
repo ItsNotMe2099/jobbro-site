@@ -15,8 +15,11 @@ export interface IApplication extends TimeStamp{
   vacancy: IVacancy,
   profile: IProfile,
   cv: ICV,
+  hiringStageId: number
   proposals: [],
   chat: IChat[],
 }
+
+
 
 

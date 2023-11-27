@@ -88,7 +88,7 @@
   "devDependencies": {
     "@jukben/emoji-search": "^3.0.0",
     "@types/js-cookie": "^3.0.3",
-    "@types/react-beautiful-dnd": "^13.1.5",
+    "@types/react-beautiful-dnd": "^13.1.7",
     "@types/react-datepicker": "^4.15.2",
     "@types/react-modal": "^3.16.1",
     "@types/react-scroll": "^1.8.8",

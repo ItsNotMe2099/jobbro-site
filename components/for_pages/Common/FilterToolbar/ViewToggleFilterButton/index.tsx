@@ -13,9 +13,9 @@ interface Props {
 const ViewToggleFilterButton = (props: Props) => {
   return (<div className={styles.root}>
       {props.view === CardViewType.Card ?
-        <CardViewSvg onClick={() => props.onChange(CardViewType.Card)} color={colors.simpleGrey}/>
+        <CardViewSvg onClick={() => props.onChange(CardViewType.Row)} color={colors.simpleGrey}/>
         :
-        <RowViewSvg onClick={() => props.onChange(CardViewType.Row)} color={colors.simpleGrey}/>}
+        <RowViewSvg onClick={() => props.onChange(CardViewType.Card)} color={colors.simpleGrey}/>}
 
     </div>
   )

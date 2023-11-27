@@ -72,7 +72,7 @@ const JobCardInner = (props: Props) => {
     {title: 'Operations', options: [
         {label: 'Edit', value: MenuKey.Edit},
         {label: 'Duplicate', value: MenuKey.Duplicate},
-        {label: 'Delete', value: MenuKey.Delete},
+        {label: 'Delete', value: MenuKey.Delete, color: colors.textRed},
       ]},
   ]
   const handleMenuItemClick = (key: MenuKey) => {

@@ -1,0 +1,14 @@
+@import "styles/index";
+.root {
+  position: relative;
+
+}
+.status {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.chevron{
+  @include dropDownChevron();
+}

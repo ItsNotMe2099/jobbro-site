@@ -1,4 +1,6 @@
 import {Languages} from '@/types/enums'
+import {ICV} from '@/data/interfaces/ICV'
+import {IVacancy} from '@/data/interfaces/IVacancy'
 
 export interface TimeStamp {
   createdAt?: string,
@@ -120,4 +122,11 @@ export interface CategoryTranslation extends TimeStamp {
   audience: string,
   courseTime: string,
   requirements: string,
+}
+
+export interface IWithVacancy{
+  vacancy: IVacancy,
+}
+export interface IWithCv{
+  cv: ICV,
 }

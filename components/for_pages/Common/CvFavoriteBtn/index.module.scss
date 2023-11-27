@@ -1,0 +1,38 @@
+@import "styles/index";
+
+.root{
+
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.inactiveImage{
+  opacity: 1;
+  transition: opacity 0.25s;
+}
+
+.inactiveImageInvisible{
+  opacity: 0;
+}
+
+.activeImage{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.25s;
+}
+
+.activeImageVisible{
+  opacity: 1;
+}

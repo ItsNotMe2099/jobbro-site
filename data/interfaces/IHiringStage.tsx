@@ -1,8 +1,16 @@
+import {IApplication} from '@/data/interfaces/IApplication'
 import {IProposal} from '@/data/interfaces/IProposal'
+import {IWithCv} from '@/data/interfaces/Common'
 
 export default interface IHiringStage{
-  id?: number;
+  id: number;
+  key: string
   title: string;
   description: string;
-  proposals?: IProposal[];
+}
+export interface  IHiringStageWithApply  extends IHiringStage{
+  applications: (IApplication & IWithCv)[]
+  proposals: (IProposal & IWithCv)[]
+  stageConversionRate: number
+  currentCandidatesCount: number
 }

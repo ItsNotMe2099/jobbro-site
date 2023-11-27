@@ -32,7 +32,7 @@ export default function Header(props: Props) {
     { label: 'Pricing', link: '#' },
   ] : [
     { label: 'Main', link: Routes.index },
-    { label: 'Applies', link: Routes.applies },
+    { label: 'Applies', link: Routes.lkApplies },
     { label: 'Marks', link: Routes.marks },
   ]
     const accountOptions = [
@@ -77,7 +77,6 @@ export default function Header(props: Props) {
           {label: 'User profile', value: MenuProfileKey.UserProfile},
           {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed},
         ]}/>
-
       </div>
     </div>
   )

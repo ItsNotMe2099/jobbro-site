@@ -69,6 +69,9 @@ export default class Formatter {
   static formatDateTime(date: string | Date) {
     return format(typeof date === 'string' ? new Date(date) : date,'dd.MM.yyyy HH:MM')
   }
+  static formatDate(date: string | Date) {
+    return format(typeof date === 'string' ? new Date(date) : date,'dd MMM yyyy ')
+  }
 
   static formatPhone(phone: string | null) {
     try {

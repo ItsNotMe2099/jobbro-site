@@ -17,6 +17,7 @@ import {BusinessTrips} from '@/data/enum/BusinessTrips'
 import {ISkill} from '@/data/interfaces/ISkill'
 import {Nullable} from '@/types/types'
 import {IProfile} from '@/data/interfaces/IProfile'
+import {IApplication} from '@/data/interfaces/IApplication'
 export interface ILanguageKnowledge{
   language: string
   level: string
@@ -92,4 +93,8 @@ export interface ICV {
   hash: string;
   createdAt: string;
   updatedAt: string;
+}
+export interface ICVWithApply extends ICV {
+  proposals: IProposal[]
+  applications: IApplication[]
 }

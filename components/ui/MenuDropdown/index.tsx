@@ -22,7 +22,9 @@ interface Props<T> {
 
 function MenuDropdownInner<T>(props: Props<T>,  ref: React.ForwardedRef<HTMLDivElement>) {
 
-  const handleClick = (option: IOption<T>) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>, option: IOption<T>) => {
+    e.preventDefault()
+    e.stopPropagation()
     props.onClick?.(option.value!)
 
   }
@@ -36,11 +38,11 @@ function MenuDropdownInner<T>(props: Props<T>,  ref: React.ForwardedRef<HTMLDivE
         {group.title && <div className={styles.groupName}>{group.title}</div>}
 
         <div className={styles.options}>
-          {group.options.map((option) => <div className={styles.option} key={`${option.label}`}  style={{...(option.color ? {color: option.color} : {})}}  onClick={() => handleClick(option)}>{option.label}</div>)}
+          {group.options.map((option) => <div className={styles.option} key={`${option.label}`}  style={{...(option.color ? {color: option.color} : {})}}  onClick={(e) => handleClick(e, option)}>{option.label}</div>)}
         </div>
       </div>)}
       {!props.groups?.length && (props.options?.length ?? 0) > 0 && <div className={styles.options}>
-          {props.options?.map((option) => <div className={styles.option} style={{...(option.color ? {color: option.color} : {})}} key={`${option.label}`} onClick={() => handleClick(option)}>{option.label}</div>)}
+          {props.options?.map((option) => <div className={styles.option} style={{...(option.color ? {color: option.color} : {})}} key={`${option.label}`} onClick={(e) => handleClick(e, option)}>{option.label}</div>)}
         </div>}
       {props.children ? props.children : null}
     </div>

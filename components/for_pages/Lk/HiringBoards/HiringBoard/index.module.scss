@@ -1,0 +1,13 @@
+@import "styles/index";
+
+.root{
+  background-color: white;
+  overflow-y: hidden;
+  min-width: min-content
+}
+.wrapper{
+  min-height: calc(100vh - 270px); /* 88px is header heigth */
+  /* like display:flex but will allow bleeding over the window width */
+  overflow-y: hidden;
+  display: inline-flex;
+}

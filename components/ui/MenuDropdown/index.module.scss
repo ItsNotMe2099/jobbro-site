@@ -16,6 +16,12 @@
     height: 2px;
     background: $background-secondary;
   }
+  &:first-of-type{
+    padding-top: 16px;
+  }
+  &:last-of-type{
+    padding-bottom: 16px;
+  }
 
 }
 .options{

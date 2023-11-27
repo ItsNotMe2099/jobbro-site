@@ -5,60 +5,36 @@ import { ProfileType } from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
-import Stages from '@/components/for_pages/Lk/HiringBoards/Stages'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
+import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
+import dynamic from 'next/dynamic'
 
+const HiringBoard = dynamic(() => import('@/components/for_pages/Lk/HiringBoards/HiringBoard'), {
+  ssr: false,
+})
 
-const HiringBoard = () => {
-
-  const jobs: any[] = [
-    {
-      name: 'Senior Manager of Software Development and Engineering', id: 1
-    },
-    {
-      name: 'Junior Java Development', id: 2
-    },
-    {
-      name: 'Senior Back-end Development with Python Skills', id: 3
-    },
-    {
-      name: 'Product Designer', id: 4
-    },
-    {
-      name: 'Graphic Designer', id: 5
-    },
-  ]
-
+const HiringBoardPageInner = () => {
   const router = useRouter()
-
-  console.log(router)
-
-  const item = jobs.find(i => i.id.toString() === router.query.id)
-
-  const candidates = [
-    { avatar: '/photos/photo1.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 1 },
-    { avatar: '/photos/photo2.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 2 },
-    { avatar: '/photos/photo3.png', status: 'pre-interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 3 },
-    { avatar: '/photos/photo1.png', status: 'interview', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 4 },
-    { avatar: '/photos/photo2.png', status: 'awaiting-response', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 5 },
-    { avatar: '/photos/photo1.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 6 },
-    { avatar: '/photos/photo2.png', status: 'offer', name: 'Emily Ross', salaryPerHour: '$23 / hr', id: 7 },
-  ]
-
-  const options = [
-    'Status', 'Project'
-  ]
-
+  const vacancyOwnerContext = useVacancyOwnerContext()
+  const vacancyId = parseInt(router.query.id as string, 10)
   return (
     <div className={styles.container}>
-      <PageTitle title={item?.name} link={Routes.lkHiringBoards} />
+      <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkHiringBoards} />
       <div className={styles.wrapper}>
-        <FilterToolbar left={[]} />
-        <Stages candidates={candidates} />
+        <FilterToolbar />
+        <HiringBoard vacancyId={vacancyId}/>
       </div>
     </div>
   )
 }
-HiringBoard.getLayout = LkPageHirerLayout
-export default HiringBoard
+
+const HiringBoardPage = () => {
+  const router = useRouter()
+  const vacancyId = parseInt(router.query.id as string, 10)
+  return (<VacancyOwnerWrapper vacancyId={vacancyId}>
+    <HiringBoardPageInner/>
+  </VacancyOwnerWrapper>)
+}
+HiringBoardPage.getLayout = LkPageHirerLayout
+export default HiringBoardPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

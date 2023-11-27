@@ -1,5 +1,5 @@
 import styles from './index.module.scss'
-import { useRef, useState} from 'react'
+import {MouseEventHandler, useRef, useState} from 'react'
 import {colors} from 'styles/variables'
 import MenuSvg from '@/components/svg/MenuSvg'
 import {IOption, IOptionGroup} from '@/types/types'
@@ -43,7 +43,9 @@ export default function MenuButton<T>(props: Props<T>) {
     ]
   })
 
-  const handleClick = () => {
+  const handleClick: MouseEventHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     setIsActive(!isActive)
   }
   const handleClickItem = (value: T) => {

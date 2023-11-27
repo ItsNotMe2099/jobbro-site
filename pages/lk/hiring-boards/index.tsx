@@ -3,50 +3,37 @@ import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import JobCard from '@/components/for_pages/Lk/HiringBoards/JobCard'
-import Link from 'next/link'
-import { Routes } from '@/types/routes'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
-
-const options = [
-  'Status', 'Project'
-]
-
-const jobs: any[] = [
-  {
-    name: 'Senior Manager of Software Development and Engineering', id: 1
-  },
-  {
-    name: 'Junior Java Development', id: 2
-  },
-  {
-    name: 'Senior Back-end Development with Python Skills', id: 3
-  },
-  {
-    name: 'Product Designer', id: 4
-  },
-  {
-    name: 'Graphic Designer', id: 5
-  },
-]
+import HiringBoardJobCard from '@/components/for_pages/Lk/HiringBoards/HiringBoardListJobCard'
+import {HiringBoardListWrapper, useHiringBoardListContext} from '@/context/hiring_board_list_state'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 
 
-const HiringBoards = () => {
+
+const HiringBoardsInner = () => {
+  const hiringBoardListContext = useHiringBoardListContext()
+  useEffectOnce(() => {
+    hiringBoardListContext.reFetch()
+  })
   return (
     <div className={styles.container}>
       <PageTitle title={'Hiring boards'} />
       <div className={styles.wrapper}>
         <FilterToolbar left={[]} />
         <div className={styles.cards}>
-          {jobs.map((i, index) =>
-            <Link href={Routes.lkHiringBoard(i.id)}>
-              <JobCard item={i} key={index} />
-            </Link>)
+          {hiringBoardListContext.data.data.map((i, index) =>
+              <HiringBoardJobCard vacancy={i} key={i.id} />)
           }
         </div>
       </div>
     </div>
   )
+}
+
+const HiringBoards = () => {
+  return (<HiringBoardListWrapper>
+    <HiringBoardsInner/>
+  </HiringBoardListWrapper>)
 }
 HiringBoards.getLayout = LkPageHirerLayout
 

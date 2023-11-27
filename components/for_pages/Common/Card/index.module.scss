@@ -1,11 +1,7 @@
 @import "styles/index";
 
 .root {
-    display: flex;
-    flex-direction: column;
-    padding: 24px;
-    background-color: $white;
-    border-radius: 24px;
+  @include card();
 }
 
 .title {

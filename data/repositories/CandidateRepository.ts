@@ -3,6 +3,7 @@ import {AxiosRequestConfig} from 'axios/index'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {ICandidateListRequest} from '@/data/interfaces/ICandidateListRequest'
 import {ICandidate} from '@/data/interfaces/ICandidate'
+import {CandidateAddedStoreType} from '@/data/interfaces/CandidateAddedStoreType'
 
 export default class CandidateRepository {
   static async fetch(data: ICandidateListRequest, config?: AxiosRequestConfig): Promise<IPagination<ICandidate>> {
@@ -13,6 +14,15 @@ export default class CandidateRepository {
       config,
     })
     return res
+  }
+
+
+  static async fetchAdded(cv: number[]): Promise<CandidateAddedStoreType> {
+    return request<CandidateAddedStoreType>({
+      url: '/api/owner/candidate/added',
+      method: 'post',
+      data: {cv},
+    })
   }
 
   static async fetchById(id: number, config?: AxiosRequestConfig): Promise<ICandidate> {

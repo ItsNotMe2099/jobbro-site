@@ -1,0 +1,35 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  @include list(10px, true);
+  background: $white;
+  padding-bottom: 20px;
+
+}
+.right{
+  display: flex;
+  @include list(10px, true);
+}
+.title{
+  flex: 1;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+}
+.amount{
+  background-color: $background-success;
+  color: $green;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.conversion{
+  background-color: $green;
+  color: $white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 600;
+}

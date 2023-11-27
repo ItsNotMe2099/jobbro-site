@@ -12,6 +12,9 @@ import IHiringStage from '@/data/interfaces/IHiringStage'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {ICompany} from '@/data/interfaces/ICompany'
+import {IProposal} from '@/data/interfaces/IProposal'
+import {IApplication} from '@/data/interfaces/IApplication'
+import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 
 
 export interface IAutoMessage{
@@ -79,4 +82,13 @@ export interface IVacancy {
   applyAutoMessage: IAutoMessage
   declineAutoMessage: IAutoMessage
   createdAt: Date;
+}
+export interface IVacancyWithApply extends IVacancy{
+  proposals: IProposal[]
+  applications: IApplication[]
+}
+
+export interface IVacancyWithHiringStages extends IVacancy{
+  hiringStages: IHiringStageWithApply[]
+  conversionRate: number
 }

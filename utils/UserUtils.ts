@@ -6,9 +6,14 @@ export default class UserUtils {
   static getName(user: IProfile | null | {
     firstName?: Nullable<string>
     lastName?: Nullable<string>
-    patronymic?: Nullable<string>}): string {
+    patronymic?: Nullable<string>,
+    name?: Nullable<string>}): string {
     if (!user) {
       return ''
+    }
+
+    if(!user?.firstName && !user.lastName){
+      return user.name
     }
     return [user?.firstName , user.lastName, user.patronymic].filter(i => !!i).join(' ')
   }
