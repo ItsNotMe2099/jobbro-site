@@ -25,7 +25,7 @@ export default function HiringBoardColumnHeader(props: Props) {
          <div className={styles.title}>{stage.title}</div>
           <div className={styles.right}>
           <div className={styles.amount}>{stage?.currentCandidatesCount}</div>
-          <div className={styles.conversion}>{stage?.stageConversionRate?.toFixed(1)}%</div>
+          <div className={styles.conversion}>{Math.round(stage.stageConversionRate ?? 0)}%</div>
           </div>
           {props.isEdit && <IconButton
             size={'small'}

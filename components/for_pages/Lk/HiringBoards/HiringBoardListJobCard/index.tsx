@@ -1,7 +1,8 @@
 import styles from './index.module.scss'
 import {IVacancyWithHiringStages} from '@/data/interfaces/IVacancy'
 import AvatarCircular from '@/components/ui/AvatarCircular'
-
+import Link from 'next/link'
+import {Routes} from '@/types/routes'
 interface Props {
   vacancy: IVacancyWithHiringStages
 }
@@ -11,11 +12,11 @@ export default function HiringBoardListJobCard(props: Props) {
   const {vacancy} = props
   const hiringStages = vacancy.hiringStages
   return (
-    <div className={styles.root}>
+    <Link href={Routes.lkHiringBoard(vacancy.id)} className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>{vacancy.name}</div>
         <div className={styles.conversion}>
-          <div className={styles.conversionValue}>{vacancy.conversionRate}</div>
+          <div className={styles.conversionValue}>{Math.round(vacancy.conversionRate ?? 0)}%</div>
           <div className={styles.conversionLabel}>Conversion rate</div>
         </div>
       </div>
@@ -26,7 +27,7 @@ export default function HiringBoardListJobCard(props: Props) {
               {stage.title}
             </div>
             <div className={styles.stageConversion}>
-              {stage.stageConversionRate ?? 0}%
+              {Math.round(stage.stageConversionRate ?? 0)}%
             </div>
           </div>
           <div className={styles.photos}>
@@ -37,6 +38,6 @@ export default function HiringBoardListJobCard(props: Props) {
           </div>
         </div>)}
       </div>
-    </div>
+    </Link>
   )
 }
