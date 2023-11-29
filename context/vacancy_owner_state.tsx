@@ -2,10 +2,11 @@ import {createContext, useContext, useEffect, useState} from 'react'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
-import {ModalType, SnackbarType} from '@/types/enums'
+import {ModalType, SidePanelType, SnackbarType} from '@/types/enums'
 import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import {JobReviewSidePanelArguments} from '@/types/side_panel_arguments'
 
 interface IState {
   vacancyId?: Nullable<number> | undefined
@@ -184,8 +185,9 @@ export function VacancyOwnerWrapper(props: Props) {
       appContext.showModal(ModalType.Confirm, {
         text: `Are you sure that you want to close «${vacancy?.name}» ?`,
         onConfirm: async () => {
-          await updateStatusRequest(PublishStatus.Closed)
+       //   await updateStatusRequest(PublishStatus.Closed)
           appContext.hideModal()
+          appContext.showSidePanel(SidePanelType.JobReview, {vacancyId: vacancy!.id} as JobReviewSidePanelArguments)
         }
       } as ConfirmModalArguments)
     })

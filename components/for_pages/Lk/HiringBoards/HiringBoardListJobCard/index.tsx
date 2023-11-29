@@ -31,7 +31,7 @@ export default function HiringBoardListJobCard(props: Props) {
           </div>
           <div className={styles.photos}>
             {[...stage.applications, ...stage.proposals].map((i, index) =>
-              <AvatarCircular size={32}  className={styles.avatar} initials={i.cv?.name?.charAt(0)} src={i.cv.image ?? i.cv?.profile?.image ?? null} alt='' fill key={i.cvId} />
+              <AvatarCircular size={32}  className={styles.avatar} initials={i.cv?.name?.charAt(0)} file={i.cv.image ?? i.cv?.profile?.image ?? null}  key={i.cvId} />
             )}
             {stage.currentCandidatesCount > 3 && <div className={styles.more}>+{stage.currentCandidatesCount-3}</div>}
           </div>

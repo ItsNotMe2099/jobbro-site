@@ -9,6 +9,7 @@
   }
 
   .wrapper {
+    position: relative;
     :global .react-datepicker-wrapper {
       width: 100%;
     }

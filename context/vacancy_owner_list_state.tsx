@@ -5,8 +5,17 @@ import {CanceledError} from 'axios'
 import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListRequest'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
+import {Nullable} from '@/types/types'
+import {PublishStatus} from '@/data/enum/PublishStatus'
 
 export interface IVacancyFilter extends IVacancyOwnerListRequest {
+  showClosed?: boolean
+}
+export enum VacancyOwnerListSortType{
+  FromNewToOld = 'fromNewToOld',
+  FromOldToNew = 'fromOldToNew ',
+  FromLowToHighSalary = 'fromLowToHighSalary',
+  FromHighToLowSalary = 'fromHighToLowSalary',
 }
 
 interface IState {
@@ -17,6 +26,9 @@ interface IState {
   setPage: (page: number) => void
   filter: IVacancyFilter
   setFilter: (data: IVacancyFilter) => void
+  filterIsEmpty: boolean
+  sortType: Nullable<VacancyOwnerListSortType>
+  setSortType: (sortType: Nullable<VacancyOwnerListSortType>) => void
   reFetch: () => Promise<IPagination<IVacancy>>
   fetchMore: () => void
 }
@@ -28,9 +40,12 @@ const defaultValue: IState = {
   page: 1,
   setPage: (page: number) => null,
   filter: {page: 1, limit: 10},
+  filterIsEmpty: true,
   setFilter: (data: IVacancyFilter) => null,
   reFetch: async () => ({data: [], total: 0}),
-  fetchMore: () => null
+  fetchMore: () => null,
+  sortType: null,
+  setSortType: (sortType: Nullable<VacancyOwnerListSortType>) => null,
 }
 
 const VacancyListOwnerContext = createContext<IState>(defaultValue)
@@ -46,8 +61,10 @@ export function VacancyListOwnerWrapper(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-  const [filter, setFilter] = useState<IVacancyFilter>({page: 1, limit: props.limit ?? 10})
+  const [filter, setFilter] = useState<IVacancyFilter>({showClosed: true})
+  const [sortType, setSortType] = useState<Nullable<VacancyOwnerListSortType>>(null)
   const filterRef = useRef<IVacancyFilter>(filter)
+  const sortTypeRef = useRef<Nullable<VacancyOwnerListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const limit = props.limit ?? 20
@@ -73,6 +90,18 @@ export function VacancyListOwnerWrapper(props: Props) {
       subscriptionDelete.unsubscribe()
     }
   }, [data])
+  const getSortParam = (sortType: VacancyOwnerListSortType) => {
+    switch (sortType){
+      case VacancyOwnerListSortType.FromNewToOld:
+        return 'createdAt,DESC'
+      case VacancyOwnerListSortType.FromOldToNew:
+        return 'createdAt,ASC'
+      case VacancyOwnerListSortType.FromLowToHighSalary:
+        return 'salaryMin,ASC'
+      case VacancyOwnerListSortType.FromHighToLowSalary:
+        return 'salaryMin,DESC'
+    }
+  }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<IVacancy>> => {
     setIsLoading(true)
     let res: IPagination<IVacancy> = {data: [], total: 0}
@@ -82,7 +111,13 @@ export function VacancyListOwnerWrapper(props: Props) {
     abortControllerRef.current = new AbortController()
     try {
        res = await VacancyOwnerRepository.fetch({
-        ...filterRef.current,
+        ...(((filterRef.current.statuses?.length ?? 0) > 0 || !filterRef.current.showClosed) ? {
+          statuses: [
+            ...((filterRef.current.statuses?.length ?? 0)> 0 ? filterRef.current.statuses! : []),
+            ...(filterRef.current.showClosed ? ((filterRef.current.statuses?.length ?? 0) > 0 ? [PublishStatus.Closed] : []) : (!filterRef.current.statuses?.length ? [PublishStatus.Draft, PublishStatus.Paused, PublishStatus.Published] : []))]
+        } : {}),
+
+       ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
        limit: filterRef.current.limit ?? limit,
         page
       }, {signal: abortControllerRef.current?.signal})
@@ -104,6 +139,10 @@ export function VacancyListOwnerWrapper(props: Props) {
     setIsLoaded(false)
     return fetch({page: 1})
   }
+  const checkIsFilterEmpty = () => {
+    const filter = filterRef.current
+    return Boolean(!filter.statuses?.length && !filter.projects?.length && !filter.publishedAt && filter.showClosed)
+  }
   const value: IState = {
     ...defaultValue,
     isLoaded,
@@ -124,7 +163,14 @@ export function VacancyListOwnerWrapper(props: Props) {
     fetchMore: () => {
       setPage(i => i + 1)
       fetch({page: page + 1})
-    }
+    },
+    sortType,
+    setSortType: (sortType) => {
+      sortTypeRef.current = sortType
+      setSortType(sortType)
+      reFetch()
+    },
+    filterIsEmpty: checkIsFilterEmpty(),
   }
 
 

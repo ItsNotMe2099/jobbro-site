@@ -20,7 +20,6 @@ export default function MarkdownText(props: Props) {
           <p className={styles.paragraph}>{children}</p>
         ),
         a: ({ node, ...itemProps }) => {
-          console.log('props: ', { itemProps })
           const linkChildren = Array.isArray(itemProps.children) ? itemProps.children : [itemProps.children]
           const firstChild = linkChildren[0]
           return (

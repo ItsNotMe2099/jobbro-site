@@ -8,6 +8,7 @@ import {DraggableProvided} from 'react-beautiful-dnd'
 interface Props {
   apply: ICVWithApply
   dragProvided: DraggableProvided
+  isDragging?: boolean
 }
 
 export default function HiringBoardCard(props: Props) {
@@ -15,7 +16,7 @@ export default function HiringBoardCard(props: Props) {
   return (
 
         <div className={styles.root} ref={dragProvided.innerRef} {...dragProvided.draggableProps} {...dragProvided.dragHandleProps}>
-          <AvatarCircular size={32}  className={styles.avatar} initials={apply?.name?.charAt(0)} src={apply?.image ?? apply?.profile?.image ?? null} />
+          <AvatarCircular size={32}  className={styles.avatar} initials={apply?.name?.charAt(0)} file={apply?.image ?? apply?.profile?.image ?? null} />
 
           <div className={styles.info}>
             <div className={styles.name}>

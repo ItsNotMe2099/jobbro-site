@@ -4,65 +4,19 @@
   position: relative;
 }
 
-.label{
-  @include inputLabel;
-  &.withIcon{
-    @include inputLabelWithIcon;
-  }
+.wrapper{
+  position: relative;
+  margin: 0 !important;
+  background-color: #EBEBEB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 24px 0px;
+
 }
 .input{
-  display: block;
-  width: 100%;
-  color: $dark;
-  transition: background-color 0.2s, min-height 0.2s;
-  resize: none;
-  &.default{
-    border: 1px solid $grey;
-    background: #fff;
-    border-radius: 10px;
-    padding: 33px 15px 15px 15px;
-    font-size: 16px;
-    min-height: $fieldHeightDefault;
-    &:focus{
-      font-size: 16px;
-    }
-    &::placeholder {
-      color: $grey;
-    }
-    &.hover{
-      background: $lightGrey;
-    }
-  }
-  &.bottomBorder{
-    font-size: 14px;
-    font-weight: 600;
-    background: transparent;
-    padding-top: 13px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1px solid $dark;
-    min-height: $fieldHeightBottomBorder;
-    &:focus{
-      font-size: 14px;
-    }
-    &::placeholder {
-      color: $dark;
-    }
-  }
-  &.error{
-    border-color: $red;
-    color: $red;
-    &::placeholder {
-      color: $red;
-    }
-  }
-  &.withIcon{
-    padding-left: 50px;
-  }
-  &.focused{
-    min-height: 120px;
-  }
+  @include input;
+  line-height: inherit;
 }
 
 .icon{
@@ -72,8 +26,5 @@
   &.default{
     top: $fieldHeightDefault * 0.5;
     left: 17px;
-  }
-  &.bottomBorder{
-    top: $fieldHeightBottomBorder * 0.5;
   }
 }

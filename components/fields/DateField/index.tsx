@@ -9,10 +9,12 @@ import { format, parse } from 'date-fns'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
 import FieldError from '../FieldError'
 import { colors } from '@/styles/variables'
+import FieldLabel, {LabelStyleType} from '@/components/fields/FieldLabel'
 
 interface Props extends IField<string> {
   maxDate?: Date
   minDate?: Date
+  labelStyleType?: LabelStyleType
   visibleYearSelector?: boolean
   excludeDates?: Date[]
   datePickerProps?: DeepPartial<ReactDatePickerProps<string, false>>
@@ -24,7 +26,11 @@ export default function DateField(props: Props) {
   const showError = meta.touched && !!meta.error
   return (
     <div className={styles.root} data-field={props.name}>
+      {props.label &&
+        <FieldLabel label={props.label} styleType={props.labelStyleType} />
+      }
       <div className={styles.wrapper} ref={wrapperRef}>
+
         <DatePicker<string, false>
           name={props.name}
           className={classNames({
@@ -37,7 +43,7 @@ export default function DateField(props: Props) {
           locale={ru}
           selected={field.value ? parse(field.value, 'dd.MM.yyyy', new Date()) : null}
           dateFormat="dd.MM.yyyy"
-          placeholderText={props.placeholder ?? props.label as string}
+          placeholderText={props.placeholder}
           forceShowMonthNavigation={false}
           popperPlacement="bottom"
           showYearDropdown={props.visibleYearSelector}

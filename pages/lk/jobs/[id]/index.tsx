@@ -53,7 +53,6 @@ const JobPageInner = (props: Props) => {
         <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
         <div className={styles.wrapper}>
           <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
-
           <div className={classNames(styles.cards, {[styles.rows]: view === CardViewType.Row})}>
             {applyCvListContext.data.data.map((i, index) =>
               <JobApplyCard view={view} className={styles.card} cv={i} key={i.id}/>

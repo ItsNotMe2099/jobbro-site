@@ -1,7 +1,9 @@
+import {MouseEventHandler} from 'react'
+
 interface Props {
   color?: string
   className?: string
-  onClick?: () => void
+  onClick?: MouseEventHandler
 }
 
 export default function MenuSvg(props: Props) {

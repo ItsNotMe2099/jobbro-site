@@ -12,7 +12,7 @@ interface Props {
 function FilterButtonInner(props: Props,  ref: React.ForwardedRef<HTMLDivElement>) {
   return (
     <div className={styles.root} onClick={props.onClick} ref={ref}>
-      <span>Sort</span>{props.hasValue && <CircleSvg className={styles.circle} color={colors.green}/>}
+      <span>{props.children}</span>{props.hasValue && <CircleSvg className={styles.circle} color={colors.green}/>}
     </div>
   )
 }

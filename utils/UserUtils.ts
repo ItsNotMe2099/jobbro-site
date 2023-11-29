@@ -13,7 +13,7 @@ export default class UserUtils {
     }
 
     if(!user?.firstName && !user.lastName){
-      return user.name
+      return (user as any).name
     }
     return [user?.firstName , user.lastName, user.patronymic].filter(i => !!i).join(' ')
   }

@@ -8,21 +8,36 @@
   color: $text-secondary;
   padding: 0px;
   display: block;
-  transform-origin: left top;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 24px);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  transform: translate(16px, 24px);
-  transition: font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  z-index: 1;
-  pointer-events: none;
-}
-.focused{
-  font-size: 14px;
+  margin-bottom: 16px;
 
-  transform: translate(16px, 16px);
+
+  &.dynamic {
+    margin-bottom: 0px;
+    transform-origin: left top;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    transition: font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    z-index: 1;
+    pointer-events: none;
+    max-width: calc(100% - 24px);
+    transform: translate(16px, 24px);
+
+    &.focused {
+      font-size: 14px;
+      transform: translate(16px, 16px);
+    }
+  }
+
+  &.large {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.2px;
+    color: $text-primary;
+  }
 }

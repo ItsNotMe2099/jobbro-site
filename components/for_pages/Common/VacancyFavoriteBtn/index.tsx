@@ -21,7 +21,7 @@ export default function VacancyFavoriteBtn(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const favoriteContext = useFavoriteContext()
-  const active = favoriteContext.store.includes(props.id)
+  const active = favoriteContext.store[FavoriteEntityType.vacancy].includes(props.id)
   const activeRef = useRef<boolean>(active)
   const isLogged = appContext.isLogged
   const isLoggedRef = useRef<boolean>(isLogged)

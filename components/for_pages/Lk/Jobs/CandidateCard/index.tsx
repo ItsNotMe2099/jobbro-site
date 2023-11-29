@@ -1,7 +1,5 @@
 import styles from './index.module.scss'
-import {colors} from '@/styles/variables'
 import classNames from 'classnames'
-import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import {useState} from 'react'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
@@ -34,8 +32,6 @@ const cv = props.cv
 
   return (
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === CardViewType.Row })}>
-      <BookmarkSvg onClick={() => bookmark ? null : handleBookmark()} className={styles.bookmark}
-        color={colors.green} />
       <Link href={Routes.lkCandidate(cv.id)} className={styles.container}>
         <div className={styles.top}>
           <AvatarCircular file={cv.image ?? cv?.profile?.image}/>

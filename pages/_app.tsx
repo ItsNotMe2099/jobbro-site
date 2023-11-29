@@ -22,6 +22,7 @@ import {NotificationWrapper} from '@/context/notifications_state'
 import {EventListWrapper} from '@/context/event_list_context'
 import {FavoriteWrapper} from '@/context/favorite_state'
 import {CandidateAddedWrapper} from '@/context/candidate_added_state'
+import SidePanelContainer from '@/components/layout/SidePanelContainer'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -65,6 +66,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
               </Head>
               {getLayout(<Component {...pageProps as any} />)}
               <ModalContainer/>
+              <SidePanelContainer/>
               <BottomSheetContainer/>
               <AppOverlay/>
               <Snackbar/>

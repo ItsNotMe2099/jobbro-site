@@ -1,0 +1,20 @@
+@import "styles/index";
+.root{
+  padding: 20px 24px;
+}
+.addButton{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  color: $green;
+  font-weight: 700;
+  font-size: 20px;
+  white-space: nowrap;
+  @include list(10px, true);
+}
+.bottom{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(10px, true);
+}

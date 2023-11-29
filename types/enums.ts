@@ -22,9 +22,6 @@ export enum InputStyleType {
   Password = 'password'
 }
 
-export enum SidePanelType {
-
-}
 
 export enum SnackbarType {
   error,
@@ -77,6 +74,8 @@ export enum Languages {
 
 export enum SidePanelType {
   JobsFilter = 'jobsFilter',
+  JobReview = 'jobReview',
+  InviteToJob = 'inviteToJob'
 }
 
 export enum CardViewType {

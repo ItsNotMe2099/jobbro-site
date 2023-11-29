@@ -26,7 +26,6 @@ interface Props {
   cv: ICVWithApply
   className?: string
   view: CardViewType
-  onAddBookmark: (bookmark: boolean) => void
 }
 
 const JobApplyCardInner = (props: Props) => {
@@ -42,11 +41,7 @@ const JobApplyCardInner = (props: Props) => {
   useEffect(() => {
     favoriteContext.addRecord(applyCvContext.cv!.id)
   }, [])
-  const handleBookmark = () => {
-    const newState = true
-    setBookmark(newState)
-    props.onAddBookmark(newState)
-  }
+
   const menuOptions: IOption<MenuKey>[] = [
     {label: 'Download resume in PDF', value: MenuKey.DownloadPdf},
     {label: 'Add to base', value: MenuKey.AddToBase},

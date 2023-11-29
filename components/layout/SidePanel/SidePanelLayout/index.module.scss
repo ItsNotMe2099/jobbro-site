@@ -1,0 +1,32 @@
+@import "styles/index";
+.root{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: $white;
+  border-radius: $StandartBorderRadius !important;
+  height: 100vh;
+  &.small{
+    //width: 416px;
+  }
+  &.normal{
+   // width: 524px;
+  }
+  &.large{
+   // width: 644px;
+  }
+  width: 100%;
+  &.fixed{
+    max-height: 96vh;
+    @media screen and (max-width: 900px){
+      min-height: 100vh;
+      height:100%;
+      min-height: -webkit-fill-available;
+    }
+
+  }
+  @media (max-width: $xs-max) {
+    width: 100% !important;
+  }
+
+}

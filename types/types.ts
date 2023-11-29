@@ -1,5 +1,5 @@
 import { SnackbarType } from './enums'
-import { HTMLInputTypeAttribute, MouseEventHandler } from 'react'
+import {HTMLInputTypeAttribute, MouseEventHandler, ReactElement} from 'react'
 import { FieldConfig } from 'formik'
 import { UrlObject } from 'url'
 import IChatMessage from '@/data/interfaces/IChatMessage'
@@ -17,7 +17,7 @@ export interface IButton {
 }
 
 export interface IField<T> extends FieldConfig<T> {
-  label?: string | React.ReactNode
+  label?: string | ReactElement | undefined
   placeholder?: string
   type?: HTMLInputTypeAttribute
   error?: string

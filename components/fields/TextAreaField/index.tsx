@@ -2,12 +2,11 @@ import styles from './index.module.scss'
 import { IField } from 'types/types'
 import { useField } from 'formik'
 import classNames from 'classnames'
-import FieldIconSvg from 'components/svg/FieldIconSvg'
 import React, { useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import { InputStyleType } from '@/types/enums'
 import FieldError from '../FieldError'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
+import FieldLabel, {LabelStyleType} from '@/components/fields/FieldLabel'
 
 const TextAreaInner = (props: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {autoSize?: boolean}) => {
   if(props.autoSize){
@@ -17,8 +16,8 @@ const TextAreaInner = (props: React.TextareaHTMLAttributes<HTMLTextAreaElement> 
   }
 }
 interface Props extends IField<string> {
-  styleType: InputStyleType
   autoSize?: boolean
+  labelStyleType?: LabelStyleType
 }
 
 export default function TextAreaField(props: Props) {
@@ -29,25 +28,14 @@ export default function TextAreaField(props: Props) {
 
   return (
     <div className={styles.root} ref={ref} data-field={props.name}>
-      {props.iconName && (
-        <FieldIconSvg
-          iconName={props.iconName}
-          error={showError}
-          className={classNames([styles.icon, styles[props.styleType]])}
-        />
-      )}
-      {props.styleType === 'default' && (
-        <div className={classNames({
-          [styles.label]: true,
-          [styles.withIcon]: props.iconName,
-        })}>
-          {props.label}
-        </div>
-      )}
+      <div className={styles.wrapper}>
+      {props.label &&
+        <FieldLabel label={props.label} styleType={props.labelStyleType} focused={focused || field.value} />
+      }
       <TextAreaInner
         {...field}
-        autoSize={props.autoSize}
-        placeholder={props.placeholder ?? props.label as string}
+        autoSize={true}
+        placeholder={props.placeholder}
         onFocus={() => {
           setFocused(true)
         }}
@@ -58,12 +46,15 @@ export default function TextAreaField(props: Props) {
         }}
         className={classNames({
           [styles.input]: true,
+          [styles.withLabel]: props.label,
+          [styles.withValue]: !!field.value,
           [styles.hover]: hover,
           [styles.focused]: focused || field.value,
           [styles.withIcon]: props.iconName,
           [styles.error]: showError,
-        }, styles[props.styleType])}
+        })}
       />
+      </div>
       <FieldError showError={showError}>{meta.error}</FieldError>
     </div>
   )

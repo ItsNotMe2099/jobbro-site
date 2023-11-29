@@ -1,0 +1,12 @@
+@import "styles/index";
+.root{
+  display: block;
+  width: 100%;
+  &.fixed{
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+.wrapper{
+  padding: 24px;
+}
