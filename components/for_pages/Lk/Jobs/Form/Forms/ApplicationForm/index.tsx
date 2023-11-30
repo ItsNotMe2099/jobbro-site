@@ -37,10 +37,10 @@ export default function ApplicationForm(props: Props) {
           /> : <></>}
       </Card>
       <Card title='Hiring Stages'>
-        <FieldArray name={'stages'}>
+        <FieldArray name={'hiringStagesDescriptions'}>
           {(arrayHelpers: FieldArrayRenderProps) => (
             <div className={styles.fields}>
-              {(props.formik.values.stages ?? []).map((i, index) => <div className={styles.field} key={index}>
+              {(props.formik.values.hiringStagesDescriptions ?? []).map((i, index) => <div className={styles.field} key={index}>
                 <div className={styles.label}>
                   <div className={styles.text}>Stage {index + 1}</div>
                   {index > 0 && <CloseSvg className={styles.remove}
@@ -51,13 +51,13 @@ export default function ApplicationForm(props: Props) {
                     className={styles.input}
                     key={index}
                     label={'Title'}
-                    name={`stages[${index}].title`}
+                    name={`hiringStagesDescriptions[${index}].title`}
                   />
                   <InputField
                     className={styles.input}
                     key={index}
                     label={'Description'}
-                    name={`stages[${index}].description`}
+                    name={`hiringStagesDescriptions[${index}].description`}
                   />
                 </div>
               </div>

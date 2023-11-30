@@ -1,6 +1,6 @@
 import request from 'utils/request'
 import {IProposal} from '@/data/interfaces/IProposal'
-import {ProposalStatus} from '@/data/enum/ProposalStatus'
+import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 export default class ProposalRepository {
 
@@ -17,7 +17,7 @@ export default class ProposalRepository {
     const res = await request<IProposal>({
       method: 'patch',
       url: `/api/proposal/${id}`,
-      data: {status: ProposalStatus.Rejected},
+      data: {status: ApplyStatus.Rejected},
     })
     return res
   }

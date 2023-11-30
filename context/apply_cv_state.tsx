@@ -11,6 +11,7 @@ import {ConfirmModalArguments} from '@/types/modal_arguments'
 import UserUtils from '@/utils/UserUtils'
 import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import ProposalRepository from '@/data/repositories/ProposalRepository'
+import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 interface IState {
   cv: Nullable<ICVWithApply>,
@@ -84,8 +85,10 @@ export function ApplyCvWrapper(props: Props) {
           const proposal = (cv?.proposals?.length ?? 0) > 0 ? cv?.proposals[0] : null
           if(application) {
             await ApplicationRepository.reject(application.id)
+            handleUpdate({...cv, applications: [{...application, status: ApplyStatus.Rejected}]})
           }else if(proposal){
             await ProposalRepository.reject(proposal.id)
+            handleUpdate({...cv, proposals: [{...proposal, status: ApplyStatus.Rejected}]})
           }
           appContext.hideModal()
         }

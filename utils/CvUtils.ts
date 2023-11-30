@@ -8,7 +8,7 @@ export default class CvUtils {
     if(!cv){
       return null
     }
-    return cv.proposals?.length > 0 ? cv.proposals[0] : cv.applications?.length > 0 ? cv.applications[0] : null
+    return cv.applications?.length > 0 ? cv.applications[0] : cv.proposals?.length > 0 ? cv.proposals[0] : null
   }
 
 }

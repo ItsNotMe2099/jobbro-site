@@ -1,4 +1,4 @@
-import {createContext, useContext, useRef, useState} from 'react'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {useAppContext} from '@/context/state'
 import {CanceledError} from 'axios'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
@@ -56,6 +56,21 @@ export function ApplyCvListWrapper(props: Props) {
     await Promise.all([fetch()])
     setIsLoaded(true)
   }
+  useEffect(() => {
+
+    const subscriptionUpdate = appContext.cvApplyUpdateState$.subscribe((cv) => {
+      setData(i => ({...i, data: i.data.map(i => i.id == cv.id ? ({...i, ...cv}) : i)}))
+    })
+    const subscriptionDelete = appContext.cvApplyDeleteState$.subscribe((cv) => {
+      if (data.data.find(i => i.id === cv.id)) {
+        setData((i) => ({...i, data: i.data.filter((i) => i.id !== cv.id), total: i.total - 1}))
+      }
+    })
+    return () => {
+      subscriptionUpdate.unsubscribe()
+      subscriptionDelete.unsubscribe()
+    }
+  }, [data])
 
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<ICVWithApply>> => {
     setIsLoading(true)

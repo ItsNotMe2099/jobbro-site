@@ -1,6 +1,8 @@
 @import "styles/index";
 .root{
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .form {
     display: flex;

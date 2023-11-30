@@ -1,12 +1,12 @@
 import {IPaginationRequest} from '@/data/interfaces/IPaginationRequest'
 import {Nullable} from '@/types/types'
-import {ApplicationStatus} from '@/data/enum/ApplicationStatus'
+import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 export interface IChatListRequest extends IPaginationRequest{
   search?: Nullable<string>,
   vacanciesIds?: string
   onlyUnread?: boolean
-  applicationStatus?: ApplicationStatus
+  applicationStatus?: ApplyStatus
   inactive?: boolean
   filter?: 'invites' | 'unread'
 }

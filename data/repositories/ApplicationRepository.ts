@@ -4,8 +4,8 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
 import {ICV} from '@/data/interfaces/ICV'
 import {ICvOwnerListRequest} from '@/data/interfaces/ICvOwnerListRequest'
-import {ApplicationStatus} from '@/data/enum/ApplicationStatus'
 import {IApplication} from '@/data/interfaces/IApplication'
+import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 export default class ApplicationRepository {
   static async fetch(data: ICvOwnerListRequest, config?: AxiosRequestConfig): Promise<IPagination<ICV>> {
@@ -23,7 +23,7 @@ export default class ApplicationRepository {
     const res = await request<IApplication>({
       method: 'patch',
       url: `/api/application/${id}`,
-      data: {status: ApplicationStatus.Accepted},
+      data: {status: ApplyStatus.Accepted},
     })
     return res
   }
@@ -31,7 +31,7 @@ export default class ApplicationRepository {
     const res = await request<IApplication>({
       method: 'patch',
       url: `/api/application/${id}`,
-      data: {status: ApplicationStatus.Rejected},
+      data: {status: ApplyStatus.Rejected},
     })
     return res
   }

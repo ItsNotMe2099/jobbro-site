@@ -16,6 +16,10 @@ import {IProposal} from '@/data/interfaces/IProposal'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 
+export interface IHiringStageDescription {
+  title: string;
+  description: string;
+}
 
 export interface IAutoMessage{
   template: string
@@ -69,6 +73,7 @@ export interface IVacancy {
   imageId: number;
   schedulePublishAt: Date;
   contactPerson: IVacancyContactPerson;
+  hiringStagesDescriptions: IHiringStageDescription[];
   hiringStages: IHiringStage[];
   hiringStagesIds: number[];
   status: PublishStatus;

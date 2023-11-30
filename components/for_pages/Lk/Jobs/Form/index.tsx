@@ -9,7 +9,6 @@ import JobAdDetailsForm from './Forms/JobAdDetailsForm'
 import ApplicationForm from './Forms/ApplicationForm'
 import WorkflowForm from './Forms/WorkflowForm'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-
 import Tabs from '@/components/ui/Tabs'
 import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
@@ -31,6 +30,7 @@ import {Routes} from '@/types/routes'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
+import Spacer from '@/components/ui/Spacer'
 
 
 enum TabKey {
@@ -68,7 +68,7 @@ export interface IVacancyFormData {
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
-  stages: { title: string, description: string }[]
+  hiringStagesDescriptions: { title: string, description: string }[]
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -126,7 +126,7 @@ export default function CreateJobManuallyForm(props: Props) {
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
-    stages: []
+    hiringStagesDescriptions: []
   }
 
   const formik = useFormik<IVacancyFormData>({
@@ -171,6 +171,7 @@ export default function CreateJobManuallyForm(props: Props) {
   return <div className={styles.root} ref={ref} >
     {!props.preview && form}
     {props.preview && preview}
+    <Spacer basis={32}/>
     <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
       <>
         {!props.preview && (!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} styleType='large' color='green'>

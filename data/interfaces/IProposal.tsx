@@ -1,4 +1,4 @@
-import {ApplicationStatus} from '@/data/enum/ApplicationStatus'
+import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 export interface IProposal {
   id: number
@@ -7,9 +7,6 @@ export interface IProposal {
   vacancyId: number,
   coverLetter : string
   hiringStageId: number
+  status: ApplyStatus
 }
 
-export interface IStat {
-  status: ApplicationStatus,
-  count: number
-}
