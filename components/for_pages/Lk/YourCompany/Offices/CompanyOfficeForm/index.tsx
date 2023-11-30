@@ -18,6 +18,7 @@ import {useCompanyOwnerContext} from '@/context/company_owner_state'
 import {IGeoName} from '@/data/interfaces/ILocation'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
 import {omit} from '@/utils/omit'
+import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 interface Props {
 
@@ -78,6 +79,7 @@ export default function CompanyOfficeForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
+        <FormErrorScroll formik={formik} />
         <Card className={styles.card} title='Details'>
             <InputField name={'name'} label={'Office name'} validate={Validator.required}/>
             <div className={styles.columns}>

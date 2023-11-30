@@ -31,6 +31,7 @@ import {PublishStatus} from '@/data/enum/PublishStatus'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
 import Spacer from '@/components/ui/Spacer'
+import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 
 enum TabKey {
@@ -157,7 +158,9 @@ export default function CreateJobManuallyForm(props: Props) {
   }
   const form = (
     <FormikProvider value={formik}>
+
       <Form className={styles.form}>
+        <FormErrorScroll formik={formik} />
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
         {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
         {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}

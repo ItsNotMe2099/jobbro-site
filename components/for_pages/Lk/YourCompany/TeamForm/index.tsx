@@ -11,6 +11,7 @@ import {colors} from '@/styles/variables'
 import {ManagerOwnerWrapper, useManagerOwnerContext} from '@/context/manager_owner_state'
 import Spinner from '@/components/ui/Spinner'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
+import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 interface Props {
 
@@ -54,6 +55,7 @@ const TeamFormInner = (props: Props) => {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
+        <FormErrorScroll formik={formik} />
         <Card title='Invite Team Members'>
           <InputField disabled={managerOwnerContext.editLoading} placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
                       suffix={suffix}

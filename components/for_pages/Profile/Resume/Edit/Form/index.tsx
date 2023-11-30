@@ -39,6 +39,7 @@ import classNames from 'classnames'
 import {omit} from '@/utils/omit'
 import {format, parse} from 'date-fns'
 import {Routes} from '@/types/routes'
+import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 interface Props {
   onPreview?: () => void
@@ -167,6 +168,7 @@ export default function ResumeEditForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.form}>
+        <FormErrorScroll formik={formik} />
         <div className={styles.root}>
           <Card title='Specialization'>
             <div className={styles.wrapper}>

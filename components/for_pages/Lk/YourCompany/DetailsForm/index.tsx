@@ -20,6 +20,7 @@ import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFo
 import {IGeoName} from '@/data/interfaces/ILocation'
 import Dictionary from '@/utils/Dictionary'
 import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
+import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 interface IFormData {
   name: Nullable<string>
@@ -91,7 +92,8 @@ export default function CompanyDetailsForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
-          <Card title='Details'>
+        <FormErrorScroll formik={formik} />
+        <Card title='Details'>
             <div className={styles.wrapper}>
               <InputField
                 className={styles.select}
