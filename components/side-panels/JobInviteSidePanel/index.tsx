@@ -75,7 +75,7 @@ export default function JobInviteSidePanel(props: Props) {
     <SidePanelLayout>
       <FormikProvider value={formik}>
         <Form className={styles.form}>
-          <SidePanelHeader title={'Evaluate'}/>
+          <SidePanelHeader title={'Inviting to job'}/>
           <SidePanelBody fixed>
             <div className={styles.fields}>
               {args.cv && <CvCard cv={args.cv}/>}
@@ -87,7 +87,7 @@ export default function JobInviteSidePanel(props: Props) {
           <SidePanelFooter>
             <div className={styles.buttons}>
               <Button spinner={loading} type='submit' className={styles.apply} styleType='large' color='green'>
-                Send Review
+                Send Invite
               </Button>
               <Button onClick={appContext.hidePanel} className={styles.btn} styleType='large' color='white'>
                 Cancel

@@ -7,13 +7,15 @@ import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import {ICVWithApply} from '@/data/interfaces/ICV'
-import {CardViewType} from '@/types/enums'
+import {CardViewType, SidePanelType} from '@/types/enums'
 import CvFavoriteBtn from '@/components/for_pages/Common/CvFavoriteBtn'
 import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
 import {ApplyCvWrapper, useApplyCvContext} from '@/context/apply_cv_state'
 import MenuButton from '@/components/ui/MenuButton'
 import {IOption} from '@/types/types'
 import {useCandidateAddedContext} from '@/context/candidate_added_state'
+import {useAppContext} from '@/context/state'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -33,7 +35,7 @@ const JobApplyCardInner = (props: Props) => {
   const applyCvContext = useApplyCvContext()
   const favoriteContext = useCandidateAddedContext()
   const cv = applyCvContext.cv!
-
+  const appContext = useAppContext()
   const ai = {
     percent: null,
     description: null
@@ -59,7 +61,7 @@ const JobApplyCardInner = (props: Props) => {
         favoriteContext.like(cv!.id)
         break
       case MenuKey.InviteToOtherJob:
-
+        appContext.showSidePanel(SidePanelType.InviteToJob, { cv } as JobInviteSidePanelArguments)
         break
       case MenuKey.Select:
 

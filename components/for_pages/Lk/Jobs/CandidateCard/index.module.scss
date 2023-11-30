@@ -11,6 +11,13 @@
     position: relative;
 }
 
+.bookmark {
+  position: absolute !important;
+  top: 0;
+  right: 16px;
+  cursor: pointer;
+}
+
 .row {
     flex-direction: row;
     width: 100%;
@@ -128,6 +135,7 @@
     display: flex;
     @include list(10px, true);
     align-items: center;
+  justify-content: flex-end;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;

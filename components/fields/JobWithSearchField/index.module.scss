@@ -10,39 +10,18 @@
   flex-direction: column;
   @include list(24px);
 }
-.employee{
+.job{
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
-  @include list(24px, true);
-  &.selected{
-    .avatar{
-      position: relative;
-      &:after{
-        content: '';
-        position: absolute;
-        border-radius: 100%;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        top: 0px;
-        background: rgba(36, 181, 99, 0.6);
-      }
-    }
-  }
+  @include list(16px, true);
+
 }
-.info{
-  display: flex;
-  flex-direction: column;
-  @include list(8px);
-}
+
 .name{
-  font-weight: 700;
-  font-size: 20px;
-}
-.role{
-  color: $text-secondary;
+  flex: 1;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
+  color: $text-primary;
 }

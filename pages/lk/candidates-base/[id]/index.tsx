@@ -1,11 +1,11 @@
 import styles from './index.module.scss'
-import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
-import { getAuthServerSideProps } from '@/utils/auth'
-import { ProfileType } from '@/data/enum/ProfileType'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import { useRef, useState } from 'react'
-import { Routes } from '@/types/routes'
-import { useRouter } from 'next/router'
+import {useRef, useState} from 'react'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
 import useInterval from 'use-interval'
 import Card from '@/components/for_pages/Common/Card'
 import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
@@ -18,17 +18,16 @@ import CardCandidateSummary from '@/components/for_pages/Lk/CandidatesBase/Candi
 import CardProfExp from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardProfExp'
 import CardMatching from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardMatching'
 import {CandidateWrapper, useCandidateContext} from '@/context/candidate_state'
+import {useAppContext} from '@/context/state'
+import {SidePanelType} from '@/types/enums'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 
 const CandidatePageInner = () => {
+  const appContext = useAppContext()
   const candidateContext = useCandidateContext()
   const cv = candidateContext.candidate?.cv
-
-  const router = useRouter()
-
-
   const [bookmark, setBookmark] = useState<boolean>(false)
-
-
+  const router = useRouter()
   useInterval(() => {
     if (bookmark) {
       setBookmark(false)
@@ -65,7 +64,7 @@ const CandidatePageInner = () => {
         <div className={styles.wrapper}>
           <div className={styles.top}>
             <CardWithPhoto cv={cv} />
-            <CardAiSummary className={styles.aiSum} percent={98} description={'dsadsds'}/>
+            <CardAiSummary className={styles.aiSum} percent={98} description={''}/>
           </div>
           <CardCandidateSummary cv={cv} />
           <CardProfExp cv={cv} />
@@ -73,13 +72,10 @@ const CandidatePageInner = () => {
           <CardMatching  />
         </div>
         <ControlsStickyFooter btns={[
-          <Button type='submit' styleType='large' color='green'>
+          <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>
             Send Invite
           </Button>,
-          <Button className={styles.decline} styleType='large' color='white'>
-            Decline
-          </Button>,
-          <Button className={styles.cancel} styleType='large' color='white' >
+          <Button className={styles.cancel} styleType='large' color='white' href={Routes.lkCandidatesBase} >
             Cancel
           </Button>
         ]} boundaryElement={`.${styles.container}`} formRef={ref} />

@@ -1,0 +1,25 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  border-radius: 100%;
+  border: 2px solid $green;
+  width: 24px;
+  height: 24px;
+  &.active {
+    background: $green;
+
+  }
+  &.disabled {
+    opacity: 0.5;
+
+  }
+  &.active {
+    border: 0;
+  }
+
+}
+
+.checkbox {
+  border-radius: 100%;
+}

@@ -59,7 +59,7 @@ const CandidatesPageInner = () => {
             <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
             <div className={classNames(styles.cards, { [styles.rows]: view === CardViewType.Row })}>
               {candidateListContext.data.data.map((i, index) =>
-                <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} cv={i.cv} key={i.id} />
+                <CandidateCard onAddBookmark={(bookmark) => setBookmark(bookmark)} view={view} className={styles.card} candidate={i} key={i.id} />
               )}
             </div>
           </div>

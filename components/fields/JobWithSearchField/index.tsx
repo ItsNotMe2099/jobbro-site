@@ -7,6 +7,7 @@ import InputField, {InputValueType} from '@/components/fields/InputField'
 import {debounce} from 'debounce'
 import {useVacancyListOwnerContext, VacancyListOwnerWrapper} from '@/context/vacancy_owner_list_state'
 import {IVacancy} from '@/data/interfaces/IVacancy'
+import RadioCheckbox from '@/components/ui/RadioCheckbox'
 
 
 interface Props extends IField<number> {
@@ -34,11 +35,11 @@ const JobWithSearchFieldInner = (props: Props) => {
 
       <div className={styles.list}>
         {vacancyListOwnerContext.data.data.map((vacancy) => <div
-            className={classNames(styles.employee, {[styles.selected]: field.value === vacancy.id})}
+            className={classNames(styles.job)}
             onClick={() => handleSelect(vacancy)}>
-            <div className={styles.info}>
+          <RadioCheckbox checked={field.value === vacancy.id}/>
+
               <div className={styles.name}>{vacancy.name}</div>
-            </div>
           </div>
         )}
       </div>

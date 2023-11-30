@@ -118,7 +118,7 @@ export function CompanyOwnerWrapper(props: Props) {
   const deleteRequest = async (): Promise<Nullable<ICompany>> => {
     return new Promise<Nullable<ICompany>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Вы уверены что хотите удалить пункт приема «${company?.name}» ?`,
+        text: `Are you sure that you want to remove company «${company?.name}» ?`,
         onConfirm: async () => {
           try {
             appContext.hideModal()

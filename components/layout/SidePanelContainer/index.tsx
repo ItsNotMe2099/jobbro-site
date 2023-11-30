@@ -3,6 +3,7 @@ import {SidePanelType} from '@/types/enums'
 import JobsFilterSidePanel from '@/components/side-panels/JobsFilterSidePanel'
 import SidePanel from '@/components/ui/SidePanel'
 import JobReviewSidePanel from '@/components/side-panels/JobReviewSidePanel'
+import JobInviteSidePanel from '@/components/side-panels/JobInviteSidePanel'
 
 interface Props {
 }
@@ -21,7 +22,7 @@ export default function SidePanelContainer(props: Props) {
         </SidePanel>}
       {appContext.sidePanel === SidePanelType.InviteToJob &&
         <SidePanel>
-          <JobsFilterSidePanel/>
+          <JobInviteSidePanel/>
         </SidePanel>}
     </>
   )
