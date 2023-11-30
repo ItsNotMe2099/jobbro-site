@@ -7,8 +7,10 @@
   min-height: 100vh;
 }
 
-.panel {}
-
+.headerWrapper {
+  position: relative;
+  z-index: 10;
+}
 .container {
   margin: 0 32px;
   margin-top: 32px;

@@ -13,19 +13,21 @@ import HeaderMenuNotification from '@/components/layout/Header/HeaderMenuNotific
 import {useNotificationContext} from '@/context/notifications_state'
 import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
+import classNames from 'classnames'
 
 enum MenuProfileKey {
   UserProfile = 'profile',
   Logout = 'logout'
 }
 interface Props {
-
+  distanceFromTop: number
 }
 
 export default function Header(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const notificationContext = useNotificationContext()
+
   const menu = appContext.aboutMe?.profileType === ProfileType.Hirer ? [
     { label: 'Products', link: '#' },
     { label: 'Resources', link: '#' },
@@ -53,7 +55,7 @@ export default function Header(props: Props) {
     }
   }
   return (
-    <div className={styles.root}>
+    <div className={classNames(styles.root)}>
       <div className={styles.logo}>
         Jobbro
       </div>

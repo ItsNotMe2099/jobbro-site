@@ -23,6 +23,7 @@ import SortFilterButton from '@/components/for_pages/Common/FilterToolbar/SortFi
 import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
 import {useAppContext} from '@/context/state'
 import {JobFilterSidePanelArguments} from '@/types/side_panel_arguments'
+import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 
 
 const JobsPageInner = () => {
@@ -37,19 +38,22 @@ const JobsPageInner = () => {
   })
   return (
       <div ref={ref} className={styles.container}>
+        <PageStickyHeader boundaryElement={styles.container} formRef={ref}>
         <PageTitle title='Jobs'/>
+        <FilterToolbar key={'sort'} left={[<SortFilterButton<VacancyOwnerListSortType> value={vacancyListContext.sortType} options={[
+          {label: 'From New to Old', value: VacancyOwnerListSortType.FromNewToOld},
+          {label: 'From Old to New', value: VacancyOwnerListSortType.FromOldToNew},
+          {label: 'Low to High Salary', value: VacancyOwnerListSortType.FromLowToHighSalary},
+          {label: 'High to Low Salary', value: VacancyOwnerListSortType.FromHighToLowSalary}
+        ]} onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}/>,
+          <FilterButton key={'filter'} hasValue={!vacancyListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
+            ...vacancyListContext.filter,
+            onSubmit: vacancyListContext.setFilter
+          } as JobFilterSidePanelArguments)}>Filter</FilterButton>
+        ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+        </PageStickyHeader>
         <div className={styles.wrapper}>
-          <FilterToolbar key={'sort'} left={[<SortFilterButton<VacancyOwnerListSortType> value={vacancyListContext.sortType} options={[
-            {label: 'From New to Old', value: VacancyOwnerListSortType.FromNewToOld},
-            {label: 'From Old to New', value: VacancyOwnerListSortType.FromOldToNew},
-            {label: 'Low to High Salary', value: VacancyOwnerListSortType.FromLowToHighSalary},
-            {label: 'High to Low Salary', value: VacancyOwnerListSortType.FromHighToLowSalary}
-          ]} onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}/>,
-            <FilterButton key={'filter'} hasValue={!vacancyListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
-              ...vacancyListContext.filter,
-              onSubmit: vacancyListContext.setFilter
-            } as JobFilterSidePanelArguments)}>Filter</FilterButton>
-          ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+
           <div className={classNames(styles.cards, {[styles.rows]: view === 'row'})}>
             {vacancyListContext.data.data.map((i, index) =>
               <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>

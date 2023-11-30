@@ -8,7 +8,12 @@
   background-color: $green;
   align-items: center;
   justify-content: space-between;
+  transform: translateY(0);
+  transition: .7s ease-in-out;
+  z-index: $zIndexHeader;
+
 }
+
 
 .logo {
   @include logo;
