@@ -49,7 +49,7 @@ const HiringBoardInner = (props: Props) => {
                                                                                      hiringStage={i}/>)}
               {props.isEdit && <HiringBoardNewColumn/>}
               {hiringBoardContext.hiringStages?.filter((i) => i.key === 'offer').map((i, index) => <HiringBoardColumn key={`stage_${i.id}`}
-                                                                                     index={index}
+                                                                                     index={hiringBoardContext.hiringStages.length - 1}
                                                                                      isEdit={props.isEdit}
                                                                                      hiringStage={i}/>)}
 

@@ -104,8 +104,7 @@ export function HiringBoardWrapper(props: Props) {
   const createHiringStage = async (data:  DeepPartial<IHiringStage>): Promise<Nullable<IVacancyWithHiringStages>> => {
     try {
       setEditLoading(true)
-      console.log('vacancy?.hiringStages,', vacancy?.hiringStages, data)
-      const toUpdate = [...(vacancy?.hiringStages!.filter((i) => i.key !==  'offer') ?? []), data, vacancy?.hiringStages!.find((i) => i.key ===  'offer')]
+      const toUpdate = [...(vacancy!.hiringStages!.filter((i) => i.key !==  'offer') ?? []), data, vacancy!.hiringStages!.find((i) => i.key ===  'offer')]
       const res = await VacancyOwnerRepository.update(props.vacancyId, {hiringStages:toUpdate})
       const newVacancy = await fetch()
       setEditLoading(false)

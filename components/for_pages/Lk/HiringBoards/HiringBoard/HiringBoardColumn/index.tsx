@@ -18,7 +18,7 @@ export default function HiringBoardColumn(props: Props) {
     <Draggable draggableId={`stage_${hiringStage.id}`} isDragDisabled={!props.isEdit} index={props.index}>
       {(provided, snapshot) => (
         <div className={styles.root} ref={provided.innerRef} {...provided.draggableProps}>
-         <HiringBoardColumnHeader isEdit={props.isEdit} dragProvided={provided} hiringStage={hiringStage}/>
+         <HiringBoardColumnHeader isEdit={props.isEdit && !['applied','offer'].includes(hiringStage.key)} dragProvided={provided} hiringStage={hiringStage}/>
           <HiringBoardCardList
             listId={`stage_${hiringStage.id}`}
             listType="applies"
