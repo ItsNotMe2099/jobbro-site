@@ -5,18 +5,10 @@
 .wrapper {
     border-radius: 40px;
     background: #1E201D;
-    padding-top: 80px;
-    height: 900px;
-    margin-top: 120px;
+    padding: 80px 0;
 }
 
-.item {
-    margin-top: 0 !important;
-
-    img {
-        width: auto !important;
-        top: 0 !important;
-        right: 0 !important;
-        left: 20% !important;
-    }
+.base {
+    margin-top: 0;
+    margin-bottom: 80px;
 }

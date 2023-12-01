@@ -1,4 +1,4 @@
-//import styles from './index.module.scss'
+import styles from './index.module.scss'
 import EmpoweredAI from '@/components/for_pages/Lending/EmpoweredAI'
 import Happy from '@/components/for_pages/Lending/Happy'
 import HireBest from '@/components/for_pages/Lending/HireBest'
@@ -23,8 +23,19 @@ export default function LendingPage() {
         title='Job creation'
         text={<>The platform helps you to form a perfect job advertisement. AI writes descriptions<br />
           the way you want and suggest you key skills and values for any position you have.</>}
-        image={'/lending/job-creation.png'}
+        image={isPhoneWidth ? '/lending/job-creation-mobile.png' : '/lending/job-creation-desk.png'}
       />
+      <div className={styles.wrapper}>
+        <Item
+          className={styles.base}
+          btnText='Create base'
+          title='Every candidate in one place'
+          text={<>Every candidate who has ever replied you is saved in our database, so you can easily<br />
+            access any of them whenever you want. Now you won&apos;t lose any wonderful addition <br />
+            to your team.</>}
+          image={isPhoneWidth ? '/lending/every-candidate-mobile.png' : '/lending/every-candidate-desk.png'}
+        />
+      </div>
       <Happy />
       <OneClick />
       <Item
@@ -32,7 +43,7 @@ export default function LendingPage() {
         title='Clear view on your recruitment'
         text={<>Get access to all the statistics of your recruitment process, from personal HR metrics<br />
           and hiring flow data to user and candidate satisfaction.</>}
-        image={'/lending/clearview.png'}
+        image={isPhoneWidth ? '/lending/clear-view-mobile.png' : '/lending/clear-view-desk.png'}
       />
       <TryIt />
       <ImproveYourWork />

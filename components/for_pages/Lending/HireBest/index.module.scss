@@ -100,7 +100,4 @@
     height: inherit !important;
   }
 
-  @include mq($LPhoneWidth, max) {
-    height: 302px !important;
-  }
 }

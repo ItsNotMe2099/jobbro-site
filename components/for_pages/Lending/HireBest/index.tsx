@@ -30,7 +30,8 @@ export default function HireBest(props: Props) {
             HIRING <ArrowChevronRightSvg color={colors.white} />
           </Button>
         </div>
-        <Image className={styles.img} src={'/lending/hire_best.png'} alt='' fill />
+        <Image className={styles.img}
+          src={isPhoneWidth ? '/lending/hire-best-mobile.png' : '/lending/hire-best-desk.png'} alt='' fill />
       </div>
     </div>
   )

@@ -11,6 +11,13 @@
   padding-bottom: 73px;
   display: flex;
   justify-content: space-between;
+
+  @include mq(1320px, max) {
+    max-width: 100%;
+    padding: 0 60px;
+    padding-top: 79px;
+    padding-bottom: 73px;
+  }
 }
 
 .left {

@@ -2,6 +2,9 @@ import DotsSvg from '@/components/svg/DotsSvg'
 import styles from './index.module.scss'
 import TryItForm from './Form'
 import { useResize } from '@/components/hooks/useResize'
+import EllipseSmallSvg from '@/components/svg/EllipseSmallSvg'
+import EllipseMediumSvg from '@/components/svg/EllipseMediumSvg'
+import EllipseLargeSvg from '@/components/svg/EllipseLargeSvg'
 
 interface Props {
 
@@ -13,6 +16,9 @@ export default function TryIt(props: Props) {
 
   return (
     <div className={styles.root}>
+      <EllipseSmallSvg className={styles.small} />
+      <EllipseMediumSvg className={styles.small} />
+      <EllipseLargeSvg className={styles.small} />
       <div className={styles.container}>
         <div className={styles.left}>
           <div className={styles.title}>
