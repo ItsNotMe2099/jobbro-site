@@ -53,7 +53,7 @@ const CreateJobAiPage = () => {
     <CreateJobAiPageInner/>
   </VacancyGenerateAiWrapper>
   </CompanyOwnerWrapper>)
-}f
+}
 CreateJobAiPage.getLayout = LkPageHirerLayout
 export default  CreateJobAiPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
