@@ -1,0 +1,25 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  background: $white;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+}
+
+.textarea {
+  flex: 1;
+}
+
+.sendBtn {
+  padding: 10px !important;
+}
+

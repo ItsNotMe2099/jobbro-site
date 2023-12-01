@@ -4,9 +4,6 @@ import {IVacancyWithApply} from '@/data/interfaces/IVacancy'
 import ChipList from '@/components/ui/ChipList'
 import Chip from '@/components/ui/Chip'
 import Formatter from '@/utils/formatter'
-import Button from '@/components/ui/Button'
-import HideSvg from '@/components/svg/HideSvg'
-import StatisticSvg from '@/components/svg/StatisticSvg'
 import VacancyUtils from '@/utils/VacancyUtils'
 import Card from '@/components/for_pages/Common/Card'
 
@@ -35,7 +32,7 @@ const ApplyCardInner = (props: Props) => {
         <div className={styles.topRight}>
           <div className={styles.topRightTop}>
             <div className={styles.title}>{vacancy.name}</div>
-            <div className={styles.status}>Closed</div>
+            <div className={styles.status}></div>
           </div>
 
           <div className={styles.salary}>{VacancyUtils.formatSalary(vacancy)}</div>
@@ -54,10 +51,10 @@ const ApplyCardInner = (props: Props) => {
         </div>
         <div className={styles.createdAt}>{Formatter.formatDate(vacancy.createdAt)}</div>
       </div>
-      <div className={styles.bottom}>
+      {/*<div className={styles.bottom}>
         <Button icon={<HideSvg/>} color={'transparent'}>Hide</Button>
         <Button icon={<StatisticSvg/>} color={'transparent'}>Statistic</Button>
-      </div>
+      </div>*/}
     </Card>
   )
 }

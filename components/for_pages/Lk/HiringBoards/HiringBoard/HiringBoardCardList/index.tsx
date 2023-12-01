@@ -17,25 +17,27 @@ export const getBackgroundColor = (isDraggingOver: boolean, isDraggingFrom: bool
 
 interface InnerQuoteListProps{
   applies: ICVWithApply[]
+  isDraggable: boolean
 }
 
 const InnerQuoteList = React.memo((props: InnerQuoteListProps)  => {
   return props.applies.map((i, index) => (
     <Draggable key={i.id} draggableId={`${i.id}`} index={index}>
-      {(dragProvided, dragSnapshot) => <HiringBoardCard key={i.id} apply={i} isDragging={dragSnapshot.isDragging} dragProvided={dragProvided} />}
+      {(dragProvided, dragSnapshot) => <HiringBoardCard isDraggable={props.isDraggable} key={i.id} apply={i} isDragging={dragSnapshot.isDragging} dragProvided={dragProvided} />}
     </Draggable>
   ))
 })
 interface InnerListProps{
   applies: ICVWithApply[]
   dropProvided: DroppableProvided
+  isDraggable: boolean
 }
 function InnerList(props: InnerListProps) {
   const { applies, dropProvided } = props
   return (
     <div className={styles.innerList}>
       <div className={styles.dropZone} ref={dropProvided.innerRef}>
-        <InnerQuoteList applies={applies} />
+        <InnerQuoteList applies={applies} isDraggable={props.isDraggable} />
         {dropProvided.placeholder}
       </div>
     </div>
@@ -52,6 +54,7 @@ interface Props{
   listType: string
   style: CSSProperties
   applies: ICVWithApply[]
+  isDraggable: boolean
 }
 export default function HiringBoardCardList(props: Props) {
   const { ignoreContainerClipping, isDropDisabled, listId = 'LIST', listType, style } = props
@@ -60,7 +63,7 @@ export default function HiringBoardCardList(props: Props) {
     <StrictModeDroppable droppableId={listId} type={listType} ignoreContainerClipping={ignoreContainerClipping} isDropDisabled={isDropDisabled} isCombineEnabled={false}>
       {(dropProvided, dropSnapshot) => (
         <div className={styles.wrapper} style={{...style, backgroundColor:  getBackgroundColor(props.isDraggingOver ?? false, props.isDraggingFrom ?? false), opacity: isDropDisabled ? 0.5 : 'inherit'}} {...dropProvided.droppableProps}>
-            <InnerList applies={props.applies} dropProvided={dropProvided} />
+            <InnerList applies={props.applies} dropProvided={dropProvided} isDraggable={props.isDraggable}/>
         </div>
       )}
     </StrictModeDroppable>

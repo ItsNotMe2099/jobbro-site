@@ -14,6 +14,9 @@ $grid: 8px;
 }
 .dropZone{
   padding-bottom: $grid;
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
 }
 .scrollContainer{
   overflow-x: hidden;

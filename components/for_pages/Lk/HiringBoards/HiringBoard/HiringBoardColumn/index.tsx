@@ -22,6 +22,7 @@ export default function HiringBoardColumn(props: Props) {
           <HiringBoardCardList
             listId={`stage_${hiringStage.id}`}
             listType="applies"
+            isDraggable={!props.isEdit}
             style={{
               ...(snapshot.isDragging ? {  backgroundColor: 'red'} : {}),
             }}

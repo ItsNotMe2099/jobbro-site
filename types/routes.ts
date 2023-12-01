@@ -61,6 +61,10 @@ export class Routes {
     return '/lk/jobs/create-job-manually'
   }
 
+  static get lkJobsCreateJobAi() {
+    return '/lk/jobs/create-job-ai'
+  }
+
   static get lkCandidatesBase() {
     return '/lk/candidates-base'
   }

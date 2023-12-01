@@ -25,7 +25,7 @@ export default function MenuOptions(props: Props) {
           </div>
         </div>
       </Link>
-      <Link href={'#'} className={styles.option}>
+      <Link href={Routes.lkJobsCreateJobAi} className={styles.option}>
         <SparksSvg color={colors.green} />
         <div className={styles.desc}>
           <div className={styles.main}>

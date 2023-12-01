@@ -1,57 +1,7 @@
-@import "../../../../styles/index";
+@import "styles/index";
 
-.root {}
-
-.wrapper {}
-
-.title {
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 100%;
-    color: $text-primary;
-    letter-spacing: -0.24px;
-}
-
-.updated {
-    margin-top: 16px;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 100%;
-    color: $text-secondary;
-    letter-spacing: -0.16px;
-}
-
-.stats {
-    display: flex;
-    @include list(10px, true);
-    margin-top: 24px;
-}
-
-.item {
-    border-radius: 24px;
-    padding: 10px 12px;
-    color: $green;
-    background-color: $background-success;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 100%;
-    letter-spacing: -0.14px;
-}
-
-.show {
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 22px;
-    color: $green;
-    margin-top: 24px;
-    display: inline-block;
-}
-
-.top {
-    display: flex;
-    justify-content: space-between;
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(32px);
 }
