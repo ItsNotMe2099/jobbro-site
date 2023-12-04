@@ -97,7 +97,7 @@ export function CvEvaluationWrapper(props: Props) {
         }, {signal: abortFetchControllerRef.current?.signal})
         tmpList.length = 0
         if (res) {
-          const newStore = convertToStore([])
+          const newStore = convertToStore(res)
           for (const key of keys) {
             if (!newStore[key]) {
               newStore[key] = {evaluation: null}

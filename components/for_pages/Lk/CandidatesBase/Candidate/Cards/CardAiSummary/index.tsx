@@ -1,22 +1,21 @@
 import Card from '@/components/for_pages/Common/Card'
 import styles from './index.module.scss'
+import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
 
 interface Props {
-  percent: number
-  description: string
+  evaluation: ICVEvaluation
   className?: string
 }
 
 export default function CardAiSummary(props: Props) {
-  const {percent, description} = props
   return (
     <Card className={props.className} title={'AI Summary'}>
       <div className={styles.container}>
         <div className={styles.comment}>
           <div className={styles.percent}>
-            {percent}
+            {props.evaluation.percentEvaluation}%
           </div>
-          <div className={styles.text}>{description}</div>
+          <div className={styles.text}>{props.evaluation.justification}</div>
         </div>
       </div>
     </Card>

@@ -57,6 +57,9 @@ export class Routes {
     return `/lk/jobs/${id}/edit`
   }
 
+  static lkJobCv(id: string | number, cvId: number) {
+    return `/lk/jobs/${id}/cv/${cvId}`
+  }
   static get lkJobsCreateJobManually() {
     return '/lk/jobs/create-job-manually'
   }

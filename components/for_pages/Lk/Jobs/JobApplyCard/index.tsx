@@ -83,7 +83,7 @@ const JobApplyCardInner = (props: Props) => {
   return (
     <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
       <CvFavoriteBtn id={cv.id}  className={styles.bookmark}/>
-      <Link href={Routes.lkCandidate(cv.id)} className={styles.container}>
+      <Link href={Routes.lkJobCv(applyCvContext.apply!.vacancyId!, cv.id)} className={styles.container}>
         <div className={styles.top}>
           <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
           <div className={styles.right}>

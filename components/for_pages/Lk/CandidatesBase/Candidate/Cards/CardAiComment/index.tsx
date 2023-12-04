@@ -1,20 +1,22 @@
 import Card from '@/components/for_pages/Common/Card'
 import styles from './index.module.scss'
-import SparksSvg from '@/components/svg/SparksSvg'
-import { colors } from '@/styles/variables'
+import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
 
 interface Props {
-  item: any //temp
+
+  evaluation: ICVEvaluation
 }
 
 export default function CardAiComment(props: Props) {
 
   return (
     <Card>
-      <div className={styles.container}>
-        <SparksSvg color={colors.green} />
+      <div className={styles.root}>
+        <div className={styles.percent}>
+          {props.evaluation.percentEvaluation}%
+        </div>
         <div className={styles.text}>
-          {props.item.aiComment}
+          {props.evaluation.justification}
         </div>
       </div>
     </Card>

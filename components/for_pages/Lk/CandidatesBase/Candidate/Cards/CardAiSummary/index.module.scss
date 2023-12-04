@@ -8,6 +8,7 @@
 }
 
 .text {
+
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -15,6 +16,7 @@
   letter-spacing: -0.16px;
   color: $text-primary;
   text-overflow: ellipsis;
+  @include maxLines(9);
 }
 
 .bookmark {
