@@ -20,12 +20,9 @@ import {IOffice} from '@/data/interfaces/IOffice'
 import {Workplace} from '@/data/enum/Workplace'
 import {Experience} from '@/data/enum/Experience'
 import {SalaryType} from '@/data/enum/SalaryType'
-import {IBenefit} from '@/data/interfaces/IBenefit'
-import {ISkill} from '@/data/interfaces/ISkill'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {omit} from '@/utils/omit'
 import {IVacancy} from '@/data/interfaces/IVacancy'
-import {IKeyword} from '@/data/interfaces/IKeyword'
 import {Routes} from '@/types/routes'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
@@ -50,7 +47,7 @@ interface Props {
 }
 
 export interface IVacancyFormData {
-  status: Nullable<PublishStatus>
+  status?: Nullable<PublishStatus> | undefined
   name: Nullable<string>
   intro: { description: Nullable<string>, visible: boolean }
   categoryId: Nullable<number>
@@ -68,9 +65,9 @@ export interface IVacancyFormData {
   tasks: Nullable<string>
   cvRequired: Nullable<ApplicationInfoRequirements>
   coverLetterRequired: Nullable<ApplicationInfoRequirements>
-  benefits: IBenefit[]
-  skills: ISkill[]
-  keywords: IKeyword[]
+  benefits: string[]
+  skills: string[]
+  keywords: string[]
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
@@ -88,9 +85,9 @@ export default function CreateJobManuallyForm(props: Props) {
 
   const handleSubmit = async (data: IVacancyFormData) => {
     const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
-      skillsIds: data.skills.map(i => i.id),
-      benefitsIds: data.benefits.map(i => i.id),
-      keywordsIds: data.keywords?.map(i => i.id) ?? [],
+      skillsTitles: data.skills,
+      benefitsTitles: data.benefits,
+      keywordsString: data.keywords,
       officeId: data?.office?.id,
       companyId: companyContext.company?.id
     } as  DeepPartial<IVacancy>
@@ -111,7 +108,6 @@ export default function CreateJobManuallyForm(props: Props) {
   }
 
   const initialValues: IVacancyFormData = {
-    status: null,
     name: props.initialValuesAi?.name ?? vacancyContext.vacancy?.name ?? null,
     intro: props.initialValuesAi?.intro ? { description: props.initialValuesAi.intro, visible: true } :  vacancyContext.vacancy?.intro ??  { description: null, visible: false },
     categoryId: vacancyContext.vacancy?.categoryId?? null,
@@ -129,9 +125,9 @@ export default function CreateJobManuallyForm(props: Props) {
     tasks: props.initialValuesAi?.tasks ?? vacancyContext.vacancy?.tasks?? null,
     cvRequired: vacancyContext.vacancy?.cvRequired ?? ApplicationInfoRequirements.Optional,
     coverLetterRequired: vacancyContext.vacancy?.coverLetterRequired ?? ApplicationInfoRequirements.Optional,
-    benefits: vacancyContext.vacancy?.benefits ?? [],
-    skills: vacancyContext.vacancy?.skills ?? [],
-    keywords: vacancyContext.vacancy?.keywords ?? [],
+    benefits: props.initialValuesAi?.benefits ?? vacancyContext.vacancy?.benefits?.map(i => i.title) ?? [],
+    skills: props.initialValuesAi?.skills ?? vacancyContext.vacancy?.skills?.map(i => i.title) ?? [],
+    keywords: props.initialValuesAi?.keywords ?? vacancyContext.vacancy?.keywords?.map(i => i.title) ?? [],
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},

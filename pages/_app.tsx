@@ -23,6 +23,7 @@ import {EventListWrapper} from '@/context/event_list_context'
 import {FavoriteWrapper} from '@/context/favorite_state'
 import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
+import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -43,44 +44,47 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
     [])
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
+
     <AppWrapper isMobile={pageProps.isMobile} token={pageProps.token}>
       <NotificationWrapper>
         <FavoriteWrapper>
           <CandidateAddedWrapper>
-            <EventListWrapper>
-              <Head>
-                <link rel="preconnect" href="https://fonts.googleapis.com"/>
-                <link rel="preconnect" href="https://fonts.gstatic.com"/>
-                <link
-                  href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
-                  rel="stylesheet"/>
-                <link
-                  href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap"
-                  rel="stylesheet"/>
-                <link
-                  href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-                  rel="stylesheet"/>
-                <link
-                  href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-                  rel="stylesheet"/>
-              </Head>
-              {getLayout(<Component {...pageProps as any} />)}
-              <ModalContainer/>
-              <SidePanelContainer/>
-              <BottomSheetContainer/>
-              <AppOverlay/>
-              <Snackbar/>
-              <ToastContainer
-                closeButton={false}
-                hideProgressBar={true}
-                autoClose={3000}
-                icon={<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.50453 10.6L1.95059 6.4L0.432617 7.8L6.50453 13.4L19.5158 1.4L17.9978 0L6.50453 10.6Z"
-                        fill="#27AE60"/>
-                </svg>
-                }
-              />
-            </EventListWrapper>
+            <CvEvaluationWrapper>
+              <EventListWrapper>
+                <Head>
+                  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+                    rel="stylesheet"/>
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap"
+                    rel="stylesheet"/>
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+                    rel="stylesheet"/>
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+                    rel="stylesheet"/>
+                </Head>
+                {getLayout(<Component {...pageProps as any} />)}
+                <ModalContainer/>
+                <SidePanelContainer/>
+                <BottomSheetContainer/>
+                <AppOverlay/>
+                <Snackbar/>
+                <ToastContainer
+                  closeButton={false}
+                  hideProgressBar={true}
+                  autoClose={3000}
+                  icon={<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.50453 10.6L1.95059 6.4L0.432617 7.8L6.50453 13.4L19.5158 1.4L17.9978 0L6.50453 10.6Z"
+                          fill="#27AE60"/>
+                  </svg>
+                  }
+                />
+              </EventListWrapper>
+            </CvEvaluationWrapper>
           </CandidateAddedWrapper>
         </FavoriteWrapper>
       </NotificationWrapper>

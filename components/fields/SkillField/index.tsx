@@ -1,12 +1,11 @@
 import React, {useRef} from 'react'
 import {IField, IOption, Nullable} from '@/types/types'
-import {ISkill} from '@/data/interfaces/ISkill'
 import SelectMultipleField from '@/components/fields/SelectMultipleField'
 import {useField} from 'formik'
 import SkillRepository from '@/data/repositories/SkillRepository'
 
 
-interface Props extends IField<ISkill[]> {
+interface Props extends IField<string[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
   className?: string
@@ -14,8 +13,8 @@ interface Props extends IField<ISkill[]> {
 
 export default function SkillField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [field] = useField<ISkill[]>(props as any)
-  const loadOptions = async (search: string, loadedOptions: IOption<ISkill>[], data: any): Promise<{ options: IOption<ISkill>[], hasMore: boolean, additional?: any | null }> => {
+  const [field, meta, helpers] = useField<string[]>(props as any)
+  const loadOptions = async (search: string, loadedOptions: IOption<string>[], data: any): Promise<{ options: IOption<string>[], hasMore: boolean, additional?: any | null }> => {
     console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
@@ -32,7 +31,7 @@ export default function SkillField(props: Props) {
     return {
       options: res.data.map(i => ({
         label: i.title,
-        value: i
+        value: i.title
       })),
       hasMore: hasMore,
       additional: {
@@ -40,19 +39,18 @@ export default function SkillField(props: Props) {
       }
     }
   }
-  const handleCreate = (value: string) => {
-    return SkillRepository.create({title: value})
+  const handleCreate = async (value: string) => {
+    return value
   }
 
   return (
-    <SelectMultipleField<ISkill> {...(props as any)} async={true}
-                                   values={field.value?.map(i => ({
-                                     label: i.title,
-                                     value: i
-                                   }))}
-                                   placeholder={props.placeholder ?? 'Search skills'}
-                                   onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
-                                initialAsyncData={{page: 1}}/>
+    <SelectMultipleField<string> {...(props as any)} async={true}
+                                 values={field.value}
+                                 onDeleteValue={(value) => helpers.setValue(field.value.filter(i => i !== value))}
+                                 findValue={(value) => field.value.includes(value)}
+                                 placeholder={props.placeholder ?? 'Search skills'}
+                                 onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
+                                 initialAsyncData={{page: 1}}/>
   )
 }
 

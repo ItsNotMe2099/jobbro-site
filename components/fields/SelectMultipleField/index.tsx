@@ -9,9 +9,9 @@ import SelectMultiple from '@/components/fields/SelectMultiplie'
 import {CreateSelectAsync} from '@/components/fields/Select'
 
 type WithId = {id: number| string}
-export interface SelectMultipleFieldProps<T extends WithId> extends IField<T[]> {
+export interface SelectMultipleFieldProps<T> extends IField<T[]> {
   options: IOption<T>[]
-  values: IOption<T>[]
+  values: T[]
   onChange?: (value: Nullable<T>) => void
   placeholder?: string
   className?: string
@@ -25,9 +25,12 @@ export interface SelectMultipleFieldProps<T extends WithId> extends IField<T[]> 
   resettable?: boolean
   menuPosition?: 'fixed' | 'absolute'
   onCreateOption: (inputValue: string) => Promise<T>
+  findValue?: (i: T) => boolean
+  onDeleteValue?: (i: T) => void
+  formatLabel?: (value:  IOption<T> | T) => string
 }
 // @ts-ignore
-export default function SelectMultipleField<T extends WithId>(props: SelectMultipleFieldProps<T>) {
+export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T>) {
 
   const [field, meta, helpers] = useField<T[]>(props as any)
   const showError = meta.touched && !!meta.error
@@ -36,22 +39,19 @@ export default function SelectMultipleField<T extends WithId>(props: SelectMulti
   const handleCreateOption = async (inputValue: string) => {
     setIsAddingLoading(true)
     const res = await props.onCreateOption(inputValue)
-    if(!field.value?.find(i => i.id === res.id)) {
-      console.log('Field11', field, props)
-      helpers.setValue([...(field.value ?? []), res])
+    if(res && !props.findValue?.(res)) {
+      await helpers.setValue([...(field.value ?? []), res])
     }
     setIsAddingLoading(false)
-
   }
   const handleOnSelect = (value: T) => {
-    if(!field.value?.find(i => i.id === value.id)) {
+    if(!props.findValue?.(value)) {
       helpers.setValue([...(field.value ?? []), value])
     }
   }
 
   const handleDelete = (option: IOption<T>) => {
-    console.log('handleDelete', option.value)
-    helpers.setValue(field.value.filter(i => i.id !== option.value?.id))
+    props.onDeleteValue?.(option.value!)
   }
   // Generate a unique key based on Formik field name and value
   const uniqueKey = `${props.name}_${field.value}`
@@ -65,6 +65,7 @@ export default function SelectMultipleField<T extends WithId>(props: SelectMulti
         value={field.value}
         isLoading={isAddingLoading}
         hasError={showError}
+        formatLabel={props.formatLabel}
         initialAsyncData={props.initialAsyncData}
         formatCreateLabel={(value: string) => `Create «${value}»`}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}

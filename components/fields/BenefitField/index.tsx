@@ -1,12 +1,11 @@
 import React, {useRef} from 'react'
 import {IField, IOption, Nullable} from '@/types/types'
-import {IBenefit} from '@/data/interfaces/IBenefit'
 import SelectMultipleField from '@/components/fields/SelectMultipleField'
 import {useField} from 'formik'
 import BenefitRepository from '@/data/repositories/BenefitRepository'
 
 
-interface Props extends IField<IBenefit[]> {
+interface Props extends IField<string[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
   className?: string
@@ -14,8 +13,8 @@ interface Props extends IField<IBenefit[]> {
 
 export default function BenefitField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [field] = useField<IBenefit[]>(props as any)
-  const loadOptions = async (search: string, loadedOptions: IOption<IBenefit>[], data: any): Promise<{ options: IOption<IBenefit>[], hasMore: boolean, additional?: any | null }> => {
+  const [field, meta, helpers] = useField<string[]>(props as any)
+  const loadOptions = async (search: string, loadedOptions: IOption<string>[], data: any): Promise<{ options: IOption<string>[], hasMore: boolean, additional?: any | null }> => {
     console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
@@ -32,7 +31,7 @@ export default function BenefitField(props: Props) {
     return {
       options: res.data.map(i => ({
         label: i.title,
-        value: i
+        value: i.title
       })),
       hasMore: hasMore,
       additional: {
@@ -40,16 +39,15 @@ export default function BenefitField(props: Props) {
       }
     }
   }
-  const handleCreate = (value: string) => {
-    return BenefitRepository.create({title: value})
+  const handleCreate = async (value: string) => {
+    return value
   }
 
   return (
-    <SelectMultipleField<IBenefit> {...(props as any)} async={true}
-                                   values={field.value?.map((i) => ({
-                                     label: i.title,
-                                     value: i
-                                   }))}
+    <SelectMultipleField<string> {...(props as any)} async={true}
+                                   values={field.value?.map((i) => i)}
+                                   onDeleteValue={(value) => helpers.setValue(field.value.filter(i => i !== value))}
+                                   findValue={(value) => field.value.includes(value)}
                                    placeholder={props.placeholder ?? 'Search benefits'}
                                    onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>

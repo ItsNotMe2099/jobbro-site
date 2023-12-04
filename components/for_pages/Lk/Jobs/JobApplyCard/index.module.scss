@@ -6,7 +6,6 @@
     background-color: $white;
     display: flex;
     flex-direction: column;
-    @include list(8px, false);
     width: calc(28% - 32px);
     position: relative;
 }
@@ -47,12 +46,12 @@
         justify-content: space-between;
     }
 
-    .comment {
+    .cvEvaluation {
         padding: 0;
     }
 
     .text {
-        max-width: 513px;
+
         align-self: center;
     }
 
@@ -142,16 +141,14 @@
     }
 }
 
-.comment {
+.cvEvaluation {
     display: flex;
     @include list(8px, true);
     padding: 16px;
-}
 
-.text {
-    width: 184px;
-    height: 54px;
-    overflow: hidden;
+  .text {
+    flex: 1;
+    @include maxLines(3);
     text-overflow: ellipsis;
     font-size: 14px;
     font-style: normal;
@@ -159,17 +156,19 @@
     line-height: 130%;
     letter-spacing: -0.14px;
     color: $text-primary;
+  }
+
 }
 
 .bookmark {
     position: absolute !important;
     top: 0;
-    right: 12px;
+    right: 24px;
     cursor: pointer;
 }
 
 .percent {
-    width: 65px;
+    width: 60px;
     height: 60px;
     border-radius: 100%;
     background-color: $green;

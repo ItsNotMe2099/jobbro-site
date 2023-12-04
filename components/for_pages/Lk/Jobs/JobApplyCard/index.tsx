@@ -16,6 +16,7 @@ import {IOption} from '@/types/types'
 import {useCandidateAddedContext} from '@/context/candidate_added_state'
 import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
+import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -34,6 +35,9 @@ const JobApplyCardInner = (props: Props) => {
   const [bookmark, setBookmark] = useState<boolean>(false)
   const applyCvContext = useApplyCvContext()
   const favoriteContext = useCandidateAddedContext()
+  const cvEvaluationContext = useCvEvaluationContext()
+
+  const evaluation = cvEvaluationContext.store[`${applyCvContext.cv!.id}:${applyCvContext.apply!.vacancyId!}`]?.evaluation
   const cv = applyCvContext.cv!
   const appContext = useAppContext()
   const ai = {
@@ -42,6 +46,11 @@ const JobApplyCardInner = (props: Props) => {
   }
   useEffect(() => {
     favoriteContext.addRecord(applyCvContext.cv!.id)
+    cvEvaluationContext.addRecord(applyCvContext.cv!.id, applyCvContext.apply!.vacancyId!)
+    return () => {
+
+      cvEvaluationContext.removeRecord(applyCvContext.cv!.id, applyCvContext.apply!.vacancyId!)
+    }
   }, [])
 
   const menuOptions: IOption<MenuKey>[] = [
@@ -95,9 +104,9 @@ const JobApplyCardInner = (props: Props) => {
           {cv.title ?? cv.position}
         </div>}
         <div className={styles.bottom}>
-          {props.view === 'row' && ai.percent != null && <div className={styles.comment}>
+          {props.view === 'row' &&  !!evaluation  && <div className={styles.cvEvaluation}>
             <div className={styles.percent}>
-              {ai.percent}
+              {evaluation.percentEvaluation}%
             </div>
             <div className={styles.text}>{ai.description}</div>
           </div>}
@@ -109,11 +118,11 @@ const JobApplyCardInner = (props: Props) => {
 
         </div>
       </Link>
-      {props.view !== 'row' && ai.percent != null && <div className={styles.comment}>
+      {props.view !== 'row' && !!evaluation  && <div className={styles.cvEvaluation}>
         <div className={styles.percent}>
-          {ai.percent}
+          {evaluation.percentEvaluation}%
         </div>
-        <div className={styles.text}>{ai.description}</div>
+        <div className={styles.text}>{evaluation.justification}</div>
       </div>}
     </div>
   )

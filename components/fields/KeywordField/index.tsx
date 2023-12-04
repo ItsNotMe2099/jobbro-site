@@ -1,20 +1,19 @@
 import React, {useRef} from 'react'
 import {IField, IOption, Nullable} from '@/types/types'
 import KeywordRepository from '@/data/repositories/KeywordRepository'
-import {IKeyword} from '@/data/interfaces/IKeyword'
 import SelectMultipleField from '@/components/fields/SelectMultipleField'
 import {useField} from 'formik'
 
 
-interface Props extends IField<IKeyword[]> {
+interface Props extends IField<string[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
 }
 
 export default function KeywordField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [field] = useField<IKeyword[]>(props as any)
-  const loadOptions = async (search: string, loadedOptions: IOption<IKeyword>[], data: any): Promise<{ options: IOption<IKeyword>[], hasMore: boolean, additional?: any | null }> => {
+  const [field, meta, helpers] = useField<string[]>(props as any)
+  const loadOptions = async (search: string, loadedOptions: IOption<string>[], data: any): Promise<{ options: IOption<string>[], hasMore: boolean, additional?: any | null }> => {
 
     const page = data.page
     if (abortControllerRef.current) {
@@ -31,7 +30,7 @@ export default function KeywordField(props: Props) {
     return {
       options: res.data.map(i => ({
         label: i.title,
-        value: i
+        value: i.title
       })),
       hasMore: hasMore,
       additional: {
@@ -39,16 +38,16 @@ export default function KeywordField(props: Props) {
       }
     }
   }
-  const handleCreate = (value: string) => {
-    return KeywordRepository.create({title: value})
+  const handleCreate = async (value: string) => {
+    return value
   }
 
   return (
-    <SelectMultipleField<IKeyword> {...(props as any)} async={true}
-                                   values={field.value?.map(i => ({
-                                     label: i.title,
-                                     value: i
-                                   }))}
+    <SelectMultipleField<string> {...(props as any)} async={true}
+                                   values={field.value?.map(i => i)}
+                                   onDeleteValue={(value) => helpers.setValue(field.value.filter(i => i !== value))}
+                                   findValue={(value) => field.value.includes(value)}
+
                                    placeholder={props.placeholder ?? 'Enter keywords'}
                                    onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
                                 initialAsyncData={{page: 1}}/>

@@ -1,44 +1,50 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import {  SnackbarType } from 'types/enums'
-import { debounce } from 'debounce'
-import {  RequestError } from 'types/types'
-import { useAppContext } from 'context/state'
-import {CandidateAddedStoreType} from '@/data/interfaces/CandidateAddedStoreType'
-import CandidateRepository from '@/data/repositories/CandidateRepository'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
+import {useAppContext} from 'context/state'
+import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
+import CvEvaluationRepository from '@/data/repositories/CvEvaluationRepository'
+import {ProfileType} from '@/data/enum/ProfileType'
+import {useDebouncedCallback} from 'use-debounce'
+import {debounce} from 'lodash'
+import {Nullable} from '@/types/types'
+import useInterval from 'use-interval'
 
-const tmpList: number[] = []
-
-const initStore: CandidateAddedStoreType = [] as CandidateAddedStoreType
+const tmpList: { cvId: number, vacancyId: number, time: Date }[] = []
+type CvEvaluationStoreType = { [key: string]: { evaluation: Nullable<ICVEvaluation> } }
+const initStore: CvEvaluationStoreType = {} as CvEvaluationStoreType
+const deleteRecordList: { cvId: number, vacancyId: number, time: Date }[] = []
+const refreshList: { cvId: number, vacancyId: number, time: Date }[] = []
 
 interface IState {
-  store: CandidateAddedStoreType
-  addRecord(id: number): void
-  like(id: number): void
-  unlike(id: number): void
+  store: CvEvaluationStoreType
+
+  addRecord(cvId: number, vacancyId: number): void
+  removeRecord(cvId: number, vacancyId: number): void
 }
 
 const defaultValue: IState = {
   store: initStore,
-  addRecord() {},
-  like() {},
-  unlike() {},
+  addRecord() {
+  },
+  removeRecord(){}
 }
 
-const CandidateAddedContext = createContext<IState>(defaultValue)
+const CvEvaluationContext = createContext<IState>(defaultValue)
 
 interface Props {
   children: React.ReactNode
 }
 
-export function CandidateAddedWrapper(props: Props) {
+export function CvEvaluationWrapper(props: Props) {
   const appContext = useAppContext()
-  const [store, setStore] = useState<CandidateAddedStoreType>(initStore)
+  const [store, setStore] = useState<CvEvaluationStoreType>(initStore)
   const isLogged = appContext.isLogged
   const isLoggedRef = useRef<boolean>(isLogged)
-  const storeRef = useRef<CandidateAddedStoreType>(store)
+  const storeRef = useRef<CvEvaluationStoreType>(store)
 
+  const abortFetchControllerRef = useRef<AbortController | null>(null)
   useEffect(() => {
     storeRef.current = store
+
   }, [store])
 
   useEffect(() => {
@@ -51,56 +57,128 @@ export function CandidateAddedWrapper(props: Props) {
     isLoggedRef.current = isLogged
   }, [isLogged])
 
-  const debouncedSave = debounce(async () => {
-    if (isLoggedRef.current && tmpList.length > 0) {
-      const likes = await CandidateRepository.fetchAdded(tmpList)
-      tmpList.length = 0
-      console.log('Likes', likes, join(store, likes))
-      if (likes) {
-        setStore(join(store, likes))
+  useInterval(async () => {
+    if(!refreshList.length){
+      return
+    }
+    const keys = Array.from(new Set(refreshList.map((item) => `${item.cvId}:${item.vacancyId}`)))
+
+    const res = await CvEvaluationRepository.fetchEvaluated({
+      cvVacancies: keys.map((i) => {
+        const spl = i.split(':').map(i => parseInt(i, 10))
+        return {cvId: spl[0], vacancyId: spl[1]}
+      })})
+    for(const item of res){
+      const index = refreshList.findIndex(i => i.cvId === item.cvId && i.vacancyId === item.vacancyId)
+      if (index >= 0) {
+        refreshList.splice(index, 1)
       }
     }
-  }, 500)
+
+    setStore(join(store, convertToStore(res)))
+  }, 5000)
+
+  const debouncedSave = useDebouncedCallback(
+    // function
+    async () => {
+      if (abortFetchControllerRef.current) {
+        abortFetchControllerRef.current?.abort()
+      }
+      abortFetchControllerRef.current = new AbortController()
+      if (isLoggedRef.current && tmpList.length > 0) {
+        const keys = Array.from(new Set(tmpList.map((item) => `${item.cvId}:${item.vacancyId}`)))
+
+        abortFetchControllerRef.current = new AbortController()
+        const res = await CvEvaluationRepository.fetchEvaluated({
+          cvVacancies: keys.map((i) => {
+            const spl = i.split(':').map(i => parseInt(i, 10))
+            return {cvId: spl[0], vacancyId: spl[1]}
+          })
+        }, {signal: abortFetchControllerRef.current?.signal})
+        tmpList.length = 0
+        if (res) {
+          const newStore = convertToStore([])
+          for (const key of keys) {
+            if (!newStore[key]) {
+              newStore[key] = {evaluation: null}
+              if (!refreshList.find(i => `${i.cvId}:${i.vacancyId}` === key)) {
+                const spl = key.split(':').map(i => parseInt(i, 10))
+                refreshList.push({cvId: spl[0], vacancyId: spl[1], time: new Date()})
+              }
+            }
+          }
+          const newStoreSet = join(storeRef.current, newStore)
+          storeRef.current = newStoreSet
+          setStore(newStoreSet)
+
+        }
+      }
+    },
+    500
+  )
+
+  const debouncedDeleteRecord = debounce(async () => {
+    const toDeletedRecordList = deleteRecordList.filter((i) => tmpList.find(a => i.time?.getTime() > a.time.getTime()))
+    const newStore = {...storeRef.current}
+
+    for (const mark of toDeletedRecordList) {
+      delete newStore[`${mark.cvId}:${mark.vacancyId}`]
+      const indexTmp = tmpList.findIndex(i => i.cvId === mark.cvId && i.vacancyId === mark.vacancyId)
+      if (indexTmp >= 0) {
+        tmpList.splice(indexTmp, 1)
+      }
+      const indexRefresh = tmpList.findIndex(i => i.cvId === mark.cvId && i.vacancyId === mark.vacancyId)
+      if (indexRefresh >= 0) {
+        refreshList.splice(indexRefresh, 1)
+      }
+    }
+    storeRef.current = newStore
+    setStore(newStore)
+    deleteRecordList.length = 0
+  }, 200)
   const value: IState = {
     ...defaultValue,
     store,
-    addRecord(id: number) {
-      tmpList.push(id)
+    addRecord(cvId: number, vacancyId: number) {
+      if (!appContext.isLogged || appContext.aboutMe?.profileType !== ProfileType.Hirer) {
+        return
+      }
+      tmpList.push({cvId, vacancyId, time: new Date()})
       debouncedSave()
     },
-    async like(id: number) {
-      setStore(join(storeRef.current, [id]))
-      try {
-        await CandidateRepository.create(id)
-      } catch (err) {
-        if (err instanceof RequestError) {
-          appContext.showSnackbar(err.message, SnackbarType.error)
-        }
+    removeRecord(cvId: number, vacancyId: number) {
+      const inStore = store[`${cvId}:${vacancyId}`]
+
+      const inTmp = tmpList.find(i => i.cvId === cvId && i.vacancyId === vacancyId)
+      const inRefresh = refreshList.find(i => i.cvId === cvId && i.vacancyId === vacancyId)
+
+      if ((!!inStore || !!inTmp || !!inRefresh) && !deleteRecordList.find((i) => i.cvId === cvId && i.vacancyId === vacancyId)) {
+        deleteRecordList.push({cvId, vacancyId, time: new Date()})
       }
+
+      debouncedDeleteRecord()
     },
-    async unlike(id: number) {
-      setStore(storeRef.current.filter(item => item != id))
-      try {
-        await CandidateRepository.delete(id)
-      } catch (err) {
-        if (err instanceof RequestError) {
-          appContext.showSnackbar(err.message, SnackbarType.error)
-        }
-      }
-    },
+
   }
 
   return (
-    <CandidateAddedContext.Provider value={value}>
+    <CvEvaluationContext.Provider value={value}>
       {props.children}
-    </CandidateAddedContext.Provider>
+    </CvEvaluationContext.Provider>
   )
 }
 
-export function useCandidateAddedContext() {
-  return useContext(CandidateAddedContext)
+export function useCvEvaluationContext() {
+  return useContext(CvEvaluationContext)
 }
 
-function join(a: CandidateAddedStoreType, b: CandidateAddedStoreType): CandidateAddedStoreType{
-  return Array.from(new Set([...a, ...b]))
+function join(a: CvEvaluationStoreType, b: CvEvaluationStoreType): CvEvaluationStoreType {
+  return {...a, ...b}
+}
+
+function convertToStore(data: ICVEvaluation[]): CvEvaluationStoreType {
+  return data.reduce((ac, a) => ({
+    ...ac,
+    [`${a.cvId}:${a.vacancyId}`]: {evaluation: a}
+  }), {} as CvEvaluationStoreType)
 }
