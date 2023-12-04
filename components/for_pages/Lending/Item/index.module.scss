@@ -62,8 +62,7 @@
     }
 
     @include mq($PhoneWidth, max) {
-      width: 160% !important;
-      left: -30% !important;
+      width: 100% !important;
       top: -50% !important;
       
     }
@@ -83,7 +82,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 140%;
-  width: 12%;
+  width: 142px;
   margin-top: 40px;
   z-index: 1;
   position: relative;

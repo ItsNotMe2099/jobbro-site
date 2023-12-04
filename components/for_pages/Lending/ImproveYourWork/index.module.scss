@@ -37,6 +37,11 @@
     position: absolute;
     width: 100%;
     right: 0;
+
+    @include mq($PhoneWidth + 1, max) {
+      width: 150%;
+      right: -25%;
+    }
   }
 }
 

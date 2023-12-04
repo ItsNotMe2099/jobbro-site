@@ -3,6 +3,8 @@ import styles from './index.module.scss'
 import Image from 'next/image'
 import EllipseSvg from '@/components/svg/EllipseSvg'
 import { colors } from '@/styles/variables'
+import { useResize } from '@/components/hooks/useResize'
+import HappyBckgrndMobileSvg from '@/components/svg/HappyBckgrndMobileSvg'
 
 interface Props {
 
@@ -21,10 +23,12 @@ export default function Happy(props: Props) {
     }
   ]
 
+  const { isPhoneWidth } = useResize()
+
   return (
     <div className={styles.root}>
       <div className={styles.container}>
-        <HappyBckgrndSvg className={styles.back} />
+        {isPhoneWidth ? <HappyBckgrndMobileSvg className={styles.back} /> : <HappyBckgrndSvg className={styles.back} />}
         <Image className={styles.img} src={'/lending/happy.png'} alt='' fill />
         <div className={styles.box}>
           <div className={styles.top}>

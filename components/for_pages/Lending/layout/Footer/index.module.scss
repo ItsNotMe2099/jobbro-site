@@ -18,6 +18,11 @@
     padding-top: 79px;
     padding-bottom: 73px;
   }
+
+  @include mq($TabletWidth, max) {
+    padding: 63px 10px 128px 10px;
+    flex-direction: column;
+  }
 }
 
 .left {
@@ -76,6 +81,12 @@
   display: flex;
   justify-content: space-between;
   flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    margin-top: 40px;
+    @include list(24px, false);
+  }
 }
 
 .column {
@@ -104,5 +115,11 @@
     font-weight: 400;
     line-height: 140%;
     text-decoration-line: underline;
+  }
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    margin-top: 40px;
+    @include list(28px, false);
   }
 }

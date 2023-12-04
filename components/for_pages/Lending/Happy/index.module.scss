@@ -4,6 +4,10 @@
   padding-top: 106px;
   padding-bottom: 152px;
   width: 1162px;
+
+  @include mq(1250px, max) {
+    width: 100%;
+  }
 }
 
 .container {
@@ -13,16 +17,30 @@
   align-items: center;
   padding: 0;
   height: 902px;
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
 }
 
 .img {
   position: relative !important;
   width: auto !important;
   height: auto !important;
+
+  @include mq($PhoneWidth, max) {
+    width: 184px !important;
+    height: 203px !important;
+    align-self: flex-start;
+  }
 }
 
 .back {
   position: absolute;
+
+  @include mq($PhoneWidth, max) {
+    top: -50px;
+  }
 }
 
 .box {
@@ -35,6 +53,14 @@
   max-width: 870px;
   right: 0;
   bottom: 100px;
+
+  @include mq($TabletWidth, max) {
+    position: relative;
+  }
+
+  @include mq($PhoneWidth, max) {
+    bottom: 35px;
+  }
 }
 
 .top {
@@ -50,6 +76,16 @@
 
 .bottom {
   display: flex;
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+
+  @include mq($PhoneWidth, max) {
+    .item:last-child {
+      border: 0;
+    }
+  }
 }
 
 .item {
@@ -59,6 +95,10 @@
   padding: 32px 0;
   align-items: center;
   flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    border-bottom: 1px solid #20AC67;
+  }
 }
 
 .val {
@@ -67,6 +107,10 @@
   font-style: normal;
   font-weight: 600;
   line-height: 100%;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 32px;
+  }
 }
 
 .desc {
@@ -75,6 +119,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 14px;
+  }
 }
 
 .separator {
