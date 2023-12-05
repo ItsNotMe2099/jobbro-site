@@ -46,6 +46,14 @@ export class Routes {
     return '/lk/dashboard'
   }
 
+  static get lkDashboardMyBoard() {
+    return '/lk/dashboard/my-board'
+  }
+
+  static get lkDashboardTeam() {
+    return '/lk/dashboard/team'
+  }
+
   static get lkJobs() {
     return '/lk/jobs'
   }

@@ -1,0 +1,51 @@
+@import "styles/index";
+
+.root {
+    min-width: 414px;
+}
+
+.wrapper {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    @include list(16px, false);
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+}
+
+.separator {
+    height: 1px;
+    background-color: #EBEBEB;
+    margin: 0 -24px;
+}
+
+.right {
+    display: flex;
+    @include list(7px, true);
+}
+
+.revert {
+    transform: rotate(180deg);
+}
+
+.more {
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    color: $green;
+    letter-spacing: -0.16px;
+    margin-top: 24px;
+}

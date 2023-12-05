@@ -29,6 +29,7 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000',
   green: '#24B563',
+  red: '#FF385D',
   greenHover: '#1F9C55',
   greenActive: '#29CF71',
   textPrimary: '#3C3C3C',
