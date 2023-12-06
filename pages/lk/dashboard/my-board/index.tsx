@@ -9,6 +9,8 @@ import CompletedSvg from '@/components/svg/CompletedSvg'
 import SparksSmallSvg from '@/components/svg/SparksSmallSvg'
 import CheckedSvg from '@/components/svg/CheckedSvg'
 import StatisticCard from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/StatisitcCard'
+import HotMarkers from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/HotMarkers'
+import HiringStage from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/HiringStage'
 
 interface Props {
 
@@ -19,12 +21,30 @@ const LkDashboardMyBoardPage = (props: Props) => {
   const data = { firstName: 'Lynn', lastName: 'Wolfsmith-Granderfa', position: 'Lead HR', location: 'Indonesia' }
 
   const statistic = [
-    {val: '120', up: true},
-    {val: '95', up: true},
-    {val: '2', up: false},
-    {val: '32', up: false},
-    {val: '95', up: true},
-]
+    { val: '120', up: true },
+    { val: '95', up: true },
+    { val: '2', up: false },
+    { val: '32', up: false },
+    { val: '95', up: true },
+  ]
+
+  const jobs = [
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+    { label: 'Senior Manager of Software Development and Engineering', candidates: '135', date: '25.07.2023', market: 'Market' },
+  ]
+
+  const conversion = [
+    {label: 'Pre interview', percent: 100, total: 1216, secondPerc: 100},
+    {label: 'Interview', percent: 60, total: 729, secondPerc: 60},
+    {label: 'Tech Interview', percent: 50, total: 605, secondPerc: 83},
+    {label: 'Awaiting Response', percent: 26, total: 315, secondPerc: 52},
+    {label: 'Offer', percent: 16, total: 195, secondPerc: 62},
+  ]
 
   return (
     <div className={styles.root}>
@@ -63,6 +83,8 @@ const LkDashboardMyBoardPage = (props: Props) => {
         </div>
         <StatisticCard data={statistic} />
       </div>
+      <HiringStage data={conversion} />
+      <HotMarkers data={jobs} />
     </div>
   )
 }

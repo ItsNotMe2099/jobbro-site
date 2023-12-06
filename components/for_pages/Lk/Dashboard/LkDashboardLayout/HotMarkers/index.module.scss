@@ -1,0 +1,89 @@
+@import "styles/index";
+
+.root {}
+
+.total {
+    display: flex;
+    @include list(8px, true);
+    align-items: center;
+    margin-top: -14px;
+}
+
+.img {
+    position: relative !important;
+    width: auto !important;
+}
+
+.number {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    color: $text-secondary;
+    letter-spacing: -0.16px;
+}
+
+.separator {
+    height: 1px;
+    background-color: #EBEBEB;
+    margin: 0 -24px;
+    margin-top: 16px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+    margin-top: 24px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    @include list(6px, false);
+}
+
+.label {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+}
+
+.market {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-secondary;
+    letter-spacing: -0.16px;
+}
+
+.top {
+    display: flex;
+    @include list(8px, true);
+    align-items: center;
+    justify-content: flex-end;
+
+    .number {
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 100%;
+        color: $text-red;
+        letter-spacing: -0.2px;
+    }
+}
