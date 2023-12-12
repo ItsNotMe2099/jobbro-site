@@ -28,7 +28,6 @@ interface Props {
   candidate: ICandidate
   className?: string
   view: CardViewType
-  onAddBookmark: (bookmark: boolean) => void
 }
 
 export default function CandidateCard(props: Props) {

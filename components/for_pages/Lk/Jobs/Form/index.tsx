@@ -148,7 +148,7 @@ export default function CreateJobManuallyForm(props: Props) {
       }
 
       if(result?.benefits && !formik.getFieldMeta('benefits').touched){
-        // formik.setFieldValue('benefits', result.benefits)
+         formik.setFieldValue('benefits', result.benefits)
       }
       if(result?.category && !formik.getFieldMeta('category').touched){
        // formik.setFieldValue('category', result.category)
@@ -160,7 +160,7 @@ export default function CreateJobManuallyForm(props: Props) {
         formik.setFieldValue('intro.description', result.intro)
       }
       if(result?.keywords && !formik.getFieldMeta('keywords').touched){
-     //   formik.setFieldValue('keywords', result.keywords)
+        formik.setFieldValue('keywords', result.keywords)
       }
       if(result?.name && !formik.getFieldMeta('name').touched){
         formik.setFieldValue('name', result.name)
@@ -169,7 +169,7 @@ export default function CreateJobManuallyForm(props: Props) {
         formik.setFieldValue('requirements', result.requirements)
       }
       if(result?.skills && !formik.getFieldMeta('skills').touched){
-     //   formik.setFieldValue('skills', result.skills)
+        formik.setFieldValue('skills', result.skills)
       }
       if(result?.subCategory && !formik.getFieldMeta('subCategory').touched){
         formik.setFieldValue('subCategory', result.subCategory)

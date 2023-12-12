@@ -5,6 +5,7 @@ export default function useIsActiveLink(href: string): boolean {
   if (href === '/' && asPath === '/') {
     return true
   }
-  const hrefKey = href.replace('/', '')
+  console.log('greg111', href)
+  const hrefKey = href ? href.replace('/', '') : ''
   return hrefKey ? asPath.replace('/', '').includes(hrefKey) : false
 }

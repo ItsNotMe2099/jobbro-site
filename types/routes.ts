@@ -83,6 +83,12 @@ export class Routes {
   static lkCandidate(id: string | number) {
     return `/lk/candidates-base/${id}`
   }
+  static get lkCandidateAiCvRequests() {
+    return '/lk/candidates-base/ai-cv-requests'
+  }
+  static lkCandidateAiCvRequest(id: string | number) {
+    return `/lk/candidates-base/ai-cv-requests/${id}`
+  }
 
   static get lkHiringBoards() {
     return '/lk/hiring-boards'

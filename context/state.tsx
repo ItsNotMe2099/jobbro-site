@@ -15,6 +15,7 @@ import {ICV, ICVWithApply} from '@/data/interfaces/ICV'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import IEvent from '@/data/interfaces/IEvent'
+import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 
 interface IState {
   isMobile: boolean
@@ -63,6 +64,9 @@ interface IState {
   cvApplyUpdateState$: Subject<ICVWithApply>,
   cvApplyDeleteState$: Subject<ICVWithApply>,
 
+  aiRequestUpdateState$: Subject<IAiCvRequest>,
+  aiRequestDeleteState$: Subject<IAiCvRequest>,
+
   companyCreateState$: Subject<ICompany>,
   companyUpdateState$: Subject<ICompany>,
   companyDeleteState$: Subject<ICompany>,
@@ -97,6 +101,9 @@ const cvDeleteState$ = new Subject<ICV>()
 
 const cvApplyUpdateState$ = new Subject<ICVWithApply>()
 const cvApplyDeleteState$ = new Subject<ICVWithApply>()
+
+const aiRequestUpdateState$ = new Subject<IAiCvRequest>()
+const aiRequestDeleteState$ = new Subject<IAiCvRequest>()
 
 const companyCreateState$ = new Subject<ICompany>()
 const companyUpdateState$ = new Subject<ICompany>()
@@ -163,6 +170,10 @@ const defaultValue: IState = {
 
   cvApplyUpdateState$,
   cvApplyDeleteState$,
+
+  aiRequestUpdateState$,
+  aiRequestDeleteState$,
+
   companyCreateState$,
   companyUpdateState$,
   companyDeleteState$,

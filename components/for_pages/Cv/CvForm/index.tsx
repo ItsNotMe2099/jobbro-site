@@ -1,10 +1,9 @@
-import styles from './index.module.scss'
+import styles from 'components/for_pages/Cv/CvForm/index.module.scss'
 import {FieldArray, Form, FormikProvider, useFormik} from 'formik'
 import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import {useRef} from 'react'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
-import {useRouter} from 'next/router'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
@@ -25,14 +24,12 @@ import LanguageField from '@/components/fields/LanguageField'
 import CloseSvg from '@/components/svg/CloseSvg'
 import CountryField from '@/components/fields/CountryField'
 import FileListField from '@/components/fields/Files/FileListField'
-import IFile from 'data/interfaces/IFile'
-import {IGeoName} from 'data/interfaces/ILocation'
-import {Relocation} from 'data/enum/Relocation'
-import {CoursesInfo, EducationInfo, ExperienceInfo} from 'data/interfaces/Common'
-import {useCVOwnerContext} from 'context/cv_owner_state'
-import {CvContactPersonType, ICV, ICvContactPerson, ILanguageKnowledge} from 'data/interfaces/ICV'
-import {ISkill} from 'data/interfaces/ISkill'
-import CityField from 'components/fields/CityField'
+import IFile from '@/data/interfaces/IFile'
+import {IGeoName} from '@/data/interfaces/ILocation'
+import {Relocation} from '@/data/enum/Relocation'
+import {CoursesInfo, EducationInfo, ExperienceInfo} from '@/data/interfaces/Common'
+import {CvContactPersonType, ICV, ICvContactPerson, ILanguageKnowledge} from '@/data/interfaces/ICV'
+import CityField from '@/components/fields/CityField'
 import DateYearMonthField from '@/components/fields/DateYearMonthField'
 import IconButton from '@/components/ui/IconButton'
 import classNames from 'classnames'
@@ -44,6 +41,9 @@ import FormErrorScroll from '@/components/ui/FormErrorScroll'
 interface Props {
   onPreview?: () => void
   preview?: boolean
+  onSubmit: (data: DeepPartial<ICV>) => void
+  loading?: boolean
+  cv?: ICV | undefined | null
 }
 
 interface ExperienceInfoFormData extends ExperienceInfo{
@@ -54,7 +54,7 @@ interface ICvContactPersonForm extends ICvContactPerson {
   type: CvContactPersonType
 }
 
-export interface IResumeFormData {
+export interface ICvFormData {
   title: Nullable<string>
   image: Nullable<IFile>
   categoryId: Nullable<number>
@@ -74,22 +74,20 @@ export interface IResumeFormData {
   experienceInfo: ExperienceInfoFormData[]
   contactsVisible: boolean
   contacts: ICvContactPersonForm[],
-  skills: ISkill[]
+  skills: string[]
   languageKnowledges: ILanguageKnowledge[]
 }
 
-export default function ResumeEditForm(props: Props) {
-
+export default function CvForm(props: Props) {
   const appContext = useAppContext()
-  const cvContext = useCVOwnerContext()
-  const router = useRouter()
+  const cv = props.cv
   let ref = useRef<HTMLFormElement | null>(null)
-  const handleSubmit = async (data: IResumeFormData) => {
+  const handleSubmit = async (data: ICvFormData) => {
     const newData = {
       ...omit(data, ['skills', 'country', 'city', 'image']),
       countryId: data.country?.geonameid,
       cityId: data.city?.geonameid,
-      skillsIds: data.skills.map(i => i.id),
+      skillsTitles: data.skills,
       experienceInfo: data.experienceInfo.map(i => {
         const fromDate = i.fromMonthYear ? parse(i.fromMonthYear, 'dd.MM.yyyy', new Date()) : null
         const toDate = i.toMonthYear ? parse(i.toMonthYear, 'dd.MM.yyyy', new Date()) : null
@@ -108,12 +106,7 @@ export default function ResumeEditForm(props: Props) {
     }
 
     try {
-      if (cvContext.cv) {
-        await cvContext.update(newData as DeepPartial<ICV>)
-      } else {
-        await cvContext.create(newData as DeepPartial<ICV>)
-      }
-      router.push(Routes.profileResume)
+      props.onSubmit(newData as DeepPartial<ICV>)
     } catch (err) {
       console.error(err)
       if (err instanceof RequestError) {
@@ -123,38 +116,38 @@ export default function ResumeEditForm(props: Props) {
     }
   }
 
-  const initialValues: IResumeFormData = {
-    title: cvContext.cv?.title ?? null,
-    image: cvContext.cv?.image ?? null,
-    categoryId: cvContext.cv?.categoryId ?? null,
-    subCategoryId: cvContext.cv?.subCategoryId ?? null,
-    name: cvContext.cv?.name ?? null,
-    country: cvContext.cv?.country ?? null,
-    city: cvContext.cv?.city ?? null,
-    relocation: cvContext.cv?.relocation ?? null,
-    currency: cvContext.cv?.currency ?? null,
-    salaryMin: cvContext.cv?.salaryMin ?? null,
-    salaryMax: cvContext.cv?.salaryMax ?? null,
-    salaryType: cvContext.cv?.salaryType ?? null,
-    about: cvContext.cv?.about ?? {description: null, visible: false},
-    skillsDescription: cvContext.cv?.skillsDescription ?? {description: null, visible: false},
-    educationInfo: cvContext.cv?.educationInfo ?? [],
-    coursesInfo: cvContext.cv?.coursesInfo ?? [],
-    experienceInfo: cvContext.cv?.experienceInfo?.map(i => {
+  const initialValues: ICvFormData = {
+    title: cv?.title ?? null,
+    image: cv?.image ?? null,
+    categoryId: cv?.categoryId ?? null,
+    subCategoryId: cv?.subCategoryId ?? null,
+    name: cv?.name ?? null,
+    country: cv?.country ?? null,
+    city: cv?.city ?? null,
+    relocation: cv?.relocation || null,
+    currency: cv?.currency || null,
+    salaryMin: cv?.salaryMin ?? null,
+    salaryMax: cv?.salaryMax ?? null,
+    salaryType: cv?.salaryType || null,
+    about: cv?.about ?? {description: null, visible: false},
+    skillsDescription: cv?.skillsDescription ?? {description: null, visible: false},
+    educationInfo: cv?.educationInfo ?? [],
+    coursesInfo: cv?.coursesInfo ?? [],
+    experienceInfo: cv?.experienceInfo?.map(i => {
       return {...i,
         fromMonthYear: i.fromYear ? format(new Date(i.fromYear, i.fromMonth ?? 1, 1, 0,0, 0), 'dd.MM.yyyy') : null,
         toMonthYear: i.toYear ? format(new Date(i.toYear, i.toMonth ?? 1, 1, 0,0, 0), 'dd.MM.yyyy') : null,}
     }) ?? [],
-    contactsVisible: cvContext.cv?.contactsVisible ?? false,
-    contacts: cvContext.cv?.contacts?.map(i => ({
+    contactsVisible: cv?.contactsVisible ?? false,
+    contacts: cv?.contacts?.map(i => ({
       ...i,
       type: i.email ? CvContactPersonType.Email : CvContactPersonType.Phone,
     })) ?? [],
-    skills: cvContext.cv?.skills ?? [],
-    languageKnowledges: cvContext.cv?.languageKnowledges ?? []
+    skills: cv?.skills?.map(i => i.title) ?? [],
+    languageKnowledges: cv?.languageKnowledges ?? [],
   }
 
-  const formik = useFormik<IResumeFormData>({
+  const formik = useFormik<ICvFormData>({
     initialValues,
     onSubmit: handleSubmit
   })
@@ -201,8 +194,7 @@ export default function ResumeEditForm(props: Props) {
               />
               <div className={styles.line}>
                 <div className={styles.location}>
-                  <CountryField className={styles.select} name={'country'} label={'Country'}
-                                validate={Validator.required}/>
+                  <CountryField className={styles.select} name={'country'} label={'Country'}/>
                   <CityField className={styles.select}  name={'city'} label={'City'}
                              country={formik.values.country?.country}/>
                 </div>
@@ -428,7 +420,7 @@ export default function ResumeEditForm(props: Props) {
         </div>
         <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
           <>
-            <Button  type={'submit'} styleType='large' color='green' spinner={cvContext.editLoading}>
+            <Button  type={'submit'} styleType='large' color='green' spinner={props.loading ?? false}>
               {'Save'}
             </Button>
             <Button href={Routes.profileResume} type={'button'} styleType='large' color='white'>

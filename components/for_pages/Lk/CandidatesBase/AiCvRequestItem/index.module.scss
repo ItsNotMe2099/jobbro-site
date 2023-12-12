@@ -1,0 +1,46 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  align-items: center;
+  @include list(16px, true);
+}
+.center{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  @include list(2px);
+}
+.circle{
+  width: 48px;
+  height: 48px;
+  background-color: $green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+.title{
+  color: $text-primary;
+  font-weight: 400;
+  font-size: 16px;
+  white-space: pre-line;
+  word-break: break-word;
+  &.link{
+
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+
+}
+.check{
+  cursor: pointer;
+  color: $green;
+  font-weight: 700;
+  font-size: 16px;
+  &:hover{
+    text-decoration: underline;
+  }
+}

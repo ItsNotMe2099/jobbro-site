@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function Tab(props: Props) {
-  const isActive = useIsActiveLink(props.href ?? '')
+  const isActive = useIsActiveLink(props.href || '')
   const content = (<>
     <div className={styles.text}>{props.text}</div>
     {(props.badge ?? 0) > 0 && <NotificationBadge className={styles.badge} position={'static'} color={'green'} total={props.badge!}/>}

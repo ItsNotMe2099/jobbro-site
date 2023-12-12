@@ -1,10 +1,13 @@
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
 import { ProfilePageLayout } from '@/components/for_pages/Profile/ProfileLayout'
-import ResumeEditForm from '@/components/for_pages/Profile/Resume/Edit/Form'
 import {CVOwnerWrapper, useCVOwnerContext} from 'context/cv_owner_state'
 import {useRouter} from 'next/router'
 import ContentLoader from '@/components/ui/ContentLoader'
+import {DeepPartial} from '@/types/types'
+import {ICV} from '@/data/interfaces/ICV'
+import {Routes} from '@/types/routes'
+import CvForm from '@/components/for_pages/Cv/CvForm'
 
 interface Props {
 
@@ -12,8 +15,17 @@ interface Props {
 
 const ProfileResumeEditPageInner = (props: Props) => {
   const cvOwnerContext = useCVOwnerContext()
+  const router = useRouter()
+  const handleSubmit = async (data: DeepPartial<ICV>) => {
+    if (cvOwnerContext.cv) {
+      await cvOwnerContext.update(data as DeepPartial<ICV>)
+    } else {
+      await cvOwnerContext.create(data as DeepPartial<ICV>)
+    }
+    router.push(Routes.profileResume)
+  }
   return (cvOwnerContext.loading ? <ContentLoader isOpen={true}/> :
-    <ResumeEditForm />
+    <CvForm onSubmit={handleSubmit} loading={cvOwnerContext.editLoading} cv={cvOwnerContext.cv} />
   )
 }
 

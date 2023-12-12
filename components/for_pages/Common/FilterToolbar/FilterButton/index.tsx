@@ -7,11 +7,12 @@ interface Props {
   hasValue?: boolean
   children: ReactElement | string | null
   onClick: () => void
+  disabled?: boolean | undefined
 }
 
 function FilterButtonInner(props: Props,  ref: React.ForwardedRef<HTMLDivElement>) {
   return (
-    <div className={styles.root} onClick={props.onClick} ref={ref}>
+    <div className={styles.root} onClick={props.disabled ? () =>{} : props.onClick} ref={ref}>
       <span>{props.children}</span>{props.hasValue && <CircleSvg className={styles.circle} color={colors.green}/>}
     </div>
   )
