@@ -2,6 +2,11 @@
 
 .root {
   margin: 40px 0;
+
+  @include mq($PhoneWidth, max) {
+    margin-top: 91px;
+    margin-bottom: 80px;
+  }
 }
 
 .wrapper {

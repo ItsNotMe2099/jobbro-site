@@ -25,7 +25,7 @@ export default function TryIt(props: Props) {
             I want to try it
           </div>
           <div className={styles.text}>
-            Leave your contacts and we will return{isPhoneWidth && <br />} to you as<br /> soon as possible
+            Leave your contacts and we will return{isPhoneWidth && <br />} to you as{!isPhoneWidth && <br />}  soon as possible
           </div>
           {!isTabletWidth && <DotsSvg className={styles.dots} />}
         </div>

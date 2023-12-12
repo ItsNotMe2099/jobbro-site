@@ -15,6 +15,10 @@
   font-weight: 400;
   line-height: 100%;
   color: $white;
+
+  @include mq($SmPhoneWidth + 1, max) {
+    font-size: 24px;
+  }
 }
 
 .text {
@@ -24,6 +28,10 @@
   font-weight: 400;
   line-height: 140%;
   color: $white-90;
+
+  @include mq($SmPhoneWidth + 1, max) {
+    margin-top: 16px;
+  }
 }
 
 .bottom {
@@ -31,16 +39,22 @@
   margin-top: 35px;
   height: 456px;
   width: 100%;
+  display: flex;
+  align-items: center;
+
+  @include mq($PhoneWidth + 1, max) {
+    height: 80px;
+  }
 
   svg {
     top: -50%;
-    position: absolute;
     width: 100%;
     right: 0;
 
-    @include mq($PhoneWidth + 1, max) {
+    @include mq($SmPhoneWidth + 1, max) {
       width: 150%;
       right: -25%;
+      top: -465%;
     }
   }
 }

@@ -9,6 +9,11 @@
   margin-bottom: 150px;
   align-items: center;
   position: relative;
+
+  @include mq($PhoneWidth + 1, max) {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
 }
 
 .title {
@@ -34,6 +39,10 @@
   @include mq($PhoneWidth, max) {
     font-size: 14px;
   }
+
+  @include mq($SmPhoneWidth + 1, max) {
+    margin-top: 16px;
+  }
 }
 
 .bottom {
@@ -48,24 +57,14 @@
     height: 172px;
   }
 
+  @include mq($SmPhoneWidth + 1, max) {
+    margin-top: 50px;
+  }
+
   img {
     top: -50% !important;
     right: 0 !important;
     height: auto !important;
-
-    @include mq($DesktopWidth + 1, max) {
-      top: -35% !important;
-    }
-
-    @include mq($SmDesktopWidth, max) {
-      top: -20% !important;
-    }
-
-    @include mq($PhoneWidth, max) {
-      width: 100% !important;
-      top: -50% !important;
-      
-    }
   }
 }
 

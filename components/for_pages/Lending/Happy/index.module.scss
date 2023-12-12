@@ -1,12 +1,16 @@
 @import "styles/index";
 
 .root {
-  padding-top: 106px;
+  padding-top: 140px;
   padding-bottom: 152px;
   width: 1162px;
 
   @include mq(1250px, max) {
     width: 100%;
+  }
+
+  @include mq($PhoneWidth + 1, max) {
+    padding-bottom: 60px;
   }
 }
 
@@ -20,6 +24,10 @@
 
   @include mq($TabletWidth, max) {
     flex-direction: column;
+  }
+
+  @include mq($PhoneWidth + 1, max) {
+    height: auto;
   }
 }
 
@@ -98,6 +106,10 @@
 
   @include mq($PhoneWidth, max) {
     border-bottom: 1px solid #20AC67;
+  }
+
+  @include mq($SmPhoneWidth + 1, max) {
+    padding: 24px 0;
   }
 }
 

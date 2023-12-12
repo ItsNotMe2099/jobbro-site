@@ -13,6 +13,10 @@
     @include mq($PhoneWidth, max) {
         width: 300px;
     }
+
+    @include mq($SmPhoneWidth + 1, max) {
+        padding: 24px;
+      }
 }
 
 .btn {

@@ -6,6 +6,10 @@
   background-color: $green-lending;
   padding: 80px 0;
   position: relative;
+
+  @include mq($PhoneWidth + 1, max) {
+    margin-top: 64px;
+}
 }
 
 .container {

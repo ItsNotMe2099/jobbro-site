@@ -12,6 +12,8 @@ interface Props {
   image: string
   btnText: string
   className?: string
+  classImg?: string
+  classBtn?: string
 }
 
 export default function Item(props: Props) {
@@ -24,11 +26,11 @@ export default function Item(props: Props) {
       <div className={styles.text}>
         {props.text}
       </div>
-      <Button className={styles.btn} color='transparent' styleType='small'>
+      <Button className={classNames(styles.btn, props.classBtn)} color='transparent' styleType='small'>
         {props.btnText} <ArrowChevronRightSvg color={colors.white} />
       </Button>
       <div className={styles.bottom}>
-        <Image src={props.image} alt='' fill />
+        <Image className={props.classImg} src={props.image} alt='' fill />
       </div>
     </div>
   )
