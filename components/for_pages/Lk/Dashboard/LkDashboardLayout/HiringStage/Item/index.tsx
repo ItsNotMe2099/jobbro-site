@@ -1,7 +1,4 @@
 import styles from './index.module.scss'
-import Card from '@/components/for_pages/Common/Card'
-import GraphicSvg from '@/components/svg/GraphicSvg'
-import Link from 'next/link'
 
 
 interface Props {

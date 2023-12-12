@@ -1,11 +1,6 @@
-import PolygonSvg from '@/components/svg/PolygonSvg'
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
-import { colors } from '@/styles/variables'
-import classNames from 'classnames'
-import Link from 'next/link'
 import Image from 'next/image'
-import AccSvg from '@/components/svg/AccSvg'
 import AccSmallSvg from '@/components/svg/AccSmallSvg'
 
 
