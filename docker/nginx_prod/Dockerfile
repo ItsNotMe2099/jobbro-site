@@ -15,4 +15,4 @@ COPY  docker/nginx_prod/certs/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsign
 COPY  docker/nginx_prod/certs/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
 COPY  docker/nginx_prod/certs/dhparam.pem /etc/ssl/certs/dhparam.pem
 EXPOSE 80 443
-CMD ["sh", "-c", " envsubst '$$API_HOST $ADMIN_HOST $$ALLOW_NET $SSL'  < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]
