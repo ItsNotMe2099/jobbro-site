@@ -225,7 +225,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  color: $dark500;
+  color: $text-secondary;
 
   @include mq($PhoneWidth, max) {
     font-size: 15px;
@@ -234,6 +234,7 @@
 }
 
 @mixin input() {
+  background-color: transparent;
   border-radius: 8px;
   width: 100%;
   padding: 0 16px;
@@ -242,6 +243,9 @@
   -webkit-appearance: none;
   font-size: 16px;
   color: $text-primary;
+  line-height: $fieldHeightDefault;
+
+
 
   &:-webkit-autofill {
     -wкebkit-text-fill-color: $text-primary !important;
@@ -268,12 +272,18 @@
     color: $text-red;
   }
 
-  &.inputFocused {}
+  &.withLabel{
+    &.inputFocused, &.withValue {
+
+      padding-top: 12px;
+    }
+  }
+
 }
 
 
 @mixin inputWrapper() {
-  border: 1px solid $grey400;
+  border: 1px solid $text-secondary;
   border-radius: $StandartBorderRadius;
 
   &.withPrefix,
@@ -284,20 +294,38 @@
   }
 
   &.inputError {
-    border-color: $red500;
+    border-color: $text-red;
   }
 
   &.inputFocused {
-    border-color: $dark400;
+    border-color: $text-secondary;
   }
 }
 
 
+@mixin menuDropDown() {
+  z-index: $zIndexDropDown;
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+  border-radius: 24px;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  &.opened {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
 @mixin dropDown() {
   z-index: $zIndexDropDown;
   background: $white;
   border-radius: 8px;
-  border: 1px solid $grey400;
+  border: 1px solid $text-secondary;
   margin-top: 2px;
   opacity: 0;
   visibility: hidden;
@@ -323,25 +351,23 @@
 
 
 @mixin infoLabel() {
-  color: $grey500;
+  color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
 }
 
 @mixin infoValue() {
-  color: $dark500;
+  color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
 }
 
 @mixin card() {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
   background-color: $white;
-  border-radius: $StandartBorderRadius;
-
-  @include mq($PhoneWidth, max) {
-    padding: 20px 15px;
-  }
+  border-radius: 24px;
 }
 
 
@@ -351,3 +377,13 @@
   -webkit-line-clamp: $count;
   -webkit-box-orient: vertical;
 }
+
+@mixin inputPlaceholder {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.16px;
+  color: $text-secondary;
+}
+

@@ -6,7 +6,7 @@ export default function FeelingProudSvg(props: Props) {
   return (
     <svg className={props.className} width="649" height="429" viewBox="0 0 649 429" fill="none" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="324.5" cy="377.5" rx="324.5" ry="39.5" fill="#DEDEDE" />
-      <g clip-path="url(#clip0_901_13993)">
+      <g clipPath="url(#clip0_901_13993)">
         <path d="M427.785 243.44V361.949L447.669 394.254L449.183 396.711H527.641L529.226 243.44H427.785Z" fill="#E6E6E6" />
         <path opacity="0.1" d="M427.785 243.44V361.949L447.669 394.254L448.89 243.44H427.785Z" fill="black" />
         <path d="M238.374 240.279V358.788L218.49 391.094L216.977 393.55H138.519L136.934 240.279H238.374Z" fill="#E6E6E6" />

@@ -1,0 +1,8 @@
+@import "styles/index";
+
+.root{
+  @media (max-width: $md-max) {
+    display: none;
+  }
+}
+

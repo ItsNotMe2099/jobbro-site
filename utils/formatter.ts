@@ -1,4 +1,4 @@
-import { formatRelative } from 'date-fns'
+import {format, formatRelative} from 'date-fns'
 import { ru } from 'date-fns/locale'
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat
@@ -65,6 +65,14 @@ export default class Formatter {
     return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), { locale })
   }
 
+
+  static formatDateTime(date: string | Date) {
+    return format(typeof date === 'string' ? new Date(date) : date,'dd.MM.yyyy HH:MM')
+  }
+  static formatDate(date: string | Date) {
+    return format(typeof date === 'string' ? new Date(date) : date,'dd MMM yyyy ')
+  }
+
   static formatPhone(phone: string | null) {
     try {
       if (!phone) {
@@ -96,7 +104,7 @@ export default class Formatter {
     if (!price) {
       return ''
     }
-    return `${this.formatNumber(Math.ceil(price))} ${suffix ?? '₽'}`
+    return `${this.formatNumber(price)} ${suffix ?? '$'}`
   }
   static formatDeliveryPrice(price?: number): string {
     if (!price) {
@@ -120,6 +128,14 @@ export default class Formatter {
     const i = Math.floor(Math.log(bytes ?? 0) / Math.log(1024))
     return !bytes && '' || ((bytes ?? 0) / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
   };
+  static formatRangeMonthYear({fromMonth, fromYear, toMonth, toYear}: {fromMonth: number, fromYear: number, toMonth: number, toYear: number}){
+    return [[fromMonth, fromYear].filter(i => !!i).join(' '),[toMonth, toYear].filter(i => !!i).join(' ')].filter(i => !!i).join(' — ')
+  }
+
+  static formatRangeYear(fromYear: number, toYear: number){
+    return [fromYear, toYear].filter(i => !!i).join(' — ')
+  }
+
 }
 
 export const pad = Formatter.pad

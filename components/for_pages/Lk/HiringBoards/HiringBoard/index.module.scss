@@ -1,0 +1,13 @@
+@import "styles/index";
+
+.root{
+  background-color: white;
+  overflow: scroll;
+  width: calc(100vw - 420px);
+
+}
+.wrapper{
+  min-height: calc(100vh - 270px);
+  overflow-y: hidden;
+  display: inline-flex;
+}

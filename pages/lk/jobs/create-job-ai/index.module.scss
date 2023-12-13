@@ -1,0 +1,10 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+.form{
+  min-height: calc(100vh - 358px);
+}

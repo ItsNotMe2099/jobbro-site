@@ -1,0 +1,61 @@
+- hosts: web
+  vars_files:
+  vars:
+    image_name: jobbro-frontend
+    base_path: "/var/www/{{ image_name }}"
+    release_path: "{{ base_path }}/releases"
+    work_path: "{{ release_path }}/{{ CI_COMMIT_SHA }}"
+  no_log: false
+  tasks:
+    - set_fact:
+        compose_file: "docker-compose.dev.yml"
+      when: branch == "dev"
+    - set_fact:
+        compose_file: "docker-compose.prod.yml"
+      when: branch == "master"
+    - name: Creates directory
+      file:
+        path: "{{ base_path }}"
+        state: directory
+    - name: Creates releases directory
+      file:
+        path: "{{ release_path }}"
+        state: directory
+
+    - name: Check if API exists
+      stat: path={{ work_path }}
+      register: api_expected_commit
+      check_mode: no
+    - name: Creates work directory
+      file:
+        path: "{{ work_path }}"
+        state: directory
+      when: api_expected_commit.stat.exists == false
+
+    - name: Copy file with owner and permission, using symbolic representation
+      copy:
+        src: "../{{ compose_file }}"
+        dest: "{{work_path}}"
+      when: api_expected_commit.stat.exists == false
+    - debug:
+        msg: CI_JOB_TOKEN {{ CI_JOB_TOKEN }}
+
+    - name: DEPLOY | docker login
+      command: "docker login -u gitlab-ci-token -p '{{ CI_JOB_TOKEN }}' '{{ CI_REGISTRY }}'"
+      args:
+        chdir: "{{ work_path }}"
+    - name: DEPLOY | docker pull
+      command: "docker-compose -f {{ compose_file }} -p {{ image_name }} pull"
+      args:
+        chdir: "{{ work_path }}"
+      environment:
+        APP_IMAGE: "{{APP_IMAGE}}"
+        NGINX_IMAGE: "{{ NGINX_IMAGE }}"
+    - name: DEPLOY | docker up
+      command: "docker-compose -f {{ compose_file }} -p {{ image_name }} up -d"
+      args:
+        chdir: "{{ work_path }}"
+      environment:
+        APP_IMAGE: "{{APP_IMAGE}}"
+        NGINX_IMAGE: "{{ NGINX_IMAGE }}"
+        DK_RESTART: "always"

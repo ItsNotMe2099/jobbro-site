@@ -1,0 +1,11 @@
+import request from 'utils/request'
+
+export default class {{ properCase name }}Repository {
+  static async articleGetBySlug(slug: string): Promise<any | null> {
+    const res = await request(`/api/article/bySlug/${slug}`)
+    if (res.err) {
+      return null
+    }
+    return res.data
+  }
+}

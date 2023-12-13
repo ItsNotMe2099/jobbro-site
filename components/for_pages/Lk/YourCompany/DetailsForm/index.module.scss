@@ -1,0 +1,45 @@
+@import "../../../../../styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.clear {
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.line {
+    display: flex;
+    @include list(24px, true);
+}
+
+.select {
+    flex: 1;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.skills {
+    @include clearfix;
+    margin-bottom: 24px;
+}
+
+.skill {
+    border: 1px solid $green;
+    float: left;
+    margin: 0;
+    margin-right: 16px;
+}

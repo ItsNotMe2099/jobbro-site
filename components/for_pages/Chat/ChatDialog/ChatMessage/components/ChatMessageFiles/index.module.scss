@@ -1,0 +1,30 @@
+@import "../../../../../../../styles/index";
+.root{
+  display: flex;
+  flex-direction: column;
+  @include list(12px)
+}
+.icon{
+  background:  $grey;
+  display: flex;
+  border-radius: 8px;
+  padding: 4px 0px 0px 5px ;
+}
+.file{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(8px, true);
+  .name{
+    flex: 1;
+  }
+  &:hover{
+    .name {
+      text-decoration: underline;
+    }
+  }
+}
+.text{
+  margin-top: 8px;
+}
+

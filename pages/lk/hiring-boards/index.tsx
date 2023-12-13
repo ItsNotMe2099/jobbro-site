@@ -1,12 +1,41 @@
-//import styles from './index.module.scss'
+import styles from './index.module.scss'
+import { getAuthServerSideProps } from '@/utils/auth'
+import { ProfileType } from '@/data/enum/ProfileType'
+import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import PageTitle from '@/components/for_pages/Common/PageTitle'
+import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
+import HiringBoardJobCard from '@/components/for_pages/Lk/HiringBoards/HiringBoardListJobCard'
+import {HiringBoardListWrapper, useHiringBoardListContext} from '@/context/hiring_board_list_state'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 
-import Layout from "@/components/for_pages/layout/Layout";
 
 
-export default function DashBoard() {
+const HiringBoardsInner = () => {
+  const hiringBoardListContext = useHiringBoardListContext()
+  useEffectOnce(() => {
+    hiringBoardListContext.reFetch()
+  })
   return (
-    <Layout>
-      
-    </Layout>
+    <div className={styles.container}>
+      <PageTitle title={'Hiring boards'} />
+      <div className={styles.wrapper}>
+        <FilterToolbar left={[]} />
+        <div className={styles.cards}>
+          {hiringBoardListContext.data.data.map((i, index) =>
+              <HiringBoardJobCard vacancy={i} key={i.id} />)
+          }
+        </div>
+      </div>
+    </div>
   )
 }
+
+const HiringBoards = () => {
+  return (<HiringBoardListWrapper>
+    <HiringBoardsInner/>
+  </HiringBoardListWrapper>)
+}
+HiringBoards.getLayout = LkPageHirerLayout
+
+export default HiringBoards
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

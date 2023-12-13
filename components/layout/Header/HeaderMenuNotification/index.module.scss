@@ -1,0 +1,28 @@
+@import "styles/index";
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+  text-align: left;
+}
+.title{
+  font-weight: 700;
+  font-size: 16px;
+  color: $text-primary;
+  padding: 24px 24px 0px 24px;
+}
+.viewMore{
+  color: $green;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 0px 24px 24px 24px;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
+.chats{
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+}

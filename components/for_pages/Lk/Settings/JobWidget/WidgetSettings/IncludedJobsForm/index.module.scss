@@ -1,0 +1,60 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+}
+
+.checkboxLabel {
+    display: flex;
+    flex-direction: column;
+    @include list(4px, false);
+}
+
+.label {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+}
+
+.desc {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: $text-secondary;
+    letter-spacing: -0.16px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+}
+
+.select {
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+}
+
+.preview {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    @include list(8px, true);
+
+    .text {
+        @include btnText;
+        color: $green;
+    }
+}
+
+.eye {
+    width: 24px;
+    height: 24px;
+}

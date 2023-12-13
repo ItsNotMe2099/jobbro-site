@@ -1,0 +1,33 @@
+@import "styles/index";
+
+.root {}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.more {
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    color: $green;
+    letter-spacing: -0.16px;
+    font-size: 16px;
+}
+
+.position {
+    margin-top: -12px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    color: $text-primary;
+}
+
+.items {
+    display: flex;
+    @include list(18px, true);
+    margin-top: 24px;
+}

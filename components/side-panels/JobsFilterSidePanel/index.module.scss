@@ -1,0 +1,31 @@
+@import "styles/index";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100vh;
+}
+.fields{
+  display: flex;
+  flex-direction: column;
+  @include list(64px, false);
+}
+
+.field{
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+
+
+.buttons {
+    display: flex;
+    @include list(32px, true);
+    padding: 32px 0;
+}
+
+.apply {
+    flex: 1;
+}
+

@@ -1,0 +1,17 @@
+@import "../../../../../styles/index";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
+}
+.spinner{
+  padding-right: 16px;
+}
+
+.add {
+    padding-right: 16px;
+    cursor: pointer;
+  line-height: 100%;
+}

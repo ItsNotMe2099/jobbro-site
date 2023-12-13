@@ -1,0 +1,25 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px;
+  padding-right: 16px;
+  padding-left: 32px;
+  border-bottom: 1px solid $background-secondary;
+}
+
+.title {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: -0.32px;
+  color: $text-primary;
+}
+
+.close {
+  cursor: pointer;
+}
+

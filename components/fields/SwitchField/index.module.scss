@@ -1,0 +1,14 @@
+@import "styles/index";
+
+.root{
+  position: relative;
+  gap: 12px;
+  display: flex;
+}
+
+.label{
+  cursor: pointer;
+  @include mainText;
+
+}
+

@@ -1,0 +1,57 @@
+@import "styles/index";
+
+.root{
+  position: relative;
+  &.message{
+    .emojiButton{
+      padding: 10px 0px;
+      left: -35px;
+      right: auto;
+      top: 0px;
+      bottom: auto;
+
+    }
+  }
+  &.default{
+
+    .emojiButton{
+      right: 15px;
+      bottom: 15px;
+    }
+
+  }
+  &.bottomBorder{
+
+    .emojiButton{
+      right: 15px;
+      bottom: 15px;
+    }
+
+  }
+}
+
+.input{
+  display: block;
+  width: 100%;
+  transition: background-color 0.2s, min-height 0.2s;
+  resize: none;
+  &.default{
+    @include inputWrapper;
+    @include input;
+  }
+  &.message{
+    @include inputWrapper;
+    border: none;
+    padding: 10px 12px;
+    .emojiButton{
+      left: -30px;
+    }
+  }
+
+  &.withIcon{
+    padding-left: 50px;
+  }
+  &.focused{
+
+  }
+}

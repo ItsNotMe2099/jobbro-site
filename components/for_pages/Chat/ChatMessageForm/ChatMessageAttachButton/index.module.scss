@@ -1,0 +1,40 @@
+@import "styles/index";
+.list{
+  display: flex;
+  flex-direction: column;
+  .menuItem{
+    &:first-of-type{
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+    }
+    &:last-of-type{
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+  }
+}
+.menuItem{
+  display: flex;
+  flex-direction: row;
+  padding: 12px;
+  @include list(8px, true);
+  &:hover{
+    background-color: $grey;
+
+  }
+  .info{
+    display: flex;
+    flex-direction: column;
+    @include list(4px);
+  }
+  .title{
+    font-size: 16px;
+    font-weight: 400;
+    color: $text-primary;
+  }
+  .description{
+    font-size: 14px;
+    font-weight: 400;
+    color: $text-secondary;
+  }
+}

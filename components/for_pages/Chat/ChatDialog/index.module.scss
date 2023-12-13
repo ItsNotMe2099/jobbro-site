@@ -1,0 +1,28 @@
+@import "styles/index";
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  flex: 1;
+  height: calc(100vh - 135px);
+
+}
+.title{
+  margin-bottom: 28px;
+}
+
+.messages {
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 15px;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column-reverse;
+}

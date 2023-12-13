@@ -1,0 +1,2 @@
+[web]
+dev ansible_host=glm-dev1-app.glob-com.ru ansible_user=admin ansible_become=yes

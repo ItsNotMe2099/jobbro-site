@@ -16,9 +16,12 @@
   flex: 1;
 
   :global {
+    .yg-select__menu-portal {
+      z-index: 2;
+    }
     .yg-select__menu {
       background-color: #EEF4F9;
-      z-index: 2;
+      z-index: 3;
       border-radius: $StandartBorderRadius;
       border: 0;
       filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
@@ -71,20 +74,20 @@
       padding: 0px 16px;
       background-color: transparent;
       cursor: pointer;
-
       &:active {
         background: $simple-grey;
       }
-
     }
 
     .yg-select__option--is-focused {
-      border-color: $simple-grey;
+      background: $green;
+      color: $white;
     }
 
     .yg-select__option--is-selected {
-      border-color: $simple-grey;
-      background: $simple-grey;
+      border-color: transparent;
+      background: $green;
+      color: $white;
     }
   }
 
@@ -139,6 +142,13 @@
       .yg-select__value-container {
         padding-left: 0;
       }
+    }
+  }
+
+  &.withLabel{
+    &.inputFocused, &.withValue {
+      line-height: 32px;
+      padding-top: 24px;
     }
   }
 }

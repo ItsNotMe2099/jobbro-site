@@ -1,0 +1,42 @@
+@import "styles/index";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    @include list(24px, false);
+    background-color: $white;
+    border-radius: 24px;
+    padding: 40px;
+    width: 440px;
+    box-shadow: -8px 106px 124px 0px rgba(0, 0, 0, 0.47);
+
+    @include mq($PhoneWidth, max) {
+        width: 300px;
+    }
+
+    @include mq($SmPhoneWidth + 1, max) {
+        padding: 24px;
+      }
+}
+
+.btn {
+    height: 64px;
+    border-radius: 80px;
+    color: $white;
+    font-family: 'Lexend Deca';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    margin-top: 40px;
+}
+
+.input {
+    height: 44px !important;
+}
+
+.inputWrapper {
+    height: 44px !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}

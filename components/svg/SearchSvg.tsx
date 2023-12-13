@@ -5,16 +5,8 @@ interface Props {
 
 export default function SearchSvg(props: Props) {
   return (
-    <svg className={props.className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_2081_43367)">
-        <path d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" stroke={props.color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M21 21L15 15" stroke={props.color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </g>
-      <defs>
-        <clipPath id="clip0_2081_43367">
-          <rect width="24" height="24" fill="white" />
-        </clipPath>
-      </defs>
+    <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <path d="M31.3649 28.1738L26.0776 22.8867C26.9981 21.3961 27.5547 19.6572 27.5547 17.777C27.5547 12.3771 23.1775 8 17.7774 8C12.3772 8 8 12.3771 8 17.777C8 23.177 12.3772 27.5541 17.7774 27.5541C19.6576 27.5541 21.3965 26.9975 22.8856 26.0785L28.1744 31.3656C28.6001 31.7772 29.1704 32.005 29.7624 31.9999C30.3545 31.9949 30.9208 31.7574 31.3394 31.3386C31.7579 30.9199 31.9952 30.3535 31.9999 29.7614C32.0047 29.1694 31.7766 28.5992 31.3649 28.1738ZM17.7774 24.5458C14.0394 24.5458 11.0084 21.5149 11.0084 17.777C11.0084 14.0392 14.0394 11.0083 17.7774 11.0083C21.5153 11.0083 24.5463 14.0392 24.5463 17.777C24.5463 21.5149 21.5153 24.5458 17.7774 24.5458Z" fill={props.color} />
     </svg>
   )
 }

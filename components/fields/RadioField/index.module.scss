@@ -1,0 +1,41 @@
+@import 'styles/index';
+
+.root{
+  position: relative;
+  &.styleRow{
+    .list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    }
+  }
+  &.styleTiles{
+    .list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+  }
+}
+.list{
+  display: flex;
+  flex-direction: column;
+  > div:last-of-type{
+    margin-bottom: 0px;
+  }
+
+}
+.label{
+  margin-bottom: 12px;
+  @include btnText;
+  &.hasError{
+    color: $text-red;
+  }
+
+}
+
+.error{
+  bottom: -8px;
+  left: 0px;
+  background: transparent;
+}

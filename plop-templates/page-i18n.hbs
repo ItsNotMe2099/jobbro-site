@@ -1,0 +1,28 @@
+import styles from './index.module.scss'
+import { GetServerSideProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import PageLayout from 'components/layout/PageLayout'
+
+interface Props {}
+
+export default function {{ properCase name }}Page(props: Props) {
+  const { t } = useTranslation('common')
+
+  return (
+    <PageLayout>
+      <div className={styles.root}>
+        {{ properCase name }}Page
+      </div>
+    </PageLayout>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context ) => {
+  return {
+    props: {
+      ...await serverSideTranslations(context.locale ?? 'en', ['common']),
+    } as Props,
+  }
+}
+

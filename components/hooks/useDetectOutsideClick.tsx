@@ -6,10 +6,10 @@ export const useDetectOutsideClick = (el: any, initialState: any) => {
   useEffect(() => {
     const pageClickEvent = (e: any) => {
       // If the active element exists and is clicked outside of
-      if (el?.current.contains(e.target)) {
+      if (el?.current?.contains(e.target)) {
         return
       }
-      else if (el.current !== null && !el.current.contains(e.target)) {
+      else if (el.current !== null && !el.current?.contains(e.target)) {
         setIsActive(!isActive)
         document.removeEventListener('click', pageClickEvent)
       }

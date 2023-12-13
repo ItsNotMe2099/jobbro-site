@@ -1,0 +1,14 @@
+@import "styles/index";
+
+.link {
+  color: blue;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+}
+
+.paragraph {
+  margin: 0;
+}

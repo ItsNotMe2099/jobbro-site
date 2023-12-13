@@ -1,0 +1,82 @@
+@import "styles/index";
+.root{
+display: flex;
+  flex-direction: row;
+  @include list(24px, true);
+}
+.title{
+  font-size: 20px;
+  font-weight: 500;
+  color: $text-secondary;
+}
+.date{
+  display: flex;
+  flex-direction: column;
+  width: 176px;
+  height: 176px;
+  padding: 24px 20px;
+  border-radius: 20px;
+  background-color: white;
+  .label{
+    font-size: 16px;
+    font-weight: 400;
+    color: $text-secondary;
+  }
+  .day{
+    font-size: 40px;
+    font-weight: 400;
+    color: $text-primary;
+    flex: 1;
+  }
+  .weekDay{
+
+    font-size: 16px;
+    font-weight: 400;
+    color: $text-primary;
+  }
+}
+.right{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  @include list(10px);
+}
+.slot{
+  position: relative;
+  padding-left: 20px;
+  &:before{
+    content: '';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 8px;
+    border-radius: 8px;
+    background-color: $green;
+  }
+  .day{
+    color: $text-primary;
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .time{
+    color: $text-primary;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+}
+.edit{
+  color: $green;
+  font-weight: 700;
+  font-size: 16px;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+.date{
+
+}
+
+.startMeet{
+}

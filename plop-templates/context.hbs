@@ -1,0 +1,27 @@
+import { createContext, useContext } from 'react'
+
+interface IState {}
+
+const defaultValue: IState = {}
+
+const {{ properCase name }}Context = createContext<IState>(defaultValue)
+
+interface Props {
+  children: React.ReactNode
+}
+
+export function {{ properCase name }}Wrapper(props: Props) {
+  const value: IState = {
+    ...defaultValue,
+  }
+
+  return (
+    <{{ properCase name }}Context.Provider value={value}>
+      {props.children}
+    </{{ properCase name }}Context.Provider>
+  )
+}
+
+export function use{{ properCase name }}Context() {
+  return useContext({{ properCase name }}Context)
+}

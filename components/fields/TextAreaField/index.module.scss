@@ -1,0 +1,30 @@
+@import "styles/index";
+
+.root{
+  position: relative;
+}
+
+.wrapper{
+  position: relative;
+  margin: 0 !important;
+  background-color: #EBEBEB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 24px 0px;
+
+}
+.input{
+  @include input;
+  line-height: inherit;
+}
+
+.icon{
+  position: absolute;
+  transform: translateY(-50%);
+  left: 10px;
+  &.default{
+    top: $fieldHeightDefault * 0.5;
+    left: 17px;
+  }
+}

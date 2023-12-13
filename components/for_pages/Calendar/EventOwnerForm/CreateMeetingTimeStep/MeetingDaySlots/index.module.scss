@@ -1,0 +1,102 @@
+@import "styles/index";
+.root{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 2px #ebebeb solid;
+  overflow: hidden;
+}
+.header{
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+
+  @include list(8px);
+  .day{
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+  }
+  .timezone{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @include list(8px, true);
+    font-size: 16px;
+    .label{
+      font-style: normal;
+      font-weight: 700;
+      color: $text-secondary;
+    }
+    .value{
+      color: $text-primary;
+      font-weight: 400;
+    }
+  }
+}
+.slots{
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 554px);
+  max-height: calc(100dvh - 554px);
+  @include list(24px);
+}
+.slot{
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+}
+.fields{
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 16px;
+
+}
+.field{
+  flex: 1;
+  min-width: 50%;
+}
+.slotHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $text-primary;
+  font-weight: 500;
+  font-size: 16px;
+  .deleteIcon{
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.add{
+  margin-top: 24px;
+  font-weight: 600;
+  color: $green;
+  font-size: 16px;
+  cursor: pointer;
+  scale: 1;
+  transition: .2s ease-in-out;
+  transform-origin: center;
+  display: inline-block;
+  user-select: none;
+  @media (hover: hover ) {
+    &:hover {
+      scale: 1.03;
+    }
+  }
+}
+.footer{
+
+}
+
+.bottom {
+  background-color: #ebebeb;
+  padding: 16px;
+
+}

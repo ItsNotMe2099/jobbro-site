@@ -1,5 +1,63 @@
 @import "styles/index";
 
-.root {
-  
+.root {}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+
+    .card {
+        margin-right: 24px;
+    }
+}
+
+.rows {
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    .card {
+        margin-left: 0;
+    }
+}
+
+.card {
+    margin-bottom: 32px;
+    position: relative;
+}
+
+
+.plus {
+  position: absolute;
+  margin: 0 !important;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menu {
+  position: absolute;
+  width: auto !important;
+}
+
+
+.sort {
+    width: 256px;
+    position: absolute;
+    z-index: 1;
+    top: 32px;
 }

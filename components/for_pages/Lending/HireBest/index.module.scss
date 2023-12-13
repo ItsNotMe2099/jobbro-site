@@ -1,0 +1,103 @@
+@import "styles/index";
+
+.root {
+  @include container;
+  padding: 0;
+  margin-top: 132px;
+
+  @include mq($PhoneWidth, max) {
+    margin-top: 66px;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  @include mq(1320px, max) {
+    margin-right: -60px;
+  }
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column-reverse;
+  }
+}
+
+.light {
+  position: absolute;
+  top: -160px;
+  left: -75%;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  @include mq($MdDesktopWidth, max) {
+    width: 100%;
+  }
+}
+
+.top {
+  font-size: 72px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 90%;
+  color: $white-90;
+  font-family: 'Work Sans';
+
+  @include mq(1320px, max) {
+    margin-right: -60px;
+  }
+
+  @include mq($SmDesktopWidth, max) {
+    font-size: 40px;
+  }
+}
+
+.middle {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: $white-90;
+  line-height: 140%;
+  opacity: 0.8;
+  margin-top: 16px;
+  font-family: 'Work Sans';
+
+  @include mq($PhoneWidth, max) {
+    font-size: 16px;
+  }
+}
+
+.btn {
+  width: 124px;
+  margin-top: 40px;
+  height: 56px;
+  border-radius: 80px;
+  font-family: 'Work Sans';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+
+  @include mq($LPhoneWidth, max) {
+    height: 40px;
+    margin-top: 24px;
+  }
+}
+
+.img {
+  width: 667px !important;
+  height: 575px !important;
+  margin-top: -130px;
+  position: relative !important;
+
+  @include mq($MdDesktopWidth, max) {
+    width: 100% !important;
+    height: inherit !important;
+  }
+
+}

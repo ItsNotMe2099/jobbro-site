@@ -1,0 +1,14 @@
+@import "styles/index";
+
+.root {
+
+}
+.chips{
+  margin-bottom: 24px;
+}
+.chip{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  @include list(8px, true)
+}

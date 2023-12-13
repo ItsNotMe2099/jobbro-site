@@ -1,5 +1,9 @@
 @import "styles/index";
-
+.root{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 .form {
     display: flex;
     flex-direction: column;
@@ -7,40 +11,32 @@
     position: relative;
 }
 
-.switch {
-    display: flex;
-    align-items: center;
-    @include list(16px, true);
-}
 
-.item {
-    cursor: pointer;
-}
-
-.controls {
-    padding: 27px 24px;
-    border-radius: 24px;
-    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.10);
-    backdrop-filter: blur(12px);
-    background-color: $white;
-    display: flex;
-    @include list(32px, true);
-    z-index: 20;
-}
 
 .preview {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    @include list(8px, true);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  @include list(8px, true);
 
-    .text {
-        @include btnText;
-        color: $green;
-    }
+  .text {
+    @include btnText;
+    color: $green;
+  }
 }
 
 .eye {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
+}
+.formFooterAi{
+  padding: 27px 24px;
+  border-radius: 24px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(12px);
+  background-color: $white;
+  display: flex;
+  @include list(32px, true);
+
+  width: 100%;
 }

@@ -1,7 +1,10 @@
 import { SnackbarType } from './enums'
-import { HTMLInputTypeAttribute, MouseEventHandler } from 'react'
+import {HTMLInputTypeAttribute, MouseEventHandler, ReactElement} from 'react'
 import { FieldConfig } from 'formik'
 import { UrlObject } from 'url'
+import IChatMessage from '@/data/interfaces/IChatMessage'
+
+export type FieldIconName = 'field_phone' | 'field_name' | 'field_comment' | 'field_date' | 'field_time' | 'field_persons' | 'field_email'
 
 export interface IButton {
   type?: 'submit' | 'reset' | 'button' | undefined
@@ -14,16 +17,21 @@ export interface IButton {
 }
 
 export interface IField<T> extends FieldConfig<T> {
-  label?: string | React.ReactNode
+  label?: string | ReactElement | undefined
   placeholder?: string
   type?: HTMLInputTypeAttribute
   error?: string
   description?: string
   disabled?: boolean
+  iconName?: FieldIconName
 }
 
 export type Nullable<T> = T | null
 
+export interface IOptionGroup<T> {
+  title?: string
+  options: IOption<T>[]
+}
 export interface IOption<T> {
   label?: string
   value?: T
@@ -31,7 +39,11 @@ export interface IOption<T> {
   description?: string
   name?: string
   badge?: number
+  href?: string
+  color?: string
 }
+
+export type RadioStyleType = 'default' | 'tile' | 'row'
 
 export class RequestError extends Error {
   message: string
@@ -54,11 +66,31 @@ export interface SnackbarData {
 export const CONTACTS = {
   twitter: '#',
   instagram: '#',
-  facebook: '#'
+  facebook: '#',
+  linkedIn: '#',
+  youtube: '#',
+  adress: '12140 Jl H Nawi Raya 9-A, Dki Jakarta, Indonesia',
+  phone: '518-564-3200',
+  email: 'contact@jobbro.com',
 }
 
-export interface IRichTextLinkData{
+export interface IRichTextLinkData {
   title: string | null,
   href: string | null
 }
 
+
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
+}
+
+export interface ChatMessageProps{
+  message: IChatMessage
+  side: 'my' | 'other' | undefined | null
+}
+
+export interface IFormStep<S> {
+  name?: string,
+  description?: string | null
+  key: S
+}

@@ -13,7 +13,7 @@ import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
 import Formatter from '@/utils/formatter'
 import SearchSvg from '@/components/svg/SearchSvg'
-import Link from 'next/link'
+import FieldLabel from '@/components/fields/FieldLabel'
 
 export type InputValueType<T> = T | null | undefined
 type FormatType = 'phone' | 'phoneAndEmail' | 'cardExpiry' | 'cardPan' | 'cardCvv' | 'number' | 'price' | 'weight'
@@ -23,11 +23,9 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   format?: FormatType
   blurValidate?: FieldValidator
   className?: string
+  classNameInputWrapper?: string
+  classNameInput?: string
   label?: string
-  labelType?: 'in' | 'out'
-  label2?: string
-  label2ClassName?: string
-  label2Href?: string
   errorClassName?: string
   suffix?: 'clear' | 'arrow' | 'search' | string | ReactElement
   prefix?: 'search' | string | ReactElement
@@ -40,6 +38,7 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   resettable?: boolean
   formatValue?: (val: InputValueType<T>) => InputValueType<T>
   parseValue?: (val: InputValueType<T>) => InputValueType<T>
+  lendingInput?: boolean
 }
 
 const defaultPhonePattern = '+0[00000000000000000000]'
@@ -67,7 +66,6 @@ const getInitialPatternFromFormat = (format: FormatType | undefined) => {
   }
 }
 export default function InputField<T extends string | number>(props: InputFieldProps<T>) {
-
   const [focused, setFocus] = useState(false)
   const [obscureShow, setObscureShow] = useState(false)
   const [field, meta, helpers] = useField(props as any)
@@ -174,7 +172,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
   }
   const renderPrefix = () => {
     if (props.prefix === 'search') {
-      return <div className={cx(styles.prefix)}><SearchSvg color={colors.black} /></div>
+      return <div className={cx(styles.prefix)}><SearchSvg color={colors.textSecondary} /></div>
     } else if (typeof props.prefix === 'string') {
       return <div className={cx(styles.prefix)}>{props.prefix}</div>
     }
@@ -195,28 +193,15 @@ export default function InputField<T extends string | number>(props: InputFieldP
     })} data-field={props.name}>
       <div className={styles.wrapper}>
         {props.label &&
-          <div className={classNames(styles.top, {[styles.innerLabel]: props.labelType === 'in'})}>
-            <div className={styles.label}>
-              {props.label}
-            </div>
-            {props.label2 &&
-              <>
-                {props.label2Href ?
-                  <Link href={props.label2Href} className={classNames(styles.label2, props.label2ClassName)}>{props.label2}</Link>
-                  :
-                  <div className={classNames(styles.label2, props.label2ClassName)}>{props.label2}</div>
-                }
-              </>
-            }
-          </div>
+          <FieldLabel label={props.label} focused={focused || field.value} />
         }
         <div className={classNames(styles.inputWrapper, {
           [styles.withLabel]: props.label,
           [styles.withPrefix]: !!props.prefix,
           [styles.withSuffix]: !!props.suffix,
           [styles.inputFocused]: focused,
-          [styles.inputError]: showError,
-        })}>
+          [styles.inputError]: showError && !props.lendingInput,
+        }, props.classNameInputWrapper)}>
 
           {props.prefix && (
             renderPrefix()
@@ -230,12 +215,13 @@ export default function InputField<T extends string | number>(props: InputFieldP
             className={classNames({
               [styles.input]: true,
               //[styles.inputError]: showError,
+              [styles.withLabel]: props.label,
+              [styles.withValue]: !!field.value,
               [styles.inputFocused]: focused,
               [styles.withPrefix]: !!props.prefix,
               [styles.withClear]: props.resettable && !!field.value,
-              [styles.withVal]: field.value && props.label,
               [styles.disabled]: props.disabled
-            })}
+            }, props.classNameInput)}
             {...!props.format ? {
               onChange: (e) => {
                 const formatted = formatValue(e.currentTarget.value as InputValueType<T>)
@@ -270,6 +256,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
             renderSuffix()
           )}
         </div>
+        {props.lendingInput && <div className={classNames(styles.line, {[styles.lineError]: showError})} />}
         <FieldError showError={showError}>{meta.error}</FieldError>
       </div>
     </div>

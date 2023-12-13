@@ -10,10 +10,14 @@ import type {
   SelectInstance,
   Props as SelectProps,
 } from 'react-select'
-import { AsyncPaginate } from 'react-select-async-paginate'
-import { useEffect, useRef, useState } from 'react'
+
+import Creatable, {CreatableProps} from 'react-select/creatable'
+import {AsyncPaginate, ComponentProps, UseAsyncPaginateParams, withAsyncPaginate} from 'react-select-async-paginate'
+import {ReactElement, ReactNode, useRef, useState} from 'react'
 import ChevronDownSvg from '@/components/svg/ChevronDownSvg'
 import { colors } from '@/styles/variables'
+import SearchSvg from '@/components/svg/SearchSvg'
+import FieldLabel from '@/components/fields/FieldLabel'
 
 interface Props<T> {
   selectProps?: Nullable<SelectProps>,
@@ -28,24 +32,22 @@ interface Props<T> {
   noOptionsMessage?: Nullable<string>
   resettable?: boolean
   menuPosition?: string
-}
+  isLoading?: boolean | undefined
+ }
 
 export default function Select<T>(props: Props<T>) {
   const selected = props.options.find(item => item.value == props.value)
+  const [focused, setFocus] = useState(false)
   const [ref, press, hover] = usePressAndHover()
 
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
-      {props.label && (
-        <div className={classNames({
-          [styles.label]: true,
-        })}>
-          {props.label}
-        </div>
-      )}
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
       <ReactSelect<IOption<T>, false, GroupBase<IOption<T>>>
         value={selected as any}
-        isClearable={props.r}
+        isClearable={props.resettable}
         noOptionsMessage={(v) => props.noOptionsMessage ?? 'Нет результатов'}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         menuPlacement={'bottom'}
@@ -55,7 +57,17 @@ export default function Select<T>(props: Props<T>) {
           [styles.error]: props.hasError,
           [styles.hover]: hover,
           [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
         })}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
+        isLoading={props.isLoading}
         classNamePrefix="yg-select"
         isSearchable={false}
         placeholder={props.placeholder}
@@ -63,7 +75,7 @@ export default function Select<T>(props: Props<T>) {
           props.onChange((option as IOption<T>)?.value)
         }}
         options={props.options as any}
-        components={{ DropdownIndicator } as any}
+        components={{  DropdownIndicator: DropdownChevronIndicator } as any}
         {...(props.selectProps ? { ...props.selectProps } : {})}
         {...(selected ? { defaultValue: selected } : {})}
       />
@@ -83,28 +95,23 @@ interface AsyncProps<T> {
   noOptionsMessage?: Nullable<string>
   selectProps?: Nullable<SelectProps>
   resettable?: boolean
-  menuPosition?: string
+  menuPosition?: 'fixed' | 'absolute'
+  defaultOption?: Nullable<IOption<T>>
 }
 export function SelectAsync<T>(props: AsyncProps<T>) {
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
   const [selected, setSelected] = useState<any>(null)
-  useEffect(() => {
-
-  }, [props.value])
+  const [focused, setFocus] = useState(false)
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
-      {props.label && (
-        <div className={classNames({
-          [styles.label]: true,
-        })}>
-          {props.label}
-        </div>
-      )}
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
       <AsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
-        defaultValue={selected}
-        value={selected}
+        defaultValue={selected ?? props.defaultOption}
+        value={selected ?? props.defaultOption}
         ref={mainRef}
         selectRef={(ref) => selectRef.current = ref as any}
         loadOptions={props.loadOptions!}
@@ -117,8 +124,103 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
           [styles.error]: props.hasError,
           [styles.hover]: hover,
           [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
         })}
         //  onFocus={props.onFocus}
+        classNamePrefix="yg-select"
+        isSearchable={true}
+        isClearable={true}
+        placeholder={props.placeholder}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
+        onChange={(option) => {
+          console.log('Selected2', option)
+          setSelected(option)
+          props.onChange((option as IOption<T>)?.value)
+        }}
+        components={{ DropdownIndicator: DropdownChevronIndicator } as any}
+        {...props.selectProps}
+
+      />
+    </div>
+  )
+}
+
+
+
+type AsyncPaginateCreatableProps<
+  OptionType,
+  Group extends GroupBase<OptionType>,
+  Additional,
+  IsMulti extends boolean
+  > = CreatableProps<OptionType, IsMulti, Group> &
+  UseAsyncPaginateParams<OptionType, Group, Additional> &
+  ComponentProps<OptionType, Group, IsMulti>;
+
+type AsyncPaginateCreatableType = <
+  OptionType,
+  Group extends GroupBase<OptionType>,
+  Additional,
+  IsMulti extends boolean = false
+  >(
+  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>
+) => ReactElement;
+
+const CreatableAsyncPaginate = withAsyncPaginate(
+  Creatable
+) as AsyncPaginateCreatableType
+
+
+interface CreateAsyncProps<T> extends AsyncProps<T>{
+  onCreateOption?: (inputValue: string) => void
+  isLoading?: boolean
+  formatCreateLabel?: (inputValue: string) => ReactNode;
+}
+export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
+  const [ref, press, hover] = usePressAndHover()
+  const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
+  const mainRef = useRef<any | null>(null)
+  const [selected, setSelected] = useState<any>(null)
+  const [focused, setFocus] = useState(false)
+  return (
+    <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
+      {props.label &&
+        <FieldLabel label={props.label} focused={focused || !!props.value}/>
+      }
+      <CreatableAsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
+        defaultValue={selected}
+        value={selected}
+       // isLoading={props.isLoading}
+        ref={mainRef}
+        formatCreateLabel={props.formatCreateLabel}
+        onCreateOption={props.onCreateOption}
+        selectRef={(ref) => selectRef.current = ref as any}
+        loadOptions={props.loadOptions!}
+        additional={props.initialAsyncData}
+        menuPlacement={'bottom'}
+        menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
+        className={classNames({
+          [styles.input]: true,
+          [styles.default]: true,
+          [styles.error]: props.hasError,
+          [styles.hover]: hover,
+          [styles.press]: press,
+          [styles.withLabel]: props.label,
+          [styles.inputFocused]: focused,
+          [styles.withValue]: !!props.value,
+        })}
+        onFocus={(e) => {
+          setFocus(true)
+        }}
+        onBlur={(e) => {
+          setFocus(false)
+        }}
         classNamePrefix="yg-select"
         isSearchable={true}
         isClearable={true}
@@ -127,19 +229,34 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}
-        components={{ DropdownIndicator } as any}
+        components={{  DropdownIndicator: DropdownChevronIndicator } as any}
 
       />
     </div>
   )
 }
-function DropdownIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
+
+
+
+function DropdownChevronIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
   return (
     <div>
-      <ChevronDownSvg color={colors.textSecondary} className={classNames({
-        [styles.indicator]: true,
-        [styles.indicatorInverse]: props.selectProps.menuIsOpen,
-      })} />
+        <ChevronDownSvg color={colors.textSecondary} className={classNames({
+          [styles.indicator]: true,
+          [styles.indicatorInverse]: props.selectProps.menuIsOpen,
+        })} />
+    </div>
+  )
+}
+
+
+function DropdownSearchIndicator<T>(props: DropdownIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) {
+  return (
+    <div>
+     <SearchSvg color={colors.textSecondary} className={classNames({
+          [styles.indicator]: true,
+        })} />
+
     </div>
   )
 }

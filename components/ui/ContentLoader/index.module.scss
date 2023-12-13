@@ -1,0 +1,40 @@
+@import "styles/index";
+.root{
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+  display: none;
+  &.open{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+  }
+  &.block{
+    min-height: 200px;
+  }
+  &.infiniteScroll{
+    padding: 16px 0px;
+  }
+  &.page{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &.fullscreen {
+    position: fixed;
+
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: $white;
+    z-index: 40;
+    display: none;
+    &.open {
+      display: flex;
+    }
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,51 @@
+@import "styles/index";
+
+.root {
+  width: 325px;
+}
+
+.container {
+  flex: 1;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  @include list(24px, false);
+}
+
+.top {
+  display: flex;
+  @include list(16px, true);
+  align-items: center;
+}
+
+.calendar {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  background-color: $green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.date {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  color: $text-primary;
+  letter-spacing: -0.24px;
+}
+
+.separator {
+  height: 2px;
+  background-color: #ebebeb;
+}
+.events{
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}

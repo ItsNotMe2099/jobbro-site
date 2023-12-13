@@ -1,0 +1,59 @@
+@import "styles/index";
+
+.root {}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  @include container;
+  align-items: center;
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+}
+
+.left {
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  @include list(25px, false);
+  flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    align-items: center;
+  }
+}
+
+.title {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $white;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+.text {
+  color: $white-90;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 14px;
+    text-align: center;
+    line-height: 140%;
+  }
+}
+
+.svg {
+  flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    width: 230%;
+    margin-top: -40px;
+  }
+}

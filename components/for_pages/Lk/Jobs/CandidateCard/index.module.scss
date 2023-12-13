@@ -1,0 +1,189 @@
+@import "styles/index";
+
+.root {
+    padding: 8px;
+    border-radius: 24px;
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+    width: calc(28% - 32px);
+    position: relative;
+}
+
+.bookmark {
+  position: absolute !important;
+  top: 0;
+  right: 16px;
+  cursor: pointer;
+}
+
+.row {
+    flex-direction: row;
+    width: 100%;
+    @include list(24px, true);
+    height: 178px;
+    padding-bottom: 8px;
+
+    .avatar {
+        align-self: baseline;
+    }
+
+    .middle {
+        height: inherit;
+    }
+
+    .container {
+        height: 100%;
+        flex: 1;
+        @include list(16px, false);
+        margin-left: 0;
+    }
+
+    .bottom {
+        align-items: baseline;
+        padding-left: 0;
+        justify-content: space-between;
+    }
+
+    .middle {
+        margin-top: 0;
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .comment {
+        padding: 0;
+    }
+
+    .text {
+        max-width: 513px;
+        align-self: center;
+    }
+
+    .percent {
+        width: 60px;
+    }
+}
+
+.container {
+    padding: 16px;
+    background-color: #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    @include list(16px, false);
+    border-radius: 18px;
+}
+
+.avatar {
+    position: relative !important;
+    width: inherit !important;
+    height: inherit !important;
+}
+
+.top {
+    display: flex;
+    @include list(16px, true);
+    align-items: center;
+}
+
+.middle {
+    height: 63px;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $text-secondary;
+    width: 136px;
+}
+
+.salary {
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    @include list(4px, false);
+    flex: 1;
+}
+
+.bottom {
+    display: flex;
+    @include list(10px, true);
+    align-items: center;
+  justify-content: flex-end;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.14px;
+    color: $green;
+
+    .text {
+        width: inherit;
+        height: inherit;
+    }
+}
+
+.comment {
+    display: flex;
+    @include list(8px, true);
+    padding: 16px;
+}
+
+.text {
+    width: 184px;
+    height: 54px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.14px;
+    color: $text-primary;
+}
+.percent {
+    width: 65px;
+    height: 60px;
+    border-radius: 100%;
+    background-color: $green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -0.2px;
+    color: $white;
+}
+
+.forRow {
+    display: flex;
+    justify-content: space-between;
+}

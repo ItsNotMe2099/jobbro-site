@@ -1,3 +1,17 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": ["unused-imports"],
+  "rules": {
+    "semi": ["error", "never"],
+    "unused-imports/no-unused-imports": "error",
+    "@next/next/no-img-element": "off",
+    "react/no-unknown-property": "warn",
+    "no-console": "warn",
+    "react-hooks/exhaustive-deps": "off",
+    "quotes": ["error", "single"],
+    "jsx-a11y/alt-text": "off",
+    "react/jsx-key": "off",
+    "react/display-name": "off",
+    "@next/next/next-script-for-ga": "off"
+  }
 }

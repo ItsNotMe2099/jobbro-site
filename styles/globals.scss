@@ -1,6 +1,6 @@
 @import "mixins";
 @import "variables";
-
+@import "calendar";
 html{
   height: 100%;
   width: 100%;
@@ -37,6 +37,10 @@ body{
   max-width: 100%;
   background-color: $background-secondary;
   color: $text-primary;
+
+  &.modal-open {
+    overflow-y: hidden;
+  }
 
 }
 input, button{

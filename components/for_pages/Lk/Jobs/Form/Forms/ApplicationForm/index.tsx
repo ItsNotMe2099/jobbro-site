@@ -3,15 +3,16 @@ import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import Validator from '@/utils/validator'
 import { FieldArray, FieldArrayRenderProps, FormikProps } from 'formik'
-import { FormData } from '../..'
 import Switch from '@/components/ui/Switch'
 import { useState } from 'react'
 import CloseSvg from '@/components/svg/CloseSvg'
 import { colors } from '@/styles/variables'
 import AddSvg from '@/components/svg/AddSvg'
+import KeywordField from '@/components/fields/KeywordField'
+import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 
 // Define a type for the Formik instance
-type MyFormikType = FormikProps<FormData>
+type MyFormikType = FormikProps<IVacancyFormData>
 
 interface Props {
   formik: MyFormikType
@@ -31,16 +32,15 @@ export default function ApplicationForm(props: Props) {
           <InputField
             placeholder='Name'
             name='contact'
-            label={props.formik.values.contact ? 'Name' : ''}
-            labelType='in'
+            label={'Name'}
             validate={Validator.required}
           /> : <></>}
       </Card>
       <Card title='Hiring Stages'>
-        <FieldArray name={'stages'}>
+        <FieldArray name={'hiringStagesDescriptions'}>
           {(arrayHelpers: FieldArrayRenderProps) => (
             <div className={styles.fields}>
-              {(props.formik.values.stages ?? []).map((i, index) => <div className={styles.field} key={index}>
+              {(props.formik.values.hiringStagesDescriptions ?? []).map((i, index) => <div className={styles.field} key={index}>
                 <div className={styles.label}>
                   <div className={styles.text}>Stage {index + 1}</div>
                   {index > 0 && <CloseSvg className={styles.remove}
@@ -50,29 +50,29 @@ export default function ApplicationForm(props: Props) {
                   <InputField
                     className={styles.input}
                     key={index}
-                    placeholder='Title'
-                    label={props.formik.values.stages[index].title ? 'Title' : ''}
-                    labelType='in'
-                    name={`stages[${index}].title`}
+                    label={'Title'}
+                    name={`hiringStagesDescriptions[${index}].title`}
                   />
                   <InputField
                     className={styles.input}
                     key={index}
-                    placeholder='Description'
-                    label={props.formik.values.stages[index].desc ? 'Description' : ''}
-                    labelType='in'
-                    name={`stages[${index}].desc`}
+                    label={'Description'}
+                    name={`hiringStagesDescriptions[${index}].description`}
                   />
                 </div>
               </div>
               )}
-              <div className={styles.add} onClick={() => arrayHelpers.push({ tilte: '', desc: '' })}>
+              <div className={styles.add} onClick={() => arrayHelpers.push({ title: '', description: '' })}>
                 <AddSvg color={colors.green} />
                 <div className={styles.desc}>Add Stage</div>
               </div>
             </div>
           )}
         </FieldArray>
+
+      </Card>
+      <Card title='Keywords'>
+        <KeywordField name={'keywords'}/>
       </Card>
     </div>
   )

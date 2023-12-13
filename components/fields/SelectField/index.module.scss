@@ -1,3 +1,7 @@
 @import "styles/index";
 
-.root {}
+.root {
+  &.fluid {
+    width: 100%;
+  }
+}

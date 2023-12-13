@@ -1,0 +1,17 @@
+@import "styles/index";
+
+.root {
+
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+  height: calc(100vh - 150px);
+}
+.card{
+  flex: 1;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+}

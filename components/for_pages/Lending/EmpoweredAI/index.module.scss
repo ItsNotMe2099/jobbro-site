@@ -1,0 +1,165 @@
+@import "styles/index";
+
+.root {
+  margin: 40px 0;
+
+  @include mq($PhoneWidth, max) {
+    margin-top: 91px;
+    margin-bottom: 80px;
+  }
+}
+
+.wrapper {
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 40px;
+  background: linear-gradient(0deg, #08A357 0%, #08A357 100%), #D9D9D9;
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    width: 100%;
+    padding: 24px 0;
+  }
+}
+
+.container {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    @include list(16px, false);
+  }
+}
+
+.recruitment {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $white;
+  font-family: 'Work Sans';
+
+  @include mq($PhoneWidth, max) {
+    text-align: center;
+    font-size: 24px;
+  }
+}
+
+.everything {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  color: $white;
+  font-family: 'Work Sans';
+
+  @include mq($PhoneWidth, max) {
+    text-align: center;
+    font-size: 14px;
+  }
+}
+
+.line {
+  margin-top: 8px;
+  height: 1px;
+  background-color: $white;
+
+  @include mq($PhoneWidth, max) {
+    display: none;
+  }
+}
+
+.middle {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+
+  @include mq($PhoneWidth, max) {
+    flex-wrap: wrap;
+    margin-top: 24px;
+
+    div:nth-child(1) {
+      margin-bottom: 24px;
+    }
+
+    div:nth-child(2) {
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.icon {
+  height: 104px;
+}
+
+.bottom {
+  border-radius: 24px;
+  border: 1px solid #52BE89;
+  margin-top: 40px;
+
+  @include mq($PhoneWidth, max) {
+    margin-top: 24px
+  }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  width: 887px;
+  align-items: center;
+  justify-content: space-between;
+
+  @include mq(1070px, max) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.percent {
+  font-size: 197px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: $white;
+  font-family: 'Work Sans';
+
+  span {
+    font-size: 89px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: 'Work Sans';
+
+    @include mq($PhoneWidth, max) {
+      font-size: 34px;
+    }
+  }
+
+  @include mq($PhoneWidth, max) {
+    font-size: 63px;
+  }
+}
+
+.hr {
+  font-size: 57px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 65px;
+  color: $white;
+  font-family: 'Work Sans';
+
+  @include mq($PhoneWidth, max) {
+    font-size: 25px;
+    line-height: 60px;
+  }
+}

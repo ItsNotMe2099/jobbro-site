@@ -2,17 +2,24 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import Validator from '@/utils/validator'
-import CloseBigSvg from '@/components/svg/CloseBigSvg'
-import { colors } from '@/styles/variables'
 import { FormikProps } from 'formik'
 import SelectField from '@/components/fields/SelectField'
-import { FormData } from '../..'
+import { IVacancyFormData} from '../..'
 import RichTextField from '@/components/fields/RichTextField'
-import Switch from '@/components/ui/Switch'
-import { useState } from 'react'
+import Dictionary from '@/utils/Dictionary'
+import {SalaryType} from '@/data/enum/SalaryType'
+import {Experience} from '@/data/enum/Experience'
+import {Workplace} from '@/data/enum/Workplace'
+import {Employment} from '@/data/enum/Employment'
+import OfficeField from '@/components/fields/OfficeField'
+import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
+import SwitchField from '@/components/fields/SwitchField'
+import CurrencyField from '@/components/fields/CurrencyField'
+import SkillField from '@/components/fields/SkillField'
+import BenefitField from '@/components/fields/BenefitField'
 
 // Define a type for the Formik instance
-type MyFormikType = FormikProps<FormData>
+type MyFormikType = FormikProps<IVacancyFormData>
 
 interface Props {
   formik: MyFormikType
@@ -20,63 +27,64 @@ interface Props {
 
 export default function JobAdDetailsForm(props: Props) {
 
-  const [intro, setIntro] = useState<boolean>(false)
-  const [benefits, setBenefits] = useState<boolean>(false)
-
   return (
     <div className={styles.root}>
       <Card title='Header'>
-        <InputField placeholder='Title' name='title' label={props.formik.values.title ? 'Title' : ''}
-          labelType='in'
+        <InputField name='name' label={'Title'}
           validate={Validator.required}
-          suffix={props.formik.values.title ?
-            <CloseBigSvg className={styles.clear}
-              onClick={() => props.formik.setFieldValue('title', '')} color={colors.textSecondary} /> : undefined}
         />
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>Intro</div>
-        <Switch checked={intro} onChange={() => setIntro(!intro)} />
+        <SwitchField name={'intro.visible'} />
       </div>}>
-        {intro ? <RichTextField name='intro' /> : <></>}
+        <>
+        {props.formik.values.intro?.visible && <RichTextField name='intro.description' />}
+        </>
       </Card>
       <Card title='Details'>
         <div className={styles.wrapper}>
           <div className={styles.line}>
-            <SelectField label='Category' className={styles.select} name='category' options={[]} />
-            <SelectField label='Sub-category' className={styles.select} name='subCategory' options={[]} />
+            <ServiceCategoryField placeholder='Category' className={styles.select} name='categoryId'  />
+            <ServiceCategoryField placeholder='Sub-category' categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
           </div>
           <div className={styles.line}>
-            <SelectField label='Employment Type' className={styles.select} name='empType' options={[]} />
-            <SelectField label='Workplace' className={styles.select} name='workplace' options={[]} />
+            <SelectField<Employment> placeholder='Employment Type' className={styles.select} name='employment' options={Dictionary.getEmploymentOptions()} />
+            <SelectField<Workplace> placeholder='Workplace' className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions()} />
           </div>
-          <SelectField label='Office' className={styles.select} name='office' options={[]} />
+          <OfficeField placeholder='Office' className={styles.select} name='office'  />
         </div>
       </Card>
       <Card title='Requirements'>
         <RichTextField name='requirements' />
       </Card>
       <Card title='Experience'>
-        <SelectField className={styles.select} placeholder='Select seniority level' name='experience' options={[]} />
+        <SelectField<Experience> className={styles.select} placeholder='Select seniority level' name='experience' options={Dictionary.getExperienceOptions()} />
+      </Card>
+      <Card title='Skills'>
+        <SkillField className={styles.select} placeholder='Search skills' name='skills' />
       </Card>
       <Card title='Tasks'>
         <RichTextField name='tasks' />
       </Card>
       <Card title='Salary'>
         <div className={styles.line}>
-          <SelectField className={styles.select} placeholder='EUR' name='salary' options={[]} />
+          <CurrencyField className={styles.select}  name='currency'  />
           <InputField className={styles.select} format={'number'} placeholder='Salary maximum' name='salaryMax' label={props.formik.values.salaryMax ? 'Salary maximum' : ''}
-            labelType='in' />
+             />
           <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin' label={props.formik.values.salaryMin ? 'Salary minimum' : ''}
-            labelType='in' />
-          <SelectField className={styles.select} placeholder='Per Year' name='salaryPerYear' options={[]} />
+             />
+          <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryType' options={Dictionary.getSalaryTypeOptions()} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>Benefits</div>
-        <Switch checked={benefits} onChange={() => setBenefits(!benefits)} />
+        <SwitchField name={'benefitsDescription.visible'} />
       </div>}>
-        {benefits ? <RichTextField name='benefits' /> : <></>}
+        {props.formik.values.benefitsDescription?.visible ? <RichTextField name='benefitsDescription.description' /> : <></>}
+      </Card>
+      <Card title='Tags Benefits'>
+        <BenefitField className={styles.select} placeholder='Search benefits' name='benefits' />
       </Card>
     </div>
   )

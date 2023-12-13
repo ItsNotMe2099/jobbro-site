@@ -1,0 +1,38 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+  padding: 8px 24px;
+  color: $text-primary;
+  &:hover{
+    background-color: $grey;
+  }
+}
+
+
+.name {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.16px;
+}
+
+.message {
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  @include maxLines(2);
+}
+
+.messenger {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+

@@ -1,0 +1,10 @@
+@import "styles/index";
+
+.root{
+
+  &.withSlider{
+    padding-bottom: 0px;
+  }
+  @include htmlText;
+}
+

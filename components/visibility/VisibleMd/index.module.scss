@@ -1,0 +1,9 @@
+@import "styles/index";
+
+.root{
+  display: none;
+  @media (min-width: $md-min) and (max-width: $md-max) {
+    display: block;
+  }
+}
+

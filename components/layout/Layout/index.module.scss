@@ -1,0 +1,19 @@
+@import "../../../styles/index";
+
+.root {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.headerWrapper {
+  position: relative;
+  z-index: 10;
+}
+.container {
+  margin: 0 32px;
+  margin-top: 32px;
+  margin-bottom: 35px;
+  position: relative;
+}

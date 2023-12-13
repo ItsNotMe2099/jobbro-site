@@ -1,0 +1,43 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 8px 24px;
+  color: $text-primary;
+  &:hover{
+    background: $green;
+    color: $white;
+    .name{
+      color: $white;
+    }
+  }
+}
+
+
+.name {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.16px;
+}
+
+.message {
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+  @include maxLines(2);
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+}
+
+.messenger {
+  font-weight: 600;
+}
+
+

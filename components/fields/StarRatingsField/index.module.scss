@@ -1,0 +1,11 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(12px, false);
+}
+
+.label {
+  @include btnText;
+}

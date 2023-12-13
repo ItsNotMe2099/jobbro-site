@@ -1,0 +1,144 @@
+@import "styles/index";
+
+.root {
+  padding-top: 140px;
+  padding-bottom: 152px;
+  width: 1162px;
+
+  @include mq(1250px, max) {
+    width: 100%;
+  }
+
+  @include mq($PhoneWidth + 1, max) {
+    padding-bottom: 60px;
+  }
+}
+
+.container {
+  display: flex;
+  position: relative;
+  @include container;
+  align-items: center;
+  padding: 0;
+  height: 902px;
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+
+  @include mq($PhoneWidth + 1, max) {
+    height: auto;
+  }
+}
+
+.img {
+  position: relative !important;
+  width: auto !important;
+  height: auto !important;
+
+  @include mq($PhoneWidth, max) {
+    width: 184px !important;
+    height: 203px !important;
+    align-self: flex-start;
+  }
+}
+
+.back {
+  position: absolute;
+
+  @include mq($PhoneWidth, max) {
+    top: -50px;
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  border-radius: 38px;
+  background: linear-gradient(0deg, #08A357 0%, #08A357 100%), #D9D9D9;
+  position: absolute;
+  width: 100%;
+  max-width: 870px;
+  right: 0;
+  bottom: 100px;
+
+  @include mq($TabletWidth, max) {
+    position: relative;
+  }
+
+  @include mq($PhoneWidth, max) {
+    bottom: 35px;
+  }
+}
+
+.top {
+  padding: 20px 0;
+  padding-left: 32px;
+}
+
+.ellipsis {
+  display: flex;
+  @include list(13px, true);
+
+}
+
+.bottom {
+  display: flex;
+
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+
+  @include mq($PhoneWidth, max) {
+    .item:last-child {
+      border: 0;
+    }
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  @include list(8px, false);
+  padding: 32px 0;
+  align-items: center;
+  flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    border-bottom: 1px solid #20AC67;
+  }
+
+  @include mq($SmPhoneWidth + 1, max) {
+    padding: 24px 0;
+  }
+}
+
+.val {
+  color: $white;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 32px;
+  }
+}
+
+.desc {
+  color: $white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+
+  @include mq($PhoneWidth, max) {
+    font-size: 14px;
+  }
+}
+
+.separator {
+  height: 1px;
+  opacity: 0.3;
+  background: #FFF;
+}

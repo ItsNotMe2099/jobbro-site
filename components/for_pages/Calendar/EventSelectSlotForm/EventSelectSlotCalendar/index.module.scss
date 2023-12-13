@@ -1,0 +1,30 @@
+@import "styles/index";
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  @include list(24px);
+  max-width: 432px;
+}
+
+.hasSlots {
+  > abbr {
+    background: $background-success !important;
+    color: $green !important;
+  }
+}
+.hasSelectedSlot{
+  > abbr {
+    position: relative;
+    &:after{
+      content: '';
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      width: 12px;
+      height: 12px;
+      background-color: $green;
+      border-radius: 100%;
+    }
+  }
+}

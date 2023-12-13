@@ -1,0 +1,47 @@
+@import "styles/index";
+
+.root{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+
+}
+.close{
+  align-self: stretch;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.left{
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.right{
+  display: flex;
+  align-items: center;
+}
+
+.back{
+  display: flex;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.arrow{
+  display: flex;
+  margin-right: 17px;
+}
+
+
+.title {
+  @include h2;
+  line-height: 24px;
+  color: $text-primary;
+}
+

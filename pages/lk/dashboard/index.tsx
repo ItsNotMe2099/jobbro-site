@@ -1,15 +1,17 @@
-//import styles from './index.module.scss'
+import {getAuthServerSideProps} from '@/utils/auth'
+import {ProfileType} from '@/data/enum/ProfileType'
+import {Routes} from '@/types/routes'
 
-import LkLayout from "@/components/for_pages/Lk/components/layout";
-import Layout from "@/components/for_pages/layout/Layout";
 
+export default function DashboardPage() {
 
-export default function DashBoard() {
-  return (
-    <Layout>
-      <LkLayout>
-        
-      </LkLayout>
-    </Layout>
-  )
+  return null
 }
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, async (context) => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: Routes.lkDashboardMyBoard,
+    }
+  }
+})

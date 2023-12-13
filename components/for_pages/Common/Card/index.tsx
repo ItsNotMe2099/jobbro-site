@@ -3,18 +3,19 @@ import { ReactElement } from 'react'
 import classNames from 'classnames'
 
 interface Props {
-  title: string | ReactElement
-  children: ReactElement | ReactElement[]
-  className?: string
+  title?: string | ReactElement
+  children: ReactElement | ReactElement[] | boolean
+  className?: string | undefined
+  ref?: (element: HTMLElement | null) => void
 }
 
 export default function Card(props: Props) {
 
   return (
-    <div className={classNames(styles.root, props.className)}>
-      <div className={styles.title}>
+    <div ref={props.ref} className={classNames(styles.root, props.className)}>
+      {props.title && <div className={styles.title}>
         {props.title}
-      </div>
+      </div>}
       {props.children}
     </div>
   )

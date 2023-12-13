@@ -1,8 +1,7 @@
 import { Editor } from '@tiptap/react'
 import Icon from '@mdi/react'
 import {
-  mdiFormatBold, mdiFormatItalic,
-  mdiFormatListBulleted, mdiFormatListNumbered, mdiUndo, mdiRedo
+  mdiFormatListBulleted
 } from '@mdi/js'
 import { colors } from 'styles/variables'
 import { ReactElement } from 'react'

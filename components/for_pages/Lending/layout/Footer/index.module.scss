@@ -1,0 +1,125 @@
+@import "styles/index";
+
+.root {
+  background-color: $footer-lending;
+}
+
+.container {
+  @include container;
+  padding: 0;
+  padding-top: 79px;
+  padding-bottom: 73px;
+  display: flex;
+  justify-content: space-between;
+
+  @include mq(1320px, max) {
+    max-width: 100%;
+    padding: 0 60px;
+    padding-top: 79px;
+    padding-bottom: 73px;
+  }
+
+  @include mq($TabletWidth, max) {
+    padding: 63px 10px 128px 10px;
+    flex-direction: column;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  @include logo;
+  color: $white;
+}
+
+.info {
+  display: flex;
+  margin-top: 32px;
+  flex-direction: column;
+  @include list(24px, false);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  @include list(8px, false);
+}
+
+.title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  color: rgba(255, 255, 255, 0.90);
+}
+
+.text {
+  color: rgba(255, 255, 255, 0.90);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  opacity: 0.6;
+}
+
+.socials {
+  display: flex;
+  @include list(16px, true);
+  margin-top: 32px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  min-width: 460px;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    margin-top: 40px;
+    @include list(24px, false);
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+
+.label {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  color: rgba(255, 255, 255, 0.90);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+
+  .label {
+    color: rgba(255, 255, 255, 0.90);
+    opacity: 0.6;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-decoration-line: underline;
+  }
+
+  @include mq($PhoneWidth, max) {
+    flex-direction: column;
+    margin-top: 40px;
+    @include list(28px, false);
+  }
+}
