@@ -2,6 +2,8 @@
 
 .root {
   background-color: $footer-lending;
+  position: relative;
+  z-index: 1;
 }
 
 .container {

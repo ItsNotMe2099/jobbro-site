@@ -24,6 +24,7 @@ const LkCompanyPageLayoutInner = (props: Props) => {
   const companyOwnerContext = useCompanyOwnerContext()
   const options: IOption<TabKey>[] = [
     {label: 'Details', value: TabKey.Details, href: Routes.lkCompanyDetails},
+    {label: 'Offices', value: TabKey.Offices, href: Routes.lkCompanyOffices},
     ...(companyOwnerContext.company ? [
       {label: 'Career page', value: TabKey.Career, href: Routes.lkCompanyCareer},
       {label: 'Offices', value: TabKey.Offices, href: Routes.lkCompanyOffices},

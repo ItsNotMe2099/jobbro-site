@@ -1,0 +1,32 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  align-items: center;
+  @include list(32px, true);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  @include list(20px, false);
+}
+
+.title {
+  font-family: 'Inter';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  color: $text-primary;
+}
+
+.text {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: -0.16px;
+  color: $text-primary;
+}
