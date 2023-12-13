@@ -41,7 +41,7 @@ export default function LoginForm(props: Props) {
         if (redirect) {
           router.replace(redirect)
         } else {
-          router.replace(Routes.index)
+          router.replace(Routes.lk)
         }
       } else {
         appContext.showSnackbar('Token error', SnackbarType.error)

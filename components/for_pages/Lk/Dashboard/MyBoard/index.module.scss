@@ -1,0 +1,49 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.top {
+    display: flex;
+    @include list(32px, true);
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.leftSide {
+    @include list(16px, true);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+}
+
+.stats {
+    @include list(12px, false);
+}
