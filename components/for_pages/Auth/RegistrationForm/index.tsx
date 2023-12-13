@@ -40,7 +40,7 @@ export default function RegistrationForm(props: Props) {
         if (redirect) {
           router.replace(redirect)
         } else {
-          router.replace(Routes.index)
+          router.replace(Routes.lk)
         }
       } else {
         appContext.showSnackbar('Token error', SnackbarType.error)
@@ -75,7 +75,7 @@ export default function RegistrationForm(props: Props) {
         <InputField label='First Name' name='firstName'
 
           validate={Validator.combine([Validator.requiredName])} />
-        <InputField label='Email' name='email' 
+        <InputField label='Email' name='email'
 
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField

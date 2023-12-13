@@ -1,19 +1,19 @@
-import AddOfficeSvg from '@/components/svg/AddOfficeSvg'
 import styles from './index.module.scss'
 import Button from '@/components/ui/Button'
-import {Routes} from '@/types/routes'
+import { Routes } from '@/types/routes'
 import OfficeCard from 'components/for_pages/Lk/YourCompany/Offices/OfficeCard'
 import classNames from 'classnames'
-import {OfficeListOwnerWrapper, useOfficeListOwnerContext} from '@/context/office_owner_list_state'
-import {getAuthServerSideProps} from '@/utils/auth'
-import {ProfileType} from '@/data/enum/ProfileType'
-import {LkCompanyPageLayout} from '@/components/for_pages/Lk/YourCompany/LkCompanyLayout'
-import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import { OfficeListOwnerWrapper, useOfficeListOwnerContext } from '@/context/office_owner_list_state'
+import { getAuthServerSideProps } from '@/utils/auth'
+import { ProfileType } from '@/data/enum/ProfileType'
+import { LkCompanyPageLayout } from '@/components/for_pages/Lk/YourCompany/LkCompanyLayout'
+import { useEffectOnce } from '@/components/hooks/useEffectOnce'
 import ContentLoader from '@/components/ui/ContentLoader'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
-import {useRef} from 'react'
-import {Nullable} from '@/types/types'
-import {useRouter} from 'next/router'
+import { useRef } from 'react'
+import { Nullable } from '@/types/types'
+import { useRouter } from 'next/router'
+import NoData from '@/components/for_pages/Common/NoData'
 
 
 interface Props {
@@ -29,32 +29,24 @@ const LkCompanyOfficesPageInner = (props: Props) => {
     officeListOwnerContext.reFetch()
   })
   return (
-    <div ref={ref} className={classNames(styles.root, {[styles.cards]: officeListOwnerContext.data.total > 0})}>
-      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total === 0 && <div className={styles.add}>
-        <AddOfficeSvg/>
-        <div className={styles.right}>
-          <div className={styles.title}>
-            Failed find any office
-          </div>
-          <div className={styles.desc}>
-            Every job for publication requires at least the one office<br/> to be added on Jobbro. You can add
-            more details so that<br/> candidates find your jobs more easily. Contact us if you<br/>
-            have issues creating an office.
-          </div>
-          <Button href={Routes.lkCompanyOfficeCreate} className={styles.btn} styleType='large' color='green'>
+    <div ref={ref} className={classNames(styles.root, { [styles.cards]: officeListOwnerContext.data.total > 0 })}>
+      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total === 0 &&
+        <NoData title='Failed find any office' text={<>Every job for publication requires at least the one office<br /> to be added on Jobbro. You can add
+          more details so that<br /> candidates find your jobs more easily. Contact us if you<br />
+          have issues creating an office.</>}
+          btn={<Button href={Routes.lkCompanyOfficeCreate} className={styles.btn} styleType='large' color='green'>
             Add office
-          </Button>
-        </div>
-      </div>}
+          </Button>} />
+      }
       {!officeListOwnerContext.isLoaded && officeListOwnerContext.isLoading &&
-        <ContentLoader style={'page'} isOpen={true}/>}
+        <ContentLoader style={'page'} isOpen={true} />}
       {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 && <div className={styles.offices}>
         {officeListOwnerContext.data.data.map((i, index) =>
-          <OfficeCard className={styles.office} key={index} office={i}/>
+          <OfficeCard className={styles.office} key={index} office={i} />
         )}
       </div>}
       <StickyFab boundaryElement={styles.root} containerRef={ref}
-                 onClick={() => router.push(Routes.lkCompanyOfficeCreate)}/>
+        onClick={() => router.push(Routes.lkCompanyOfficeCreate)} />
     </div>
   )
 }
@@ -62,7 +54,7 @@ const LkCompanyOfficesPageInner = (props: Props) => {
 
 const LKCompanyOfficesPage = (props: Props) => {
   return <OfficeListOwnerWrapper>
-    <LkCompanyOfficesPageInner {...props}/>
+    <LkCompanyOfficesPageInner {...props} />
   </OfficeListOwnerWrapper>
 }
 
