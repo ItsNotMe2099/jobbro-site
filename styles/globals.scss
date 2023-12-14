@@ -92,3 +92,9 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
   background: none;
 }
+
+.customToast {
+  border-radius: 24px !important;
+  padding: 24px !important;
+  align-items: flex-start !important;
+}

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from 'components/layout/Header/index.module.scss'
+import styles from './index.module.scss'
 import ChatSvg from '@/components/svg/ChatSvg'
 import {colors} from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'
@@ -14,6 +14,8 @@ import {useNotificationContext} from '@/context/notifications_state'
 import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
 import classNames from 'classnames'
+import { useEffect, useState } from 'react'
+import showToast from '@/utils/showToast'
 
 enum MenuProfileKey {
   UserProfile = 'profile',
@@ -23,10 +25,19 @@ interface Props {
   distanceFromTop: number
 }
 
+
+
 export default function Header(props: Props) {
   const appContext = useAppContext()
   const router = useRouter()
   const notificationContext = useNotificationContext()
+  const [fromTop, setFromTop] = useState<number>(0)
+
+
+
+
+
+
 
   const menu = appContext.aboutMe?.profileType === ProfileType.Hirer ? [
     { label: 'Products', link: '#' },
@@ -40,6 +51,23 @@ export default function Header(props: Props) {
     const accountOptions = [
 
     ]
+
+  useEffect(()=>{
+    // if(!isTabletWidth) {
+      if(props.distanceFromTop > fromTop && props.distanceFromTop <= -40) {
+        appContext.setDirection('up')
+        setFromTop(props.distanceFromTop)
+      }
+      else if(props.distanceFromTop < fromTop && props.distanceFromTop <= -40) {
+        appContext.setDirection('down')
+        // !isTabletWidth && setDropDownOpen(false)
+        setFromTop(props.distanceFromTop)
+      }
+      else {
+        appContext.setDirection('up')
+      }
+    // }
+  }, [props.distanceFromTop])
 
   const handleClickProfileItem = (value: MenuProfileKey) => {
     switch (value){
@@ -55,8 +83,8 @@ export default function Header(props: Props) {
     }
   }
   return (
-    <div className={classNames(styles.root)}>
-      <div className={styles.logo}>
+    <div className={classNames(styles.root, styles[appContext.headerDirection])}>
+      <div className={styles.logo} onClick={()=> showToast({text: 'Notification'})}>
         Jobbro
       </div>
       <div className={styles.menu}>
@@ -75,7 +103,13 @@ export default function Header(props: Props) {
           NotificationType.userUnBlocked,
           NotificationType.cvRejected,
           NotificationType.vacancyRejected])} icon={<BellSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuNotification isOpen={isOpen}/>}/>
-        <HeaderButton<MenuProfileKey> onClickItem={handleClickProfileItem} icon={<AccSvg color={colors.white} />} groups={[{options: [ {label: 'User profile', value: MenuProfileKey.UserProfile}], }, {options: [ {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]} options={[
+        <HeaderButton<MenuProfileKey> 
+        onClickItem={handleClickProfileItem} 
+        icon={<AccSvg color={colors.white} />} 
+        groups={[
+          {options: [{label: 'User profile', value: MenuProfileKey.UserProfile}], }, 
+          {options: [{label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]} 
+        options={[
           {label: 'User profile', value: MenuProfileKey.UserProfile},
           {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed},
         ]}/>

@@ -8,10 +8,10 @@
   background-color: $green;
   align-items: center;
   justify-content: space-between;
-  transform: translateY(0);
+  transform: translate3d(0px 0px 0px);
   transition: .7s ease-in-out;
   z-index: $zIndexHeader;
-
+  will-change: transform;
 }
 
 
@@ -40,4 +40,8 @@
 }
 .dropDownChats{
   width: 404px;
+}
+
+.down {
+  transform: translate3d(0px, -100%, 0px)
 }

@@ -11,6 +11,7 @@ import DashboardChartBars from '@/components/for_pages/Lk/Dashboard/LkDashboardL
 import DashboardChartLine from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/DashboardChartLine'
 import DashBoardManagerCard from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/DashBoardManagerCard'
 import {CardViewType} from '@/types/enums'
+import CardsLayout from '@/components/ui/CardsLayout'
 
 interface Props {
 
@@ -51,9 +52,12 @@ const LkDashboardTeamBoard = (props: Props) => {
           <DashboardChartBars className={styles.chart} label={'Turnover During Probationary'}  value={75}  color={'#FF385D'}/>
         </ChipList>
       </Card>}
-      <div className={styles.cards}>
+      {/* <div className={styles.cards}>
         {managers.map((i) => <DashBoardManagerCard key={i.id} manager={i} view={CardViewType.Card} />)}
-      </div>
+      </div> */}
+      <CardsLayout type='cards'>
+        {managers.map((i) => <DashBoardManagerCard key={i.id} manager={i} view={CardViewType.Card} />)}
+      </CardsLayout>
 
     </div>
   )

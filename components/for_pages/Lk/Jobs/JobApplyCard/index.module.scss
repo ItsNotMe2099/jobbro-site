@@ -6,7 +6,7 @@
     background-color: $white;
     display: flex;
     flex-direction: column;
-    width: calc(28% - 32px);
+    // width: calc(28% - 32px);
     position: relative;
 }
 
@@ -143,6 +143,7 @@
 
 .cvEvaluation {
     display: flex;
+    align-items: flex-start;
     @include list(8px, true);
     padding: 16px;
 

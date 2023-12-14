@@ -19,3 +19,12 @@
   }
 }
 
+.transitioned {
+  transition: .7s ease-in-out;
+  top: 0;
+  position: fixed;
+  top: 120px;
+  display: 'flex',
+
+}
+

@@ -6,7 +6,6 @@ import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef, useState} from 'react'
 import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
-import classNames from 'classnames'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
 import {Nullable} from '@/types/types'
 import Fab from '@/components/for_pages/Common/Fab'
@@ -24,6 +23,7 @@ import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButt
 import {useAppContext} from '@/context/state'
 import {JobFilterSidePanelArguments} from '@/types/side_panel_arguments'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
+import CardsLayout from '@/components/ui/CardsLayout'
 
 
 const JobsPageInner = () => {
@@ -52,7 +52,7 @@ const JobsPageInner = () => {
           } as JobFilterSidePanelArguments)}>Filter</FilterButton>
         ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
-        <div className={styles.wrapper}>
+        {/* <div className={styles.wrapper}>
 
           <div className={classNames(styles.cards, {[styles.rows]: view === 'row'})}>
             {vacancyListContext.data.data.map((i, index) =>
@@ -61,7 +61,12 @@ const JobsPageInner = () => {
 
 
           </div>
-        </div>
+        </div> */}
+        <CardsLayout type={view==='row' ? 'list' : 'cards'}>
+          {vacancyListContext.data.data.map(i =>
+            <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>
+          )}
+        </CardsLayout>
         <StickyFab boundaryElement={styles.container} containerRef={ref}>
           <div className={styles.plus}>
             {showMenu ? <MenuOptions className={styles.menu}/> : <></>}

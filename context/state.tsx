@@ -1,6 +1,6 @@
 import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
 import {RequestError, SnackbarData} from '@/types/types'
-import {createContext, useContext, useEffect, useState} from 'react'
+import {Dispatch, SetStateAction, createContext, useContext, useEffect, useState} from 'react'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import {Subject} from 'rxjs'
 import AuthRepository from '@/data/repositories/AuthRepository'
@@ -51,6 +51,10 @@ interface IState {
   isOverlayShown?: boolean
   showOverlay: () => void
   hideOverlay: () => void
+
+  headerDirection: 'up'|'down'
+  setDirection: Dispatch<SetStateAction<'up' | 'down'>>
+
 
 
   vacancyCreateState$: Subject<IVacancy>,
@@ -159,6 +163,9 @@ const defaultValue: IState = {
   showOverlay: () => null,
   hideOverlay: () => null,
 
+  headerDirection: 'up',
+  setDirection: () => null,
+
 
   vacancyCreateState$,
   vacancyUpdateState$,
@@ -192,6 +199,7 @@ const defaultValue: IState = {
 
   eventCreateState$,
   eventUpdateState$,
+
 }
 
 const ModalsBottomSheet: ModalType[] = [
@@ -223,6 +231,8 @@ export function AppWrapper(props: Props) {
   const [isOverlayShown, setIsOverlayShown] = useState<boolean>(false)
   const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
   const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
+  const [headerDirection, setDirection] = useState<'up'|'down'>('up')
+
   const showSnackbar = (text: string, type: SnackbarType) => {
 
     setSnackbar({text, type})
@@ -355,6 +365,8 @@ export function AppWrapper(props: Props) {
     hidePanel,
     isFilesUploading,
     isOverlayShown,
+    headerDirection,
+    setDirection,
     showOverlay: () => {
       setIsOverlayShown(true)
     },
