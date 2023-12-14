@@ -13,8 +13,8 @@ import {ICompany} from '@/data/interfaces/ICompany'
 import {omit} from '@/utils/omit'
 import IFile from '@/data/interfaces/IFile'
 import {useRef} from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import FileListField from '@/components/fields/Files/FileListField'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 
 
 interface IFormData {
@@ -100,7 +100,7 @@ export default function CompanyCareerForm(props: Props) {
             </div>
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}/>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} loading={companyOwnerContext.editLoading}/>
       </Form>
     </FormikProvider>
   )
