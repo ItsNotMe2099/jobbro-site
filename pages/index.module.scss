@@ -6,27 +6,13 @@
     border-radius: 40px;
     background: #1E201D;
     padding: 80px 0;
+    padding-bottom: 0;
 
     @include mq($SmPhoneWidth + 1, max) {
         padding: 40px 16px;
-        padding-bottom: 15px;
+        padding-bottom: 0;
         border-radius: 32px;
-        margin-top: 130px;
-        padding-bottom: 50px;
-    }
-}
-
-.creation {
-
-    @include mq($PhoneWidth, max) {
-        width: 100% !important;
-        top: -50% !important;
-    }
-
-    @include mq($SmPhoneWidth + 1, max) {
-        margin-top: 0 !important;
-        width: 150% !important;
-        left: -25% !important;
+        margin-top: 80px;
     }
 }
 
@@ -35,30 +21,21 @@
 }
 
 .base {
-    
+    margin-bottom: 0;
 }
 
-.baseImg {
-
+.clear {
+    margin-top: -270px !important;
 
     @include mq($DesktopWidth + 1, max) {
-        top: -35% !important;
+        margin-top: -220px !important;
     }
 
-    @include mq($SmDesktopWidth, max) {
-        top: -20% !important;
+    @include mq($SmDesktopWidth + 1, max) {
+        margin-top: -170px !important;
     }
 
-    @include mq($SmPhoneWidth + 1, max) {
-        top: -64% !important;
-        width: 150% !important;
-        left: -25% !important;
-    }
-}
-
-.tryImg {
-    @include mq($SmPhoneWidth + 1, max) {
-        width: 130% !important;
-        left: -15% !important;
+    @include mq(830px, max) {
+        margin-top: 0 !important;
     }
 }

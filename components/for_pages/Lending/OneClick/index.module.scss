@@ -1,6 +1,14 @@
 @import "styles/index";
 
-.root {}
+.root {
+  @include mq($SmDesktopWidth + 1, max) {
+    margin-bottom: 80px;
+  }
+
+  @include mq($PhoneWidth + 1, max) {
+    margin-bottom: 0;
+  }
+}
 
 .container {
   display: flex;
@@ -51,6 +59,10 @@
 
 .svg {
   flex: 1;
+
+  @include mq($SmDesktopWidth + 1, max) {
+    height: 230px;
+  }
 
   @include mq($PhoneWidth, max) {
     width: 230%;

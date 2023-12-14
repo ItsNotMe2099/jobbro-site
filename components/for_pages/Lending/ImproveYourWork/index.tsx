@@ -1,6 +1,7 @@
 import Light2Svg from '@/components/svg/Light2Svg'
 import styles from './index.module.scss'
 import { useResize } from '@/components/hooks/useResize'
+import TryDemoBtnSvg from '@/components/svg/TryDemoBtnSvg'
 
 interface Props {
 
@@ -19,7 +20,7 @@ export default function ImproveYourWork(props: Props) {
         Sign up and get a free demo.
       </div>
       <div className={styles.bottom}>
-        <Light2Svg className={styles.button} />
+        {!isPhoneWidth ? <Light2Svg className={styles.button} /> : <TryDemoBtnSvg className={styles.button} />}
       </div>
     </div>
   )

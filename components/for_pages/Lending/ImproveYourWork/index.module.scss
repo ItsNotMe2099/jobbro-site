@@ -7,6 +7,11 @@
   margin-top: 80px;
   text-align: center;
   margin-bottom: 50px;
+
+  @include mq($PhoneWidth + 1, max) {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
 }
 
 .title {
@@ -36,14 +41,16 @@
 
 .bottom {
   position: relative;
-  margin-top: 35px;
-  height: 456px;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  height: 164px;
   width: 100%;
   display: flex;
   align-items: center;
 
   @include mq($PhoneWidth + 1, max) {
     height: 80px;
+    margin-bottom: 100px;
   }
 
   svg {
