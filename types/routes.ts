@@ -50,6 +50,10 @@ export class Routes {
     return '/lk/dashboard/my-board'
   }
 
+  static get lkDashboardMyBoardHiringStages() {
+    return '/lk/dashboard/my-board/hiring-stages'
+  }
+
   static get lkDashboardTeam() {
     return '/lk/dashboard/team'
   }

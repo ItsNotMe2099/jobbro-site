@@ -17,7 +17,7 @@ export default class Validator {
   }
 
   static required(value: string | number): string | undefined {
-    return value || typeof value === 'number' ? undefined : 'Обязательное поле'
+    return value || typeof value === 'number' ? undefined : 'Required'
   }
 
   static requiredName(value: string | number): string | undefined {
@@ -34,7 +34,7 @@ export default class Validator {
 
   static email(value: string): string | undefined {
     return value && !Validator.emailRe.test(value)
-      ? 'Неверный формат'
+      ? 'Wrong format'
       : undefined
   }
 

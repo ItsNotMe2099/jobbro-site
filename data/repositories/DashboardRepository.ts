@@ -2,8 +2,10 @@ import request from 'utils/request'
 import {AxiosRequestConfig} from 'axios/index'
 import {
   IDashboardGraphics,
-  IDashboardGraphicsResponseRaw, IDashboardStatistic, IDashboardStatisticResponseRaw
+  IDashboardGraphicsResponseRaw, IDashBoardManager, IDashboardStatistic, IDashboardStatisticResponseRaw
 } from '@/data/interfaces/IDashboardResponse'
+import { IPaginationRequest} from '@/data/interfaces/IPaginationRequest'
+import {IVacancyHot, IVacancyWithHiringStagesForDashBoard} from '@/data/interfaces/IVacancy'
 
 export default class DashboardRepository {
   static async fetchStatistic(config?: AxiosRequestConfig): Promise<IDashboardStatistic> {
@@ -54,5 +56,33 @@ export default class DashboardRepository {
       jobsBeingProcessed:res.jobsBeingProcessed[0],
       averageMoveTime: res.averageMoveTime[0]
     }
+  }
+
+  static async fetchHiringStageConversion(data: IPaginationRequest, config?: AxiosRequestConfig): Promise<IVacancyWithHiringStagesForDashBoard[]> {
+    const res = await request<IVacancyWithHiringStagesForDashBoard[]>({
+      method: 'get',
+      url: '/api/dashboard/hiringStageConversion',
+      data,
+      config,
+    })
+    return res
+  }
+
+  static async fetchHotVacancies(config?: AxiosRequestConfig): Promise<IVacancyHot[]> {
+    const res = await request<IVacancyHot[]>({
+      method: 'get',
+      url: '/api/dashboard/hot',
+      config,
+    })
+    return res
+  }
+
+  static async fetchManagers(config?: AxiosRequestConfig): Promise<IDashBoardManager[]> {
+    const res = await request<IDashBoardManager[]>({
+      method: 'get',
+      url: '/api/dashboard/team/managers',
+      config,
+    })
+    return res
   }
 }

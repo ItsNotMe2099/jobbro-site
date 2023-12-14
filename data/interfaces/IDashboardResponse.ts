@@ -1,3 +1,5 @@
+import {HirerRole} from '@/data/enum/HirerRole'
+import IFile from '@/data/interfaces/IFile'
 
 export interface IDashboardStatisticResponseRaw{
   completedJobs: {completedJobs: number}[]
@@ -113,4 +115,18 @@ export interface IDashboardGraphics{
     average_move_time_in_week: number,
     average_move_time_in_prev_week: number
   }
+}
+
+export interface IDashBoardManager{
+  id: number,
+  firstName: string,
+  lastName: string,
+  hirerRole: HirerRole,
+  image: IFile,
+  average_response_time_in_week: number,
+  average_response_time_in_prev_week: number,
+  manager_vacancies_published_in_week: number,
+  manager_vacancies_published_in_prev_week: number,
+  average_move_time_in_week: number,
+  average_move_time_in_prev_week: number
 }

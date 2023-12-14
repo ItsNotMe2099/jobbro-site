@@ -1,0 +1,47 @@
+@import "styles/index";
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @include list(12px);
+}
+.wrapper{
+  position: relative;
+  width: 126px;
+  height: 126px;
+}
+
+.label{
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+}
+.value{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  font-weight: 600;
+  font-size: 24px;
+  &.vert{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &.hor{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @include list(4px, true);
+  }
+}
+.percentSuffix{
+  font-weight: 500;
+  font-size: 16px;
+}
+.minutesSuffix{
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+}

@@ -12,7 +12,6 @@
 }
 
 .left {
-    flex: 1;
     display: flex;
     flex-direction: column;
     @include list(32px, false);
@@ -47,11 +46,4 @@
 
 .stats {
     @include list(12px, false);
-}
-.chart{
-  float: left;
-  margin-top: 16px;
-  margin-right: 16px;
-  width: 148px;
-  padding: 0px 7px;
 }

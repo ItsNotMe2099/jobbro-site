@@ -1,0 +1,74 @@
+@import "styles/index";
+
+.root {
+  background-color: $white;
+    padding: 8px;
+  border-radius: 24px;
+    align-items: center;
+  &.card{
+    flex-direction: column !important;
+    @include list(8px);
+
+  }
+  &.row{
+    flex-direction: row !important;
+    @include list(24px, true);
+  }
+}
+.profile{
+
+  padding: 16px;
+  background-color: #F0F0F0;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: row;
+  @include list(16px, true);
+}
+.profileRight{
+  display: flex;
+  flex-direction: column;
+  @include list(4px);
+}
+.profileName{
+  font-size: 16px;
+  font-weight: 500;
+  color: $text-primary;
+}
+.profilePosition{
+  font-size: 14px;
+  font-weight: 400;
+  color: $text-secondary;
+}
+.stats{
+  display: flex;
+  flex-direction: column;
+
+  padding: 16px;
+  @include list(8px);
+}
+
+
+.statItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.2px;
+  @include list(8px, true);
+}
+
+.statItemLabel {
+  flex: 1;
+}
+.statItemRight {
+  display: flex;
+  align-items: center;
+  @include list(7px, true);
+}
+.statItemIconReverted {
+  transform: rotate(180deg);
+}

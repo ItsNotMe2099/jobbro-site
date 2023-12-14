@@ -72,8 +72,7 @@ export default function LoginForm(props: Props) {
         <div className={styles.title}>
           Login to the Jobbro
         </div>
-        <InputField name='email' label={formik.values.email ? 'Email' : ''}
-
+        <InputField name='email' label={'Email'}
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
           label='Password'

@@ -1,0 +1,83 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.percent {
+    display: flex;
+    @include list(4px, true);
+    align-items: flex-end;
+    margin-top: 16px;
+}
+
+.number {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    color: $text-primary;
+    letter-spacing: -0.24px;
+}
+
+.sign {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    color: $text-primary;
+    letter-spacing: -0.12px;
+}
+
+.label {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    color: $text-primary;
+    letter-spacing: -0.16px;
+    margin-top: 12px;
+}
+
+.separator {
+    height: 1px;
+    background-color: #EBEBEB;
+    margin: 8px 0;
+}
+
+.bottom {
+    display: flex;
+    @include list(12px, true);
+
+    .total {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        color: $text-primary;
+        letter-spacing: -0.14px;
+    }
+
+    .percent {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%;
+        color: $green;
+        letter-spacing: -0.14px;
+    }
+}
+
+.wrapper {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.rect {
+    background: linear-gradient(#24B563, #DBF9DD);
+    border-radius: 8px;
+    width: 100%;
+}

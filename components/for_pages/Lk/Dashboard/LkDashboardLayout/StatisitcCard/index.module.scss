@@ -34,6 +34,7 @@
 
 .right {
     display: flex;
+    align-items: center;
     @include list(7px, true);
 }
 

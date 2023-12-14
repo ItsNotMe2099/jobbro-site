@@ -8,7 +8,7 @@ import {Workplace} from '@/data/enum/Workplace'
 import {Employment} from '@/data/enum/Employment'
 import {IOffice} from '@/data/interfaces/IOffice'
 import IFile from '@/data/interfaces/IFile'
-import IHiringStage from '@/data/interfaces/IHiringStage'
+import IHiringStage, {IHiringStageForDashBoard} from '@/data/interfaces/IHiringStage'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {ICompany} from '@/data/interfaces/ICompany'
@@ -96,4 +96,11 @@ export interface IVacancyWithApply extends IVacancy{
 export interface IVacancyWithHiringStages extends IVacancy{
   hiringStages: IHiringStageWithApply[]
   conversionRate: number
+}
+export interface IVacancyWithHiringStagesForDashBoard extends IVacancy{
+  hiringStages: IHiringStageForDashBoard[]
+  conversionRate: number
+}
+export interface IVacancyHot extends IVacancy{
+  applications_count: number
 }

@@ -14,3 +14,8 @@ export interface  IHiringStageWithApply  extends IHiringStage{
   stageConversionRate: number
   currentCandidatesCount: number
 }
+export interface  IHiringStageForDashBoard  extends IHiringStage{
+  stageConversionRate: number
+  conversionRate: number
+  candidatesCount: number
+}
