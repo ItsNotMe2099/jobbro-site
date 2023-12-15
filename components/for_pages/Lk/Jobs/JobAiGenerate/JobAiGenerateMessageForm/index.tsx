@@ -63,10 +63,14 @@ export default function JobAiGenerateMessageForm() {
     onSubmit: handleSubmit,
   })
   const handleKeyDown: KeyboardEventHandler = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      formik.submitForm()
-    }
+    const target = e.target as HTMLTextAreaElement
+
+    // target.scrollIntoView()
+    // const screenh = window.innerHeight
+    // var toScroll = ''+screenh/10
+    // target.scrollIntoView(false)
+    // window.scrollBy(0, Number(toScroll))
+  
   }
   return (
       <FormikProvider value={formik}>

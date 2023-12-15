@@ -37,40 +37,40 @@ export default function HappyBckgrndSvg(props: Props) {
           <feGaussianBlur stdDeviation="157.5" result="effect1_foregroundBlur_2091_9131" />
         </filter>
         <linearGradient id="paint0_linear_2091_9131" x1="986.995" y1="75.2944" x2="950.651" y2="174.626" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint1_linear_2091_9131" x1="1031.27" y1="138.796" x2="962.963" y2="292.143" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint2_linear_2091_9131" x1="977.243" y1="179.116" x2="911.351" y2="259.28" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint3_linear_2091_9131" x1="824.619" y1="267.772" x2="805.299" y2="312.843" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint4_linear_2091_9131" x1="804.874" y1="278.959" x2="785.9" y2="302.948" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint5_linear_2091_9131" x1="821" y1="180.999" x2="808.261" y2="210.935" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint6_linear_2091_9131" x1="808.582" y1="187.968" x2="796.029" y2="203.954" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint7_linear_2091_9131" x1="705.403" y1="227.146" x2="694.556" y2="248.852" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint8_linear_2091_9131" x1="696.774" y1="232.935" x2="686.893" y2="243.651" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <clipPath id="clip0_2091_9131">
           <rect width="1162" height="902" fill="white" />

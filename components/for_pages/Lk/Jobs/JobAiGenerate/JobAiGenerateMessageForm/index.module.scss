@@ -2,10 +2,12 @@
 
 .root {
   position: relative;
+  position: sticky;
+  bottom: 30px;
   background: $white;
   left: 0px;
   right: 0px;
-  bottom: 0px;
+  // bottom: 0px;
   padding: 24px;
   border-radius: 24px;
 }

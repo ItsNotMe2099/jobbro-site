@@ -1,0 +1,23 @@
+@import 'styles/index';
+
+.root {
+  max-height: 150px;
+  overflow: auto;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%) translateZ(200px);
+  z-index: 200;
+  background-color: white;
+  display: none;
+  z-index: 200000;
+}
+
+.focused {
+  display: block;
+}
+
+.time {
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+}

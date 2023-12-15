@@ -9,6 +9,8 @@ $height: 77px;
   align-items: center;
   flex-direction: row;
   @include list(12px, true);
+  width: 100px;
+  height: 100px;
 }
 .center{
   display: flex;

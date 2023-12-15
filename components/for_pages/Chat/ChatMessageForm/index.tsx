@@ -57,12 +57,12 @@ export default function ChatMessageForm() {
 
     onSubmit: handleSubmit,
   })
-  const handleKeyDown: KeyboardEventHandler = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      formik.submitForm()
-    }
-  }
+  // const handleKeyDown: KeyboardEventHandler = (e) => {
+  //   if (e.key === 'Enter' && !e.shiftKey) {
+  //     e.preventDefault()
+  //     formik.submitForm()
+  //   }
+  // }
   const handleNewEventClick = () => {
     chatContext.setRoute(ChatDialogRoute.CreateEvent, {cvId: chatContext.chat?.cvId, vacancyId: chatContext.chat?.vacancyId})
   }
@@ -81,7 +81,7 @@ export default function ChatMessageForm() {
               disabled={chatContext.disabled || sending}
               placeholder={'Сообщение'}
               styleType={'message'}
-              onKeyDown={handleKeyDown}
+              // onKeyDown={handleKeyDown}
               className={cx(styles.textarea)}
             />
             <IconButton type={'submit'} bgColor={'green'}

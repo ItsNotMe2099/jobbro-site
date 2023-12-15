@@ -57,7 +57,7 @@ export default function EventOwnerForm(props: Props) {
   const formRef = useRef<HTMLDivElement | null>(null)
   const steps: IFormStep<FormStep>[] = [
     {key: FormStep.Participants, name: 'Members to meetings'},
-    {key: FormStep.Details, name: 'Theme adn duration'},
+    {key: FormStep.Details, name: 'Theme and place'},
     {key: FormStep.Time, name: 'Available days'},
   ]
   const [step, setStep] = useState<FormStep>(FormStep.Participants)

@@ -12,7 +12,7 @@ const LkPageHirerLayoutInner = (props: Props) => {
     <Layout>
       <div className={styles.root}>
         <Menu/>
-        <div className={styles.container}>
+        <div className={styles.container} >
           {props.children}
         </div>
       </div>

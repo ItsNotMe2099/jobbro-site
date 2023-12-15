@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import { IField } from 'types/types'
-import { useField } from 'formik'
+import { FieldHelperProps, useField } from 'formik'
 import classNames from 'classnames'
 import TimePicker from 'rc-time-picker'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
@@ -8,13 +8,15 @@ import FieldError from '@/components/fields/FieldError'
 import moment from 'moment'
 import FieldLabel from '@/components/fields/FieldLabel'
 import {useState} from 'react'
+// import TimePicker from '../TimePicker'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {colors} from '@/styles/variables'
 interface Props extends IField<string | null> {
   minuteStep?: number
-  onChange?: (val: string | null) => void
+  onChange?: (helpers: FieldHelperProps<string | null>, date: moment.Moment) => void
   className?: string
   resettable?: boolean
+  minTime?: Date
 }
 
 export default function TimeField(props: Props) {
@@ -24,8 +26,9 @@ export default function TimeField(props: Props) {
 
   const showError = meta.touched && !!meta.error
 
+
   return (
-    <div className={classNames(styles.root, props.className)} data-field={props.name}>
+    <div className={classNames(styles.root, props.className)} data-field={props.name} >
       {props.label && <FieldLabel label={`${props.label}`} className={styles.label} focusedClassName={styles.labelFocused} focused={focused || !!field.value}/>}
       <div className={classNames({
         [styles.wrapper]: true,
@@ -33,7 +36,10 @@ export default function TimeField(props: Props) {
         [styles.inputFocused]: focused,
         [styles.inputError]: showError,
       })} ref={wrapperRef}>
+        
+        {/* <TimePicker minTime={props.minTime} focused={focused} onSet={onSet} value={field.value}   /> */}
         <TimePicker
+          use12Hours
           showSecond={false}
           popupClassName={classNames({
             [styles.popup]: true,
@@ -54,13 +60,14 @@ export default function TimeField(props: Props) {
           onOpen={() => setFocus(true)}
           onClose={() => setFocus(false)}
           onChange={(date) => {
-            console.log('onChangeData', date)
+            // console.log('onChangeData', date)
             if (date) {
-              console.log('onChangeData2', date.format('HH:mm'))
+              // console.log('onChangeData2', date.format('HH:mm'))
               helpers.setValue(`${date.format('HH:mm')}:00`)
             }else{
               helpers.setValue(null)
             }
+            props.onChange&&props.onChange(helpers, date)
           }}
           minuteStep={props.minuteStep ?? 1}
           clearIcon={props.resettable ? <CloseSvg className={styles.clear} color={colors.simpleGrey}/> : null}
