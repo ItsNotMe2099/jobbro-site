@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {Form, FormikProvider, useFormik} from 'formik'
-import React, {KeyboardEventHandler, useRef, useState} from 'react'
+import React, {/*KeyboardEventHandler*/ useRef, useState} from 'react'
 import cx from 'classnames'
 import {ChatDialogRoute, useChatDialogContext} from 'context/chat_dialog_state'
 import {RequestError} from 'types/types'

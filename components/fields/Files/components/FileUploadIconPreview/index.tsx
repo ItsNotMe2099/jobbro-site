@@ -1,4 +1,4 @@
-import styles from 'components/fields/Files/components/FileUploadIconPreview/index.module.scss'
+import styles from './index.module.scss'
 import classNames from 'classnames'
 import ImageHelper from 'utils/ImageHelper'
 import {Preset} from 'types/enums'

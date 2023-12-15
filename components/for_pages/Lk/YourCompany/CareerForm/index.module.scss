@@ -27,8 +27,8 @@
     // @include list(23px, true);
     display: grid;
     grid-template-areas: "dropzone why"  "fileList fileList";
-    column-gap: 16px;
-    row-gap: 16px;
+    column-gap: 24px;
+    row-gap: 24px;
 }
 
 .why {
