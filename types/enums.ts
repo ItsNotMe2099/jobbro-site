@@ -14,7 +14,8 @@ export enum FileUploadAcceptType {
   Document = 'document',
   Scan = 'scan',
   Media = 'media',
-  Archives = 'archives'
+  Archives = 'archives',
+  Pdf = 'pdf'
 }
 
 export enum InputStyleType {

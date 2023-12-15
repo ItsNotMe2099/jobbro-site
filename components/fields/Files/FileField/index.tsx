@@ -13,7 +13,7 @@ import FileUploadDropzone from '@/components/fields/Files/components/FileUploadD
 import FileListItem from '@/components/fields/Files/FileListField/FileListItem'
 import FileRepository from '@/data/repositories/FileRepository'
 
-interface Props extends IField<IFile | null> {
+interface Props extends IField<IFile | File | null> {
   isImage?: boolean
   labelLoading?: string
   labelExist?: string
@@ -22,6 +22,7 @@ interface Props extends IField<IFile | null> {
   text?: ReactElement | string
   label?: string
   maxSize?: number
+  disableUpload?: boolean
 }
 
 export default function FileField(props: Props) {
@@ -32,7 +33,7 @@ export default function FileField(props: Props) {
   const [previewSize, setPreviewSize] = useState<number>(0)
   const [progress, setProgress] = useState(-1)
   // @ts-ignore
-  const [field, meta, helpers] = useField<IFile | null>(props)
+  const [field, meta, helpers] = useField<IFile | File | null>(props)
   const showError = meta.touched && !!meta.error
   const [avatarRef, press, hover] = usePressAndHover()
   const [error, setError] = useState<any>(null)
@@ -80,6 +81,10 @@ export default function FileField(props: Props) {
       setPreviewSize(acceptedFiles[0].size)
       setProgress(0)
       abortControllerRef.current = new AbortController()
+      if(props.disableUpload) {
+        helpers.setValue(acceptedFiles[0])
+        return
+      }
       try {
         const fileData = await FileRepository.uploadFile(acceptedFiles[0], {
           signal: abortControllerRef.current.signal,

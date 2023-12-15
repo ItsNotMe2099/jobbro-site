@@ -285,7 +285,7 @@ export function AiCvRequestListWrapper(props: Props) {
     (abortController as IAbortControllerWithId).id = file.id
     abortControllersRefs.current.push()
     try {
-      const request = await AiCvRequestRepository.create(fileToUpload, {
+      const request = await AiCvRequestRepository.create(fileToUpload,undefined, {
         signal: abortController.signal,
         onUploadProgress: (e) => {
           const progress = e.total ? Math.round((e.loaded / e.total) * 100) : 0

@@ -4,7 +4,7 @@ import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {IAiCvRequestListRequest} from '@/data/interfaces/IAiCvRequestListRequest'
 import {omit} from '@/utils/omit'
-
+import queryString from 'query-string'
 export default class AiCvRequestRepository {
   static async fetch(data: IAiCvRequestListRequest, config?: AxiosRequestConfig): Promise<IPagination<IAiCvRequest> | IAiCvRequest[]> {
     const res = await request<IPagination<IAiCvRequest>>({
@@ -42,11 +42,12 @@ export default class AiCvRequestRepository {
     return res
   }
 
-  static async create(file: File, config?: AxiosRequestConfig): Promise<IAiCvRequest> {
+  static async create(file: File, data?: {vacancyId: number}, config?: AxiosRequestConfig): Promise<IAiCvRequest> {
     const res = await request<IAiCvRequest>({
       method: 'post',
-      url: '/api/ai-cv-request',
+      url: `/api/ai-cv-request?${data ? queryString.stringify(data) : ''}`,
       file,
+      config
     })
     return res
   }
