@@ -14,11 +14,8 @@ import {useAboutMeContext} from '@/context/aboutme_state'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
-<<<<<<< HEAD
 import Button from '@/components/ui/Button'
-=======
 import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
->>>>>>> d5fb4e4 (crop images process)
 
 interface IFormData {
   image: Nullable<IFile>
