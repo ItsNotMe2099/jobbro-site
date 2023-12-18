@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import { Nullable, RequestError} from '@/types/types'
-import {FileUploadAcceptType, ModalType, SnackbarType} from '@/types/enums'
+import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
 import SwitchField from '@/components/fields/SwitchField'
 import {FormikHelpers} from 'formik/dist/types'
@@ -14,7 +14,6 @@ import {useAboutMeContext} from '@/context/aboutme_state'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
 import Button from '@/components/ui/Button'
-import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
 import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 
 interface IFormData {
@@ -67,11 +66,7 @@ export default function AccountProfileForm(props: Props) {
   })
 
   useEffect(()=>{
-    if(formik.values.image) {
-      appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: formik.values.image.source, onEdit: (image: string) => {
-        formik.setFieldValue('image', image)
-      }})
-    }
+    console.log(formik.values.image)
   }, [formik.values.image])
 
 

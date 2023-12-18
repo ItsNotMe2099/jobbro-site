@@ -1,0 +1,69 @@
+@import 'styles/index';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+
+  input[type="range"] {
+    width: 100%;
+    display: block;
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    &::-webkit-slider-runnable-track{
+      background-color: $green;
+      height: 4px;
+    }
+    &::-moz-range-track{
+      background-color: $green;
+      height: 4px;
+    }
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none; 
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      margin-top: -4px;
+      border-radius: 50%;
+      background-color: $green;
+    }
+  }
+}
+
+.navigation {
+  width: 100%;
+}
+
+.description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: $text-secondary;
+  font-size: 24px;
+  font-weight: 700;
+  margin: unset;
+  margin-bottom: 16px;
+
+}
+
+.modalLayout {
+  max-width: 500px;
+}
+
+.avatar {
+  svg {
+    display: none;
+  }
+}
+
+.button {
+  width: 100%;
+}
+
+.buttonBordered {
+  border: 2px solid $green !important;
+  background-color: $white !important;
+  color: $green !important;
+}
