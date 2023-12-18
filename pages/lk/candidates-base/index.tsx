@@ -17,6 +17,7 @@ import Tabs from '@/components/ui/Tabs'
 import {IOption, Nullable} from '@/types/types'
 import {Routes} from '@/types/routes'
 import CardsLayout from '@/components/ui/CardsLayout'
+import {useTranslation} from 'next-i18next'
 
 enum TabKey {
   AllProfiles = 'allProfiles',
@@ -27,11 +28,12 @@ const CandidatesPageInner = () => {
   const candidateListContext = useCandidateListContext()
   const [view, setView] = useState<CardViewType>(CardViewType.Card)
   const [tab, setTab] = useState<TabKey>(TabKey.AllProfiles)
+  const { t } = useTranslation()
   const router = useRouter()
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   const tabs: IOption<TabKey>[] = [
-    {label: 'All Profiles', value: TabKey.AllProfiles},
-    {label: 'Upload CV', value: TabKey.UploadCv},
+    {label: t('candidates_base_tab_all_profiles'), value: TabKey.AllProfiles},
+    {label: t('candidates_base_tab_upload_cv'), value: TabKey.UploadCv},
   ]
 
   const handleChangeTab = (tab: TabKey) => {
@@ -50,17 +52,12 @@ const CandidatesPageInner = () => {
 
   return (<div className={styles.root} ref={containerRef}>
       <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
-        <PageTitle title={'Candidates base'}/>
+        <PageTitle title={t('candidates_base_title')}/>
         <Tabs<TabKey> options={tabs} value={tab} onClick={handleChangeTab}/>
         <>{tab === TabKey.UploadCv && <FilterToolbar left={[]}/>}</>
       </PageStickyHeader>
       <div className={styles.wrapper}>
         <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
-        {/* <div className={classNames(styles.cards, {[styles.rows]: view === CardViewType.Row})}>
-          {candidateListContext.data.data.map(i =>
-            <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>
-          )}
-        </div> */}
         <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'}>
           {candidateListContext.data.data.map(i =>
             <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>

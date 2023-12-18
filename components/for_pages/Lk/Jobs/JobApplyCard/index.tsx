@@ -17,6 +17,7 @@ import {useCandidateAddedContext} from '@/context/candidate_added_state'
 import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
+import {useTranslation} from 'next-i18next'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -36,7 +37,7 @@ const JobApplyCardInner = (props: Props) => {
   const applyCvContext = useApplyCvContext()
   const favoriteContext = useCandidateAddedContext()
   const cvEvaluationContext = useCvEvaluationContext()
-
+  const { t } = useTranslation()
   const evaluation = cvEvaluationContext.store[`${applyCvContext.cv!.id}:${applyCvContext.apply!.vacancyId!}`]?.evaluation
   const cv = applyCvContext.cv!
   const appContext = useAppContext()
@@ -54,11 +55,11 @@ const JobApplyCardInner = (props: Props) => {
   }, [])
 
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Download resume in PDF', value: MenuKey.DownloadPdf},
-    {label: 'Add to base', value: MenuKey.AddToBase},
-    {label: 'Invite', value: MenuKey.InviteToOtherJob},
-    {label: 'Select', value: MenuKey.Select},
-    {label: 'Share', value: MenuKey.Share},
+    {label: t('apply_card_menu_download'), value: MenuKey.DownloadPdf},
+    {label: t('apply_card_menu_add_to_base'), value: MenuKey.AddToBase},
+    {label: t('apply_card_menu_invite'), value: MenuKey.InviteToOtherJob},
+    {label: t('apply_card_menu_select'), value: MenuKey.Select},
+    {label: t('apply_card_menu_share'), value: MenuKey.Share},
   ]
 
   const handleMenuClick = (value: MenuKey) => {

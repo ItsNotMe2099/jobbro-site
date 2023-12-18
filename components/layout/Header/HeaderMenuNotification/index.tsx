@@ -6,6 +6,7 @@ import NotificationRepository from '@/data/repositories/NotificationRepository'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import INotification from '@/data/interfaces/INotification'
 import HeaderNotificationCard from '@/components/layout/Header/HeaderMenuNotification/HeaderNotificationCard'
+import {useTranslation} from 'next-i18next'
 
 interface Props {
   isOpen: boolean
@@ -14,6 +15,8 @@ interface Props {
 export default function HeaderMenuNotification(props: Props) {
   const [data, setData] = useState<IPagination<INotification>>({data: [], total: 0})
   const initOpenRef = useRef<boolean>(false)
+  const { t } = useTranslation()
+
   useEffect(() => {
     if(!props.isOpen){
       return
@@ -25,12 +28,12 @@ export default function HeaderMenuNotification(props: Props) {
   }, [props.isOpen])
   return (
    <div className={styles.root}>
-     <div className={styles.title}>Notifications</div>
+     <div className={styles.title}>{t('header_notifications')}</div>
      <div className={styles.chats}>
        {data.data.map(i => <HeaderNotificationCard notification={i}/>)}
      </div>
 
-     <Link href={Routes.chat} className={styles.viewMore}>View more</Link>
+     <Link href={Routes.chat} className={styles.viewMore}>{t('header_notifications_view_more')}</Link>
    </div>
   )
 }

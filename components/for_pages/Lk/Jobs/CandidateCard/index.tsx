@@ -16,6 +16,7 @@ import {colors} from '@/styles/variables'
 import MenuButton from '@/components/ui/MenuButton'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
+import {useTranslation} from 'next-i18next'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -34,6 +35,7 @@ export default function CandidateCard(props: Props) {
 
   const appContext = useAppContext()
   const favoriteContext = useCandidateAddedContext()
+  const { t } = useTranslation()
 const cv = props.candidate.cv
   useEffect(() => {
     favoriteContext.addRecord(cv!.id)
@@ -43,11 +45,11 @@ const cv = props.candidate.cv
     description: null
   }
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Download resume in PDF', value: MenuKey.DownloadPdf},
-    {label: 'Remove from base', value: MenuKey.RemoveFromBase},
-    {label: 'Invite', value: MenuKey.InviteToOtherJob},
-    {label: 'Select', value: MenuKey.Select},
-    {label: 'Share', value: MenuKey.Share},
+    {label: t('candidates_base_card_menu_download'), value: MenuKey.DownloadPdf},
+    {label: t('candidates_base_card_menu_remove'), value: MenuKey.RemoveFromBase},
+    {label: t('candidates_base_card_menu_invite'), value: MenuKey.InviteToOtherJob},
+    {label: t('candidates_base_card_menu_select'), value: MenuKey.Select},
+    {label: t('candidates_base_card_menu_share'), value: MenuKey.Share},
   ]
 
   const handleMenuClick = (value: MenuKey) => {
@@ -57,7 +59,7 @@ const cv = props.candidate.cv
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
-          text: `Are you sure that you want to remove candidate «${UserUtils.getName(cv)}» from base?`,
+          text: t('candidates_base_card_remove_confirm', {name: UserUtils.getName(cv)}),
           onConfirm: async () => {
             favoriteContext.unlike(cv!.id)
             appContext.candidateDeleteState$.next(props.candidate)

@@ -24,7 +24,7 @@ import {FavoriteWrapper} from '@/context/favorite_state'
 import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
 import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
-
+import { appWithTranslation } from 'next-i18next'
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -114,5 +114,4 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   return props
 }
 
-// export default appWithTranslation(MyApp)
-export default MyApp
+export default appWithTranslation(MyApp)

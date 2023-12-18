@@ -1,9 +1,9 @@
-// const { i18n } = require('./next-i18next.config')
+const { i18n } = require('./next-i18next.config')
 
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  // i18n,
+  i18n,
   publicRuntimeConfig: {
     HOST: process.env.HOST,
     CACHE_TIME_HOURS: Number.parseInt(process.env.CACHE_TIME_HOURS ?? '0'),

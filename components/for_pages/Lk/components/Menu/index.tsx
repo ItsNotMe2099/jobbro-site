@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Button from '@/components/ui/Button'
 import { colors } from '@/styles/variables'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
+import {useTranslation} from 'next-i18next'
 
 interface Props {
   children?: ReactElement | ReactElement[]
@@ -15,17 +16,17 @@ interface Props {
 
 export default function Menu(props: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
-
+  const { t } = useTranslation()
   const router = useRouter()
 
   const menu = [
-    { label: 'Dashboard', link: Routes.lkDashboard },
-    { label: 'Jobs', link: Routes.lkJobs },
-    { label: 'Candidates base', link: Routes.lkCandidatesBase },
-    { label: 'Hiring Boards', link: Routes.lkHiringBoards },
-    { label: 'Your Company', link: Routes.lkCompany },
-    { label: 'Scorecards Templates', link: Routes.lkScorecardsTemplates },
-    { label: 'Settings', link: Routes.lkSettings },
+    { label: t('hirer_left_menu_dashboard'), link: Routes.lkDashboard },
+    { label: t('hirer_left_menu_jobs'), link: Routes.lkJobs },
+    { label: t('hirer_left_menu_candidates_base'), link: Routes.lkCandidatesBase },
+    { label: t('hirer_left_menu_hiring_boards'), link: Routes.lkHiringBoards },
+    { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
+    { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
+    { label: t('hirer_left_menu_settings'), link: Routes.lkSettings },
   ]
 
   const [showOptions, setShowOptions] = useState<boolean>(false)
@@ -36,7 +37,7 @@ export default function Menu(props: Props) {
         <div className={styles.first}>
           <div className={styles.top}>
             <div className={styles.title}>
-              Actions
+              {t('hirer_left_menu_actions')}
             </div>
             <div className={styles.arrows} onClick={() => setIsCollapsed(i => !i)}>
               <ArrowsSvg color={colors.simpleGrey} />
@@ -56,7 +57,7 @@ export default function Menu(props: Props) {
           {showOptions &&
             <MenuOptions />}
           <Button onClick={() => setShowOptions(!showOptions)} styleType='large' color='green'>
-            New Job
+            {t('hirer_left_menu_new_job')}
           </Button>
         </div>
       </div>

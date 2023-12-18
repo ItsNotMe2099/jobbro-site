@@ -14,6 +14,7 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
+import {useTranslation} from 'next-i18next'
 
 enum MenuKey{
   Publish = 'publish',
@@ -33,6 +34,7 @@ const JobCardInner = (props: Props) => {
   const vacancyContext = useVacancyOwnerContext()
   const vacancy = vacancyContext.vacancy!
   const router = useRouter()
+  const { t } = useTranslation()
   const getColor = (status: PublishStatus) => {
     switch (status) {
       case PublishStatus.Draft:
@@ -57,22 +59,22 @@ const JobCardInner = (props: Props) => {
 
   const menuGroups: IOptionGroup<MenuKey>[] = [
     ...(!([PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-      {title: 'Status', options: [
+      {title: t('job_card_menu_status'), options: [
           ...(!([PublishStatus.Published, PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: 'Publish', value: MenuKey.Publish},
+            {label: t('job_card_menu_publish'), value: MenuKey.Publish},
           ] : []),
           ...(!([PublishStatus.Paused] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: 'Pause', value: MenuKey.Pause},
+            {label: t('job_card_menu_pause'), value: MenuKey.Pause},
           ] : []),
 
-          {label: 'Close', value: MenuKey.Close},
+          {label: t('job_card_menu_close'), value: MenuKey.Close},
         ]},
 ]: []),
 
-    {title: 'Operations', options: [
-        {label: 'Edit', value: MenuKey.Edit},
-        {label: 'Duplicate', value: MenuKey.Duplicate},
-        {label: 'Delete', value: MenuKey.Delete, color: colors.textRed},
+    {title: t('job_card_menu_operations'), options: [
+        {label: t('job_card_menu_edit'), value: MenuKey.Edit},
+        {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
+        {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
       ]},
   ]
   const handleMenuItemClick = (key: MenuKey) => {
@@ -105,7 +107,7 @@ const JobCardInner = (props: Props) => {
           {props.view !== 'row' && <div className={styles.top}>
             <div className={styles.publish}>
               <div className={styles.published}>
-                Publish Date:
+                {t('job_card_publish_date')}:
               </div>
               <div className={styles.date}>
                 {formattedPublishDate}
@@ -120,7 +122,7 @@ const JobCardInner = (props: Props) => {
           </div>}
           <div className={styles.middle}>
             <div className={styles.published}>
-              Market
+              {t('job_card_market')}
             </div>
             <div className={styles.name}>
               {vacancy.name}
@@ -149,7 +151,7 @@ const JobCardInner = (props: Props) => {
               </div>
               <div className={styles.publish}>
                 <div className={styles.published}>
-                  Publish Date:
+                  {t('job_card_publish_date')}:
                 </div>
                 <div className={styles.date}>
                   {formattedPublishDate}
