@@ -17,10 +17,19 @@ export default class AuthRepository {
   }
 
 
+  static async registerEmployee(data: { name: string | null, email: string | null}): Promise<IAuthResponse> {
+    const res = await request<IAuthResponse>({
+      url: '/api/auth/sendEmailCode',
+      method: 'post',
+      data,
+    })
+    return res
+  }
+
   static async emailConfirmation(data: { email: string, code: string }): Promise<IAuthResponse> {
     const res = await request<IAuthResponse>({
         method: 'post',
-        url: '/api/auth/seller/complete-registration',
+        url: '/api/auth/emailConfirmation',
         data,
       }
     )

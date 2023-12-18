@@ -1,12 +1,12 @@
 import styles from './index.module.scss'
 
-import {FieldArray, FieldArrayRenderProps} from 'formik'
+import {FieldArray, FieldArrayRenderProps,  useFormikContext} from 'formik'
 import {colors} from '@/styles/variables'
 import IconButton from '@/components/ui/IconButton'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {format} from 'date-fns'
 import ClockSvg from '@/components/svg/ClockSvg'
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import TimeField from '@/components/fields/TimeField'
 import Validator from '@/utils/validator'
 
@@ -23,6 +23,19 @@ interface Props {
 
 export default function MeetingDaySlots(props: Props) {
   const slotsRef = useRef<HTMLDivElement>(null!)
+  const {values, setValues} = useFormikContext() as any
+
+  const isMoreThenHour = useCallback((index: number):boolean => {
+    const startHour = parseInt(values?.slots[format(props.value, 'yyyy-MM-dd')][index]?.start?.split(':').join(''))
+    const endHour = parseInt(values?.slots[format(props.value, 'yyyy-MM-dd')][index]?.end?.split(':').join(''))
+    if(!startHour || !endHour) return false
+    const isBigger = endHour - startHour >= 10000  
+    return isBigger
+  }, [values])
+
+
+
+
 
   return (
     <div className={styles.root}>
@@ -54,6 +67,7 @@ export default function MeetingDaySlots(props: Props) {
                       key={index}
                       label={'Start time'}
                       resettable={true}
+                      minuteStep={15}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].start`}
                       validate={Validator.required}
                     />
@@ -62,6 +76,7 @@ export default function MeetingDaySlots(props: Props) {
                       key={index}
                       label={'End time'}
                       resettable={true}
+                      minuteStep={isMoreThenHour(index) ? 30 : 15}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].end`}
                       validate={Validator.required}
                     />

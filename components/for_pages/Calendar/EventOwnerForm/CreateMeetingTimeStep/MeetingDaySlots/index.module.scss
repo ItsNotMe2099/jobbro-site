@@ -5,7 +5,7 @@
   flex-direction: column;
   border-radius: 16px;
   border: 2px #ebebeb solid;
-  overflow: hidden;
+  // overflow: hidden;
 }
 .header{
   display: flex;
@@ -59,7 +59,7 @@
 }
 .field{
   flex: 1;
-  min-width: 50%;
+  // min-width: 50%;
 }
 .slotHeader{
   display: flex;

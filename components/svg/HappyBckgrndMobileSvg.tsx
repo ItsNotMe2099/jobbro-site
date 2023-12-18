@@ -9,8 +9,8 @@ export default function HappyBckgrndMobileSvg(props: Props) {
       <g opacity="0.2" filter="url(#filter0_f_2639_7753)">
         <circle cx="175.404" cy="224.643" r="82.9512" fill="#08A357" />
       </g>
-      <circle opacity="0.1" cx="202" cy="179" r="178.802" stroke="white" stroke-width="0.396896" />
-      <path opacity="0.1" d="M277.214 203.211C277.214 266.669 225.859 318.112 162.511 318.112C99.1624 318.112 47.8078 266.669 47.8078 203.211C47.8078 139.752 99.1624 88.3093 162.511 88.3093C225.859 88.3093 277.214 139.752 277.214 203.211Z" stroke="#6D6D6D" stroke-width="0.396896" />
+      <circle opacity="0.1" cx="202" cy="179" r="178.802" stroke="white" strokeWidth="0.396896" />
+      <path opacity="0.1" d="M277.214 203.211C277.214 266.669 225.859 318.112 162.511 318.112C99.1624 318.112 47.8078 266.669 47.8078 203.211C47.8078 139.752 99.1624 88.3093 162.511 88.3093C225.859 88.3093 277.214 139.752 277.214 203.211Z" stroke="#6D6D6D" strokeWidth="0.396896" />
       <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M265.266 61.8783V80.1011C265.266 81.2132 265.925 82.2714 267.039 82.935L269.949 84.7107C270.927 85.4819 273.064 85.8944 274.588 85.8944H283.455C286.502 85.8944 289.571 84.0829 290.276 81.8588L295.87 68.4249C296.438 67.1514 296.279 65.8959 295.415 64.9274C294.505 63.923 292.959 63.349 291.163 63.349H281.818C281.204 63.349 280.636 63.1338 280.249 62.793C279.863 62.4163 279.681 61.9321 279.772 61.394L280.954 55.529C281.432 53.7712 279.954 51.7983 277.725 51.2064C275.656 50.5966 273.224 51.4216 272.246 52.5875L266.039 59.8695C265.538 60.4613 265.266 61.1608 265.266 61.8783ZM255.683 58.3776H258.025C261.549 58.3776 262.982 59.4538 262.982 62.1083V80.1518C262.982 82.8063 261.549 83.8824 258.025 83.8824H255.683C252.159 83.8824 250.727 82.8063 250.727 80.1518V62.1083C250.727 59.4538 252.159 58.3776 255.683 58.3776Z" fill="url(#paint0_linear_2639_7753)" />
       <g opacity="0.6">
         <path d="M264.578 135.835V125.293C264.578 124.878 264.736 124.474 265.025 124.131L268.616 119.918C269.182 119.244 270.589 118.767 271.786 119.119C273.075 119.462 273.93 120.603 273.654 121.62L272.97 125.013C272.918 125.324 273.023 125.605 273.246 125.822C273.47 126.02 273.799 126.144 274.154 126.144H279.56C280.599 126.144 281.494 126.476 282.02 127.057C282.52 127.617 282.612 128.344 282.283 129.081L279.047 136.852C278.639 138.139 276.864 139.187 275.101 139.187H269.971C269.09 139.187 267.853 138.948 267.288 138.502L265.604 137.475C264.96 137.091 264.578 136.479 264.578 135.835Z" fill="url(#paint1_linear_2639_7753)" />
@@ -31,32 +31,32 @@ export default function HappyBckgrndMobileSvg(props: Props) {
           <feGaussianBlur stdDeviation="62.5111" result="effect1_foregroundBlur_2639_7753" />
         </filter>
         <linearGradient id="paint0_linear_2639_7753" x1="273.661" y1="51" x2="259.293" y2="90.2756" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint1_linear_2639_7753" x1="288.016" y1="72.2966" x2="259.494" y2="136.325" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint2_linear_2639_7753" x1="265.464" y1="89.1319" x2="237.951" y2="122.604" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint3_linear_2639_7753" x1="233.419" y1="176.703" x2="225.855" y2="194.349" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint4_linear_2639_7753" x1="225.691" y1="181.083" x2="218.263" y2="190.475" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint5_linear_2639_7753" x1="241.018" y1="134.664" x2="229.347" y2="162.087" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
         <linearGradient id="paint6_linear_2639_7753" x1="229.65" y1="141.048" x2="218.151" y2="155.692" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>

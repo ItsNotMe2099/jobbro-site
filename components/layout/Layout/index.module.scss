@@ -10,6 +10,7 @@
 .headerWrapper {
   position: relative;
   z-index: 10;
+  transform: unset !important;
 }
 .container {
   margin: 0 32px;

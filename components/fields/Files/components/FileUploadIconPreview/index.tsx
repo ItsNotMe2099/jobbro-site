@@ -1,4 +1,4 @@
-import styles from 'components/fields/Files/components/FileUploadIconPreview/index.module.scss'
+import styles from './index.module.scss'
 import classNames from 'classnames'
 import ImageHelper from 'utils/ImageHelper'
 import {Preset} from 'types/enums'
@@ -11,7 +11,7 @@ import usePressAndHover from '@/components/hooks/usePressAndHover'
 interface Props {
   isImage?: boolean
   hover?: boolean
-  value?: IFile | null
+  value?: IFile | File | null
   previewPath?: string
   previewName?: string
   vertical?: boolean
@@ -57,18 +57,18 @@ export default function FileUploadIconPreview(props: Props) {
         <div className={styles.wrapper}>
           {(props.isImage && props.previewPath && !props.value) && <img className={styles.preview} src={props.previewPath} alt=""/>}
           {(!props.isImage && props.previewPath && !props.value) && <DocumentPreview file={props.previewPath} name={props.previewName}/>}
-          {props.isImage && props.value && (
+          {props.isImage && (props.value as IFile)?.source && (
             <img
               className={classNames({
                 [styles.resultImage]: true,
                 [styles.hover]: hover && props.hover,
               })}
-              src={ImageHelper.urlFromFile(props.value, Preset.xsCrop)}
+              src={ImageHelper.urlFromFile(props.value as IFile, Preset.xsCrop)}
               alt=""
             />
           )}
-          {!props.isImage && props.value && (
-            <DocumentPreview file={props.value.source} name={props.value.name}/>
+          {!props.isImage && (props.value as IFile)?.source && (
+            <DocumentPreview file={(props.value as IFile).source} name={(props.value as IFile).name}/>
           )}
 
 

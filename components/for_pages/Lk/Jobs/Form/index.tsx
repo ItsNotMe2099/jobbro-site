@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {Form, FormikProvider, useFormik} from 'formik'
-import {SnackbarType} from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import {useEffect, useRef, useState} from 'react'
 import {DeepPartial, IOption, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
@@ -31,6 +31,8 @@ import Spacer from '@/components/ui/Spacer'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import IAiVacancyGenRequest, {IAiVacancy} from '@/data/interfaces/IAiVacancy'
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
+import Analytics from '@/utils/goals'
+import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 
 
 enum TabKey {
@@ -71,7 +73,8 @@ export interface IVacancyFormData {
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
-  hiringStagesDescriptions: { title: string, description: string }[]
+  hiringStagesDescriptions: { title: string, description: string }[],
+  contactPerson: { name: Nullable<string>, visible: boolean }
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -87,15 +90,19 @@ export default function CreateJobManuallyForm(props: Props) {
     const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
-      keywordsString: data.keywords,
+      keywordsTitles: data.keywords,
       officeId: data?.office?.id,
-      companyId: companyContext.company?.id
+      companyId: companyContext.company?.id,
+      creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {
       if (vacancyContext.vacancy) {
         await vacancyContext.update(newData)
       } else {
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
+        if(props.fromAi){
+          Analytics.goal(Goal.CreateJobAi)
+        }
       }
       await router.push(Routes.lkJobs)
     } catch (err) {
@@ -131,7 +138,8 @@ export default function CreateJobManuallyForm(props: Props) {
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
-    hiringStagesDescriptions: []
+    hiringStagesDescriptions: vacancyContext?.vacancy?.hiringStagesDescriptions ?? [],
+    contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false }
   }
 
   const formik = useFormik<IVacancyFormData>({

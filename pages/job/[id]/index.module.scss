@@ -1,19 +1,13 @@
 @import "styles/index";
 
-.root {}
 
-.container {
-    display: flex;
-    flex-direction: column;
-    @include list(32px, false);
+.root {
+  display: flex;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  transition: margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  @include list(32px, true);
 }
-
-.switch {
-    display: flex;
-    align-items: center;
-    @include list(16px, true);
-}
-
-.item {
-    cursor: pointer;
+.container{
+  flex: 1;
 }

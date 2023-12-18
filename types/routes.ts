@@ -22,6 +22,10 @@ export class Routes {
     return '/'
   }
 
+  static get account() {
+    return '/lk/account'
+  }
+
   static get profile() {
     return '/lk/profile'
   }
@@ -48,6 +52,10 @@ export class Routes {
 
   static get lkDashboardMyBoard() {
     return '/lk/dashboard/my-board'
+  }
+
+  static get lkDashboardMyBoardHiringStages() {
+    return '/lk/dashboard/my-board/hiring-stages'
   }
 
   static get lkDashboardTeam() {

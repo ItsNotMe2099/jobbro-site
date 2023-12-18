@@ -1,5 +1,5 @@
 export enum Experience {
-  None = 'noExperience',
+  None = 'none',
   Junior = 'junior',
   Middle = 'middle',
   Senior = 'senior',

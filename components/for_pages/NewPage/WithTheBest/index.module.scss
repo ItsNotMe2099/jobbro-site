@@ -1,0 +1,54 @@
+@import "styles/index";
+
+.root {
+  flex-basis: 325px;
+  transition: all ease 0.25s;
+}
+
+.better {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+  margin-top: -12px;
+}
+
+.content {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  @include list(16px, false);
+}
+
+.bottom {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.16px;
+}
+
+.wrapper {
+  transition: all ease 0.25s;
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  background-color: #FFFFFF;
+  padding: 24px;
+  justify-content: space-between;
+  //position: fixed;
+  height: calc(100vh - 152px);
+  width: 325px;
+  margin-left: -325px;
+  transform: translateX(325px);
+}

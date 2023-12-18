@@ -4,7 +4,6 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useState} from 'react'
-import classNames from 'classnames'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
 import useInterval from 'use-interval'
@@ -18,6 +17,7 @@ import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {
   HiringStageListWrapper, useHiringStageListContext
 } from '@/context/hiring_stage_list_state'
+import CardsLayout from '@/components/ui/CardsLayout'
 
 interface Props {
 
@@ -53,11 +53,16 @@ const JobPageInner = (props: Props) => {
         <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
         <div className={styles.wrapper}>
           <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
-          <div className={classNames(styles.cards, {[styles.rows]: view === CardViewType.Row})}>
+          {/* <div className={classNames(styles.cards, {[styles.rows]: view === CardViewType.Row})}>
             {applyCvListContext.data.data.map((i, index) =>
               <JobApplyCard view={view} className={styles.card} cv={i} key={i.id}/>
             )}
-          </div>
+          </div> */}
+          <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'}>
+            {applyCvListContext.data.data.map((i, index) =>
+              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id}/>
+            )}
+          </CardsLayout>
         </div>
       </div>
     </>

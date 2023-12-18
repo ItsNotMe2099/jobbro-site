@@ -21,8 +21,8 @@ export default function SortSvg(props: Props) {
       </g>
       <defs>
         <linearGradient id="paint0_linear_2091_9064" x1="31.2442" y1="17.556" x2="115.447" y2="164.167" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>

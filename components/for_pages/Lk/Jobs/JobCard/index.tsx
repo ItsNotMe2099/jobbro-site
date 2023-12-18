@@ -4,7 +4,7 @@ import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
-import {CardViewType} from '@/types/enums'
+import {CardViewType, Goal} from '@/types/enums'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {IOptionGroup} from '@/types/types'
@@ -14,6 +14,7 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
+import Analytics from '@/utils/goals'
 
 enum MenuKey{
   Publish = 'publish',
@@ -85,6 +86,7 @@ const JobCardInner = (props: Props) => {
         break
       case MenuKey.Close:
         vacancyContext.close()
+        Analytics.goal(Goal.JobClose)
         break
       case MenuKey.Edit:
           router.push(Routes.lkJobEdit(vacancy.id))

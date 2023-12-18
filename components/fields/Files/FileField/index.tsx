@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
-import {ReactElement, useMemo, useRef, useState} from 'react'
+import {ReactElement,  useMemo, useRef, useState} from 'react'
 import IFile from 'data/interfaces/IFile'
-import { FileUploadAcceptType, SnackbarType } from 'types/enums'
+import { FileUploadAcceptType,  ModalType,  SnackbarType } from 'types/enums'
 import { useField } from 'formik'
 import { useAppContext } from 'context/state'
 import { IField, RequestError } from 'types/types'
@@ -12,8 +12,10 @@ import FieldError from '@/components/fields/FieldError'
 import FileUploadDropzone from '@/components/fields/Files/components/FileUploadDropzone'
 import FileListItem from '@/components/fields/Files/FileListField/FileListItem'
 import FileRepository from '@/data/repositories/FileRepository'
+import { ICropAvatarModalProps } from '@/components/modals/CropAvatar/CropAvatarModal'
+// import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
 
-interface Props extends IField<IFile | null> {
+interface Props extends IField<IFile | File | null> {
   isImage?: boolean
   labelLoading?: string
   labelExist?: string
@@ -22,6 +24,9 @@ interface Props extends IField<IFile | null> {
   text?: ReactElement | string
   label?: string
   maxSize?: number
+  disableUpload?: boolean
+  withCrop?: boolean
+  dropZoneClassName?: string
 }
 
 export default function FileField(props: Props) {
@@ -32,10 +37,11 @@ export default function FileField(props: Props) {
   const [previewSize, setPreviewSize] = useState<number>(0)
   const [progress, setProgress] = useState(-1)
   // @ts-ignore
-  const [field, meta, helpers] = useField<IFile | null>(props)
+  const [field, meta, helpers] = useField<IFile | File | null>(props)
   const showError = meta.touched && !!meta.error
   const [avatarRef, press, hover] = usePressAndHover()
   const [error, setError] = useState<any>(null)
+
   const dropzoneAccept: Accept = useMemo(() => {
     let obj = {}
     const arr = (props.accept ?? (props.isImage ? [FileUploadAcceptType.Image] : [])).map(i => Converter.getFileUploadAccept(i)) ?? {} as Accept
@@ -44,6 +50,7 @@ export default function FileField(props: Props) {
     })
     return obj
   }, [props.accept])
+
   const handleDelete = async () => {
     if (field.value) {
       try {
@@ -63,25 +70,25 @@ export default function FileField(props: Props) {
     }
   }
 
-
   const onDropRejected = (fileRejections: FileRejection[], event: DropEvent) => {
     if (fileRejections.length > 0 && fileRejections[0].errors.length > 0) {
       setError(fileRejections[0].errors[0].message)
     }
   }
 
-  const onDrop = async (acceptedFiles: File[],
-    fileRejections: FileRejection[],
-    event: DropEvent) => {
-    if (acceptedFiles.length) {
+  const downloadFile = async (file: File) => {
       setError(null)
-      setPreviewPath(URL.createObjectURL(acceptedFiles[0]))
-      setPreviewName(acceptedFiles[0].name)
-      setPreviewSize(acceptedFiles[0].size)
+      setPreviewPath(URL.createObjectURL(file))
+      setPreviewName(file.name)
+      setPreviewSize(file.size)
       setProgress(0)
       abortControllerRef.current = new AbortController()
+      if(props.disableUpload) {
+        helpers.setValue(file)
+        return
+      }
       try {
-        const fileData = await FileRepository.uploadFile(acceptedFiles[0], {
+        const fileData = await FileRepository.uploadFile(file, {
           signal: abortControllerRef.current.signal,
           onUploadProgress: (e) => {
             setProgress(e.total ? Math.round((e.loaded / e.total) * 100) : 0)
@@ -100,6 +107,16 @@ export default function FileField(props: Props) {
         }
         setError((e as any)?.message ?? e)
       }
+  }
+
+  const onDrop = async (acceptedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => {
+    if (acceptedFiles.length && props.withCrop) {
+      appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: acceptedFiles[0], onEdit: (image: File) => {
+        downloadFile(image)
+      }})
+    }
+    else if(acceptedFiles.length) {
+      downloadFile(acceptedFiles[0])
     }
   }
 
@@ -116,6 +133,8 @@ export default function FileField(props: Props) {
         <FileUploadDropzone
           isImage={props.isImage}
           onDrop={onDrop}
+          description={props.description}
+          className={props.dropZoneClassName}
           maxFiles={1}
           maxSize={props.maxSize ?? 1024*1024*5}
           title={props.text ?? props.label as string}
@@ -126,6 +145,7 @@ export default function FileField(props: Props) {
           className={styles.fileListItem}
           isImage={props.isImage ?? false}
           labelLoading={props.labelLoading ?? ''}
+          //@ts-ignore
           value={field.value}
           previewName={previewName}
           previewPath={previewPath}

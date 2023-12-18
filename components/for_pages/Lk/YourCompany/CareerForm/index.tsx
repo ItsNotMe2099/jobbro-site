@@ -1,4 +1,4 @@
-import styles from 'components/for_pages/Lk/YourCompany/CareerForm/index.module.scss'
+import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import {Form, FormikProvider, useFormik} from 'formik'
 import InputField from '@/components/fields/InputField'
@@ -13,8 +13,8 @@ import {ICompany} from '@/data/interfaces/ICompany'
 import {omit} from '@/utils/omit'
 import IFile from '@/data/interfaces/IFile'
 import {useRef} from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import FileListField from '@/components/fields/Files/FileListField'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 
 
 interface IFormData {
@@ -33,7 +33,7 @@ export default function CompanyCareerForm(props: Props) {
 
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     try {
-      console.log('Data111', data)
+      // console.log('Data111', data)
       const submitData: DeepPartial<ICompany> = {
         ...omit(data, ['images']),
         imagesIds: data.images.map(i => i.id)
@@ -44,13 +44,11 @@ export default function CompanyCareerForm(props: Props) {
         await companyOwnerContext.create(submitData)
       }
     } catch (err) {
-      console.error(err)
+      // console.error(err)
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
       }
-
     }
-
   }
 
   const initialValues: IFormData = {
@@ -82,6 +80,8 @@ export default function CompanyCareerForm(props: Props) {
               isImage
               name='images'
               accept={[FileUploadAcceptType.Image]}
+              className={styles.dropZone}
+              fileListClassName={styles.fileList}
               dropzoneTitle=
                 {
                   <div className={styles.text}>
@@ -100,7 +100,7 @@ export default function CompanyCareerForm(props: Props) {
             </div>
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}/>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} loading={companyOwnerContext.editLoading}/>
       </Form>
     </FormikProvider>
   )

@@ -15,28 +15,28 @@
     position: relative;
 }
 
-.cards {
-    display: flex;
-    flex-wrap: wrap;
+// .cards {
+//     display: flex;
+//     flex-wrap: wrap;
 
-    .card {
-        margin-right: 24px;
-    }
-}
+//     .card {
+//         margin-right: 24px;
+//     }
+// }
 
-.rows {
-    flex-wrap: nowrap;
-    flex-direction: column;
+// .rows {
+//     flex-wrap: nowrap;
+//     flex-direction: column;
 
-    .card {
-        margin-left: 0;
-    }
-}
+//     .card {
+//         margin-left: 0;
+//     }
+// }
 
-.card {
-    margin-bottom: 32px;
-    position: relative;
-}
+// .card {
+//     margin-bottom: 32px;
+//     position: relative;
+// }
 
 
 .plus {

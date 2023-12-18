@@ -1,4 +1,4 @@
-import styles from 'components/fields/Files/FileListField/index.module.scss'
+import styles from './index.module.scss'
 import {ReactElement, useEffect, useMemo, useRef, useState} from 'react'
 import IFile from 'data/interfaces/IFile'
 import {FileUploadAcceptType, SnackbarType} from 'types/enums'
@@ -11,6 +11,7 @@ import FileUploadDropzone from 'components/fields/Files/components/FileUploadDro
 import FileListItem from 'components/fields/Files/FileListField/FileListItem'
 import Converter from '@/utils/converter'
 import FileRepository from '@/data/repositories/FileRepository'
+import classNames from 'classnames'
 
 interface IFileListItem {
   id: string
@@ -35,6 +36,7 @@ interface Props extends IField<IFile[] | null> {
   labelLoading?: string
   dropzoneTitle?: string | ReactElement
   className?: string
+  fileListClassName?: string
 }
 
 export default function FileListField(props: Props) {
@@ -61,6 +63,7 @@ export default function FileListField(props: Props) {
       appContext.setIsFilesUploading(false)
     }
   }, [files])
+
   const handleDelete = async (file: IFileListItem) => {
     if (field.value) {
       try {
@@ -76,7 +79,6 @@ export default function FileListField(props: Props) {
   const handleCancel = async (file: IFileListItem) => {
     (abortControllersRef.current as IAbortControllerWithId[])?.find(i => i.id === file.id)?.abort()
   }
-
 
   const onDrop = async (acceptedFiles: File[],
                         fileRejections: FileRejection[],
@@ -118,15 +120,10 @@ export default function FileListField(props: Props) {
             return
           }
           setFiles(files => files.map(f => f.id === file.id ? ({...f, progress: -1, previewPath: '', error: e}) : f))
-
         }
-
       }
-
-
     }
   }
-
 
   const dropzoneAccept: Accept = useMemo(() => {
     let obj = {}
@@ -136,8 +133,11 @@ export default function FileListField(props: Props) {
     })
     return obj
   }, [props.accept])
+
+
   return (
-    <div className={styles.root} data-field={props.name}>
+    <>
+    {/* // <div className={styles.root} data-field={props.name}> */}
       {props.label && <div className={styles.label}>{props.label}</div>}
       <FileUploadDropzone
         className={props.className}
@@ -147,8 +147,8 @@ export default function FileListField(props: Props) {
         maxSize={props.maxSize ?? 1024*1024*5}
         title={props.dropzoneTitle ?? props.label as string}
         accept={dropzoneAccept}
-      />
-      <div className={styles.files}>
+        />
+      <div className={classNames(styles.files, props.fileListClassName)}>
         {files.map(file => <FileListItem
           key={file.id}
           isImage={props.isImage}
@@ -162,7 +162,8 @@ export default function FileListField(props: Props) {
           onDelete={() => handleDelete(file)}
           error={file.error}/>)}
       </div>
-    </div>
+    {/* // </div> */}
+        </>
   )
 }
 

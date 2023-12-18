@@ -1,10 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import {  SnackbarType } from 'types/enums'
-import { debounce } from 'debounce'
-import {  RequestError } from 'types/types'
-import { useAppContext } from 'context/state'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
+import {Goal, SnackbarType} from 'types/enums'
+import {debounce} from 'debounce'
+import {RequestError} from 'types/types'
+import {useAppContext} from 'context/state'
 import {CandidateAddedStoreType} from '@/data/interfaces/CandidateAddedStoreType'
 import CandidateRepository from '@/data/repositories/CandidateRepository'
+import Analytics from '@/utils/goals'
 
 const tmpList: number[] = []
 
@@ -72,6 +73,7 @@ export function CandidateAddedWrapper(props: Props) {
       setStore(join(storeRef.current, [id]))
       try {
         await CandidateRepository.create(id)
+        Analytics.goal(Goal.CandidateBaseAdd)
       } catch (err) {
         if (err instanceof RequestError) {
           appContext.showSnackbar(err.message, SnackbarType.error)

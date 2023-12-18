@@ -122,7 +122,7 @@ const JobApplyCardInner = (props: Props) => {
         <div className={styles.percent}>
           {evaluation.percentEvaluation}%
         </div>
-        <div className={styles.text}>{evaluation.justification}</div>
+        <div title={evaluation.justification||''} className={styles.text}>{evaluation.justification}</div>
       </div>}
     </div>
   )

@@ -1,6 +1,6 @@
 import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
 import {RequestError, SnackbarData} from '@/types/types'
-import {createContext, useContext, useEffect, useState} from 'react'
+import {Dispatch, SetStateAction, createContext, useContext, useEffect, useState} from 'react'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import {Subject} from 'rxjs'
 import AuthRepository from '@/data/repositories/AuthRepository'
@@ -31,7 +31,7 @@ interface IState {
   modalNonSkippable: boolean
   setModalNonSkippable: (val: boolean) => void
   bottomSheet: ModalType | null
-  showModal: (type: ModalType, args?: any) => void
+  showModal: <T extends unknown>(type: ModalType, args?: T) => void
   hideModal: () => void
   showBottomSheet: (type: ModalType, args?: any) => void,
   hideBottomSheet: () => void
@@ -51,6 +51,10 @@ interface IState {
   isOverlayShown?: boolean
   showOverlay: () => void
   hideOverlay: () => void
+
+  headerDirection: 'up'|'down'
+  setDirection: Dispatch<SetStateAction<'up' | 'down'>>
+
 
 
   vacancyCreateState$: Subject<IVacancy>,
@@ -159,6 +163,9 @@ const defaultValue: IState = {
   showOverlay: () => null,
   hideOverlay: () => null,
 
+  headerDirection: 'up',
+  setDirection: () => null,
+
 
   vacancyCreateState$,
   vacancyUpdateState$,
@@ -192,6 +199,7 @@ const defaultValue: IState = {
 
   eventCreateState$,
   eventUpdateState$,
+
 }
 
 const ModalsBottomSheet: ModalType[] = [
@@ -212,7 +220,7 @@ export function AppWrapper(props: Props) {
   const [token, setToken] = useState<string | null>(props.token ?? null)
   const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
   const [aboutMeLoaded, setAboutMeLoaded] = useState<boolean>(false)
-  const [isLogged, setIsLogged] = useState<boolean>(false)
+  const [isLogged, setIsLogged] = useState<boolean>(!!props.token)
   const [allLoaded, setAllLoaded] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(props.isMobile)
   const [sidePanel, setSidePanel] = useState<SidePanelType | null>(null)
@@ -223,6 +231,8 @@ export function AppWrapper(props: Props) {
   const [isOverlayShown, setIsOverlayShown] = useState<boolean>(false)
   const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
   const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
+  const [headerDirection, setDirection] = useState<'up'|'down'>('up')
+
   const showSnackbar = (text: string, type: SnackbarType) => {
 
     setSnackbar({text, type})
@@ -294,7 +304,7 @@ export function AppWrapper(props: Props) {
   }, [])
 
 
-  const showModal = (type: ModalType, args?: any) => {
+  const showModal = <T extends unknown>(type: ModalType, args?: T) => {
     if (props.isMobile && ModalsBottomSheet.includes(type)) {
       showBottomSheet(type, args)
       return
@@ -355,6 +365,8 @@ export function AppWrapper(props: Props) {
     hidePanel,
     isFilesUploading,
     isOverlayShown,
+    headerDirection,
+    setDirection,
     showOverlay: () => {
       setIsOverlayShown(true)
     },

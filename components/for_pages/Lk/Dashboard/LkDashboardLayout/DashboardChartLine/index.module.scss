@@ -1,0 +1,25 @@
+@import "styles/index";
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @include list(12px);
+}
+.wrapper{
+  position: relative;
+}
+
+.label{
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+}
+.value{
+  text-align: right;
+  font-weight: 600;
+  font-size: 24px;
+}
+.img{
+
+}

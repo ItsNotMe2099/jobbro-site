@@ -8,7 +8,7 @@ import {useEffect, useRef, useState} from 'react'
 import {useVacancyGenerateAiContext, VacancyGenerateAiWrapper} from '@/context/vacancy_generate_ai'
 import JobAiGenerateMessageForm from '@/components/for_pages/Lk/Jobs/JobAiGenerate/JobAiGenerateMessageForm'
 import {Nullable} from '@/types/types'
-import JobAiStickyFooter from '@/components/for_pages/Lk/Jobs/JobAiGenerate/JobAiStickyFooter'
+// import JobAiStickyFooter from '@/components/for_pages/Lk/Jobs/JobAiGenerate/JobAiStickyFooter'
 import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'
 import IAiVacancyGenRequest from '@/data/interfaces/IAiVacancy'
 import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
@@ -33,17 +33,19 @@ const CreateJobAiPageInner = () => {
     }
   }, [])
   return (
-        <div className={styles.root} ref={ref}>
+        <div className={styles.root} ref={ref} >
           {preview ? <PageTitle title={'Preview mode'} onBack={() => setPreview(false)} />
             : <PageTitle title={'Job Creating'} link={Routes.lkJobs} />}
           <div className={styles.form}>
             {initialRequest &&   <VacancyOwnerWrapper><CreateJobManuallyForm fromAi={true} initialValuesAi={vacancyGenerateAiContext.request?.result} preview={preview} onPreview={() => setPreview(!preview)}/></VacancyOwnerWrapper>}
           </div>
-          {!preview && <JobAiStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-            <div>
+          {!preview && 
+          // <JobAiStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
+          //   <div>
             <JobAiGenerateMessageForm/>
-            </div>
-          </JobAiStickyFooter>}
+          //    </div>
+          //  </JobAiStickyFooter>
+        }
         </div>
   )
 }

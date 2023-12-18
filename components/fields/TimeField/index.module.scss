@@ -28,7 +28,7 @@
 }
 
 .labelFocused {
-  transform: translate(16px, 8px);
+  transform: translate(16px, 8px) !important;
 }
 
 .timePicker {
@@ -63,7 +63,7 @@
 
 .popup {
   z-index: 9999999;
-  padding-top: 9px;
+  padding-top: 55px;
   position: relative;
 }
 

@@ -10,7 +10,8 @@ export default class Converter {
   static getFileUploadAccept(type: FileUploadAcceptType): {[key: string]: string[]} {
     const images = {'image/*': ['.jpeg', '.jpg', '.png']}
     const videos = {'video/mp4': ['.mp4'], 'video/mpeg': ['.mpeg'], 'video/x-msvideo': ['.avi']}
-    const scans = {'application/pdf': ['.pdd']}
+    const scans = {'application/pdf': ['.pdf']}
+    const pdf = {'application/pdf': ['.pdf']}
     const docs = {
       'application/vnd.ms-powerpoint': ['.ppt'],
       'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
@@ -36,6 +37,8 @@ export default class Converter {
         return {...images, ...videos}
       case FileUploadAcceptType.Archives:
         return archives
+      case FileUploadAcceptType.Pdf:
+        return pdf
       default:
         return {}
     }
@@ -70,5 +73,15 @@ export default class Converter {
     const [firstName, ...lastName] = name.split(' ')
 
     return {firstName, lastName: lastName.join(' ')}
+  }
+  
+  static toBase64(file: File) : Promise<string> { 
+    return new Promise((resolve, reject) => {
+      if(!file) reject('File not provided')
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = reject
+    })
   }
 }

@@ -39,7 +39,7 @@ const ManagerMultiFieldInner = (props: Props) => {
           <InputField name={'search'} suffix={'search'} label={'Search'} onChange={debouncedSearchChange}/>
 
       <div className={styles.list}>
-        {managerListOwnerContext.data.data.map((manager) => <div
+        {managerListOwnerContext?.data?.data?.map((manager) => <div
             className={classNames(styles.employee, {[styles.selected]: field.value.find(i => i.id === manager.id)})}
             onClick={() => handleSelect(manager)}>
             <AvatarCircular file={manager!.image} className={styles.avatar}/>

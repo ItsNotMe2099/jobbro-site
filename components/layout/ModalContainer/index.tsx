@@ -4,6 +4,7 @@ import { ModalType } from '@/types/enums'
 import {ConfirmModal} from '@/components/modals/ConfirmModal'
 import Modal, {IModalProps} from '@/components/ui/Modal'
 import ApplicationCreateModal from '@/components/modals/ApplicationCreateModal'
+import CropAvatarModal from '@/components/modals/CropAvatar/CropAvatarModal'
 
 interface Props { }
 
@@ -22,6 +23,9 @@ export default function ModalContainer(props: Props) {
         </Modal>
         <Modal isOpen={appContext.modal === ModalType.ApplicationCreate} {...commonSettings}>
           {appContext.modal === ModalType.ApplicationCreate && <ApplicationCreateModal isBottomSheet={false} />}
+        </Modal>
+        <Modal isOpen={appContext.modal === ModalType.CropAvatarModal} {...commonSettings}>
+          {appContext.modal === ModalType.CropAvatarModal && <CropAvatarModal onClose={appContext.hideModal} isBottomSheet={false} />}
         </Modal>
       </div>
     </RemoveScroll>

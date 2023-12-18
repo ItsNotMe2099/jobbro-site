@@ -1,5 +1,5 @@
 import PersonSvg from '@/components/svg/PersonSvg'
-import styles from 'components/for_pages/Lk/YourCompany/Offices/OfficeCard/index.module.scss'
+import styles from './index.module.scss'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
 import {IOffice} from '@/data/interfaces/IOffice'

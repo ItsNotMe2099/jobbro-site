@@ -21,8 +21,8 @@ export default function GearSvg(props: Props) {
       </g>
       <defs>
         <linearGradient id="paint0_linear_2091_9040" x1="39.9961" y1="35" x2="113.496" y2="153.5" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>

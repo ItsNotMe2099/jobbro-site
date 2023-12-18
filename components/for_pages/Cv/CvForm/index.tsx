@@ -23,7 +23,6 @@ import CurrencyField from '@/components/fields/CurrencyField'
 import LanguageField from '@/components/fields/LanguageField'
 import CloseSvg from '@/components/svg/CloseSvg'
 import CountryField from '@/components/fields/CountryField'
-import FileListField from '@/components/fields/Files/FileListField'
 import IFile from '@/data/interfaces/IFile'
 import {IGeoName} from '@/data/interfaces/ILocation'
 import {Relocation} from '@/data/enum/Relocation'
@@ -37,6 +36,7 @@ import {omit} from '@/utils/omit'
 import {format, parse} from 'date-fns'
 import {Routes} from '@/types/routes'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
+import FileField from '@/components/fields/Files/FileField'
 
 interface Props {
   onPreview?: () => void
@@ -177,17 +177,10 @@ export default function CvForm(props: Props) {
           </Card>
           <Card title='Details'>
             <div className={styles.wrapper}>
-              <FileListField
-                className={styles.file}
+              <FileField
                 isImage
                 name='image'
                 accept={[FileUploadAcceptType.Image]}
-                dropzoneTitle=
-                  {
-                    <div className={styles.text}>
-                      Drag & drop image upload<br/>You can use 1 images smaller than 3.5MB and at least 752px by
-                      480px.</div>
-                  }
               />
               <InputField name='name' label={'Name'}
                           validate={Validator.required}

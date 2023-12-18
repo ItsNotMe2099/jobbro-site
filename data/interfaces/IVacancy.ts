@@ -8,13 +8,14 @@ import {Workplace} from '@/data/enum/Workplace'
 import {Employment} from '@/data/enum/Employment'
 import {IOffice} from '@/data/interfaces/IOffice'
 import IFile from '@/data/interfaces/IFile'
-import IHiringStage from '@/data/interfaces/IHiringStage'
+import IHiringStage, {IHiringStageForDashBoard} from '@/data/interfaces/IHiringStage'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {ICompany} from '@/data/interfaces/ICompany'
 import {IProposal} from '@/data/interfaces/IProposal'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
+import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 
 export interface IHiringStageDescription {
   title: string;
@@ -31,11 +32,11 @@ export interface IVacancyPageBlock {
 }
 
 export interface IVacancyContactPerson {
-  name?: string;
-  email?: string;
-  phone?: string;
-  telegramNickname?: string;
-  visible?: boolean;
+  name: string | null;
+  // email?: string;
+  // phone?: string;
+  // telegramNickname?: string;
+  visible: boolean;
 }
 
 export interface IVacancy {
@@ -50,16 +51,16 @@ export interface IVacancy {
   subCategoryId: number;
   requirements: string;
   skills: ISkill[];
-  skillsIds: number[];
+  skillsTitles: string[];
   tasks: string;
   salaryMin: number;
   salaryMax: number;
   salaryType: SalaryType;
   currency: string;
   benefits: IBenefit[];
-  benefitsIds: number[];
+  benefitsTitles: string[];
   keywords: IKeyword[];
-  keywordsIds: number[];
+  keywordsTitles: string[];
   benefitsDescription: IVacancyPageBlock;
   experience: Experience;
   workplace: Workplace;
@@ -87,6 +88,7 @@ export interface IVacancy {
   applyAutoMessage: IAutoMessage
   declineAutoMessage: IAutoMessage
   createdAt: Date;
+  creationType: VacancyCreationType
 }
 export interface IVacancyWithApply extends IVacancy{
   proposals: IProposal[]
@@ -96,4 +98,11 @@ export interface IVacancyWithApply extends IVacancy{
 export interface IVacancyWithHiringStages extends IVacancy{
   hiringStages: IHiringStageWithApply[]
   conversionRate: number
+}
+export interface IVacancyWithHiringStagesForDashBoard extends IVacancy{
+  hiringStages: IHiringStageForDashBoard[]
+  conversionRate: number
+}
+export interface IVacancyHot extends IVacancy{
+  applications_count: number
 }

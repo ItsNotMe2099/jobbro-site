@@ -1,19 +1,15 @@
 import { getAuthServerSideProps } from '@/utils/auth'
 import { ProfileType } from '@/data/enum/ProfileType'
-import styles from './index.module.scss'
 import { LkDashboardPageLayout } from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout'
+import LkDashboardTeamBoard from '@/components/for_pages/Lk/Dashboard/TeamBoard'
 
 interface Props {
 
 }
 
 const LkDashboardTeamPage = (props: Props) => {
-
-
   return (
-    <div className={styles.root}>
-      
-    </div>
+    <LkDashboardTeamBoard/>
   )
 }
 

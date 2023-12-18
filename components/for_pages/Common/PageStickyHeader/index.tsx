@@ -32,17 +32,20 @@ export default function PageStickyHeader(props: Props) {
               isFixed ?
                 {
                   ...wrapperStyles,
-                  transform: 'translateY(120px)',
+                  transform: appContext.headerDirection === 'up' ? 'translate3d(0px, 120px, 0px)' : 'translate3d(0px, 0px, 0px)',
                   display: 'flex',
                   width: windowWidth - (position?.left ?? 0) - 32,
                   zIndex: 2,
+
                 } :
                 {
                   ...wrapperStyles,
+                  width: windowWidth - (position?.left ?? 0) - 32,
 
                 }
             }
             ref={wrapperRef}
+            className={styles.transitioned}
           >
             <div className={styles.root}>
               {props.children}

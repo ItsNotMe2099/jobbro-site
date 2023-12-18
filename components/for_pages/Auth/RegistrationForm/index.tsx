@@ -3,13 +3,14 @@ import styles from '@/components/for_pages/Auth/RegistrationForm/index.module.sc
 import { Form, FormikProvider, useFormik } from 'formik'
 import Validator from '@/utils/validator'
 import Button from '@/components/ui/Button'
-import { SnackbarType } from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import { useState } from 'react'
 import { RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
+import Analytics from '@/utils/goals'
 
 interface IFormData{
   firstName: string
@@ -33,6 +34,7 @@ export default function RegistrationForm(props: Props) {
     try {
       const res = await AuthRepository.register(data)
       props.onSubmit()
+      Analytics.goal(Goal.RegistrationHirer)
       return
       if (res.accessToken) {
         appContext.setToken(res.accessToken)

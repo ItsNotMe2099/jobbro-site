@@ -1,0 +1,42 @@
+@import "styles/index";
+
+.root {
+  width: 33%;
+}
+
+.top {
+  display: flex;
+  @include list(16px, true);
+  align-items: center;
+}
+
+.link {
+  text-align: right;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.16px;
+}
+
+.icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 100%;
+  background-color: $green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}

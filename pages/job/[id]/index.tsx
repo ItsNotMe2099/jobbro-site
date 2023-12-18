@@ -11,6 +11,7 @@ import Button from '@/components/ui/Button'
 import {useRef} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
+import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
 
 interface Props {
   job: IVacancy
@@ -18,16 +19,20 @@ interface Props {
 
 const JobPageInner = (props: Props) => {
   const appContext = useAppContext()
+
   const ref = useRef<HTMLDivElement | null>(null)
   return (<Layout>
-      <div ref={ref} className={styles.root}>
+      <div  className={styles.root}>
+        <div ref={ref} className={styles.container}>
         <JobPreview job={props.job} company={props.job.company}/>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
+        <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref}>
           <Button spinner={false} type='submit' styleType='large' color='green'
                   onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
             Apply
           </Button>
         </FormStickyFooter>
+        </div>
+        <ApplyForJobCard vacancyId={props.job.id}/>
       </div>
     </Layout>
   )

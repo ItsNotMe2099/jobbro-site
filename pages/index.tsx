@@ -21,7 +21,6 @@ export default function LendingPage() {
       <Item
         btnText='Try now'
         title='Job creation'
-        classImg={styles.creation}
         text={<>The platform helps you to form a perfect job advertisement. AI writes descriptions<br />
           the way you want and suggest you key skills and values for any position you have.</>}
         image={isPhoneWidth ? '/lending/job-creation-mobile.png' : '/lending/job-creation-desk.png'}
@@ -29,7 +28,6 @@ export default function LendingPage() {
       <div className={styles.wrapper}>
         <Item
           className={styles.base}
-          classImg={styles.baseImg}
           classBtn={styles.creationBtn}
           btnText='Create base'
           title='Every candidate in one place'
@@ -43,7 +41,7 @@ export default function LendingPage() {
       <OneClick />
       <Item
         btnText='Try now'
-        classImg={styles.tryImg}
+        classImg={styles.clear}
         title='Clear view on your recruitment'
         text={<>Get access to all the statistics of your recruitment process, from personal HR metrics<br />
           and hiring flow data to user and candidate satisfaction.</>}

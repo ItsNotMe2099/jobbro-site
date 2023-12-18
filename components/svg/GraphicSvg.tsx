@@ -10,8 +10,8 @@ export default function GraphicSvg(props: Props) {
       <rect width="148" height="100" rx="8" fill="url(#paint0_linear_2999_25519)" />
       <defs>
         <linearGradient id="paint0_linear_2999_25519" x1="74" y1="100" x2="74" y2="0" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#DBF9DD" />
-          <stop offset="1" stop-color="#24B563" />
+          <stop stopColor="#DBF9DD" />
+          <stop offset="1" stopColor="#24B563" />
         </linearGradient>
       </defs>
     </svg>

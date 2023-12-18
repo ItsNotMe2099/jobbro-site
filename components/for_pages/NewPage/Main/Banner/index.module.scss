@@ -1,0 +1,28 @@
+@import "styles/index";
+
+.root {
+  border-radius: 24px;
+  background: linear-gradient(96deg, #8423FF -201.92%, #2C9AFF 8.21%, #81FF86 193.62%);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  padding-top: 24px;
+}
+
+.text {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.32px;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}

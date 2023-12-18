@@ -14,6 +14,7 @@ import { useRef } from 'react'
 import { Nullable } from '@/types/types'
 import { useRouter } from 'next/router'
 import NoData from '@/components/for_pages/Common/NoData'
+import CardsLayout from '@/components/ui/CardsLayout'
 
 
 interface Props {
@@ -40,11 +41,18 @@ const LkCompanyOfficesPageInner = (props: Props) => {
       }
       {!officeListOwnerContext.isLoaded && officeListOwnerContext.isLoading &&
         <ContentLoader style={'page'} isOpen={true} />}
-      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 && <div className={styles.offices}>
+      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 && 
+      // <div className={styles.offices}>
+      //   {officeListOwnerContext.data.data.map((i, index) =>
+      //     <OfficeCard className={styles.office} key={index} office={i} />
+      //   )}
+      // </div>
+      <CardsLayout>
         {officeListOwnerContext.data.data.map((i, index) =>
           <OfficeCard className={styles.office} key={index} office={i} />
         )}
-      </div>}
+      </CardsLayout>
+      }
       <StickyFab boundaryElement={styles.root} containerRef={ref}
         onClick={() => router.push(Routes.lkCompanyOfficeCreate)} />
     </div>

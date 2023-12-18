@@ -6,11 +6,11 @@ import FileUploadIconPreview from 'components/fields/Files/components/FileUpload
 import {colors} from 'styles/variables'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {Line} from 'rc-progress'
-import Formatter from '@/utils/formatter'
+// import Formatter from '@/utils/formatter'
 
 interface Props {
   isImage?: boolean
-  value?: IFile | null
+  value?: IFile | File | null
   previewName?: string | undefined
   previewPath?: string | undefined
   previewSize?: number | undefined
@@ -22,7 +22,6 @@ interface Props {
   icon?: ReactElement
   stubIcon?: ReactElement
   className?: string
-
 }
 
 export default function FileListItem(props: Props) {
@@ -54,7 +53,7 @@ export default function FileListItem(props: Props) {
       <div className={styles.center}>
         <div className={styles.left}>
           <div className={styles.info}>
-            <div className={styles.name}>{props.previewName ?? props.value?.name}{ props.previewSize ? ` ${Formatter.formatSize( props.previewSize )}` : ''}</div>
+            {/* <div className={styles.name}>{props.previewName ?? props.value?.name}{ props.previewSize ? ` ${Formatter.formatSize( props.previewSize )}` : ''}</div> */}
             {props.error && <div className={styles.error}>{props.error}</div>}
           </div>
           {getButton()}

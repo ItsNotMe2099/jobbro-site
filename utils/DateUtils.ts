@@ -149,8 +149,8 @@ export default class DateUtils {
   static formatDateUtc(date: string | Date, _format: string){
     return format(utcToZonedTime(typeof date === 'string' ? new Date(date) : date, 'UTC'), _format, {locale: ru})
   }
-  static formatDate(date: string | Date, _format: string){
-    return format(typeof date === 'string' ? new Date(date) : date, _format, {locale: ru})
+  static formatDate(date: string | Date, _format: string = 'dd.MM.yyyy'){
+    return format(typeof date === 'string' ? new Date(date) : date, _format, )
   }
 
   static formatDateRelativeUtc = (_date: string | Date, showTime: boolean = true) => {
@@ -176,7 +176,7 @@ export default class DateUtils {
 
   static formatDateRelativeShort(date: string | Date){
     const formatRelativeLocale: {[key: string] : string} = {
-      yesterday: 'Вчера',
+      yesterday: 'Yesterday',
       today: 'HH:mm',
       other:  isSameYear(new Date(), new Date(date)) ? 'dd.MM' : 'dd.MM.yy',
     }
