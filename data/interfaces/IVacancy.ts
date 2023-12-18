@@ -15,6 +15,7 @@ import {ICompany} from '@/data/interfaces/ICompany'
 import {IProposal} from '@/data/interfaces/IProposal'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
+import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 
 export interface IHiringStageDescription {
   title: string;
@@ -87,6 +88,7 @@ export interface IVacancy {
   applyAutoMessage: IAutoMessage
   declineAutoMessage: IAutoMessage
   createdAt: Date;
+  creationType: VacancyCreationType
 }
 export interface IVacancyWithApply extends IVacancy{
   proposals: IProposal[]

@@ -38,7 +38,7 @@ export default function Footer(props: Props) {
   ]
 
   const bottom = [
-    { label: 'Privacy Policy', link: '#' },
+    { label: 'Privacy Policy', link: 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing' },
     { label: 'Terms of Service', link: '#' },
     { label: 'Cookies Settings', link: '#' },
   ]
@@ -82,32 +82,32 @@ export default function Footer(props: Props) {
         <div className={styles.right}>
           <div className={styles.columns}>
             <div className={styles.column}>
-              {columns.slice(0, 5).map((i, index) =>
+              {/*columns.slice(0, 5).map((i, index) =>
                 <Link href={i.link} key={index} className={styles.label}>
                   {i.label}
                 </Link>
-              )}
+              )*/}
             </div>
             <div className={styles.column}>
-              {columns.slice(5, 8).map((i, index) =>
+              {/*columns.slice(5, 8).map((i, index) =>
                 <Link href={i.link} key={index} className={styles.label}>
                   {i.label}
                 </Link>
-              )}
+              )*/}
             </div>
             <div className={styles.column}>
-              {columns.slice(8).map((i, index) =>
+              {/*columns.slice(8).map((i, index) =>
                 <Link href={i.link} key={index} className={styles.label}>
                   {i.label}
                 </Link>
-              )}
+              )*/}
             </div>
           </div>
           <div className={styles.bottom}>
             {bottom.map((i, index) =>
-              <Link href={i.link} key={index} className={styles.label}>
+              <a href={i.link} key={index} className={styles.label}>
                 {i.label}
-              </Link>
+              </a>
             )}
           </div>
         </div>

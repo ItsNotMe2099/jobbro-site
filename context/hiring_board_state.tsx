@@ -2,13 +2,15 @@ import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {IVacancyWithHiringStages} from '@/data/interfaces/IVacancy'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
-import {ModalType, SnackbarType} from '@/types/enums'
+import {Goal, ModalType, SnackbarType} from '@/types/enums'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import HiringBoardRepository from '@/data/repositories/HiriginBoardRepository'
 import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
 import IHiringStage, {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 import {ICVWithApply} from '@/data/interfaces/ICV'
 import {omit} from '@/utils/omit'
+import Analytics from '@/utils/goals'
+
 type AppliesByStages = {[key: number]: ICVWithApply[]}
 interface IState {
   vacancyId: number | undefined,
@@ -217,6 +219,11 @@ export function HiringBoardWrapper(props: Props) {
       const currentHiringStageIndex = vacancy?.hiringStages.findIndex(i => i.id === stageId)
     if(!currentHiringStageIndex){
       return
+    }
+    if(currentHiringStageIndex === 0){
+      Analytics.goal(Goal.MoveApplyFromApplied)
+    }else if(currentHiringStageIndex === (vacancy?.hiringStages?.length ??0 ) - 1){
+      Analytics.goal(Goal.MoveApplyToOffer)
     }
     const currentHiringStages = [...vacancy?.hiringStages!]
     currentHiringStages.splice(toIndex,0,currentHiringStages.splice(currentHiringStageIndex,1)[0])

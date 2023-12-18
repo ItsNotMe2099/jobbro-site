@@ -89,3 +89,28 @@ export enum SortOrder {
   Asc = 'ASC',
   Desc = 'DESC',
 }
+
+export enum Goal {
+  Login = 'login',
+  RegistrationHirer = 'RegistrationHirer',
+  RegistrationEmployee = 'RegistrationEmployee',
+  CreateJobManual = 'CreateJobManual',
+  CreateJobAi = 'CreateJobAi',
+  JobClose = 'JobClose',
+  CreateJobAiEnterPrompt = '',
+  CreateJobAiEditFilledField = '',
+  MoveApplyFromApplied = '',
+  MoveApplyToOffer = '',
+  CandidateBaseAdd = '',
+  OwnCandidateBaseAdd = '',
+  HirerUploadCv = '',
+  InviteToJob = '',
+  // Просмотр кандидата впервые - логики записи на беке нет
+  ViewCv = 'viewCv',
+  CvDownloadPdf = '',
+  CvComment = 'cvComment',
+  OpenCvChat = 'openCvChat',
+  SendChatMessageToCandidate = '',
+  GetMessageFromCandidate = ''// непонятно в какой момент считать и будет необьективно
+
+}

@@ -3,7 +3,7 @@ import styles from '@/components/for_pages/Auth/LoginForm/index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import Validator from '@/utils/validator'
 import Button from '@/components/ui/Button'
-import { SnackbarType } from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import { useState } from 'react'
 import { RequestError } from '@/types/types'
 import { useAppContext } from '@/context/state'
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import Link from 'next/link'
+import Analytics from '@/utils/goals'
 
 interface IFormData {
   email: string,
@@ -35,6 +36,7 @@ export default function LoginForm(props: Props) {
       accessToken = await AuthRepository.login( data.email, data.password)
 
       if (accessToken) {
+        Analytics.goal(Goal.Login)
         appContext.setToken(accessToken)
         appContext.updateAboutMe()
 
