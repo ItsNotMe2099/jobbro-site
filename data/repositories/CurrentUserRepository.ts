@@ -13,4 +13,13 @@ export default class CurrentUserRepository {
     return res
   }
 
+
+  static async delete(): Promise<IProfile> {
+    const res = await request<IProfile>({
+      method: 'delete',
+      url: '/api/profile/current',
+    })
+    return res
+  }
+
 }

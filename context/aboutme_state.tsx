@@ -67,9 +67,10 @@ export function AboutMeWrapper(props: Props) {
         appContext.hideModal()
         try {
           setDeleteLoading(true)
-          const res = await CurrentUserRepository.deletePassportData()
+          const res = await CurrentUserRepository.delete()
           handleUpdate({...aboutMeRef.current!})
           setDeleteLoading(false)
+          appContext.logout()
 
           return res
         } catch (err) {

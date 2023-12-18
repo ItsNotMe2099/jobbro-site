@@ -14,6 +14,7 @@ import {useAboutMeContext} from '@/context/aboutme_state'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
+import Button from '@/components/ui/Button'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -115,8 +116,18 @@ export default function AccountProfileForm(props: Props) {
             This section allows you to permanently remove your account from our platform. If you no longer wish to use our services, you can initiate the account deletion process here. Please note that this action is irreversible and will result in the deletion of all your personal data associated with the
             account.
           </div>
+        <div>
+          <Button spinner={aboutMeContext.deleteLoading} className={styles.deleteButton} onClick={aboutMeContext.deleteAccount} type='submit' styleType='large' color='red'>
+            Delete Account
+          </Button>
+        </div>
         </Card>
 
+        <div>
+        <Button onClick={appContext.logout} type='submit' styleType='large' color='white'>
+          Logout
+        </Button>
+        </div>
         <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} loading={aboutMeContext.editLoading}/>
       </Form>
     </FormikProvider>
