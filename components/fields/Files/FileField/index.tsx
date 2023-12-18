@@ -26,6 +26,7 @@ interface Props extends IField<IFile | File | null> {
   maxSize?: number
   disableUpload?: boolean
   withCrop?: boolean
+  dropZoneClassName?: string
 }
 
 export default function FileField(props: Props) {
@@ -132,6 +133,8 @@ export default function FileField(props: Props) {
         <FileUploadDropzone
           isImage={props.isImage}
           onDrop={onDrop}
+          description={props.description}
+          className={props.dropZoneClassName}
           maxFiles={1}
           maxSize={props.maxSize ?? 1024*1024*5}
           title={props.text ?? props.label as string}

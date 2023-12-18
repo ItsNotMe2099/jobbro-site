@@ -1,4 +1,5 @@
 import styles from './index.module.scss'
+
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import { Nullable, RequestError} from '@/types/types'
@@ -79,6 +80,8 @@ export default function AccountProfileForm(props: Props) {
               <FileField
                 isImage
                 name='image'
+                description={<p>Drag & drop image upload. <br /> You can use 5 images smaller than 3.5MB and at least 752px by 480px.</p>}
+                dropZoneClassName={styles.dropZone}
                 accept={[FileUploadAcceptType.Image]}
               />
               <InputField

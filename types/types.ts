@@ -21,7 +21,7 @@ export interface IField<T> extends FieldConfig<T> {
   placeholder?: string
   type?: HTMLInputTypeAttribute
   error?: string
-  description?: string
+  description?: string| JSX.Element
   disabled?: boolean
   iconName?: FieldIconName
 }
