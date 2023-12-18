@@ -1,0 +1,23 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  @include list(24px, false);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  @include list(16px, true);
+}
+.description{
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}

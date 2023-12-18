@@ -14,7 +14,7 @@ import {useNotificationContext} from '@/context/notifications_state'
 import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import showToast from '@/utils/showToast'
 
 enum MenuProfileKey {
@@ -43,11 +43,15 @@ export default function Header(props: Props) {
     { label: 'Products', link: '#' },
     { label: 'Resources', link: '#' },
     { label: 'Pricing', link: '#' },
-  ] : [
+  ] : (appContext.aboutMe?.profileType === ProfileType.Employee ? [
     { label: 'Main', link: Routes.index },
     { label: 'Applies', link: Routes.lkApplies },
     { label: 'Marks', link: Routes.marks },
-  ]
+  ] : [
+    { label: 'Search Jobs', link: Routes.index },
+    { label: 'Create Resume', link: '/sdsdsd' },
+    { label: 'Login', link: Routes.login() },
+  ])
     const accountOptions = [
 
     ]
@@ -72,7 +76,11 @@ export default function Header(props: Props) {
   const handleClickProfileItem = (value: MenuProfileKey) => {
     switch (value){
       case MenuProfileKey.UserProfile:
-        router.push(Routes.profile)
+        if(appContext.aboutMe?.profileType === ProfileType.Hirer){
+          router.push(Routes.account)
+        }else {
+          router.push(Routes.profile)
+        }
         break
       case MenuProfileKey.Logout:
         appContext.logout()
@@ -94,7 +102,7 @@ export default function Header(props: Props) {
           </Link>
         )}
       </div>
-      <div className={styles.controls}>
+      {appContext.isLogged &&  <div className={styles.controls}>
         <HeaderButton<string>  dropdownClassName={styles.dropDownNotifications} badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])} icon={<ChatSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
         <HeaderButton<string> dropdownClassName={styles.dropDownChats} badge={notificationContext.getTotalByTypes([
           NotificationType.newApplication ,
@@ -103,17 +111,17 @@ export default function Header(props: Props) {
           NotificationType.userUnBlocked,
           NotificationType.cvRejected,
           NotificationType.vacancyRejected])} icon={<BellSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuNotification isOpen={isOpen}/>}/>
-        <HeaderButton<MenuProfileKey> 
-        onClickItem={handleClickProfileItem} 
-        icon={<AccSvg color={colors.white} />} 
+        <HeaderButton<MenuProfileKey>
+        onClickItem={handleClickProfileItem}
+        icon={<AccSvg color={colors.white} />}
         groups={[
-          {options: [{label: 'User profile', value: MenuProfileKey.UserProfile}], }, 
-          {options: [{label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]} 
+          {options: [{label: 'User profile', value: MenuProfileKey.UserProfile}], },
+          {options: [{label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]}
         options={[
           {label: 'User profile', value: MenuProfileKey.UserProfile},
           {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed},
         ]}/>
-      </div>
+      </div>}
     </div>
   )
 }

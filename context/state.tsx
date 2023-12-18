@@ -220,7 +220,7 @@ export function AppWrapper(props: Props) {
   const [token, setToken] = useState<string | null>(props.token ?? null)
   const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
   const [aboutMeLoaded, setAboutMeLoaded] = useState<boolean>(false)
-  const [isLogged, setIsLogged] = useState<boolean>(false)
+  const [isLogged, setIsLogged] = useState<boolean>(!!props.token)
   const [allLoaded, setAllLoaded] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(props.isMobile)
   const [sidePanel, setSidePanel] = useState<SidePanelType | null>(null)

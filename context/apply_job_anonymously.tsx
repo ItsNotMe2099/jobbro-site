@@ -1,12 +1,13 @@
-import {createContext, useContext, useEffect, useState} from 'react'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {SnackbarType} from '@/types/enums'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import AiCvRequestRepository from '@/data/repositories/AiCvRequestRepository'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
-import {AiCvRequestStatusInProgress} from '@/data/enum/AiCvRequestStatus'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
+import useInterval from 'use-interval'
+import {AiRequestStatusFinished} from '@/data/enum/AiRequestStatus'
 
 export enum ApplyJobAnonymouslyStepKey {
   First = 'first',
@@ -58,18 +59,40 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
   const [loading, setLoading] = useState<boolean>(false)
   const [stepKey, setStepKey] = useState<ApplyJobAnonymouslyStepKey>(ApplyJobAnonymouslyStepKey.First)
   const [request, setRequest] = useState<Nullable<IAiCvRequest>>(null)
+  const requestRef = useRef<Nullable<IAiCvRequest>>(null)
+  const updateAbortController = useRef<AbortController | null>(null)
+  useEffect(() => {
+    requestRef.current = request
+  }, [request])
+  useInterval(() => {
+    updateAbortController.current = new AbortController()
+    if(!requestRef.current || AiRequestStatusFinished.includes(requestRef.current!.status)){
+    return
+    }
+    const ids = requestRef.current ? [requestRef.current!.id] : []
+    if (!ids.length) {
+      return
+    }
+    AiCvRequestRepository.fetch({ids}).then((requests) => {
+      requestRef.current = requests[0]
+      setRequest(requests[0])
+
+
+    })
+  }, 5000)
+
   const init = async () => {
+    console.log('appContext.isLogged', appContext.isLogged)
     if(!appContext.isLogged){
 
       return
     }
     const res = await AiCvRequestRepository.fetch({
-      statuses: AiCvRequestStatusInProgress,
       page: 1,
       limit: 1,
     }) as IPagination<IAiCvRequest>
     setRequest(res.data?.length > 0 ? res.data[0] : null)
-    setLoading(true)
+    setLoading(false)
   }
   useEffect(() => {
    init()

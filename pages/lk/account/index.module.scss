@@ -1,0 +1,119 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    position: relative;
+}
+
+// .cards {
+//     display: flex;
+//     flex-wrap: wrap;
+
+//     .card {
+//         margin-right: 24px;
+//         min-width: 250px;
+//     }
+// }
+
+// .rows {
+//     flex-wrap: nowrap;
+//     flex-direction: column;
+
+//     .card {
+//         margin-left: 0;
+//     }
+// }
+
+.card {
+    // margin-bottom: 32px;
+    position: relative;
+}
+
+.plus {
+    position: absolute;
+    margin: 0 !important;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.menu {
+    position: absolute;
+    width: auto !important;
+}
+
+.sort {
+    width: 256px;
+    position: absolute;
+    z-index: 1;
+    top: 32px;
+}
+
+.notification {
+    position: fixed;
+    right: 32px;
+    z-index: 1;
+}
+
+.inner {
+    display: flex;
+    @include list(16px, true);
+    margin-top: -20px;
+}
+
+.checkbox {
+    padding: 8px;
+}
+
+.check {
+    border-radius: 100%;
+}
+
+.content {
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    @include list(8px, false);
+}
+
+.top {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -0.16px;
+    color: $text-primary;
+}
+
+.bottom {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: -0.16px;
+    color: $text-secondary;
+}
+
+.closebox {
+    padding-left: 16px;
+}
+
+.close {
+    cursor: pointer;
+}

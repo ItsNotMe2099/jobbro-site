@@ -22,6 +22,10 @@ export class Routes {
     return '/'
   }
 
+  static get account() {
+    return '/lk/account'
+  }
+
   static get profile() {
     return '/lk/profile'
   }
