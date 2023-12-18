@@ -1,26 +1,19 @@
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
-import {DeepPartial, Nullable, RequestError} from '@/types/types'
+import { Nullable, RequestError} from '@/types/types'
 import {SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
 import SwitchField from '@/components/fields/SwitchField'
 import {FormikHelpers} from 'formik/dist/types'
-import {omit} from '@/utils/omit'
-import {ICompany} from '@/data/interfaces/ICompany'
 import {useAppContext} from '@/context/state'
 import {useRef, useState} from 'react'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 
 interface IFormData {
-  firstName: Nullable<string>
-  lastName: Nullable<string>
-  position: Nullable<string>
-  email: Nullable<string>
-  phone: Nullable<string>
-  companyVisible: boolean
+
 }
 interface Props {
 
@@ -35,18 +28,7 @@ export default function AccountNotificationForm(props: Props) {
     console.log('handleSubmit')
     try {
 
-      const submitData: DeepPartial<ICompany> = {
-        ...omit(data, ['benefits', 'images', 'country']),
-        benefitsIds: data.benefits.map(i => i.id),
-        countryId: data.country?.geonameid,
-      } as DeepPartial<ICompany>
 
-      if(companyOwnerContext.company){
-        await companyOwnerContext.update(submitData)
-      }else{
-        console.log('dsdsad')
-        await companyOwnerContext.create(submitData)
-      }
     } catch (err) {
       console.error(err)
       if (err instanceof RequestError) {
@@ -58,12 +40,7 @@ export default function AccountNotificationForm(props: Props) {
   }
 
   const initialValues: IFormData = {
-    firstName: appContext.aboutMe?.firstName ?? '',
-    lastName:  appContext.aboutMe?.lastName ?? '',
-    position: appContext.aboutMe?.position  ?? null,
-    email: appContext.aboutMe?.email  ?? null,
-    phone: appContext.aboutMe?.phone  ?? null,
-    companyVisible: false,
+
   }
 
   const formik = useFormik<IFormData>({

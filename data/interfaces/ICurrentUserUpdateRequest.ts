@@ -1,8 +1,9 @@
-import {IPassportData} from '@/data/interfaces/IPassportData'
+import IFile from '@/data/interfaces/IFile'
 
 export interface ICurrentUserUpdateRequest {
   firstName?: string | null,
   lastName?: string | null
   patronymic?: string | null
-  passport?: IPassportData | null
+  position?: string | null,
+  image: IFile | null,
 }

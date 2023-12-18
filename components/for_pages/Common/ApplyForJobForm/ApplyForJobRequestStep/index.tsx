@@ -5,9 +5,7 @@ enum StepKey{
   Confirm = 'confirm'
 }
 interface Props {
-  title: string
-  text: string
-  btnText: string
+
 }
 
 export default function ApplyForJobRequestStep(props: Props) {

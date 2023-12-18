@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useRef, useState} from 'react'
-import {DeepPartial, Nullable, RequestError} from '@/types/types'
+import { Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {ModalType, SnackbarType} from '@/types/enums'
 import {
@@ -7,12 +7,13 @@ import {
 } from '@/types/modal_arguments'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import CurrentUserRepository from '@/data/repositories/CurrentUserRepository'
+import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 
 interface IState {
   loading: boolean
   editLoading: boolean,
   deleteLoading: boolean,
-  update: (data: DeepPartial<IAboutMe>) => Promise<Nullable<IAboutMe>>,
+  update: (data: ICurrentUserUpdateRequest) => Promise<Nullable<IAboutMe>>,
   deleteAccount: () => Promise<void>
 }
 
@@ -20,7 +21,7 @@ const defaultValue: IState = {
   loading: false,
   editLoading: false,
   deleteLoading: false,
-  update: async(data: DeepPartial<IAboutMe>) =>null,
+  update: async(data: ICurrentUserUpdateRequest) =>null,
   deleteAccount: async () => {},
  }
 
@@ -44,7 +45,7 @@ export function AboutMeWrapper(props: Props) {
 
   }
 
-  const update = async (data: DeepPartial<IAboutMe>): Promise<Nullable<IAboutMe>> => {
+  const update = async (data: ICurrentUserUpdateRequest): Promise<Nullable<IAboutMe>> => {
     try {
       setEditLoading(true)
       const res = await CurrentUserRepository.update(data)

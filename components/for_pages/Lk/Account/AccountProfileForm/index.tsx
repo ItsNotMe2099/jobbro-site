@@ -11,11 +11,11 @@ import {useEffect, useRef} from 'react'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import {useAboutMeContext} from '@/context/aboutme_state'
-import IAboutMe from '@/data/interfaces/IAboutMe'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
 import Button from '@/components/ui/Button'
 import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
+import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -38,9 +38,7 @@ export default function AccountProfileForm(props: Props) {
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     console.log('handleSubmit')
     try {
-
-      //@ts-ignore
-      await aboutMeContext.update(data as IAboutMe)
+      await aboutMeContext.update(data as ICurrentUserUpdateRequest)
       appContext.showSnackbar('Изменения сохранены', SnackbarType.success)
 
     } catch (err) {
@@ -68,7 +66,7 @@ export default function AccountProfileForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  useEffect(()=>{    
+  useEffect(()=>{
     if(formik.values.image) {
       appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: formik.values.image.source, onEdit: (image: string) => {
         formik.setFieldValue('image', image)
@@ -87,13 +85,6 @@ export default function AccountProfileForm(props: Props) {
                 isImage
                 name='image'
                 accept={[FileUploadAcceptType.Image]}
-                //@ts-ignore
-                dropzoneTitle=
-                  {
-                    <div className={styles.text}>
-                      Drag & drop image upload<br/>You can use 1 images smaller than 3.5MB and at least 752px by
-                      480px.</div>
-                  }
               />
               <InputField
                 label='First name' name='firstName'

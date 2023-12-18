@@ -74,9 +74,10 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
       return
     }
     AiCvRequestRepository.fetch({ids}).then((requests) => {
-      requestRef.current = requests[0]
-      setRequest(requests[0])
-
+      if((requests as IAiCvRequest[]).length > 0) {
+        requestRef.current = (requests as IAiCvRequest[])[0]
+        setRequest((requests as IAiCvRequest[])[0])
+      }
 
     })
   }, 5000)
@@ -122,10 +123,12 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
   const confirm = async (code: string) => {
     try {
       setSending(true)
-      const res = await AuthRepository.emailConfirmation({email: formData!.email, code})
+      const res = await AuthRepository.emailConfirmation({email: formData!.email!, code})
       await appContext.setToken(res.accessToken)
-      const request = await AiCvRequestRepository.create(formData!.cv, {vacancyId: props.vacancyId})
-      setRequest(request)
+      if(formData!.cv) {
+        const request = await AiCvRequestRepository.create(formData!.cv!, {vacancyId: props.vacancyId})
+        setRequest(request)
+      }
       setStepKey(ApplyJobAnonymouslyStepKey.Confirm)
     } catch (err) {
       if (err instanceof RequestError) {

@@ -71,7 +71,8 @@ export interface IVacancyFormData {
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
-  hiringStagesDescriptions: { title: string, description: string }[]
+  hiringStagesDescriptions: { title: string, description: string }[],
+  contactPerson: { name: Nullable<string>, visible: boolean }
 }
 
 export default function CreateJobManuallyForm(props: Props) {
@@ -87,7 +88,7 @@ export default function CreateJobManuallyForm(props: Props) {
     const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
-      keywordsString: data.keywords,
+      keywordsTitles: data.keywords,
       officeId: data?.office?.id,
       companyId: companyContext.company?.id
     } as  DeepPartial<IVacancy>
@@ -131,7 +132,8 @@ export default function CreateJobManuallyForm(props: Props) {
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
-    hiringStagesDescriptions: []
+    hiringStagesDescriptions: vacancyContext?.vacancy?.hiringStagesDescriptions ?? [],
+    contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false }
   }
 
   const formik = useFormik<IVacancyFormData>({

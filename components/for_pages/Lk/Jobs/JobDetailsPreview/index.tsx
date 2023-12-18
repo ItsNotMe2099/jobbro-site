@@ -21,6 +21,9 @@ interface Props {
 
 export default function JobDetailsPreview(props: Props) {
   const {job} = props
+  const skills =  (job.skills?.map(i => i?.title ?? i) ?? [])
+  const keywords = (job.keywords?.map(i => i?.title ?? i) ?? [])
+  const benefits = (job.benefits?.map(i => i?.title ?? i) ?? [])
   return (<div className={styles.root}>
       <Card title={job.name}>
         <>
@@ -50,26 +53,26 @@ export default function JobDetailsPreview(props: Props) {
             </div>
 
             {job.benefitsDescription?.visible && <HtmlText>{job.benefitsDescription.description}</HtmlText>}
-            {job.benefits.length > 0 && <ChipList>
-              {job.benefits.map(i => <Chip>{i.title}</Chip>)}
+            {benefits.length > 0 && <ChipList>
+              {benefits.map(i => <Chip>{i}</Chip>)}
             </ChipList>}
           </div>}
-          {job.skills.length > 0 && <div className={styles.tasks}>
+          {skills.length > 0 && <div className={styles.tasks}>
             <div className={styles.title}>
               Skills
             </div>
 
             <ChipList>
-              {job.skills.map(i => <Chip>{i.title}</Chip>)}
+              {skills.map(i => <Chip>{i}</Chip>)}
             </ChipList>
           </div>}
-          {job.keywords.length > 0 && <div className={styles.tasks}>
+          {keywords.length > 0 && <div className={styles.tasks}>
             <div className={styles.title}>
               Keywords
             </div>
 
             <ChipList>
-              {job.keywords.map(i => <Chip>{i.title}</Chip>)}
+              {keywords.map(i => <Chip>{i}</Chip>)}
             </ChipList>
           </div>}
         </>

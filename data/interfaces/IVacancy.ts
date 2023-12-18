@@ -31,11 +31,11 @@ export interface IVacancyPageBlock {
 }
 
 export interface IVacancyContactPerson {
-  name?: string;
-  email?: string;
-  phone?: string;
-  telegramNickname?: string;
-  visible?: boolean;
+  name: string | null;
+  // email?: string;
+  // phone?: string;
+  // telegramNickname?: string;
+  visible: boolean;
 }
 
 export interface IVacancy {
@@ -50,16 +50,16 @@ export interface IVacancy {
   subCategoryId: number;
   requirements: string;
   skills: ISkill[];
-  skillsIds: number[];
+  skillsTitles: string[];
   tasks: string;
   salaryMin: number;
   salaryMax: number;
   salaryType: SalaryType;
   currency: string;
   benefits: IBenefit[];
-  benefitsIds: number[];
+  benefitsTitles: string[];
   keywords: IKeyword[];
-  keywordsIds: number[];
+  keywordsTitles: string[];
   benefitsDescription: IVacancyPageBlock;
   experience: Experience;
   workplace: Workplace;

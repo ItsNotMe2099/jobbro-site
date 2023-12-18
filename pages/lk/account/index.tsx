@@ -11,7 +11,6 @@ import Tabs from '@/components/ui/Tabs'
 import {IOption, Nullable} from '@/types/types'
 import {AboutMeWrapper} from '@/context/aboutme_state'
 import AccountProfileForm from '@/components/for_pages/Lk/Account/AccountProfileForm'
-import AccountNotificationForm from '@/components/for_pages/Lk/Account/AccountNotificationForm'
 import {useAppContext} from '@/context/state'
 import ContentLoader from '@/components/ui/ContentLoader'
 
@@ -42,7 +41,6 @@ const LkAccountPageInner = () => {
       </PageStickyHeader>
       {!appContext.aboutMeLoaded && <ContentLoader style={'block'} isOpen={true}/>}
       {appContext.aboutMeLoaded && tab === TabKey.Profile && <AccountProfileForm/>}
-      {appContext.aboutMeLoaded && tab === TabKey.Notification && <AccountNotificationForm/>}
     </div>
   )
 }

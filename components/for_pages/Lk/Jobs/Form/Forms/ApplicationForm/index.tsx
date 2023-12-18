@@ -3,13 +3,12 @@ import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import Validator from '@/utils/validator'
 import { FieldArray, FieldArrayRenderProps, FormikProps } from 'formik'
-import Switch from '@/components/ui/Switch'
-import { useState } from 'react'
 import CloseSvg from '@/components/svg/CloseSvg'
 import { colors } from '@/styles/variables'
 import AddSvg from '@/components/svg/AddSvg'
 import KeywordField from '@/components/fields/KeywordField'
 import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
+import SwitchField from '@/components/fields/SwitchField'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -20,18 +19,15 @@ interface Props {
 
 export default function ApplicationForm(props: Props) {
 
-  const [person, setPerson] = useState<boolean>(false)
-
   return (
     <div className={styles.root}>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>Contact Person</div>
-        <Switch checked={person} onChange={() => setPerson(!person)} />
+        <SwitchField name={'contactPerson.visible'} />
       </div>}>
-        {person ?
+         {props.formik.values.contactPerson?.visible ?
           <InputField
-            placeholder='Name'
-            name='contact'
+            name='contactPerson.name'
             label={'Name'}
             validate={Validator.required}
           /> : <></>}

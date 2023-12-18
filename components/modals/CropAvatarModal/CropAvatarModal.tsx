@@ -1,26 +1,25 @@
-import ModalLayout from '@/components/layout/Modal/ModalLayout';
-import styles from './index.module.scss';
-import ModalBody from '@/components/layout/Modal/ModalBody';
-import { useAppContext } from '@/context/state';
-import { useEffect, useState } from 'react';
-import Button from '@/components/ui/Button';
-import { Props, ICropAvatarModalProps, Avatar } from '.';
-
+import ModalLayout from '@/components/layout/Modal/ModalLayout'
+import styles from './index.module.scss'
+import ModalBody from '@/components/layout/Modal/ModalBody'
+import { useAppContext } from '@/context/state'
+import { useEffect, useState } from 'react'
+import Button from '@/components/ui/Button'
+import { Props, ICropAvatarModalProps, Avatar } from '.'
 
 export default function CropAvatarModal(props: Props) {
-  const appContext = useAppContext();
-  const args = appContext.modalArguments as ICropAvatarModalProps;
+  const appContext = useAppContext()
+  const args = appContext.modalArguments as ICropAvatarModalProps
   // URL.createObjectURL(acceptedFiles[0])
-  const imageString = URL.createObjectURL(args.image);
-  const [croppedImage, setCroppedImage] = useState('');
-  const [cropRadius, setCropRadius] = useState(50);
-  console.log(args);
+  const imageString = URL.createObjectURL(args.image)
+  const [croppedImage, setCroppedImage] = useState('')
+  const [cropRadius, setCropRadius] = useState(50)
+  console.log(args)
 
   useEffect(() => {
-    console.log(cropRadius);
+    console.log(cropRadius)
 
 
-  }, [cropRadius]);
+  }, [cropRadius])
 
 
 
@@ -38,7 +37,7 @@ export default function CropAvatarModal(props: Props) {
         <Button>Cancel</Button>
       </div>
     </div>
-  );
+  )
 
   return (
     <ModalLayout>
@@ -46,5 +45,5 @@ export default function CropAvatarModal(props: Props) {
         {body}
       </ModalBody>
     </ModalLayout>
-  );
+  )
 }

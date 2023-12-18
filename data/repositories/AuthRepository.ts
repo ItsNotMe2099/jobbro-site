@@ -17,7 +17,7 @@ export default class AuthRepository {
   }
 
 
-  static async registerEmployee(data: { name: string, email: string }): Promise<IAuthResponse> {
+  static async registerEmployee(data: { name: string | null, email: string | null}): Promise<IAuthResponse> {
     const res = await request<IAuthResponse>({
       url: '/api/auth/sendEmailCode',
       method: 'post',

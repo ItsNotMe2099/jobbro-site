@@ -37,6 +37,10 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
   const [isAddingLoading, setIsAddingLoading] = useState(false)
 
   const handleCreateOption = async (inputValue: string) => {
+    if(!inputValue){
+      return
+    }
+    console.log('handleCreateOption', inputValue)
     setIsAddingLoading(true)
     const res = await props.onCreateOption(inputValue)
     if(res && !props.findValue?.(res)) {
@@ -45,6 +49,10 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
     setIsAddingLoading(false)
   }
   const handleOnSelect = (value: T) => {
+    if(!value){
+      return
+    }
+    console.log('handleOnSelect', value)
     if(!props.findValue?.(value)) {
       helpers.setValue([...(field.value ?? []), value])
     }

@@ -178,16 +178,9 @@ export default function CvForm(props: Props) {
           <Card title='Details'>
             <div className={styles.wrapper}>
               <FileField
-                className={styles.file}
                 isImage
                 name='image'
                 accept={[FileUploadAcceptType.Image]}
-                dropzoneTitle=
-                  {
-                    <div className={styles.text}>
-                      Drag & drop image upload<br/>You can use 1 images smaller than 3.5MB and at least 752px by
-                      480px.</div>
-                  }
               />
               <InputField name='name' label={'Name'}
                           validate={Validator.required}
