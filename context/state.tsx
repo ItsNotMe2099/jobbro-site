@@ -31,7 +31,7 @@ interface IState {
   modalNonSkippable: boolean
   setModalNonSkippable: (val: boolean) => void
   bottomSheet: ModalType | null
-  showModal: (type: ModalType, args?: any) => void
+  showModal: <T extends unknown>(type: ModalType, args?: T) => void
   hideModal: () => void
   showBottomSheet: (type: ModalType, args?: any) => void,
   hideBottomSheet: () => void
@@ -304,7 +304,7 @@ export function AppWrapper(props: Props) {
   }, [])
 
 
-  const showModal = (type: ModalType, args?: any) => {
+  const showModal = <T extends unknown>(type: ModalType, args?: T) => {
     if (props.isMobile && ModalsBottomSheet.includes(type)) {
       showBottomSheet(type, args)
       return

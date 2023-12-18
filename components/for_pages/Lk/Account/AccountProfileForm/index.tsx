@@ -2,19 +2,23 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import { Nullable, RequestError} from '@/types/types'
-import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
+import {FileUploadAcceptType, ModalType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
 import SwitchField from '@/components/fields/SwitchField'
 import {FormikHelpers} from 'formik/dist/types'
 import {useAppContext} from '@/context/state'
-import {useRef} from 'react'
+import {useEffect, useRef} from 'react'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import {useAboutMeContext} from '@/context/aboutme_state'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
+<<<<<<< HEAD
 import Button from '@/components/ui/Button'
+=======
+import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
+>>>>>>> d5fb4e4 (crop images process)
 
 interface IFormData {
   image: Nullable<IFile>
@@ -33,10 +37,12 @@ export default function AccountProfileForm(props: Props) {
   const appContext = useAppContext()
   const aboutMeContext = useAboutMeContext()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
+
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     console.log('handleSubmit')
     try {
 
+      //@ts-ignore
       await aboutMeContext.update(data as IAboutMe)
       appContext.showSnackbar('Изменения сохранены', SnackbarType.success)
 
@@ -45,10 +51,10 @@ export default function AccountProfileForm(props: Props) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
       }
-
     }
-
   }
+
+
 
   const initialValues: IFormData = {
     image: appContext.aboutMe?.image ?? null,
@@ -64,6 +70,16 @@ export default function AccountProfileForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
+
+  useEffect(()=>{    
+    if(formik.values.image) {
+      appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: formik.values.image.source, onEdit: (image: string) => {
+        formik.setFieldValue('image', image)
+      }})
+    }
+  }, [formik.values.image])
+
+
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
@@ -74,6 +90,7 @@ export default function AccountProfileForm(props: Props) {
                 isImage
                 name='image'
                 accept={[FileUploadAcceptType.Image]}
+                //@ts-ignore
                 dropzoneTitle=
                   {
                     <div className={styles.text}>

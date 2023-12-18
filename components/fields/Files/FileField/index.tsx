@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
-import {ReactElement, useMemo, useRef, useState} from 'react'
+import {ReactElement,  useMemo, useRef, useState} from 'react'
 import IFile from 'data/interfaces/IFile'
-import { FileUploadAcceptType, SnackbarType } from 'types/enums'
+import { FileUploadAcceptType,  SnackbarType } from 'types/enums'
 import { useField } from 'formik'
 import { useAppContext } from 'context/state'
 import { IField, RequestError } from 'types/types'
@@ -12,6 +12,7 @@ import FieldError from '@/components/fields/FieldError'
 import FileUploadDropzone from '@/components/fields/Files/components/FileUploadDropzone'
 import FileListItem from '@/components/fields/Files/FileListField/FileListItem'
 import FileRepository from '@/data/repositories/FileRepository'
+// import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
 
 interface Props extends IField<IFile | File | null> {
   isImage?: boolean
@@ -45,6 +46,7 @@ export default function FileField(props: Props) {
     })
     return obj
   }, [props.accept])
+
   const handleDelete = async () => {
     if (field.value) {
       try {
@@ -63,7 +65,6 @@ export default function FileField(props: Props) {
       abortControllerRef.current.abort()
     }
   }
-
 
   const onDropRejected = (fileRejections: FileRejection[], event: DropEvent) => {
     if (fileRejections.length > 0 && fileRejections[0].errors.length > 0) {
@@ -131,6 +132,7 @@ export default function FileField(props: Props) {
           className={styles.fileListItem}
           isImage={props.isImage ?? false}
           labelLoading={props.labelLoading ?? ''}
+          //@ts-ignore
           value={field.value}
           previewName={previewName}
           previewPath={previewPath}

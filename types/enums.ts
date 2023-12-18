@@ -2,7 +2,8 @@ export enum ModalType {
   Confirm = 'confirm',
   ApplicationCreate = 'applicationCreate',
   ChatFileUpload = 'chatFileUpload',
-  Gallery = 'gallery'
+  Gallery = 'gallery',
+  CropAvatarModal = 'cropAvatarModal',
 }
 export enum CookiesType {
   accessToken = 'accessToken',

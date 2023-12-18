@@ -27,6 +27,7 @@ export default function FileUploadDropzone(props: Props) {
     ...props,
     onDropRejected,
   } as any)
+  
   const getIcon = (): ReactElement => {
     if (props.icon) {
       return props.icon

@@ -74,4 +74,14 @@ export default class Converter {
 
     return {firstName, lastName: lastName.join(' ')}
   }
+  
+  static toBase64(file: File) : Promise<string> { 
+    return new Promise((resolve, reject) => {
+      if(!file) reject('File not provided')
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = reject
+    })
+  }
 }

@@ -52,6 +52,7 @@
     "rc-scrollbars": "^1.1.6",
     "rc-time-picker": "^3.7.3",
     "react": "18.2.0",
+    "react-avatar-editor": "^13.0.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-calendar": "^4.6.1",
     "react-circular-progressbar": "^2.1.0",
@@ -95,6 +96,7 @@
   "devDependencies": {
     "@jukben/emoji-search": "^3.0.0",
     "@types/js-cookie": "^3.0.3",
+    "@types/react-avatar-editor": "^13.0.2",
     "@types/react-beautiful-dnd": "^13.1.7",
     "@types/react-datepicker": "^4.15.2",
     "@types/react-modal": "^3.16.1",

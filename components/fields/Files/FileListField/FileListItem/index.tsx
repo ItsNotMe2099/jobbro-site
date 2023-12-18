@@ -10,7 +10,7 @@ import {Line} from 'rc-progress'
 
 interface Props {
   isImage?: boolean
-  value?: IFile | null
+  value?: IFile |  null | undefined
   previewName?: string | undefined
   previewPath?: string | undefined
   previewSize?: number | undefined

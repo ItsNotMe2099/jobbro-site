@@ -14,3 +14,6 @@ export const Timers: {
   notificationsRefresh: 15 * 1000 ,
   dealRefresh: 30 * 1000
 }
+
+
+
