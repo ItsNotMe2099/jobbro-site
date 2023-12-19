@@ -60,8 +60,10 @@ const cv = props.candidate.cv
         appContext.showModal(ModalType.Confirm, {
           text: `Are you sure that you want to remove candidate «${UserUtils.getName(cv)}» from base?`,
           onConfirm: async () => {
+
             favoriteContext.unlike(cv!.id)
             appContext.candidateDeleteState$.next(props.candidate)
+            appContext.hideModal()
           }
         } as ConfirmModalArguments)
 

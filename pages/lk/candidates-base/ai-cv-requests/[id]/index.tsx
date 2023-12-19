@@ -51,7 +51,7 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
      <PageTitle title={'Check Resume'} link={Routes.lkCandidateAiCvRequests}/>
 
     {loading && !aiRequest ? <ContentLoader isOpen={true}/> :
-      <CvForm onSubmit={handleSubmit} loading={sending} cv={aiRequest!.cv}/>
+      <CvForm onSubmit={handleSubmit} loading={sending} cv={aiRequest!.cv} cancelLink={Routes.lkCandidateAiCvRequests}/>
     }
       </div>)
 }

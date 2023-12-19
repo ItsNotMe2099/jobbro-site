@@ -23,7 +23,7 @@ const ProfileResumeEditPageInner = (props: Props) => {
     }
     router.push(Routes.profileResume)
   }
-  return <CvForm onSubmit={handleSubmit} loading={cvOwnerContext.editLoading} />
+  return <CvForm onSubmit={handleSubmit} loading={cvOwnerContext.editLoading} cancelLink={Routes.profileResume} />
 }
 
 
