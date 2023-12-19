@@ -11,6 +11,9 @@ import ChatRepository from '@/data/repositories/ChatRepository'
 import ChatMessageRepository from '@/data/repositories/ChatMessageRepository'
 import {Nullable} from '@/types/types'
 import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateRequest'
+import Analytics from '@/utils/goals'
+import {Goal} from '@/types/enums'
+import {ProfileType} from '@/data/enum/ProfileType'
 
 const chatIds: number[] = []
 const markReadList: number[] = []
@@ -231,6 +234,9 @@ export function ChatDialogWrapper(props: Props) {
       ChatMessageRepository.create({...data, chatId: chat!.id, sid, userId: appContext.aboutMe?.id})
     } else {
       ChatMessageRepository.create({...data, chatId: chat!.id, sid, userId: appContext.aboutMe?.id})
+    }
+    if(appContext.aboutMe?.profileType === ProfileType.Hirer) {
+      Analytics.goal(Goal.SendChatMessageToCandidate)
     }
 
   }

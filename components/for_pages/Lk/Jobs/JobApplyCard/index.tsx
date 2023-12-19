@@ -7,7 +7,7 @@ import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import {ICVWithApply} from '@/data/interfaces/ICV'
-import {CardViewType, SidePanelType} from '@/types/enums'
+import {CardViewType, Goal, SidePanelType} from '@/types/enums'
 import CvFavoriteBtn from '@/components/for_pages/Common/CvFavoriteBtn'
 import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
 import {ApplyCvWrapper, useApplyCvContext} from '@/context/apply_cv_state'
@@ -17,6 +17,7 @@ import {useCandidateAddedContext} from '@/context/candidate_added_state'
 import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
+import Analytics from '@/utils/goals'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -64,7 +65,7 @@ const JobApplyCardInner = (props: Props) => {
   const handleMenuClick = (value: MenuKey) => {
     switch (value){
       case MenuKey.DownloadPdf:
-
+          Analytics.goal(Goal.CvDownloadPdf)
         break
       case MenuKey.AddToBase:
         favoriteContext.like(cv!.id)

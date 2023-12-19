@@ -47,7 +47,7 @@ export default class CandidateRepository {
   static async delete(id: number): Promise<ICandidate> {
     const res = await request<ICandidate>({
       method: 'delete',
-      url: `/api/owner/candidate/${id}`,
+      url: `/api/owner/candidate/deleteByCv/${id}`,
     })
     return res
   }

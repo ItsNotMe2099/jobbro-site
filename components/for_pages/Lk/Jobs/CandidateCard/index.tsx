@@ -6,7 +6,7 @@ import {Routes} from '@/types/routes'
 import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import AvatarCircular from '@/components/ui/AvatarCircular'
-import {CardViewType, ModalType, SidePanelType} from '@/types/enums'
+import {CardViewType, Goal, ModalType, SidePanelType} from '@/types/enums'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {IOption} from '@/types/types'
 import {useCandidateAddedContext} from '@/context/candidate_added_state'
@@ -16,6 +16,7 @@ import {colors} from '@/styles/variables'
 import MenuButton from '@/components/ui/MenuButton'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
+import Analytics from '@/utils/goals'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -53,14 +54,16 @@ const cv = props.candidate.cv
   const handleMenuClick = (value: MenuKey) => {
     switch (value){
       case MenuKey.DownloadPdf:
-
+        Analytics.goal(Goal.CvDownloadPdf)
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
           text: `Are you sure that you want to remove candidate «${UserUtils.getName(cv)}» from base?`,
           onConfirm: async () => {
+
             favoriteContext.unlike(cv!.id)
             appContext.candidateDeleteState$.next(props.candidate)
+            appContext.hideModal()
           }
         } as ConfirmModalArguments)
 

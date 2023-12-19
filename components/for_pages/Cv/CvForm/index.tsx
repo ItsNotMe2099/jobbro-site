@@ -34,7 +34,6 @@ import IconButton from '@/components/ui/IconButton'
 import classNames from 'classnames'
 import {omit} from '@/utils/omit'
 import {format, parse} from 'date-fns'
-import {Routes} from '@/types/routes'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import FileField from '@/components/fields/Files/FileField'
 
@@ -44,6 +43,7 @@ interface Props {
   onSubmit: (data: DeepPartial<ICV>) => void
   loading?: boolean
   cv?: ICV | undefined | null
+  cancelLink?: string
 }
 
 interface ExperienceInfoFormData extends ExperienceInfo{
@@ -416,9 +416,9 @@ export default function CvForm(props: Props) {
             <Button  type={'submit'} styleType='large' color='green' spinner={props.loading ?? false}>
               {'Save'}
             </Button>
-            <Button href={Routes.profileResume} type={'button'} styleType='large' color='white'>
+            {props.cancelLink && <Button href={props.cancelLink} type={'button'} styleType='large' color='white'>
               {'Cancel'}
-            </Button>
+            </Button>}
             <div className={styles.preview} onClick={props.onPreview}>
               {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
                 :

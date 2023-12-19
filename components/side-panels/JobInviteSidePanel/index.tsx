@@ -3,7 +3,7 @@ import {Form, FormikProvider, useFormik} from 'formik'
 import {useRef, useState} from 'react'
 import {useAppContext} from '@/context/state'
 import Button from '@/components/ui/Button'
-import { JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {Nullable, RequestError} from '@/types/types'
 import SidePanelFooter from '@/components/layout/SidePanel/SidePanelFooter'
 import SidePanelBody from '@/components/layout/SidePanel/SidePanelBody'
@@ -14,8 +14,9 @@ import AvatarCircular from '@/components/ui/AvatarCircular'
 import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {ICV} from '@/data/interfaces/ICV'
-import {SnackbarType} from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import ProposalRepository from '@/data/repositories/ProposalRepository'
+import Analytics from '@/utils/goals'
 
 interface Props {
 
@@ -49,6 +50,7 @@ export default function JobInviteSidePanel(props: Props) {
     setLoading(true)
     try {
       await ProposalRepository.create({vacancyId: data.vacancyId!, cvId: args.cv.id})
+      Analytics.goal(Goal.JobInviteCv)
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)

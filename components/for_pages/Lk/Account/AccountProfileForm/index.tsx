@@ -49,8 +49,6 @@ export default function AccountProfileForm(props: Props) {
     }
   }
 
-
-
   const initialValues: IFormData = {
     image: appContext.aboutMe?.image ?? null,
     firstName: appContext.aboutMe?.firstName ?? '',
@@ -80,6 +78,7 @@ export default function AccountProfileForm(props: Props) {
               <FileField
                 isImage
                 name='image'
+                withCrop
                 description={<p>Drag & drop image upload. <br /> You can use 5 images smaller than 3.5MB and at least 752px by 480px.</p>}
                 dropZoneClassName={styles.dropZone}
                 accept={[FileUploadAcceptType.Image]}

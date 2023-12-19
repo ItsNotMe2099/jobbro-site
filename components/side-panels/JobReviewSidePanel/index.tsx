@@ -11,9 +11,10 @@ import SidePanelHeader from '@/components/layout/SidePanel/SidePanelHeader'
 import SidePanelLayout from '@/components/layout/SidePanel/SidePanelLayout'
 import StarRatingsField from '@/components/fields/StarRatingsField'
 import TextAreaField from '@/components/fields/TextAreaField'
-import {SnackbarType} from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import FeedbackRepository from '@/data/repositories/FeedbackRepository'
 import FieldLabel from '@/components/fields/FieldLabel'
+import Analytics from '@/utils/goals'
 
 interface Props {
 
@@ -35,6 +36,7 @@ export default function JobReviewSidePanel(props: Props) {
     setLoading(true)
     try {
       await FeedbackRepository.create({...data, vacancyId: args.vacancyId})
+      Analytics.goal(Goal.JobFeedbackCreate, {...data, vacancyId: args.vacancyId})
       appContext.hidePanel()
     } catch (err) {
       if (err instanceof RequestError) {

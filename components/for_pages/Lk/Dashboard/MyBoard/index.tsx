@@ -18,6 +18,8 @@ import DashboardChartLine from '@/components/for_pages/Lk/Dashboard/LkDashboardL
 import DashboardChartCircle from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/DashboardChartCircle'
 import DashboardChartBars from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/DashboardChartBars'
 import ChipList from '@/components/ui/ChipList'
+import Analytics from '@/utils/goals'
+import {Goal} from '@/types/enums'
 
 interface Props {
 
@@ -35,6 +37,9 @@ const LkDashboardMyBoard = (props: Props) => {
     ])
   }
 
+  useEffectOnce(() => {
+      Analytics.goal(Goal.DashboardMyView)
+  })
 
   const fetchHiringStage =  async () => {
     const res = await DashboardRepository.fetchHiringStageConversion({page: 1, limit: 1})

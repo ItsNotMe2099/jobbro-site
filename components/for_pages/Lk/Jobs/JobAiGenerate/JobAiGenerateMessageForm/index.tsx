@@ -81,7 +81,7 @@ export default function JobAiGenerateMessageForm() {
               ref={inputRef}
               name={'message'}
               disabled={vacancyGenerateAiContext.sending || vacancyGenerateAiContext.loading}
-              placeholder={'Сообщение'}
+              placeholder={'Specify the initial data for generating job'}
               styleType={'message'}
               onKeyDown={handleKeyDown}
               className={cx(styles.textarea)}
