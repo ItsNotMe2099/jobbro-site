@@ -336,7 +336,7 @@ export function AiCvRequestListWrapper(props: Props) {
       files.push(file)
       uploadFile(file, acceptedFile)
     }
-    Analytics.goal(Goal.HirerUploadCv)
+    Analytics.goal(Goal.CvRequestUpload)
     console.log('dsadsad', [...dataInProgress.data, ...files.map(i => ({file: i}))])
     setDataInProgress(res => ({total: res.total + 1, data: [...res.data, ...files.map(i => ({file: i}))]}))
 
@@ -397,7 +397,7 @@ export function AiCvRequestListWrapper(props: Props) {
         }else{
           setDataCompleted(i => ({data: i.data.filter(i => !selectedIds.includes(i.id)), total: i.total - selectedIds.length >= 0 ? i.total - selectedIds.length : 0}))
         }
-        Analytics.goal(Goal.OwnCandidateBaseAdd)
+        Analytics.goal(Goal.CvRequestAddToBase)
         setSelectedIds([])
       }catch (err) {
         if (err instanceof RequestError) {
@@ -429,7 +429,7 @@ export function AiCvRequestListWrapper(props: Props) {
       try{
         const res = await AiCvRequestRepository.moveToBase({ids: [id], all: false})
         handleDelete(id)
-        Analytics.goal(Goal.OwnCandidateBaseAdd)
+        Analytics.goal(Goal.CvRequestAddToBase)
 
       }catch (err) {
         if (err instanceof RequestError) {

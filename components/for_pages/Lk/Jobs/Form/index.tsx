@@ -150,7 +150,7 @@ export default function CreateJobManuallyForm(props: Props) {
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
-      console.log('RequestUpdate11', formik.getFieldMeta('name'))
+
       if(result?.name && !formik.getFieldMeta('name').touched){
         formik.setFieldValue('name', result.name)
       }
