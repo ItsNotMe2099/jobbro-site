@@ -179,7 +179,7 @@ export default class CurrencyUtils {
   }
 
   static getCurrentSymbol(currency: string) {
-    return (currencyList as any)[currency][4]
+    return  (currencyList as any)[currency] ? (currencyList as any)[currency][4] : ''
   }
 
 }
