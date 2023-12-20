@@ -49,7 +49,7 @@ const ApplyForJobFormInner = (props: Props) => {
    return (
       <FormikProvider value={formik}>
         <Form className={styles.root}>
-          <div className={styles.title}>Apply for job</div>
+          <div className={styles.title}>{applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.Confirm ? 'Confirm Email' : 'Apply for job'}</div>
       {applyJobAnonymously.loading && <ContentLoader isOpen={true}/>}
       {!applyJobAnonymously.loading ? <>
         {!applyJobAnonymously.request && applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.First && <ApplyForJobFirstStep/>}
