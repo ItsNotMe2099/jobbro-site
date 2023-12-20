@@ -12,3 +12,6 @@
   flex-direction: row;
   @include list(8px, true)
 }
+.delete{
+  cursor: pointer;
+}

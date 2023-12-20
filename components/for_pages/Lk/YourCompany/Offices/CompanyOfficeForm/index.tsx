@@ -76,6 +76,12 @@ export default function CompanyOfficeForm(props: Props) {
     onSubmit: handleSubmit
   })
   console.log('Country11', formik.values.country)
+  const handleChangeCountry = () => {
+    formik.setFieldValue('city', null)
+    formik.setFieldValue('postalCode', null)
+    formik.setFieldValue('street', null)
+    formik.setFieldValue('house', null)
+  }
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
@@ -83,10 +89,10 @@ export default function CompanyOfficeForm(props: Props) {
         <Card className={styles.card} title='Details'>
             <InputField name={'name'} label={'Office name'} validate={Validator.required}/>
             <div className={styles.columns}>
-              <CountryField name={'country'} validate={Validator.required}/>
+              <CountryField name={'country'} label={'Country'} validate={Validator.required} onChange={handleChangeCountry}/>
               <InputField name={'postalCode'} label={'Postal code'}/>
             </div>
-            <CityField name={'city'} country={formik.values.country?.country}/>
+            <CityField name={'city'} label={'City'} country={formik.values.country?.country}/>
             <div className={styles.columns}>
               <InputField name={'street'} label={'Street name'}/>
               <InputField name={'house'} label={'House number'}/>

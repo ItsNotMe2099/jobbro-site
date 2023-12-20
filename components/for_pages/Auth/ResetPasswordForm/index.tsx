@@ -98,7 +98,6 @@ export default function ResetPasswordForm(props: Props) {
           Password will be reseted. Enter new password for your account
         </div>
         <InputField
-          placeholder='New password'
           type='password'
           name='password'
           label={'New password'}
