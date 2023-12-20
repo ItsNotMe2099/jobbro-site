@@ -15,7 +15,6 @@ import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
 import classNames from 'classnames'
 import {useEffect, useState} from 'react'
-import showToast from '@/utils/showToast'
 
 enum MenuProfileKey {
   UserProfile = 'profile',
@@ -92,7 +91,7 @@ export default function Header(props: Props) {
   }
   return (
     <div className={classNames(styles.root, styles[appContext.headerDirection])}>
-      <div className={styles.logo} onClick={()=> showToast({text: 'Notification'})}>
+      <div className={styles.logo}>
         Jobbro
       </div>
       <div className={styles.menu}>

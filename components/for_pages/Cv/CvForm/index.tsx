@@ -157,7 +157,9 @@ export default function CvForm(props: Props) {
 
     await formik.submitForm()
   }
-
+  const handleChangeCountry = () => {
+    formik.setFieldValue('city', null)
+  }
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.form}>
@@ -187,7 +189,7 @@ export default function CvForm(props: Props) {
               />
               <div className={styles.line}>
                 <div className={styles.location}>
-                  <CountryField className={styles.select} name={'country'} label={'Country'}/>
+                  <CountryField className={styles.select} name={'country'} label={'Country'} onChange={handleChangeCountry}/>
                   <CityField className={styles.select}  name={'city'} label={'City'}
                              country={formik.values.country?.country}/>
                 </div>
