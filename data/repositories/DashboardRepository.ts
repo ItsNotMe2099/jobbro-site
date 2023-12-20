@@ -8,7 +8,7 @@ import { IPaginationRequest} from '@/data/interfaces/IPaginationRequest'
 import {IVacancyHot, IVacancyWithHiringStagesForDashBoard} from '@/data/interfaces/IVacancy'
 
 export default class DashboardRepository {
-  static async fetchStatistic(data: {managerId: number}, config?: AxiosRequestConfig): Promise<IDashboardStatistic> {
+  static async fetchStatistic(data: {managerId?: number}, config?: AxiosRequestConfig): Promise<IDashboardStatistic> {
     const res = await request<IDashboardStatisticResponseRaw>({
       method: 'get',
       url: '/api/dashboard/statistic',
@@ -25,7 +25,7 @@ export default class DashboardRepository {
     }
   }
 
-  static async fetchGraphics(data: {managerId: number}, config?: AxiosRequestConfig): Promise<IDashboardGraphics> {
+  static async fetchGraphics(data: {managerId?: number}, config?: AxiosRequestConfig): Promise<IDashboardGraphics> {
     const res = await request<IDashboardGraphicsResponseRaw>({
       method: 'get',
       url: '/api/dashboard/graphics',
