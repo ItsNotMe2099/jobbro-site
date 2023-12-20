@@ -3,10 +3,12 @@ import styles from './index.module.scss'
 import { useAiCvRequestListOwnerContext} from '@/context/ai_cv_request_list_state'
 import AiCvRequestItem from '@/components/for_pages/Lk/CandidatesBase/AiCvRequestItem'
 import AiCvRequestDropzone from '@/components/for_pages/Lk/CandidatesBase/AiCvRequestDropzone'
-import {DropEvent, FileRejection} from 'react-dropzone'
-import {useRef, useState} from 'react'
+import {Accept, DropEvent, FileRejection} from 'react-dropzone'
+import {useMemo, useRef, useState} from 'react'
 import IFile from '@/data/interfaces/IFile'
 import {Nullable} from '@/types/types'
+import {FileUploadAcceptType} from '@/types/enums'
+import Converter from '@/utils/converter'
 
 interface IFileListItem {
   id: string
@@ -45,6 +47,14 @@ const AiCvRequestsInner = (props: Props) => {
     aiCvRequestListContext.uploadFiles(acceptedFiles)
   }
   console.log('aiCvRequestListContext.dataInProgress', aiCvRequestListContext.dataInProgress)
+  const dropzoneAccept: Accept = useMemo(() => {
+    let obj = {}
+    const arr =  [FileUploadAcceptType.Pdf].map(i => Converter.getFileUploadAccept(i)) ?? {} as Accept
+    arr.forEach(i => {
+      obj = { ...obj, ...i }
+    })
+    return obj
+  }, [])
   return (
     <Card className={styles.card} >
       <div className={styles.root} ref={containerRef}>
@@ -67,9 +77,8 @@ const AiCvRequestsInner = (props: Props) => {
         </div>
       </div>
       <AiCvRequestDropzone   onDrop={onDrop}
-                             maxFiles={1}
                              maxSize={ 1024*1024*5}
-                          //   accept={[]}
+                             accept={dropzoneAccept}
                                 boundaryElement={styles.card} containerRef={containerRef}
       />
     </Card>
