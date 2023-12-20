@@ -4,7 +4,6 @@ import {CookiesLifeTime} from '@/types/constants'
 import {setCookie} from 'nookies'
 import {Routes} from '@/types/routes'
 import Button from '@/components/ui/Button'
-import styles from '@/components/for_pages/login/Form/index.module.scss'
 import ErrorPage from '@/components/for_pages/error/ErrorPage'
 
 interface Props {
@@ -15,7 +14,7 @@ export default function Registration(props: Props) {
 
   if (props.error) {
     return (<ErrorPage title={`Error hapened: ${props.error ? props.error : ''}`}>
-      <Button href={'/'} type='submit' className={styles.btn} styleType='large' color='green'>
+      <Button href={'/'} type='submit'  styleType='large' color='green'>
         Main
       </Button>
     </ErrorPage>)
