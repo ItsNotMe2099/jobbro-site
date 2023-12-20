@@ -4,15 +4,17 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import Validator from '@/utils/validator'
 import Button from '@/components/ui/Button'
 import { useState } from 'react'
-import { RequestError } from '@/types/types'
+import {Nullable, RequestError} from '@/types/types'
 import { useAppContext } from '@/context/state'
 import { SnackbarType } from '@/types/enums'
+import SiteApplicationRepository from '@/data/repositories/SiteApplicationRepository'
+import showToast from '@/utils/showToast'
 
 interface IFormData {
-  name: string
-  email: string
-  phone: string
-  company: string
+  name: Nullable<string>
+  email: Nullable<string>
+  phone: Nullable<string>
+  company: Nullable<string>
 }
 
 interface Props {
@@ -27,7 +29,9 @@ export default function TryItForm(props: Props) {
   const handleSubmit = async (data: IFormData) => {
     setLoading(true)
     try {
-
+    await SiteApplicationRepository.create(data)
+      showToast({title: 'Application sent'})
+      formik.resetForm()
     } catch (err) {
       console.error(err)
       if (err instanceof RequestError) {
@@ -39,10 +43,10 @@ export default function TryItForm(props: Props) {
   }
 
   const initialValues: IFormData = {
-    name: '',
-    email: '',
-    phone: '',
-    company: ''
+    name: null,
+    email: null,
+    phone: null,
+    company: null
   }
 
   const formik = useFormik({
@@ -73,15 +77,14 @@ export default function TryItForm(props: Props) {
           classNameInputWrapper={styles.inputWrapper}
           format='phone'
           name='phone'
-          validate={Validator.combine([Validator.required, Validator.phone])} />
+          validate={Validator.required} />
         <InputField
           placeholder='Company'
           lendingInput
           classNameInput={styles.input}
           classNameInputWrapper={styles.inputWrapper}
-          name='company'
-          validate={Validator.required} />
-        <Button className={styles.btn} color='black'>
+          name='company'/>
+        <Button className={styles.btn} type={'submit'} spinner={loading} color='black'>
           Try demo
         </Button>
       </Form>
