@@ -18,6 +18,7 @@ import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
 import Analytics from '@/utils/goals'
+import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -86,7 +87,10 @@ const JobApplyCardInner = (props: Props) => {
       <CvFavoriteBtn id={cv.id}  className={styles.bookmark}/>
       <Link href={Routes.lkJobCv(applyCvContext.apply!.vacancyId!, cv.id)} className={styles.container}>
         <div className={styles.top}>
-          <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+          <div className={styles.avatar}>
+            <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+            <CvCreationTypeBadge isFile={!cv.profileId}/>
+          </div>
           <div className={styles.right}>
             <div className={styles.name}>
               {UserUtils.getName(cv)}

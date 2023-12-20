@@ -17,6 +17,7 @@ import MenuButton from '@/components/ui/MenuButton'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import Analytics from '@/utils/goals'
+import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -86,7 +87,11 @@ const cv = props.candidate.cv
           [styles.bookmark]: true,
         })}/>
         <div className={styles.top}>
-          <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+          <div className={styles.avatar}>
+            <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+            <CvCreationTypeBadge  isFile={!cv.profileId}/>
+          </div>
+
           <div className={styles.right}>
             <div className={styles.name}>
               {UserUtils.getName(cv)}

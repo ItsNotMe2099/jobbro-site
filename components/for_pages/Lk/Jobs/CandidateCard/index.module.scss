@@ -25,9 +25,6 @@
     height: 178px;
     padding-bottom: 8px;
 
-    .avatar {
-        align-self: baseline;
-    }
 
     .middle {
         height: inherit;
@@ -79,9 +76,7 @@
 }
 
 .avatar {
-    position: relative !important;
-    width: inherit !important;
-    height: inherit !important;
+  position: relative;
 }
 
 .top {

@@ -5,7 +5,6 @@ import InputField from '@/components/fields/InputField'
 import { Nullable, RequestError} from '@/types/types'
 import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
-import SwitchField from '@/components/fields/SwitchField'
 import {FormikHelpers} from 'formik/dist/types'
 import {useAppContext} from '@/context/state'
 import {useEffect, useRef} from 'react'
@@ -103,7 +102,7 @@ export default function AccountProfileForm(props: Props) {
 
             </div>
           </Card>
-        <Card title={<div className={styles.top}>
+        {/*<Card title={<div className={styles.top}>
           <div className={styles.title}>Profile Visibility</div>
           <SwitchField name={'companyVisible'} />
         </div>}>
@@ -111,7 +110,7 @@ export default function AccountProfileForm(props: Props) {
             Your company is showed. Setting your company to show makes your
             career site and all its job listings view to you, users, search engines and job boards.
           </div>
-        </Card>
+        </Card>*/}
 
         <Card title={'Account deletion'}>
           <div className={styles.description}>

@@ -7,7 +7,7 @@ import SparksSmallSvg from '@/components/svg/SparksSmallSvg'
 import CheckedSvg from '@/components/svg/CheckedSvg'
 import StatisticCard from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/StatisitcCard'
 import HotMarkers from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/HotMarkers'
-import { useState} from 'react'
+import {useEffect, useState} from 'react'
 import {IDashboardGraphics, IDashboardStatistic} from '@/data/interfaces/IDashboardResponse'
 import {Nullable} from '@/types/types'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
@@ -20,23 +20,34 @@ import DashboardChartBars from '@/components/for_pages/Lk/Dashboard/LkDashboardL
 import ChipList from '@/components/ui/ChipList'
 import Analytics from '@/utils/goals'
 import {Goal} from '@/types/enums'
+import ManagerOwnerRepository from '@/data/repositories/ManagerOwnerRepository'
+import {IManager} from '@/data/interfaces/IManager'
 
 interface Props {
-
+  managerId?: number
 }
 
 const LkDashboardMyBoard = (props: Props) => {
   const [dashStatistic, setDashStatistic] = useState<Nullable<IDashboardStatistic>>(null)
   const [dashGraphics, setDashGraphics] = useState<Nullable<IDashboardGraphics>>(null)
+  const [manager, setManager] = useState<Nullable<IManager>>(null)
   const [vacancyForHiringStage, setVacancyForHiringStage] = useState<Nullable<IVacancyWithHiringStagesForDashBoard>>(null)
   const init = async () => {
     await  Promise.all([
       fetchStatistic(),
       fetchGraphics(),
+    ...(props.managerId ? [
       fetchHiringStage()
+    ] : []),
     ])
   }
 
+  useEffect(() => {
+    if(!props.managerId){
+      return
+    }
+    ManagerOwnerRepository.fetchById(props.managerId).then((i) => setManager(i))
+  }, [props.managerId])
   useEffectOnce(() => {
       Analytics.goal(Goal.DashboardMyView)
   })
@@ -46,22 +57,22 @@ const LkDashboardMyBoard = (props: Props) => {
     setVacancyForHiringStage(res?.length > 0 ? res[0] : null)
   }
   const fetchStatistic = async () => {
-    setDashStatistic(await DashboardRepository.fetchStatistic({}))
+    setDashStatistic(await DashboardRepository.fetchStatistic(props.managerId ? {managerId: props.managerId} : {}))
   }
   const fetchGraphics = async () => {
-    setDashGraphics(await DashboardRepository.fetchGraphics({}))
+    setDashGraphics(await DashboardRepository.fetchGraphics(props.managerId ? {managerId: props.managerId} : {}))
   }
   useEffectOnce(() => {
     init()
   })
 
-
+  console.log('Manager111', manager, props.managerId)
 
   return (
     <div className={styles.root}>
       <div className={styles.top}>
         <div className={styles.left}>
-          <PersonalCard  />
+          <PersonalCard  manager={manager}/>
           <Card className={styles.stats}>
             <div className={styles.item}>
               <div className={styles.leftSide}>
@@ -105,9 +116,9 @@ const LkDashboardMyBoard = (props: Props) => {
         </ChipList>
       </Card>}
       <>
-      {vacancyForHiringStage &&  <VacancyHiringStageCard vacancy={vacancyForHiringStage} onMain={true}/>}
+      {!props.managerId && vacancyForHiringStage &&  <VacancyHiringStageCard vacancy={vacancyForHiringStage} onMain={true}/>}
       </>
-      <HotMarkers  />
+      {!props.managerId && <HotMarkers  />}
     </div>
   )
 }
