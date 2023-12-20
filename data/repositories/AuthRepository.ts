@@ -91,7 +91,7 @@ export default class AuthRepository {
 
   static async confirmEmail(data: { email: string, code: string }): Promise<IAuthResponse> {
     const res = await request<IAuthResponse>({
-        method: 'get',
+        method: 'post',
         url: '/api/auth/emailConfirmation',
         data
       }

@@ -46,10 +46,10 @@ const LkDashboardMyBoard = (props: Props) => {
     setVacancyForHiringStage(res?.length > 0 ? res[0] : null)
   }
   const fetchStatistic = async () => {
-    setDashStatistic(await DashboardRepository.fetchStatistic())
+    setDashStatistic(await DashboardRepository.fetchStatistic({}))
   }
   const fetchGraphics = async () => {
-    setDashGraphics(await DashboardRepository.fetchGraphics())
+    setDashGraphics(await DashboardRepository.fetchGraphics({}))
   }
   useEffectOnce(() => {
     init()
