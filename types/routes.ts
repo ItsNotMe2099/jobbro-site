@@ -62,6 +62,10 @@ export class Routes {
     return '/lk/dashboard/team'
   }
 
+  static lkDashboardTeamManager(id: number) {
+    return `/lk/dashboard/team/${id}`
+  }
+
   static get lkJobs() {
     return '/lk/jobs'
   }
