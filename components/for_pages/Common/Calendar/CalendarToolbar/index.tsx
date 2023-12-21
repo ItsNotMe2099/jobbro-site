@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {formatMonthYear, getBeginNext, getBeginPrevious} from '@/utils/date'
-import { useTranslation } from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 import ArrowSvg from '@/components/svg/ArrowSvg'
 import {colors} from '@/styles/variables'
 import IconButton from '@/components/ui/IconButton'

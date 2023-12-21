@@ -17,7 +17,7 @@ import Tabs from '@/components/ui/Tabs'
 import {IOption, Nullable} from '@/types/types'
 import {Routes} from '@/types/routes'
 import CardsLayout from '@/components/ui/CardsLayout'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey {
   AllProfiles = 'allProfiles',

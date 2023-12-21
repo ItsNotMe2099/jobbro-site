@@ -15,7 +15,7 @@ import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
 import classNames from 'classnames'
 import {useEffect, useState} from 'react'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 enum MenuProfileKey {
   UserProfile = 'profile',

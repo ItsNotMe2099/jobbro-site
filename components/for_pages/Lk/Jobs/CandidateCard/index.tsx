@@ -16,7 +16,7 @@ import {colors} from '@/styles/variables'
 import MenuButton from '@/components/ui/MenuButton'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',

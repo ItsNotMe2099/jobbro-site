@@ -12,7 +12,7 @@ import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'
 import IAiVacancyGenRequest from '@/data/interfaces/IAiVacancy'
 import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 import {CompanyOwnerWrapper} from '@/context/company_owner_state'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const CreateJobAiPageInner = () => {

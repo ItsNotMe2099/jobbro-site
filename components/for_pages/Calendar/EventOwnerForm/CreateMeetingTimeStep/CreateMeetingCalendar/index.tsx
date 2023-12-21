@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import {useEffect, useState} from 'react'
 import { getMonthStart} from '@/utils/date'
-import { useTranslation } from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 import {format} from 'date-fns'
 import CalendarToolbar from '@/components/for_pages/Common/Calendar/CalendarToolbar'
 import EventCalendar from '@/components/ui/EventCalendar'

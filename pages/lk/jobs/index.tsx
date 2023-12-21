@@ -24,7 +24,7 @@ import {useAppContext} from '@/context/state'
 import {JobFilterSidePanelArguments} from '@/types/side_panel_arguments'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import CardsLayout from '@/components/ui/CardsLayout'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const JobsPageInner = () => {

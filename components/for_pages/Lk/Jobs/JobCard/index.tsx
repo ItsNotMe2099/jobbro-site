@@ -14,7 +14,7 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 enum MenuKey{
   Publish = 'publish',

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import DocSvg from '@/components/svg/DocSvg'
 import SparksSvg from '@/components/svg/SparksSvg'
 import classNames from 'classnames'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   className?: string

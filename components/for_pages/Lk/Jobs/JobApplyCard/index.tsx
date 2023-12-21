@@ -17,7 +17,7 @@ import {useCandidateAddedContext} from '@/context/candidate_added_state'
 import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',

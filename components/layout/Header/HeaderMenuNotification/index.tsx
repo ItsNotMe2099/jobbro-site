@@ -6,7 +6,7 @@ import NotificationRepository from '@/data/repositories/NotificationRepository'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import INotification from '@/data/interfaces/INotification'
 import HeaderNotificationCard from '@/components/layout/Header/HeaderMenuNotification/HeaderNotificationCard'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   isOpen: boolean

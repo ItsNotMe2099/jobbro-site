@@ -1,5 +1,5 @@
 import styles from './index.module.scss'
-import { useTranslation } from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 import CalendarToolbar from '@/components/for_pages/Common/Calendar/CalendarToolbar'
 import EventCalendar from '@/components/ui/EventCalendar'
 import {useEventSlotListContext} from '@/context/event_slot_list_context'

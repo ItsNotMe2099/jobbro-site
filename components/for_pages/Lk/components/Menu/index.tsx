@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import Button from '@/components/ui/Button'
 import { colors } from '@/styles/variables'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
-import {useTranslation} from 'next-i18next'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   children?: ReactElement | ReactElement[]
