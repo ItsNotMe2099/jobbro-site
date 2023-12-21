@@ -33,6 +33,12 @@
   font-size: 24px;
   color: $text-primary;
 }
+.link{
+  color: $green;
+  &:hover{
+    text-decoration: underline;
+  }
+}
 .item{
   display: flex;
   flex-direction: row;

@@ -7,6 +7,7 @@ import SwitchField from '@/components/fields/SwitchField'
 import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import Dictionary from '@/utils/Dictionary'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
+import KeywordField from '@/components/fields/KeywordField'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -38,6 +39,9 @@ export default function WorkflowForm(props: Props) {
         <SwitchField name={'declineAutoMessage.enabled'} />
       </div>}>
         {props.formik.values.declineAutoMessage?.enabled ? <RichTextField placeholder='Type your reply when decline' name='declineAutoMessage.template' /> : <></>}
+      </Card>
+      <Card title='Keywords'>
+        <KeywordField name={'keywords'}/>
       </Card>
     </div>
   )

@@ -2,7 +2,6 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import {ICompany} from '@/data/interfaces/ICompany'
 import AvatarCircular from '@/components/ui/AvatarCircular'
-import Link from 'next/link'
 import LocationSvg from '@/components/svg/LocationSvg'
 import {colors} from '@/styles/variables'
 import PersonSvg from '@/components/svg/PersonSvg'
@@ -31,7 +30,7 @@ export default function JobCompanyPreview(props: Props) {
            <div className={styles.companyInfo}>
              {company?.industry && <div className={styles.desc}>{company.industry?.name}</div>}
              <div className={styles.name}>{company?.name}</div>
-             {company.url && <Link className={styles.link} href={company.url}>Go to website</Link>}
+             {company.url && <a href={company.url} className={styles.link}>Go to website</a>}
            </div>
          </div>
          <div className={styles.right}>

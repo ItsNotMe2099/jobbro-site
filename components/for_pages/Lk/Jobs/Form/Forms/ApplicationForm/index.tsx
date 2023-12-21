@@ -6,7 +6,6 @@ import { FieldArray, FieldArrayRenderProps, FormikProps } from 'formik'
 import CloseSvg from '@/components/svg/CloseSvg'
 import { colors } from '@/styles/variables'
 import AddSvg from '@/components/svg/AddSvg'
-import KeywordField from '@/components/fields/KeywordField'
 import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import SwitchField from '@/components/fields/SwitchField'
 
@@ -66,9 +65,6 @@ export default function ApplicationForm(props: Props) {
           )}
         </FieldArray>
 
-      </Card>
-      <Card title='Keywords'>
-        <KeywordField name={'keywords'}/>
       </Card>
     </div>
   )
