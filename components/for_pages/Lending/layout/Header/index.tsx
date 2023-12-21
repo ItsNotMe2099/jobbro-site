@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useResize } from '@/components/hooks/useResize'
 import MobileMenuSvg from '@/components/svg/MobileMenuSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
+import {Routes} from '@/types/routes'
 
 interface Props {
 
@@ -50,8 +51,8 @@ export default function Header(props: Props) {
             <Link className={styles.link} href={'#'}>
               Contacts
             </Link>
-            <Link className={styles.link} href={'#'}>
-              FAQ
+            <Link className={styles.link} href={Routes.findJobs}>
+              Find jobs
             </Link>
           </div>
           <Button className={styles.btn} color='transparent' styleType='small'>
@@ -59,15 +60,15 @@ export default function Header(props: Props) {
           </Button>
         </div>
       }
-      {isMenuMobileOpen && 
+      {isMenuMobileOpen &&
         <div className={styles.dropdownMobile}>
           <div className={styles.right}>
             <div className={styles.links}>
               <Link className={styles.link} href={'#'}>
                 Contacts
               </Link>
-              <Link className={styles.link} href={'#'}>
-                FAQ
+              <Link className={styles.link} href={Routes.findJobs}>
+                Find jobs
               </Link>
             </div>
             <Button className={styles.btn} color='transparent' styleType='small'>
