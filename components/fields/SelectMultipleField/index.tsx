@@ -58,8 +58,9 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
     }
   }
 
-  const handleDelete = (option: IOption<T>) => {
-    props.onDeleteValue?.(option.value!)
+  const handleDelete = (option: T) => {
+    console.log('handleDelete', option)
+    props.onDeleteValue?.(option)
   }
   // Generate a unique key based on Formik field name and value
   const uniqueKey = `${props.name}_${field.value}`

@@ -7,7 +7,7 @@ import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import {ICVWithApply} from '@/data/interfaces/ICV'
-import {CardViewType, SidePanelType} from '@/types/enums'
+import {CardViewType, Goal, SidePanelType} from '@/types/enums'
 import CvFavoriteBtn from '@/components/for_pages/Common/CvFavoriteBtn'
 import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
 import {ApplyCvWrapper, useApplyCvContext} from '@/context/apply_cv_state'
@@ -18,6 +18,8 @@ import {useAppContext} from '@/context/state'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
 import useTranslation from 'next-translate/useTranslation'
+import Analytics from '@/utils/goals'
+import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -65,7 +67,7 @@ const JobApplyCardInner = (props: Props) => {
   const handleMenuClick = (value: MenuKey) => {
     switch (value){
       case MenuKey.DownloadPdf:
-
+          Analytics.goal(Goal.CvDownloadPdf)
         break
       case MenuKey.AddToBase:
         favoriteContext.like(cv!.id)
@@ -86,7 +88,10 @@ const JobApplyCardInner = (props: Props) => {
       <CvFavoriteBtn id={cv.id}  className={styles.bookmark}/>
       <Link href={Routes.lkJobCv(applyCvContext.apply!.vacancyId!, cv.id)} className={styles.container}>
         <div className={styles.top}>
-          <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+          <div className={styles.avatar}>
+            <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
+            <CvCreationTypeBadge isFile={!cv.profileId}/>
+          </div>
           <div className={styles.right}>
             <div className={styles.name}>
               {UserUtils.getName(cv)}

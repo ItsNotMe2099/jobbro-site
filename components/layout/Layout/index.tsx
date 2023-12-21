@@ -1,6 +1,7 @@
+import styles from './index.module.scss'
+
 import { ReactElement } from 'react'
 import Header from 'components/layout/Header'
-import styles from './index.module.scss'
 import Footer from 'components/layout/Footer'
 import { useAppContext } from '@/context/state'
 import { Sticky, StickyContainer } from 'react-sticky'

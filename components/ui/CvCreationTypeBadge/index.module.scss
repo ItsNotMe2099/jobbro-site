@@ -1,0 +1,23 @@
+@import "styles/index";
+
+.root{
+  position: absolute;
+  right: -8px;
+  bottom: -4px;
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.check{
+    background-color: $white;
+  }
+  &.file{
+    border: 1px solid $white;
+    background-color: $text-primary;
+  }
+}
+.icon{
+
+}

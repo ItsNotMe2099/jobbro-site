@@ -17,6 +17,7 @@ import classNames from 'classnames'
 import {useEffect, useState} from 'react'
 import useTranslation from 'next-translate/useTranslation'
 
+
 enum MenuProfileKey {
   UserProfile = 'profile',
   Logout = 'logout'

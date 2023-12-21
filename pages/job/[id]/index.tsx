@@ -22,15 +22,15 @@ const JobPageInner = (props: Props) => {
 
   const ref = useRef<HTMLDivElement | null>(null)
   return (<Layout>
-      <div  className={styles.root}>
+      <div className={styles.root}>
         <div ref={ref} className={styles.container}>
-        <JobPreview job={props.job} company={props.job.company}/>
-        <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'
-                  onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
-            Apply
-          </Button>
-        </FormStickyFooter>
+          <JobPreview job={props.job} company={props.job.company}/>
+          <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref}>
+            <Button spinner={false} type='submit' styleType='large' color='green'
+                    onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
+              Apply
+            </Button>
+          </FormStickyFooter>
         </div>
         <ApplyForJobCard vacancyId={props.job.id}/>
       </div>

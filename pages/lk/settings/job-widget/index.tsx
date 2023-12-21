@@ -8,6 +8,7 @@ import CopySvg from '@/components/svg/CopySvg'
 import { colors } from '@/styles/variables'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -59,4 +60,4 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
 
 LkSettingsJobWidgetsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsJobWidgetsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

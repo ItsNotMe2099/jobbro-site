@@ -7,6 +7,7 @@ import {Routes} from '@/types/routes'
 import {GetServerSideProps} from 'next'
 import {ParsedUrlQuery} from 'querystring'
 import {ProfileType} from '@/data/enum/ProfileType'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 export const getToken = (): string | undefined => {
   const cookies = nookies.get(null)
@@ -20,7 +21,7 @@ export type GetServerSidePropsAuthCb<
     context: GetServerSidePropsContext<Params, Preview>, user?: IAboutMe
 ) => Promise<GetServerSidePropsResult<Props>>
 
-export  function getAuthServerSideProps<Props extends { [key: string]: any } = { [key: string]: any }>(profileType?: ProfileType | ProfileType[] | null, cb?: GetServerSidePropsAuthCb<Props>): GetServerSideProps<Props >{
+export  function getAuthServerSideProps<Props extends { [key: string]: any } = { [key: string]: any }>(profileType?: ProfileType | ProfileType[] | null, arg2?: GetServerSidePropsAuthCb<Props> | HirerRole | HirerRole[] | null | undefined, arg3?: GetServerSidePropsAuthCb<Props>): GetServerSideProps<Props >{
  return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> => {
    const token = context.req.cookies[CookiesType.accessToken]
    let user: IAboutMe | null = null
@@ -37,8 +38,15 @@ export  function getAuthServerSideProps<Props extends { [key: string]: any } = {
      }
    }
 
-   console.log('User11', profileType , !Array.isArray(profileType) , user.profileType !== profileType)
+  const cb = typeof arg2 === 'function' ? arg2 : arg3
+   const hirerRole = typeof arg2 !== 'function' && !!arg2 ? arg2 as HirerRole | HirerRole[] : null
    if (profileType && (!Array.isArray(profileType) && user.profileType !== profileType) || (Array.isArray(profileType) && profileType.includes(user.profileType!))) {
+     return {
+       notFound: true
+     }
+   }
+
+   if (hirerRole && (!Array.isArray(hirerRole) && user.hirerRole !== hirerRole) || (Array.isArray(hirerRole) && hirerRole.includes(user.hirerRole!))) {
      return {
        notFound: true
      }

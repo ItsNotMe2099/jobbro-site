@@ -9,6 +9,7 @@ import { colors } from '@/styles/variables'
 import Link from 'next/link'
 import HistorySvg from '@/components/svg/HistorySvg'
 import { Routes } from '@/types/routes'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -63,4 +64,4 @@ const LkSettingsPaymentsPage = (props: Props) => {
 
 LkSettingsPaymentsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsPaymentsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

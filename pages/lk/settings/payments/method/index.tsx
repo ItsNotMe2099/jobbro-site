@@ -6,6 +6,7 @@ import PaymentMethodForm from '@/components/for_pages/Lk/Settings/Payments/Form'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import { Routes } from '@/types/routes'
 import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -25,4 +26,4 @@ const LkSettingsPaymentsMethodPage = (props: Props) => {
 
 LkSettingsPaymentsMethodPage.getLayout = LkPageHirerLayout
 export default LkSettingsPaymentsMethodPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

@@ -1,13 +1,14 @@
 import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
-import {SnackbarType} from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import AiCvRequestRepository from '@/data/repositories/AiCvRequestRepository'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import useInterval from 'use-interval'
 import {AiRequestStatusFinished} from '@/data/enum/AiRequestStatus'
+import Analytics from '@/utils/goals'
 
 export enum ApplyJobAnonymouslyStepKey {
   First = 'first',
@@ -129,6 +130,7 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
         const request = await AiCvRequestRepository.create(formData!.cv!, {vacancyId: props.vacancyId})
         setRequest(request)
       }
+      Analytics.goal(Goal.RegistrationEmployee)
       setStepKey(ApplyJobAnonymouslyStepKey.Confirm)
     } catch (err) {
       if (err instanceof RequestError) {

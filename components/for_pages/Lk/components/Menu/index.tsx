@@ -1,14 +1,16 @@
-import { Routes } from '@/types/routes'
+import {Routes} from '@/types/routes'
 import styles from './index.module.scss'
-import { ReactElement, useState } from 'react'
+import {ReactElement, useState} from 'react'
 import Link from 'next/link'
 import ArrowsSvg from '@/components/svg/ArrowsSvg'
 import classNames from 'classnames'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 import Button from '@/components/ui/Button'
-import { colors } from '@/styles/variables'
+import {colors} from '@/styles/variables'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import useTranslation from 'next-translate/useTranslation'
+import {useAppContext} from '@/context/state'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
   children?: ReactElement | ReactElement[]
@@ -16,7 +18,9 @@ interface Props {
 
 export default function Menu(props: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
+
   const { t } = useTranslation()
+  const appContext = useAppContext()
   const router = useRouter()
 
   const menu = [
@@ -26,13 +30,13 @@ export default function Menu(props: Props) {
     { label: t('hirer_left_menu_hiring_boards'), link: Routes.lkHiringBoards },
     { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
     { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
-    { label: t('hirer_left_menu_settings'), link: Routes.lkSettings },
-  ]
+    ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }] : []),
+]
 
   const [showOptions, setShowOptions] = useState<boolean>(false)
 
   return (
-    <div className={classNames(styles.root, { [styles.collapsed]: isCollapsed })}>
+    <div className={classNames(styles.root, {[styles.collapsed]: isCollapsed})}>
       <div className={styles.wrapper}>
         <div className={styles.first}>
           <div className={styles.top}>
@@ -40,14 +44,15 @@ export default function Menu(props: Props) {
               {t('hirer_left_menu_actions')}
             </div>
             <div className={styles.arrows} onClick={() => setIsCollapsed(i => !i)}>
-              <ArrowsSvg color={colors.simpleGrey} />
+              <ArrowsSvg color={colors.simpleGrey}/>
             </div>
 
           </div>
           <div className={styles.menu}>
             {menu.map((i, index) =>
-              <Link className={classNames(styles.item, { [styles.active]: router.asPath.includes(i.link) })} href={i.link} key={index}>
-                {router.asPath.includes(i.link) && <div className={styles.line} />}
+              <Link className={classNames(styles.item, {[styles.active]: router.asPath.includes(i.link)})} href={i.link}
+                    key={index}>
+                {router.asPath.includes(i.link) && <div className={styles.line}/>}
                 {i.label}
               </Link>
             )}
@@ -55,7 +60,7 @@ export default function Menu(props: Props) {
         </div>
         <div className={styles.btn}>
           {showOptions &&
-            <MenuOptions />}
+            <MenuOptions/>}
           <Button onClick={() => setShowOptions(!showOptions)} styleType='large' color='green'>
             {t('hirer_left_menu_new_job')}
           </Button>

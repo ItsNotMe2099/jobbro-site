@@ -12,6 +12,8 @@ import ChevronDownMiniSvg from '@/components/svg/ChevronDownMiniSvg'
 import classNames from 'classnames'
 import {ApplyStatus} from '@/data/enum/ApplyStatus'
 import {Nullable} from '@/types/types'
+import Analytics from '@/utils/goals'
+import {Goal} from '@/types/enums'
 
 
 interface Props {
@@ -61,6 +63,14 @@ export default function JobApplyStatus(props: Props) {
     setIsActive(!isActive)
   }
   const handleClickItem = (hiringStageId: number | string) => {
+    const all = hiringStageListContext.data.filter(i => i.id !== apply?.hiringStageId)
+    const currentIndex = all.findIndex(i => i.id === hiringStageId)
+    if(currentIndex === 0){
+      Analytics.goal(Goal.MoveApplyFromApplied)
+    }else if(currentIndex === all.length - 1){
+      Analytics.goal(Goal.MoveApplyToOffer)
+
+    }
     if (hiringStageId === 'reject') {
       applyCvContext.reject()
     } else {

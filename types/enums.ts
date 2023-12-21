@@ -89,3 +89,35 @@ export enum SortOrder {
   Asc = 'ASC',
   Desc = 'DESC',
 }
+
+export enum Goal {
+  Login = 'auth:login',
+  RegistrationHirer = 'auth:registration:hirer',
+  RegistrationEmployee = 'auth:registration:employee',
+  CreateJobManual = 'job:manual:create',
+  CreateJobAi = 'job:ai:create',
+  JobClose = 'job:close',
+  CreateJobAiEnterPrompt = 'job:ai:enter-prompt',
+  CreateJobAiEditFilledField = 'job:ai:edit-filled-field',
+  MoveApplyFromApplied = 'apply:move:from-applied',
+  MoveApplyToOffer = 'apply:move:to-offer',
+  CandidateBaseAdd = 'candidate-base:add',
+  CvRequestAddToBase = 'cv-request:add-to-base',
+  CvRequestUpload = 'cv-request:upload',
+  JobInviteCv = 'job:invite-cv',
+
+  // Просмотр кандидата впервые - логики записи на беке нет
+  ViewCv = 'cv:view',
+  ViewCvOnce = 'cv:view:once',
+  CvDownloadPdf = 'cv:download-pdf',
+  CvComment = 'cv:comment',
+  OpenCvChat = 'chat:cv:open',
+  SendChatMessageToCandidate = 'chat:message:send-to-candidate',
+  GetMessageFromCandidate = 'chat:message:get-from-candidate',// непонятно в какой момент считать и будет необьективно
+  DashboardTeamView = 'dashboard:team:view',
+  DashboardManagerView = 'dashboard:manager:view',
+  DashboardMyView = 'dashboard:my:view',
+  DashboardHiringBoardsSeeAll = 'dashboard:hiring-boards:see-all',
+  ChangeCardViewType = 'card-view-type:change',
+  JobFeedbackCreate = 'job:feedback:create'
+}

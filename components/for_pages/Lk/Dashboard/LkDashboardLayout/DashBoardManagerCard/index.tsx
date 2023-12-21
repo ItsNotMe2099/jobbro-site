@@ -6,7 +6,8 @@ import PolygonSvg from '@/components/svg/PolygonSvg'
 import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import {CardViewType} from '@/types/enums'
-
+import {Routes} from '@/types/routes'
+import Link from 'next/link'
 
 interface Props {
   manager: IDashBoardManager
@@ -24,7 +25,7 @@ export default function DashBoardManagerCard(props: Props) {
   //  { label: 'Staff workload',  value:  0  },
     ]
   return (
-    <div className={classNames(styles.root, {[styles.card]: props.view === CardViewType.Card, [styles.row]: props.view === CardViewType.Row})}>
+    <Link href={Routes.lkDashboardTeamManager(manager.id)} className={classNames(styles.root, {[styles.card]: props.view === CardViewType.Card, [styles.row]: props.view === CardViewType.Row})}>
       <div className={styles.profile}>
         <AvatarCircular size={64} className={styles.avatar} file={manager.image}  />
         <div className={styles.profileRight}>
@@ -48,6 +49,6 @@ export default function DashBoardManagerCard(props: Props) {
         )}
       </div>
 
-    </div>
+    </Link>
   )
 }

@@ -4,7 +4,6 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef, useState} from 'react'
-import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
 import {Nullable} from '@/types/types'
@@ -25,6 +24,8 @@ import {JobFilterSidePanelArguments} from '@/types/side_panel_arguments'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import CardsLayout from '@/components/ui/CardsLayout'
 import useTranslation from 'next-translate/useTranslation'
+import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
+
 
 
 const JobsPageInner = () => {

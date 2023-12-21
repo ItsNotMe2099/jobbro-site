@@ -1,10 +1,10 @@
 import styles from './index.module.scss'
+
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import { Nullable, RequestError} from '@/types/types'
-import {FileUploadAcceptType, ModalType, SnackbarType} from '@/types/enums'
+import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
-import SwitchField from '@/components/fields/SwitchField'
 import {FormikHelpers} from 'formik/dist/types'
 import {useAppContext} from '@/context/state'
 import {useEffect, useRef} from 'react'
@@ -14,7 +14,6 @@ import {useAboutMeContext} from '@/context/aboutme_state'
 import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
 import Button from '@/components/ui/Button'
-import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
 import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 
 interface IFormData {
@@ -49,8 +48,6 @@ export default function AccountProfileForm(props: Props) {
     }
   }
 
-
-
   const initialValues: IFormData = {
     image: appContext.aboutMe?.image ?? null,
     firstName: appContext.aboutMe?.firstName ?? '',
@@ -67,11 +64,7 @@ export default function AccountProfileForm(props: Props) {
   })
 
   useEffect(()=>{
-    if(formik.values.image) {
-      appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: formik.values.image.source, onEdit: (image: string) => {
-        formik.setFieldValue('image', image)
-      }})
-    }
+    console.log(formik.values.image)
   }, [formik.values.image])
 
 
@@ -84,6 +77,9 @@ export default function AccountProfileForm(props: Props) {
               <FileField
                 isImage
                 name='image'
+                withCrop
+                description={<p>Drag & drop image upload. <br /> You can use 5 images smaller than 3.5MB and at least 752px by 480px.</p>}
+                dropZoneClassName={styles.dropZone}
                 accept={[FileUploadAcceptType.Image]}
               />
               <InputField
@@ -106,7 +102,7 @@ export default function AccountProfileForm(props: Props) {
 
             </div>
           </Card>
-        <Card title={<div className={styles.top}>
+        {/*<Card title={<div className={styles.top}>
           <div className={styles.title}>Profile Visibility</div>
           <SwitchField name={'companyVisible'} />
         </div>}>
@@ -114,7 +110,7 @@ export default function AccountProfileForm(props: Props) {
             Your company is showed. Setting your company to show makes your
             career site and all its job listings view to you, users, search engines and job boards.
           </div>
-        </Card>
+        </Card>*/}
 
         <Card title={'Account deletion'}>
           <div className={styles.description}>

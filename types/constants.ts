@@ -1,3 +1,4 @@
+import { runtimeConfig } from '@/config/runtimeConfig'
 
 export const CookiesLifeTime: {
   accessToken: number,
@@ -15,5 +16,5 @@ export const Timers: {
   dealRefresh: 30 * 1000
 }
 
-
+export const FILES = runtimeConfig.HOST + '/api/asset/files/'
 

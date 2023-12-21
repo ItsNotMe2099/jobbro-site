@@ -17,7 +17,7 @@ export default class ManagerOwnerRepository {
     return res
   }
 
-  static async fetchById(id: string): Promise<IManager> {
+  static async fetchById(id: string | number): Promise<IManager> {
     const res = await request<IManager>({
       method: 'get',
       url: `/api/manager/${id}`,

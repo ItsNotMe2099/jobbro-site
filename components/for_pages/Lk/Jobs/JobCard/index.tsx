@@ -4,7 +4,7 @@ import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
-import {CardViewType} from '@/types/enums'
+import {CardViewType, Goal} from '@/types/enums'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {IOptionGroup} from '@/types/types'
@@ -15,6 +15,7 @@ import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
+import Analytics from '@/utils/goals'
 
 enum MenuKey{
   Publish = 'publish',
@@ -87,6 +88,7 @@ const JobCardInner = (props: Props) => {
         break
       case MenuKey.Close:
         vacancyContext.close()
+        Analytics.goal(Goal.JobClose)
         break
       case MenuKey.Edit:
           router.push(Routes.lkJobEdit(vacancy.id))
@@ -101,7 +103,7 @@ const JobCardInner = (props: Props) => {
   const formattedPublishDate = format(new Date(vacancy.schedulePublishAt ?? vacancy.createdAt),'dd MMMM yyyy')
   return (
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
-      <Link href={Routes.lkJob(vacancy.id)} className={classNames(styles.container, { [styles.rowContainer]: props.view === CardViewType.Row })}
+      <Link href={Routes.lkJob(vacancy.id)} className={classNames(styles.container)}
         style={{ backgroundColor: getColor(props.vacancy.status) }}>
         <div className={styles.wrapper}>
           {props.view !== 'row' && <div className={styles.top}>

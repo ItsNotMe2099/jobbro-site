@@ -3,7 +3,7 @@ import {Form, FormikProvider, useFormik} from 'formik'
 import React, {KeyboardEventHandler, useEffect, useRef, useState} from 'react'
 import cx from 'classnames'
 import {RequestError} from 'types/types'
-import { SnackbarType} from 'types/enums'
+import {Goal, SnackbarType} from 'types/enums'
 import {useAppContext} from 'context/state'
 import TextAreaChatField from '@/components/fields/TextAreaChatField'
 import IconButton from '@/components/ui/IconButton'
@@ -12,6 +12,7 @@ import SendSvg from '@/components/svg/SendSvg'
 import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateRequest'
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
+import Analytics from '@/utils/goals'
 
 interface Props {
 }
@@ -28,7 +29,7 @@ export default function JobAiGenerateMessageForm() {
     setSending(true)
     try {
       await vacancyGenerateAiContext.create(data.message!)
-
+      Analytics.goal(Goal.CreateJobAiEnterPrompt, {message: data.message})
       setTimeout(() => {
         inputRef.current?.focus()
       }, 200)
@@ -70,7 +71,7 @@ export default function JobAiGenerateMessageForm() {
     // var toScroll = ''+screenh/10
     // target.scrollIntoView(false)
     // window.scrollBy(0, Number(toScroll))
-  
+
   }
   return (
       <FormikProvider value={formik}>
@@ -80,7 +81,7 @@ export default function JobAiGenerateMessageForm() {
               ref={inputRef}
               name={'message'}
               disabled={vacancyGenerateAiContext.sending || vacancyGenerateAiContext.loading}
-              placeholder={'Сообщение'}
+              placeholder={'Specify the initial data for generating job'}
               styleType={'message'}
               onKeyDown={handleKeyDown}
               className={cx(styles.textarea)}

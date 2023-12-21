@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {Form, FormikProvider, useFormik} from 'formik'
-import {SnackbarType} from '@/types/enums'
+import {Goal, SnackbarType} from '@/types/enums'
 import {useEffect, useRef, useState} from 'react'
 import {DeepPartial, IOption, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
@@ -31,6 +31,8 @@ import Spacer from '@/components/ui/Spacer'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import IAiVacancyGenRequest, {IAiVacancy} from '@/data/interfaces/IAiVacancy'
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
+import Analytics from '@/utils/goals'
+import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 
 
 enum TabKey {
@@ -90,13 +92,17 @@ export default function CreateJobManuallyForm(props: Props) {
       benefitsTitles: data.benefits,
       keywordsTitles: data.keywords,
       officeId: data?.office?.id,
-      companyId: companyContext.company?.id
+      companyId: companyContext.company?.id,
+      creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {
       if (vacancyContext.vacancy) {
         await vacancyContext.update(newData)
       } else {
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
+        if(props.fromAi){
+          Analytics.goal(Goal.CreateJobAi)
+        }
       }
       await router.push(Routes.lkJobs)
     } catch (err) {
@@ -144,7 +150,7 @@ export default function CreateJobManuallyForm(props: Props) {
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
-      console.log('RequestUpdate11', formik.getFieldMeta('name'))
+
       if(result?.name && !formik.getFieldMeta('name').touched){
         formik.setFieldValue('name', result.name)
       }

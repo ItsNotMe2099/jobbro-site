@@ -22,6 +22,10 @@ export class Routes {
     return '/'
   }
 
+  static get findJobs() {
+    return '/find-jobs'
+  }
+
   static get account() {
     return '/lk/account'
   }
@@ -60,6 +64,10 @@ export class Routes {
 
   static get lkDashboardTeam() {
     return '/lk/dashboard/team'
+  }
+
+  static lkDashboardTeamManager(id: number) {
+    return `/lk/dashboard/team/${id}`
   }
 
   static get lkJobs() {

@@ -47,6 +47,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  max-width: 80px;
 }
 
 .menu {
@@ -60,4 +61,9 @@
     position: absolute;
     z-index: 1;
     top: 32px;
+}
+
+.cardsLayout {
+  min-height: calc(100vh - 500px);
+  min-height: calc(100dvh - 500px);
 }
