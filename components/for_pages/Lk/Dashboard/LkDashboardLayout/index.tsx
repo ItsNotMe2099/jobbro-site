@@ -1,11 +1,13 @@
 import styles from './index.module.scss'
-import { ReactElement } from 'react'
+import {ReactElement} from 'react'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import { nestLayout } from '@/utils/nestLayout'
-import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout'
+import {nestLayout} from '@/utils/nestLayout'
+import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import Tabs from '@/components/ui/Tabs'
-import { IOption } from '@/types/types'
-import { Routes } from '@/types/routes'
+import {IOption} from '@/types/types'
+import {Routes} from '@/types/routes'
+import {useAppContext} from '@/context/state'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 enum TabKey {
   MyBoard = 'my-board',
@@ -16,16 +18,22 @@ enum TabKey {
 interface Props {
   children: ReactElement
 }
+
 const LkDashboardPageLayoutInner = (props: Props) => {
+  const appContext = useAppContext()
   const options: IOption<TabKey>[] = [
-    { label: 'My board', value: TabKey.MyBoard, href: Routes.lkDashboardMyBoard },
-    { label: 'Team', value: TabKey.Team, href: Routes.lkDashboardTeam },
+    {label: 'My board', value: TabKey.MyBoard, href: Routes.lkDashboardMyBoard},
+    ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [{
+      label: 'Team',
+      value: TabKey.Team,
+      href: Routes.lkDashboardTeam
+    }] : [])
   ]
 
   return (
     <div className={styles.root}>
-      <PageTitle title='Dashboard' />
-      <Tabs<TabKey> options={options} />
+      <PageTitle title='Dashboard'/>
+      <Tabs<TabKey> options={options}/>
       {props.children}
     </div>
   )
@@ -40,4 +48,5 @@ const LkDashboardPageLayoutWrapper = (props: Props) => {
 }
 
 
-export const LkDashboardPageLayout = nestLayout(LkPageHirerLayout, (page: ReactElement) => <LkDashboardPageLayoutWrapper>{page}</LkDashboardPageLayoutWrapper>)
+export const LkDashboardPageLayout = nestLayout(LkPageHirerLayout, (page: ReactElement) =>
+  <LkDashboardPageLayoutWrapper>{page}</LkDashboardPageLayoutWrapper>)

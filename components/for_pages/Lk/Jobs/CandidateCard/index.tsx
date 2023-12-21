@@ -18,14 +18,16 @@ import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
+import {HirerRole} from '@/data/enum/HirerRole'
 
-enum MenuKey{
+enum MenuKey {
   DownloadPdf = 'downloadPdf',
   RemoveFromBase = 'removeFromBase',
   InviteToOtherJob = 'inviteToOtherJob',
   Select = 'select',
   Share = 'share'
 }
+
 interface Props {
   candidate: ICandidate
   className?: string
@@ -36,7 +38,7 @@ export default function CandidateCard(props: Props) {
 
   const appContext = useAppContext()
   const favoriteContext = useCandidateAddedContext()
-const cv = props.candidate.cv
+  const cv = props.candidate.cv
   useEffect(() => {
     favoriteContext.addRecord(cv!.id)
   }, [])
@@ -46,14 +48,17 @@ const cv = props.candidate.cv
   }
   const menuOptions: IOption<MenuKey>[] = [
     {label: 'Download resume in PDF', value: MenuKey.DownloadPdf},
-    {label: 'Remove from base', value: MenuKey.RemoveFromBase},
+    ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [{
+      label: 'Remove from base',
+      value: MenuKey.RemoveFromBase
+    }] : []),
     {label: 'Invite', value: MenuKey.InviteToOtherJob},
     {label: 'Select', value: MenuKey.Select},
     {label: 'Share', value: MenuKey.Share},
   ]
 
   const handleMenuClick = (value: MenuKey) => {
-    switch (value){
+    switch (value) {
       case MenuKey.DownloadPdf:
         Analytics.goal(Goal.CvDownloadPdf)
         break
@@ -70,7 +75,7 @@ const cv = props.candidate.cv
 
         break
       case MenuKey.InviteToOtherJob:
-        appContext.showSidePanel(SidePanelType.InviteToJob, { cv } as JobInviteSidePanelArguments)
+        appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)
         break
       case MenuKey.Select:
 
@@ -81,7 +86,7 @@ const cv = props.candidate.cv
     }
   }
   return (
-    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === CardViewType.Row })}>
+    <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
       <Link href={Routes.lkCandidate(props.candidate.id)} className={styles.container}>
         <BookmarkSvg color={colors.green} className={classNames({
           [styles.bookmark]: true,
@@ -89,7 +94,7 @@ const cv = props.candidate.cv
         <div className={styles.top}>
           <div className={styles.avatar}>
             <AvatarCircular file={cv.image ?? cv?.profile?.image}/>
-            <CvCreationTypeBadge  isFile={!cv.profileId}/>
+            <CvCreationTypeBadge isFile={!cv.profileId}/>
           </div>
 
           <div className={styles.right}>
