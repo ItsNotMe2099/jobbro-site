@@ -61,7 +61,7 @@ const CandidatesPageInner = () => {
             <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>
           )}
         </div> */}
-        <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'}>
+        <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'} >
           {candidateListContext.data.data.map(i =>
             <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>
           )}

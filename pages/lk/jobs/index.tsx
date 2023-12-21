@@ -4,7 +4,6 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef, useState} from 'react'
-import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
 import {Nullable} from '@/types/types'
@@ -24,6 +23,7 @@ import {useAppContext} from '@/context/state'
 import {JobFilterSidePanelArguments} from '@/types/side_panel_arguments'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import CardsLayout from '@/components/ui/CardsLayout'
+import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 
 
 const JobsPageInner = () => {
@@ -62,7 +62,7 @@ const JobsPageInner = () => {
 
           </div>
         </div> */}
-        <CardsLayout type={view==='row' ? 'list' : 'cards'}>
+        <CardsLayout type={view==='row' ? 'list' : 'cards'} >
           {vacancyListContext.data.data.map(i =>
             <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>
           )}
