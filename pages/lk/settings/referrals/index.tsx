@@ -5,6 +5,7 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import CopySvg from '@/components/svg/CopySvg'
 import { colors } from '@/styles/variables'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -87,4 +88,4 @@ const LkSettingsRefferalsPage = (props: Props) => {
 
 LkSettingsRefferalsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsRefferalsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

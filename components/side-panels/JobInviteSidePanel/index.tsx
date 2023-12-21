@@ -17,6 +17,7 @@ import {ICV} from '@/data/interfaces/ICV'
 import {Goal, SnackbarType} from '@/types/enums'
 import ProposalRepository from '@/data/repositories/ProposalRepository'
 import Analytics from '@/utils/goals'
+import Validator from '@/utils/validator'
 
 interface Props {
 
@@ -62,7 +63,7 @@ export default function JobInviteSidePanel(props: Props) {
   }
 
   const initialValues = {
-    vacancyId:null
+    vacancyId: null
   }
 
   const formik = useFormik<IFormData>({
@@ -82,7 +83,7 @@ export default function JobInviteSidePanel(props: Props) {
             <div className={styles.fields}>
               {args.cv && <CvCard cv={args.cv}/>}
               <div className={styles.field}>
-                <JobWithSearchField name={'vacancyId'}/>
+                <JobWithSearchField name={'vacancyId'} validate={Validator.required}/>
               </div>
             </div>
           </SidePanelBody>

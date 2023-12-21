@@ -1,0 +1,80 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+  color: $text-primary;
+}
+
+.wrapper {
+
+}
+.top{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(16px, true);
+  .topRight{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    @include list(4px);
+    .topRightTop{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      @include list(16px, true);
+    }
+  }
+}
+.title {
+  flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+.salary{
+  font-size: 20px;
+  font-weight: 700;
+}
+.status{
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+.center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .company{
+    display: flex;
+    flex-direction: column;
+    @include list(4px);
+  }
+  .skills{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .companyName {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .companyLocation{
+    font-size: 14px;
+    font-weight: 400;
+    color: $text-secondary;
+  }
+  .createdAt{
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+.bottom{
+  display: flex;
+  flex-direction: row;
+  @include list(32px, true);
+}

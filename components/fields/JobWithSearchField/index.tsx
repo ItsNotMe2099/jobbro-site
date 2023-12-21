@@ -31,7 +31,7 @@ const JobWithSearchFieldInner = (props: Props) => {
   }, 300)
   return (
     <div className={styles.root}>
-          <InputField name={'search'} suffix={'search'} label={'Search'} onChange={debouncedSearchChange}/>
+          <InputField name={'search'} noAutoComplete={true} suffix={'search'} label={'Search'} onChange={debouncedSearchChange}/>
 
       <div className={styles.list}>
         {vacancyListOwnerContext.data.data.map((vacancy) => <div

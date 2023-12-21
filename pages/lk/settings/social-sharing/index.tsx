@@ -4,6 +4,7 @@ import { LkSettingsPageLayout } from '@/components/for_pages/Lk/Settings/LkSetti
 import styles from './index.module.scss'
 import { useState } from 'react'
 import SocialSharingForm from '@/components/for_pages/Lk/Settings/SocialSharing/Form'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -22,4 +23,4 @@ const LkSettingsSocialSharingPage = (props: Props) => {
 
 LkSettingsSocialSharingPage.getLayout = LkSettingsPageLayout
 export default LkSettingsSocialSharingPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

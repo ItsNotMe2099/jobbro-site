@@ -3,6 +3,7 @@ import { ProfileType } from '@/data/enum/ProfileType'
 import { LkSettingsPageLayout } from '@/components/for_pages/Lk/Settings/LkSettingsyLayout'
 import styles from './index.module.scss'
 import IntegrationCard from '@/components/for_pages/Lk/Settings/Integrations/Card'
+import {HirerRole} from '@/data/enum/HirerRole'
 
 interface Props {
 
@@ -47,4 +48,4 @@ const LkSettingsIntegrationsPage = (props: Props) => {
 
 LkSettingsIntegrationsPage.getLayout = LkSettingsPageLayout
 export default LkSettingsIntegrationsPage
-export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)
+export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, HirerRole.Admin)

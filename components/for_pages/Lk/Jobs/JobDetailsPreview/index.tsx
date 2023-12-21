@@ -66,15 +66,6 @@ export default function JobDetailsPreview(props: Props) {
               {skills.map(i => <Chip>{i}</Chip>)}
             </ChipList>
           </div>}
-          {keywords.length > 0 && <div className={styles.tasks}>
-            <div className={styles.title}>
-              Keywords
-            </div>
-
-            <ChipList>
-              {keywords.map(i => <Chip>{i}</Chip>)}
-            </ChipList>
-          </div>}
         </>
       </Card>
     </div>
