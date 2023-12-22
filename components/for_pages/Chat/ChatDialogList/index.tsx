@@ -13,6 +13,7 @@ import {ChatSocketWrapper} from '@/context/chat_socket_state'
 import Tabs from '@/components/ui/Tabs'
 import {IOption} from '@/types/types'
 import {useState} from 'react'
+import useTranslation from 'next-translate/useTranslation'
 enum TabKey{
   All = 'all',
   Invites = 'invites',
@@ -24,14 +25,15 @@ interface Props {
 
 const ChatDialogListInner = (props: Props) => {
   const chatContext = useChatContext()
+  const { t } = useTranslation()
   const [tab, setTab] = useState<TabKey>(TabKey.All)
   const debouncedSearchChange = debounce(async (search: InputValueType<string>) => {
     chatContext.setFilter({...chatContext.filter, search})
   }, 300)
   const tabs: IOption<TabKey>[] = [
-    {label: 'All', value: TabKey.All},
-    {label: 'Invites', value: TabKey.Invites},
-    {label: 'New Messages', value: TabKey.NewMessages},
+    {label: t('chats_tab_all'), value: TabKey.All},
+    {label: t('chats_tab_invites'), value: TabKey.Invites},
+    {label: t('chats_tab_new_messages'), value: TabKey.NewMessages},
   ]
   const handleChangeTab = (tab: TabKey) => {
     setTab(tab)
@@ -43,7 +45,7 @@ const ChatDialogListInner = (props: Props) => {
     })
   }
   return (<div className={styles.root}>
-      <PageTitle title={'Chats'}/>
+      <PageTitle title={t('chats_title')}/>
       <Card>
         <ChatDialogSearch onChange={(val) => debouncedSearchChange(val)}/>
       </Card>
@@ -54,7 +56,7 @@ const ChatDialogListInner = (props: Props) => {
         <div className={styles.dialogs}>
           {!chatContext.loading && !chatContext.filterIsEmpty && chatContext.totalChats === 0 ?
             <div className={styles.empty}>
-              По вашей запросу ничего не найдено
+              {t('chats_nothing_found')}
             </div> : <InfiniteScroll
               dataLength={chatContext.chats.length}
               next={chatContext.fetchMore}

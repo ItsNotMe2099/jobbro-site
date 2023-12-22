@@ -8,8 +8,8 @@ import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import Dictionary from '@/utils/Dictionary'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import KeywordField from '@/components/fields/KeywordField'
+import useTranslation from 'next-translate/useTranslation'
 
-// Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
 
 interface Props {
@@ -17,30 +17,31 @@ interface Props {
 }
 
 export default function WorkflowForm(props: Props) {
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
-      <Card title='Settings'>
+      <Card title={t('job_form_tab_workflow_section_settings')}>
         <div className={styles.wrapper}>
           <div className={styles.line}>
-            <SelectField<ApplicationInfoRequirements> label='CV' className={styles.select} name='cvRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
-            <SelectField<ApplicationInfoRequirements> label='Cover letter' className={styles.select} name='coverLetterRequired' options={Dictionary.getApplicationInfoRequirementsOptions()} />
+            <SelectField<ApplicationInfoRequirements> label={t('job_form_tab_workflow_field_cv')} className={styles.select} name='cvRequired' options={Dictionary.getApplicationInfoRequirementsOptions(t)} />
+            <SelectField<ApplicationInfoRequirements> label={t('job_form_tab_workflow_field_cover_letter')} className={styles.select} name='coverLetterRequired' options={Dictionary.getApplicationInfoRequirementsOptions(t)} />
           </div>
-          <SelectField<string> label='Application form language' className={styles.select} name='applicationFormLanguage' options={[{label: 'English', value: 'en'}]} />
+          <SelectField<string> label={t('job_form_tab_workflow_field_lang')} className={styles.select} name='applicationFormLanguage' options={[{label: 'English', value: 'en'}]} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>
-        <div className={styles.title}>Automated reply when apply</div>
+        <div className={styles.title}>{t('job_form_tab_workflow_section_auto_reply')}</div>
         <SwitchField name={'applyAutoMessage.enabled'} />
       </div>}>
-        {props.formik.values.applyAutoMessage?.enabled ? <RichTextField placeholder='Type your reply when apply' name='applyAutoMessage.template' /> : <></>}
+        {props.formik.values.applyAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_ph')} name='applyAutoMessage.template' /> : <></>}
       </Card>
       <Card title={<div className={styles.top}>
-        <div className={styles.title}>Automated reply when decline</div>
+        <div className={styles.title}>{t('job_form_tab_workflow_section_auto_reply_decline')}</div>
         <SwitchField name={'declineAutoMessage.enabled'} />
       </div>}>
-        {props.formik.values.declineAutoMessage?.enabled ? <RichTextField placeholder='Type your reply when decline' name='declineAutoMessage.template' /> : <></>}
+        {props.formik.values.declineAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_decline_ph')} name='declineAutoMessage.template' /> : <></>}
       </Card>
-      <Card title='Keywords'>
+      <Card title={t('job_form_tab_workflow_section_keywords')}>
         <KeywordField name={'keywords'}/>
       </Card>
     </div>

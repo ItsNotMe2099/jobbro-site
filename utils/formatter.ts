@@ -10,6 +10,15 @@ export default class Formatter {
   static pluralize(number: number, word1: string, word2: string, word3: string) {
     return pluralizeNative(number, word1, word2, word3)
   }
+  static formatUrl(url: string){
+    if(!url){
+      return url
+    }
+    if (!/^https?:\/\//i.test(url)) {
+      return  'https://' + url
+    }
+    return url
+  }
 
   static cleanPhone(phone: string) {
     if (phone) {

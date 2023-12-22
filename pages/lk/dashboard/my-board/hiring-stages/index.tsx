@@ -8,17 +8,19 @@ import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import Analytics from '@/utils/goals'
 import {Goal} from '@/types/enums'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 const LkDashboardMyBoardPage = (props: Props) => {
+  const { t } = useTranslation()
   useEffectOnce(() => {
     Analytics.goal(Goal.DashboardHiringBoardsSeeAll)
   })
   return (<div className={styles.root}>
-      <PageTitle title={'Hiring Stage Conversion'} link={Routes.lkDashboardMyBoard}/>
+      <PageTitle title={t('dashboard_hiring_stage_title')} link={Routes.lkDashboardMyBoard}/>
       <MyBoardHiringStages/>
     </div>
   )

@@ -12,6 +12,7 @@ import {ManagerOwnerWrapper, useManagerOwnerContext} from '@/context/manager_own
 import Spinner from '@/components/ui/Spinner'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -25,6 +26,7 @@ const TeamFormInner = (props: Props) => {
   const appContext = useAppContext()
   const managerOwnerContext = useManagerOwnerContext()
   const companyOwnerContext = useCompanyOwnerContext()
+  const {t} = useTranslation()
   const handleSubmit = async (data: IFormData) => {
     try {
     await managerOwnerContext.create({...data, companyId: companyOwnerContext.company!.id} as any)
@@ -56,8 +58,8 @@ const TeamFormInner = (props: Props) => {
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <FormErrorScroll formik={formik} />
-        <Card title='Invite Team Members'>
-          <InputField disabled={managerOwnerContext.editLoading} placeholder='Email' name='email' label={formik.values.email ? 'Email' : ''}
+        <Card title={t('team_form_title')}>
+          <InputField disabled={managerOwnerContext.editLoading} placeholder={t('team_form_field_email')} name='email' label={formik.values.email ? 'Email' : ''}
                       suffix={suffix}
 
                       validate={Validator.email}/>

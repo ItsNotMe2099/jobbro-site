@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function CalendarToolbar(props: Props) {
-  const {t, i18n} = useTranslation('common')
+  const {t, lang} = useTranslation('common')
   const handlePrevClick = () => {
     props.onChangeDate(getBeginPrevious('month', props.currentDate))
   }
@@ -20,7 +20,7 @@ export default function CalendarToolbar(props: Props) {
   }
 
   const renderLabel = (date: Date) => {
-    const parts = formatMonthYear(i18n.language, date).split(' ')
+    const parts = formatMonthYear(lang, date).split(' ')
     return (<>{parts[0]} <span className={styles.year}>{parts[1]}</span></>)
   }
 

@@ -6,14 +6,7 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import HtmlText from '@/components/ui/HtmlText'
 import ChipList from '@/components/ui/ChipList'
 import Chip from '@/components/ui/Chip'
-
-
-enum TabKey {
-  AdDetails = 'adDetails',
-  ApplicationForm = 'applicationForm',
-  Workflow = 'workflow'
-}
-
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   job: IVacancy
@@ -21,6 +14,7 @@ interface Props {
 
 export default function JobDetailsPreview(props: Props) {
   const {job} = props
+  const { t } = useTranslation()
   const skills =  (job.skills?.map(i => i?.title ?? i) ?? [])
   const keywords = (job.keywords?.map(i => i?.title ?? i) ?? [])
   const benefits = (job.benefits?.map(i => i?.title ?? i) ?? [])
@@ -35,13 +29,13 @@ export default function JobDetailsPreview(props: Props) {
           </div>}
           {job.tasks && <div className={styles.tasks}>
             <div className={styles.title}>
-              Tasks
+              {t('job_preview_tasks')}
             </div>
             <HtmlText>{job.tasks}</HtmlText>
           </div>}
           {job.requirements && <div className={styles.tasks}>
             <div className={styles.title}>
-              Requirements
+              {t('job_preview_requirements')}
             </div>
 
             <HtmlText>{job.requirements}</HtmlText>
@@ -49,7 +43,7 @@ export default function JobDetailsPreview(props: Props) {
 
           {(job.benefitsDescription?.visible || job.benefits.length > 0) && <div className={styles.tasks}>
             <div className={styles.title}>
-              Benefits
+              {t('job_preview_benefits')}
             </div>
 
             {job.benefitsDescription?.visible && <HtmlText>{job.benefitsDescription.description}</HtmlText>}
@@ -59,7 +53,7 @@ export default function JobDetailsPreview(props: Props) {
           </div>}
           {skills.length > 0 && <div className={styles.tasks}>
             <div className={styles.title}>
-              Skills
+              {t('job_preview_skills')}
             </div>
 
             <ChipList>

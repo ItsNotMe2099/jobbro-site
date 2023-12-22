@@ -16,6 +16,7 @@ import {RemoveScroll} from 'react-remove-scroll'
 import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateRequest'
 import ChatMessageAttachButton from '@/components/for_pages/Chat/ChatMessageForm/ChatMessageAttachButton'
 import {ChatFileUploadModalArguments} from '@/types/modal_arguments'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 }
@@ -23,6 +24,7 @@ interface Props {
 export default function ChatMessageForm() {
   const appContext = useAppContext()
   const chatContext = useChatDialogContext()
+  const { t } = useTranslation()
   const [sending, setSending] = useState<boolean>(false)
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
   const handleSubmit = async (data: IChatMessageCreateRequest) => {
@@ -79,7 +81,7 @@ export default function ChatMessageForm() {
               ref={inputRef}
               name={'message'}
               disabled={chatContext.disabled || sending}
-              placeholder={'Сообщение'}
+              placeholder={t('chat_message_form_placeholder')}
               styleType={'message'}
               // onKeyDown={handleKeyDown}
               className={cx(styles.textarea)}

@@ -20,7 +20,7 @@ export default function PersonalCard(props: Props) {
       <AvatarCircular className={styles.avatar} file={props.manager ? props.manager.image : appContext.aboutMe?.image} />
       <div className={styles.right}>
         <div className={styles.position}>
-
+          {props.manager?.position ?? ''}
         </div>
         <div className={styles.name}>
           {UserUtils.getName(props.manager ?? appContext.aboutMe)}

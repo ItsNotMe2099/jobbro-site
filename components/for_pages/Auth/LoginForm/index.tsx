@@ -12,6 +12,7 @@ import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import Link from 'next/link'
 import Analytics from '@/utils/goals'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData {
   email: string,
@@ -26,6 +27,7 @@ export default function LoginForm(props: Props) {
 
   const appContext = useAppContext()
   const router = useRouter()
+  const { t } = useTranslation()
   const redirect = router.query.redirect as string
   const [loading, setLoading] = useState(false)
 
@@ -46,7 +48,7 @@ export default function LoginForm(props: Props) {
           router.replace(Routes.lk)
         }
       } else {
-        appContext.showSnackbar('Token error', SnackbarType.error)
+        appContext.showSnackbar('Error happened', SnackbarType.error)
       }
     } catch (err) {
       console.error(err)
@@ -72,23 +74,23 @@ export default function LoginForm(props: Props) {
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <div className={styles.title}>
-          Login to the Jobbro
+          {t('login_title')}
         </div>
-        <InputField name='email' label={'Email'}
+        <InputField name='email' label={t('login_field_email')}
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
-          label='Password'
+          label={t('login_field_password')}
           type='password'
           name='password'
           obscure
           validate={Validator.requiredPassword} />
-          <Link className={styles.reset} href={Routes.passwordForgot}>Reset password</Link>
+          <Link className={styles.reset} href={Routes.passwordForgot}>{t('login_reset_password')}</Link>
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            Log In
+            {t('login_button_login')}
           </Button>
           <Button href={Routes.registration()} className={styles.btn} styleType='large' color='white'>
-            Create account
+            {t('login_button_registration')}
           </Button>
         </div>
       </Form>

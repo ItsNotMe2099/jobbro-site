@@ -5,9 +5,10 @@ import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import ServerClusterSvg from '@/components/svg/ServerClusterSvg'
 import { useState } from 'react'
 import CardAuth from '@/components/for_pages/Common/CardAuth'
+import useTranslation from 'next-translate/useTranslation'
 
 export default function ForgotPassword() {
-
+  const { t } = useTranslation()
   const [success, setSuccess] = useState<boolean>(false)
 
   return (
@@ -21,9 +22,10 @@ export default function ForgotPassword() {
           :
           <>
             <CardAuth
-              title='Reset password'
-              text='We sent instruction for reset password to your entered email '
-              btnText='Complete'
+              title={t('password_forgot_success_title')}
+              text={t('password_forgot_success_desc')}
+              btnText={t('password_forgot_success_button')}
+              btnHref={'/'}
             />
             <ServerClusterSvg className={styles.proud} />
           </>}

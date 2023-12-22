@@ -10,7 +10,7 @@ interface Props {
   error: string
 }
 
-export default function Registration(props: Props) {
+export default function EmailConfirmPage(props: Props) {
 
   if (props.error) {
     return (<ErrorPage title={`Error hapened: ${props.error ? props.error : ''}`}>

@@ -12,6 +12,7 @@ import {useRef} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   job: IVacancy
@@ -19,7 +20,7 @@ interface Props {
 
 const JobPageInner = (props: Props) => {
   const appContext = useAppContext()
-
+  const { t } = useTranslation()
   const ref = useRef<HTMLDivElement | null>(null)
   return (<Layout>
       <div className={styles.root}>
@@ -28,7 +29,7 @@ const JobPageInner = (props: Props) => {
           <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
-              Apply
+              {t('job_preview_button_apply')}
             </Button>
           </FormStickyFooter>
         </div>

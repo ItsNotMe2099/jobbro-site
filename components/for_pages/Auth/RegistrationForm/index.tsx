@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import Analytics from '@/utils/goals'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData{
   firstName: string
@@ -22,9 +23,9 @@ interface Props {
 }
 
 export default function RegistrationForm(props: Props) {
-
   const appContext = useAppContext()
   const router = useRouter()
+  const { t } = useTranslation()
   const redirect = router.query.redirect as string
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -72,26 +73,26 @@ export default function RegistrationForm(props: Props) {
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <div className={styles.title}>
-          Creating new account
+          {t('registration_title')}
         </div>
-        <InputField label='First Name' name='firstName'
+        <InputField   label={t('registration_field_first_name')} name='firstName'
 
           validate={Validator.combine([Validator.requiredName])} />
-        <InputField label='Email' name='email'
+        <InputField   label={t('registration_field_email')} name='email'
 
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
-          label='Password'
+          label={t('registration_field_password')}
           type='password'
           name='password'
           obscure
           validate={Validator.requiredPassword} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            Create
+            {t('registration_button_create')}
           </Button>
           <Button href={Routes.login(redirect)} className={styles.btn} styleType='large' color='white'>
-            Log In
+            {t('registration_button_login')}
           </Button>
         </div>
       </Form>

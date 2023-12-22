@@ -5,24 +5,25 @@ import {Experience} from '@/data/enum/Experience'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import {Translate} from 'next-translate'
 
 export default class Dictionary {
 
   static getEmploymentNames(): {[key in Employment]: string}{
     return {
-      [Employment.FullTime]: 'FullTime',
-      [Employment.PartTime]: 'PartTime',
-      [Employment.Casual]: 'Casual',
-      [Employment.Contract]: 'Contract',
-      [Employment.Apprenticeship]: 'Apprenticeship',
-      [Employment.Traineeship]: 'Traineeship',
+      [Employment.FullTime]: 'dictionary_employment_type_full_time',
+      [Employment.PartTime]: 'dictionary_employment_type_part_time',
+      [Employment.Casual]: 'dictionary_employment_type_casual',
+      [Employment.Contract]: 'dictionary_employment_type_contract',
+      [Employment.Apprenticeship]: 'dictionary_employment_type_apprenticeship',
+      [Employment.Traineeship]: 'dictionary_employment_type_traineeship',
     }
   }
-  static getEmploymentOptions(): IOption<Employment>[]{
-    return Object.keys(Dictionary.getEmploymentNames()).map(i => ({label: Dictionary.getEmploymentName(i as Employment), value: i as Employment}))
+  static getEmploymentOptions(t: Translate): IOption<Employment>[]{
+    return Object.keys(Dictionary.getEmploymentNames()).map(i => ({label: Dictionary.getEmploymentName(i as Employment, t), value: i as Employment}))
   }
-  static getEmploymentName(value: Employment) : string {
-    return Dictionary.getEmploymentNames()[value]
+  static getEmploymentName(value: Employment, t: Translate) : string {
+    return t(Dictionary.getEmploymentNames()[value])
   }
 
   static getEmployeeCountNames(): {[key: number]: string}{
@@ -43,49 +44,48 @@ export default class Dictionary {
 
   static getWorkplaceNames(): {[key in Workplace]: string}{
     return {
-      [Workplace.office]: 'Office',
-      [Workplace.hybrid]: 'Hybrid',
-      [Workplace.remote]: 'Remote',
+      [Workplace.office]: 'dictionary_workplace_office',
+      [Workplace.hybrid]: 'dictionary_workplace_hybrid',
+      [Workplace.remote]: 'dictionary_workplace_remote',
     }
   }
-  static getWorkplaceOptions(): IOption<Workplace>[]{
-    console.log('Dsdsad', Object.keys(Dictionary.getWorkplaceNames()))
-    return Object.keys(Dictionary.getWorkplaceNames()).map(i => ({label: Dictionary.getWorkplaceName(i as Workplace), value: i as Workplace}))
+  static getWorkplaceOptions(t: Translate): IOption<Workplace>[]{
+    return Object.keys(Dictionary.getWorkplaceNames()).map(i => ({label: Dictionary.getWorkplaceName(i as Workplace, t), value: i as Workplace}))
   }
-  static getWorkplaceName(value: Workplace) : string {
-    return Dictionary.getWorkplaceNames()[value]
+  static getWorkplaceName(value: Workplace, t: Translate) : string {
+    return t(Dictionary.getWorkplaceNames()[value])
   }
 
   static getExperienceNames(): {[key in Experience]: string}{
     return {
-      [Experience.Junior]: 'Junior',
-      [Experience.Middle]: 'Middle',
-      [Experience.Senior]: 'Senior',
-      [Experience.None]: 'None',
+      [Experience.Junior]: 'dictionary_experience_junior',
+      [Experience.Middle]: 'dictionary_experience_middle',
+      [Experience.Senior]: 'dictionary_experience_senior',
+      [Experience.None]: 'dictionary_experience_none',
     }
   }
 
-  static getExperienceOptions(): IOption<Experience>[]{
-    return Object.keys(Dictionary.getExperienceNames()).map(i => ({label: Dictionary.getExperienceName(i as Experience), value: i as Experience}))
+  static getExperienceOptions(t: Translate): IOption<Experience>[]{
+    return Object.keys(Dictionary.getExperienceNames()).map(i => ({label: Dictionary.getExperienceName(i as Experience, t), value: i as Experience}))
   }
 
-  static getExperienceName(value: Experience) : string {
-    return Dictionary.getExperienceNames()[value]
+  static getExperienceName(value: Experience, t: Translate) : string {
+    return t(Dictionary.getExperienceNames()[value])
   }
 
 
   static getSalaryTypeNames(): {[key in SalaryType]: string}{
     return {
-      [SalaryType.perYear]: 'Per year',
-      [SalaryType.perMonth]: 'Per Month',
-      [SalaryType.perHour]: 'Per hour',
+      [SalaryType.perYear]: 'dictionary_salary_type_per_year',
+      [SalaryType.perMonth]: 'dictionary_salary_type_per_month',
+      [SalaryType.perHour]: 'dictionary_salary_type_per_hour',
     }
   }
-  static getSalaryTypeOptions(): IOption<SalaryType>[]{
-    return Object.keys(Dictionary.getSalaryTypeNames()).map(i => ({label: Dictionary.getSalaryTypeName(i as SalaryType), value: i as SalaryType}))
+  static getSalaryTypeOptions(t: Translate): IOption<SalaryType>[]{
+    return Object.keys(Dictionary.getSalaryTypeNames()).map(i => ({label: Dictionary.getSalaryTypeName(i as SalaryType, t), value: i as SalaryType}))
   }
-  static getSalaryTypeName(value: SalaryType) : string {
-    return Dictionary.getSalaryTypeNames()[value]
+  static getSalaryTypeName(value: SalaryType, t: Translate) : string {
+    return t(Dictionary.getSalaryTypeNames()[value])
   }
 
 
@@ -97,8 +97,8 @@ export default class Dictionary {
       [SalaryType.perHour]: 'h',
     }
   }
-  static getSalaryTypeShortOptions(): IOption<SalaryType>[]{
-    return Object.keys(Dictionary.getSalaryTypeNames()).map(i => ({label: Dictionary.getSalaryTypeName(i as SalaryType), value: i as SalaryType}))
+  static getSalaryTypeShortOptions(t: Translate): IOption<SalaryType>[]{
+    return Object.keys(Dictionary.getSalaryTypeNames()).map(i => ({label: Dictionary.getSalaryTypeName(i as SalaryType, t), value: i as SalaryType}))
   }
   static getSalaryTypeShortName(value: SalaryType) : string {
     return Dictionary.getSalaryTypeShortNames()[value]
@@ -106,34 +106,33 @@ export default class Dictionary {
 
   static getApplicationInfoRequirementsNames(): {[key in ApplicationInfoRequirements]: string}{
     return {
-      [ApplicationInfoRequirements.Optional]: 'Optional',
-      [ApplicationInfoRequirements.Required]: 'Required',
+      [ApplicationInfoRequirements.Optional]: 'dictionary_requirements_optional',
+      [ApplicationInfoRequirements.Required]: 'dictionary_requirements_required',
     }
   }
 
-  static getApplicationInfoRequirementsOptions(): IOption<ApplicationInfoRequirements>[]{
-    return Object.keys(Dictionary.getApplicationInfoRequirementsNames()).map(i => ({label: Dictionary.getApplicationInfoRequirementsName(i as ApplicationInfoRequirements), value: i as ApplicationInfoRequirements}))
+  static getApplicationInfoRequirementsOptions(t: Translate): IOption<ApplicationInfoRequirements>[]{
+    return Object.keys(Dictionary.getApplicationInfoRequirementsNames()).map(i => ({label: Dictionary.getApplicationInfoRequirementsName(i as ApplicationInfoRequirements, t), value: i as ApplicationInfoRequirements}))
   }
 
-  static getApplicationInfoRequirementsName(value: ApplicationInfoRequirements) : string {
-    return Dictionary.getApplicationInfoRequirementsNames()[value]
+  static getApplicationInfoRequirementsName(value: ApplicationInfoRequirements, t: Translate) : string {
+    return t(Dictionary.getApplicationInfoRequirementsNames()[value])
   }
 
   static getVacancyStatusNames(): {[key in PublishStatus]: string}{
     return {
-      [PublishStatus.Draft]: 'Draft',
-      [PublishStatus.Paused]: 'Paused',
-      [PublishStatus.Published]: 'Published',
-      [PublishStatus.Closed]: 'Closed',
+      [PublishStatus.Draft]: 'dictionary_vacancy_status_draft',
+      [PublishStatus.Paused]: 'dictionary_vacancy_status_paused',
+      [PublishStatus.Published]: 'dictionary_vacancy_status_published',
+      [PublishStatus.Closed]: 'dictionary_vacancy_status_closed',
     }
   }
 
-  static getVacancyStatusOptions(): IOption<PublishStatus>[]{
-    return Object.keys(Dictionary.getVacancyStatusNames()).map(i => ({label: Dictionary.getVacancyStatusName(i as PublishStatus), value: i as PublishStatus}))
+  static getVacancyStatusOptions(t: Translate): IOption<PublishStatus>[]{
+    return Object.keys(Dictionary.getVacancyStatusNames()).map(i => ({label: Dictionary.getVacancyStatusName(i as PublishStatus, t), value: i as PublishStatus}))
   }
 
-  static getVacancyStatusName(value: PublishStatus) : string {
-
-    return Dictionary.getVacancyStatusNames()[value]
+  static getVacancyStatusName(value: PublishStatus, t: Translate) : string {
+    return t(Dictionary.getVacancyStatusNames()[value])
   }
 }

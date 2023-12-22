@@ -17,6 +17,7 @@ import SwitchField from '@/components/fields/SwitchField'
 import CurrencyField from '@/components/fields/CurrencyField'
 import SkillField from '@/components/fields/SkillField'
 import BenefitField from '@/components/fields/BenefitField'
+import useTranslation from 'next-translate/useTranslation'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -26,65 +27,63 @@ interface Props {
 }
 
 export default function JobAdDetailsForm(props: Props) {
-
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
-      <Card title='Header'>
-        <InputField name='name' label={'Title'}
+      <Card title={t('job_form_tab_details_section_header')}>
+        <InputField name='name' label={t('job_form_tab_details_field_title')}
           validate={Validator.required}
         />
       </Card>
       <Card title={<div className={styles.top}>
-        <div className={styles.title}>Intro</div>
+        <div className={styles.title}>{t('job_form_tab_details_section_intro')}</div>
         <SwitchField name={'intro.visible'} />
       </div>}>
         <>
         {props.formik.values.intro?.visible && <RichTextField name='intro.description' />}
         </>
       </Card>
-      <Card title='Details'>
+      <Card title={t('job_form_tab_details_section_details')}>
         <div className={styles.wrapper}>
           <div className={styles.line}>
-            <ServiceCategoryField placeholder='Category' className={styles.select} name='categoryId'  />
-            <ServiceCategoryField placeholder='Sub-category' categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
+            <ServiceCategoryField placeholder={t('job_form_tab_details_field_category')} className={styles.select} name='categoryId'  />
+            <ServiceCategoryField placeholder={t('job_form_tab_details_field_sub-category')} categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
           </div>
           <div className={styles.line}>
-            <SelectField<Employment> placeholder='Employment Type' className={styles.select} name='employment' options={Dictionary.getEmploymentOptions()} />
-            <SelectField<Workplace> placeholder='Workplace' className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions()} />
+            <SelectField<Employment> placeholder={t('job_form_tab_details_field_employment')} className={styles.select} name='employment' options={Dictionary.getEmploymentOptions(t)} />
+            <SelectField<Workplace> placeholder={t('job_form_tab_details_field_workplace')} className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions(t)} />
           </div>
-          <OfficeField placeholder='Office' className={styles.select} name='office'  />
+          <OfficeField placeholder={t('job_form_tab_details_field_office')} className={styles.select} name='office'  />
         </div>
       </Card>
-      <Card title='Requirements'>
+      <Card title={t('job_form_tab_details_section_requirements')}>
         <RichTextField name='requirements' />
       </Card>
       <Card title='Experience'>
-        <SelectField<Experience> className={styles.select} placeholder='Select seniority level' name='experience' options={Dictionary.getExperienceOptions()} />
+        <SelectField<Experience> className={styles.select} placeholder={t('job_form_tab_details_field_experience_ph')} name='experience' options={Dictionary.getExperienceOptions(t)} />
       </Card>
-      <Card title='Skills'>
-        <SkillField className={styles.select} placeholder='Search skills' name='skills' />
+      <Card title={t('job_form_tab_details_section_skills')}>
+        <SkillField className={styles.select} placeholder={t('job_form_tab_details_field_skills_ph')} name='skills' />
       </Card>
-      <Card title='Tasks'>
+      <Card title={t('job_form_tab_details_section_tasks')}>
         <RichTextField name='tasks' />
       </Card>
-      <Card title='Salary'>
+      <Card title={t('job_form_tab_details_section_salary')}>
         <div className={styles.line}>
           <CurrencyField className={styles.select}  name='currency'  />
-          <InputField className={styles.select} format={'number'} placeholder='Salary maximum' name='salaryMax' label={props.formik.values.salaryMax ? 'Salary maximum' : ''}
-             />
-          <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin' label={props.formik.values.salaryMin ? 'Salary minimum' : ''}
-             />
-          <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryType' options={Dictionary.getSalaryTypeOptions()} />
+          <InputField className={styles.select} format={'number'} label={t('job_form_tab_details_field_salary_max')} name='salaryMax'/>
+          <InputField className={styles.select} format={'number'} label={t('job_form_tab_details_field_salary_min')} name='salaryMin'/>
+          <SelectField<SalaryType> className={styles.select} placeholder={t('job_form_tab_details_field_salary_type')} name='salaryType' options={Dictionary.getSalaryTypeOptions(t)} />
         </div>
       </Card>
       <Card title={<div className={styles.top}>
-        <div className={styles.title}>Benefits</div>
+        <div className={styles.title}>{t('job_form_tab_details_section_benefits')}</div>
         <SwitchField name={'benefitsDescription.visible'} />
       </div>}>
         {props.formik.values.benefitsDescription?.visible ? <RichTextField name='benefitsDescription.description' /> : <></>}
       </Card>
-      <Card title='Tags Benefits'>
-        <BenefitField className={styles.select} placeholder='Search benefits' name='benefits' />
+      <Card title={t('job_form_tab_details_section_tags_benefits')}>
+        <BenefitField className={styles.select} placeholder={t('job_form_tab_details_field_benefits_ph')} name='benefits' />
       </Card>
     </div>
   )

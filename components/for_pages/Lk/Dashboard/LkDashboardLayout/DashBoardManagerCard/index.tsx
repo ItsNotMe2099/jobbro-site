@@ -8,6 +8,7 @@ import classNames from 'classnames'
 import {CardViewType} from '@/types/enums'
 import {Routes} from '@/types/routes'
 import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   manager: IDashBoardManager
@@ -16,12 +17,13 @@ interface Props {
 
 export default function DashBoardManagerCard(props: Props) {
   const {manager} = props
+  const { t } = useTranslation()
   const options = [
-    { label: 'Average response time', value: manager.average_response_time_in_week, up: manager.average_response_time_in_week >= manager.average_response_time_in_prev_week  },
-    { label: 'Average move time', value: manager.average_move_time_in_week, up: manager.average_move_time_in_week >= manager.average_move_time_in_prev_week  },
+    { label: t('dashboard_manager_average_response_time'), value: manager.average_response_time_in_week, up: manager.average_response_time_in_week >= manager.average_response_time_in_prev_week  },
+    { label: t('dashboard_manager_average_move_time'), value: manager.average_move_time_in_week, up: manager.average_move_time_in_week >= manager.average_move_time_in_prev_week  },
   //  { label: 'Feedback received',  value:  0  },
   //  { label: 'Politeness index',  value:  0  },
-    { label: 'Responses sent',  value:  0  },
+    { label: t('dashboard_manager_average_response_sent'),  value:  0  },
   //  { label: 'Staff workload',  value:  0  },
     ]
   return (

@@ -13,8 +13,7 @@ interface Props {
 
 export default function EventSelectSlotCalendar(props: Props) {
   const eventListContext = useEventSlotListContext()
-  const {t, i18n} = useTranslation('common')
-  console.log('props.selectSlotDateStr', props.selectSlotDateStr)
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
       <CalendarToolbar onChangeDate={(date) => eventListContext.setRange(date, endOfMonth(date))} currentDate={eventListContext.rangeStartDate}/>

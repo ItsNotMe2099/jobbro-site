@@ -15,6 +15,7 @@ import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
 import {format} from 'date-fns'
 import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormDataSlot {
   start: string
@@ -41,6 +42,7 @@ interface Props {
 const EventSelectSlotFormInner = (props: Props) => {
   const appContext = useAppContext()
   const eventListContext = useEventSlotListContext()
+  const { t } = useTranslation()
   const [formLoading, setFormLoading] = useState(false)
   const formRef = useRef<HTMLDivElement | null>(null)
 
@@ -79,7 +81,7 @@ const EventSelectSlotFormInner = (props: Props) => {
     return format(new Date(formik.values.slot.split('//')[0]), 'yyyy-MM-dd')
   }, [formik.values.slot])
   return (<div className={styles.root}>
-    <PageTitle title='Calendar Widget' onBack={props.onBack}/>
+    <PageTitle title={t('event_select_title')} onBack={props.onBack}/>
     <div className={styles.wrapper}>
       <div className={styles.left}  ref={formRef}>
         <Card className={styles.card} >
@@ -97,12 +99,12 @@ const EventSelectSlotFormInner = (props: Props) => {
         <FormStickyFooter boundaryElement={`.${styles.left}`} formRef={formRef}>
           <Button disabled={!formik.values.slot} spinner={formLoading} type='button' styleType='large' color='green'
                   onClick={() => formik.submitForm()}>
-            Confirm
+            {t('event_select_button_confirm')}
           </Button>
           <>
             <Button disabled={formLoading} type='button' styleType='large' color='white'
                     onClick={() => props.onBack?.()}>
-              Cancel
+              {t('event_select_button_cancel')}
             </Button>
           </>
         </FormStickyFooter>

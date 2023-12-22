@@ -159,10 +159,11 @@ export function HiringBoardWrapper(props: Props) {
   }
 
   const moveToStage = async (cv: ICVWithApply, hiringStageId: number) =>{
-
+    console.log('moveToStage111')
     try {
-      const oldHiringStageId =  cv?.applications.length > 0?  cv?.applications[0].hiringStageId : cv.proposals?.length > 0 ? cv?.proposals[0].hiringStageId : null
+      const oldHiringStageId =  (cv?.applications?.length ?? 0) > 0?  cv?.applications[0].hiringStageId : (cv.proposals?.length ?? 0) > 0 ? cv?.proposals[0].hiringStageId : null
       setEditLoading(true)
+      console.log('oldHiringStageId', oldHiringStageId)
         if(!oldHiringStageId){
           return
         }
@@ -185,29 +186,10 @@ export function HiringBoardWrapper(props: Props) {
         hiringStageId,
       })
       await fetch()
-      /*
-      const newCvData: DeepPartial<ICVWithApply> = {...cv,
-        ...(cv?.applications?.length > 0 ? {applications: cv?.applications?.map(i => ({...i, hiringStageId}))} : {}),
-        ...(cv?.proposals?.length > 0 ? {proposals: cv?.proposals?.map(i => ({...i, hiringStageId}))} : {})
-      }
 
-      const application = cv.applications?.length > 0 ? cv.applications[0] : null
-      const proposal = cv.proposals?.length > 0 ? cv.proposals[0] : null
-      setVacancy({...vacancy,
-        hiringStages: vacancy?.hiringStages.map((i) => i.id === oldHiringStageId ? ({
-          ...i,
-          applications: i.applications.filter(i => i.cvId !== cv.id),
-          proposals: i.proposals.filter(i => i.cvId !== cv.id)}) : (
-            i.id === hiringStageId ? ({...i,
-              ...(application && !i.applications.find(i => i.id === application.id) ? {applications: [...i.applications, application ]} : {}),
-              ...(proposal && !i.proposals.find(i => i.id === proposal.id) ? {proposals: [...i.proposals, proposal ]} : {})
-            }) : i)
-        )} as IVacancyWithHiringStages)
-
-
-       */
       appliesByStagesRef.current = newAppliesByStages
     } catch (err) {
+      console.error('Error', err)
       setAppliesByStages(appliesByStagesRef.current)
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)

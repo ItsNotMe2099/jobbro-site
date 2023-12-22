@@ -8,6 +8,7 @@ import { colors } from '@/styles/variables'
 import AddSvg from '@/components/svg/AddSvg'
 import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import SwitchField from '@/components/fields/SwitchField'
+import useTranslation from 'next-translate/useTranslation'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -17,21 +18,21 @@ interface Props {
 }
 
 export default function ApplicationForm(props: Props) {
-
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
       <Card title={<div className={styles.top}>
-        <div className={styles.title}>Contact Person</div>
+        <div className={styles.title}>{t('job_form_tab_app_section_contact')}</div>
         <SwitchField name={'contactPerson.visible'} />
       </div>}>
          {props.formik.values.contactPerson?.visible ?
           <InputField
             name='contactPerson.name'
-            label={'Name'}
+            label={t('job_form_tab_app_field_contact_name')}
             validate={Validator.required}
           /> : <></>}
       </Card>
-      <Card title='Hiring Stages'>
+      <Card title={t('job_form_tab_app_section_hiring_stages')}>
         <FieldArray name={'hiringStagesDescriptions'}>
           {(arrayHelpers: FieldArrayRenderProps) => (
             <div className={styles.fields}>
@@ -45,13 +46,13 @@ export default function ApplicationForm(props: Props) {
                   <InputField
                     className={styles.input}
                     key={index}
-                    label={'Title'}
+                    label={t('job_form_tab_app_field_hiring_stage_title')}
                     name={`hiringStagesDescriptions[${index}].title`}
                   />
                   <InputField
                     className={styles.input}
                     key={index}
-                    label={'Description'}
+                    label={t('job_form_tab_app_field_hiring_stage_description')}
                     name={`hiringStagesDescriptions[${index}].description`}
                   />
                 </div>
@@ -59,7 +60,7 @@ export default function ApplicationForm(props: Props) {
               )}
               <div className={styles.add} onClick={() => arrayHelpers.push({ title: '', description: '' })}>
                 <AddSvg color={colors.green} />
-                <div className={styles.desc}>Add Stage</div>
+                <div className={styles.desc}>{t('job_form_tab_app_add_stage')}</div>
               </div>
             </div>
           )}

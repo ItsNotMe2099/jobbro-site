@@ -6,6 +6,7 @@ import { LkPageHirerLayout } from '@/components/for_pages/Lk/components/LkLayout
 import Tabs from '@/components/ui/Tabs'
 import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey {
   Payments = 'payments',
@@ -20,17 +21,18 @@ interface Props {
   children: ReactElement
 }
 const LkSettingsPageLayoutInner = (props: Props) => {
+  const { t } = useTranslation()
   const options: IOption<TabKey>[] = [
   //  { label: 'Payments', value: TabKey.Payments, href: Routes.lkSettingsPayments },
   //  { label: 'Integrations', value: TabKey.Integrations, href: Routes.lkSettingsIntegrations },
   //  { label: 'Refferals', value: TabKey.Refferals, href: Routes.lkSettingsReferrals },
-    { label: 'Social Sharing', value: TabKey.SocialSharing, href: Routes.lkSettingsSocialSharing },
-    { label: 'Job Widget', value: TabKey.JobWidget, href: Routes.lkSettingsJobWidget },
+    { label: t('settings_social_sharing'), value: TabKey.SocialSharing, href: Routes.lkSettingsSocialSharing },
+    { label: t('settings_job_widget'), value: TabKey.JobWidget, href: Routes.lkSettingsJobWidget },
   ]
 
   return (
     <div className={styles.root}>
-      <PageTitle title='Settings' />
+      <PageTitle title={t('settings_title')} />
       <Tabs<TabKey> options={options} />
       {props.children}
     </div>

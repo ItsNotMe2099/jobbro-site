@@ -131,7 +131,7 @@ const JobCardInner = (props: Props) => {
             </div>
           </div>
           {props.view === CardViewType.Row && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-            {Dictionary.getVacancyStatusName(vacancy.status)}
+            {Dictionary.getVacancyStatusName(vacancy.status, t)}
           </div>}
         </div>
         {props.view === CardViewType.Row &&
@@ -162,7 +162,7 @@ const JobCardInner = (props: Props) => {
             </div>
           </div>}
         {props.view === CardViewType.Card && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-          {Dictionary.getVacancyStatusName(vacancy.status)}
+          {Dictionary.getVacancyStatusName(vacancy.status, t)}
         </div>}
       </Link>
       <div className={styles.bottom}>

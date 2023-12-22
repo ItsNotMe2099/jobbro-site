@@ -13,6 +13,7 @@ import {IChatMessageCreateRequest} from '@/data/interfaces/IChatMessageCreateReq
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import Analytics from '@/utils/goals'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 }
@@ -22,6 +23,7 @@ export default function JobAiGenerateMessageForm() {
   const vacancyGenerateAiContext =useVacancyGenerateAiContext()
   const [sending, setSending] = useState<boolean>(false)
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
+  const {t} = useTranslation()
   const handleSubmit = async (data: IChatMessageCreateRequest) => {
     if (!data.message?.replace(/\s+/g, ' ').trim()) {
       return
@@ -66,11 +68,6 @@ export default function JobAiGenerateMessageForm() {
   const handleKeyDown: KeyboardEventHandler = (e) => {
     const target = e.target as HTMLTextAreaElement
 
-    // target.scrollIntoView()
-    // const screenh = window.innerHeight
-    // var toScroll = ''+screenh/10
-    // target.scrollIntoView(false)
-    // window.scrollBy(0, Number(toScroll))
 
   }
   return (
@@ -81,7 +78,7 @@ export default function JobAiGenerateMessageForm() {
               ref={inputRef}
               name={'message'}
               disabled={vacancyGenerateAiContext.sending || vacancyGenerateAiContext.loading}
-              placeholder={'Specify the initial data for generating job'}
+              placeholder={t('job_create_ai_message_ph')}
               styleType={'message'}
               onKeyDown={handleKeyDown}
               className={cx(styles.textarea)}

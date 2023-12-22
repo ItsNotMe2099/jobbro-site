@@ -36,6 +36,7 @@ import {omit} from '@/utils/omit'
 import {format, parse} from 'date-fns'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import FileField from '@/components/fields/Files/FileField'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   onPreview?: () => void
@@ -80,6 +81,7 @@ export interface ICvFormData {
 
 export default function CvForm(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const cv = props.cv
   let ref = useRef<HTMLFormElement | null>(null)
   const handleSubmit = async (data: ICvFormData) => {
@@ -210,7 +212,7 @@ export default function CvForm(props: Props) {
                           label={formik.values.salaryMin ? 'Salary minimum' : ''}
               />
               <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryType'
-                                       options={Dictionary.getSalaryTypeOptions()}/>
+                                       options={Dictionary.getSalaryTypeOptions(t)}/>
             </div>
           </Card>
           <Card title={<div className={styles.top}>

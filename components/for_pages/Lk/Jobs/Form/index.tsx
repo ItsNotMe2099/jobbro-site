@@ -33,6 +33,7 @@ import IAiVacancyGenRequest, {IAiVacancy} from '@/data/interfaces/IAiVacancy'
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
 import Analytics from '@/utils/goals'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
+import useTranslation from 'next-translate/useTranslation'
 
 
 enum TabKey {
@@ -78,12 +79,12 @@ export interface IVacancyFormData {
 }
 
 export default function CreateJobManuallyForm(props: Props) {
-
   const appContext = useAppContext()
   const vacancyContext = useVacancyOwnerContext()
   const companyContext = useCompanyOwnerContext()
   const vacancyGenerateAiContext = useVacancyGenerateAiContext()
   const router = useRouter()
+  const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
 
   const handleSubmit = async (data: IVacancyFormData) => {

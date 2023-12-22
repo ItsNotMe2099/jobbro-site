@@ -8,6 +8,7 @@ import {IOption} from '@/types/types'
 import {useRouter} from 'next/router'
 import {Routes} from '@/types/routes'
 import {OfficeOwnerWrapper, useOfficeOwnerContext} from '@/context/office_owner_state'
+import useTranslation from 'next-translate/useTranslation'
 enum MenuKey{
   Edit = 'edit',
   Delete = 'delete'
@@ -21,9 +22,10 @@ const OfficeCardInner = (props: Props) => {
   const router = useRouter()
   const officeOwnerContext = useOfficeOwnerContext()
   const office = officeOwnerContext.office
+  const {t} = useTranslation()
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Edit', value: MenuKey.Edit},
-    {label: 'Delete', value: MenuKey.Delete},
+    {label: t('office_card_menu_edit'), value: MenuKey.Edit},
+    {label: t('office_card_menu_delete'), value: MenuKey.Delete},
   ]
   const handleMenuClick = (value: MenuKey) => {
     switch (value){
@@ -40,7 +42,7 @@ const OfficeCardInner = (props: Props) => {
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.jobs}>
-            0 job
+            0 {t('office_card_job')}
           </div>
           <div className={styles.employees}>
             <PersonSvg color={colors.textSecondary} />
@@ -58,9 +60,9 @@ const OfficeCardInner = (props: Props) => {
           </div>
         </div>
         <div className={styles.bottom}>
-          <div className={styles.status}>
+          {/*<div className={styles.status}>
             Default
-          </div>
+          </div>*/}
           <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>
         </div>
       </div>

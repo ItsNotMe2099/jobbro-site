@@ -16,6 +16,7 @@ import Checkbox from '@/components/ui/Checkbox'
 import {useState} from 'react'
 import {useAiCvRequestListOwnerContext} from '@/context/ai_cv_request_list_state'
 import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
 
 
 enum MenuKey{
@@ -39,12 +40,13 @@ interface Props {
 const AiCvRequestItemInner = (props: Props) => {
   const router = useRouter()
   const aiCvRequestListContext = useAiCvRequestListOwnerContext()
+  const { t } = useTranslation()
   const [actionLoading, setActionLoading] = useState(false)
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Select', value: MenuKey.Select},
-    {label: 'Open to check', value: MenuKey.OpenToCheck},
-    {label: 'Move to "All Profiles"', value: MenuKey.MoveToAllProfiles},
-    {label: 'Delete', value: MenuKey.Delete, color: colors.textRed},
+    {label: t('request_cv_card_menu_select'), value: MenuKey.Select},
+    {label: t('request_cv_card_menu_open_to_check'), value: MenuKey.OpenToCheck},
+    {label: t('request_cv_card_menu_move'), value: MenuKey.MoveToAllProfiles},
+    {label: t('request_cv_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
 
   ]
   const handleMenuItemClick = async (key: MenuKey) => {

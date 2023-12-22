@@ -9,6 +9,7 @@ import { useField} from 'formik'
 import classNames from 'classnames'
 import InputField, {InputValueType} from '@/components/fields/InputField'
 import {debounce} from 'debounce'
+import useTranslation from 'next-translate/useTranslation'
 
 
 interface Props extends IField<IManager[]> {
@@ -19,6 +20,7 @@ interface Props extends IField<IManager[]> {
 
 const ManagerMultiFieldInner = (props: Props) => {
   const managerListOwnerContext = useManagerListOwnerContext()
+  const { t } = useTranslation()
   const [field, meta, helpers] = useField<IManager[]>(props as any)
   useEffect(() => {
     managerListOwnerContext.reFetch()
@@ -36,7 +38,7 @@ const ManagerMultiFieldInner = (props: Props) => {
   }, 300)
   return (
     <div className={styles.root}>
-          <InputField name={'search'} suffix={'search'} label={'Search'} onChange={debouncedSearchChange}/>
+          <InputField name={'search'} suffix={'search'} label={t('form_field_search')} onChange={debouncedSearchChange}/>
 
       <div className={styles.list}>
         {managerListOwnerContext?.data?.data?.map((manager) => <div

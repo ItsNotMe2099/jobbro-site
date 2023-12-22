@@ -15,6 +15,7 @@ import FileField from '@/components/fields/Files/FileField'
 import IFile from '@/data/interfaces/IFile'
 import Button from '@/components/ui/Button'
 import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -33,9 +34,9 @@ export default function AccountProfileForm(props: Props) {
   const appContext = useAppContext()
   const aboutMeContext = useAboutMeContext()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
-
+  const { t } = useTranslation()
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
-    console.log('handleSubmit')
+
     try {
       await aboutMeContext.update(data as ICurrentUserUpdateRequest)
       appContext.showSnackbar('Изменения сохранены', SnackbarType.success)
@@ -72,32 +73,32 @@ export default function AccountProfileForm(props: Props) {
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <FormErrorScroll formik={formik} />
-        <Card title='Details'>
+        <Card title={t('account_profile_section_details')}>
             <div className={styles.wrapper}>
               <FileField
                 isImage
                 name='image'
                 withCrop
-                description={<p>Drag & drop image upload. <br /> You can use 5 images smaller than 3.5MB and at least 752px by 480px.</p>}
+                description={<p>Drag & drop image upload. <br /> You can use image smaller than 3.5MB and at least 752px by 480px.</p>}
                 dropZoneClassName={styles.dropZone}
                 accept={[FileUploadAcceptType.Image]}
               />
               <InputField
-                label='First name' name='firstName'
+                label={t('account_profile_field_first_name')} name='firstName'
               />
               <InputField
-                label='Last name' name='lastName'
+                label={t('account_profile_field_last_name')} name='lastName'
               />
               <InputField
-                label='Position' name='position'
-              />
-              <InputField
-                disabled={true}
-                label='Email' name='email'
+                label={t('account_profile_field_position')} name='position'
               />
               <InputField
                 disabled={true}
-                label='Phone' name='phone'
+                label={t('account_profile_field_email')} name='email'
+              />
+              <InputField
+                disabled={true}
+                label={t('account_profile_field_phone')} name='phone'
               />
 
             </div>
@@ -112,21 +113,20 @@ export default function AccountProfileForm(props: Props) {
           </div>
         </Card>*/}
 
-        <Card title={'Account deletion'}>
+        <Card title=   {t('account_profile_section_delete')}>
           <div className={styles.description}>
-            This section allows you to permanently remove your account from our platform. If you no longer wish to use our services, you can initiate the account deletion process here. Please note that this action is irreversible and will result in the deletion of all your personal data associated with the
-            account.
+            {t('account_profile_delete_desc')}
           </div>
         <div>
           <Button spinner={aboutMeContext.deleteLoading} className={styles.deleteButton} onClick={aboutMeContext.deleteAccount} type='submit' styleType='large' color='red'>
-            Delete Account
+            {t('account_profile_button_delete')}
           </Button>
         </div>
         </Card>
 
         <div>
         <Button onClick={appContext.logout} type='submit' styleType='large' color='white'>
-          Logout
+          {t('account_profile_button_logout')}
         </Button>
         </div>
         <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} loading={aboutMeContext.editLoading}/>

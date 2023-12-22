@@ -7,11 +7,6 @@ import Layout from '@/components/layout/Layout'
 import ContentLoader from '@/components/ui/ContentLoader'
 import LayoutWithMyEvents from '@/components/layout/LayoutWithMyEvents'
 
-enum TabKey{
-  All = 'all',
-  Invites = 'invites',
-  NewMessages = 'newMessages'
-}
 interface Props {
 
 }

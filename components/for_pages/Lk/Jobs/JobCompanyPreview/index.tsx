@@ -6,20 +6,16 @@ import LocationSvg from '@/components/svg/LocationSvg'
 import {colors} from '@/styles/variables'
 import PersonSvg from '@/components/svg/PersonSvg'
 import Dictionary from '@/utils/Dictionary'
+import useTranslation from 'next-translate/useTranslation'
+import Formatter from '@/utils/formatter'
 
-enum TabKey {
-  AdDetails = 'adDetails',
-  ApplicationForm = 'applicationForm',
-  Workflow = 'workflow'
-}
-
-
- interface Props {
+interface Props {
  company: ICompany
 }
 
 export default function JobCompanyPreview(props: Props) {
   const {company} = props
+  const { t } = useTranslation()
  return (
      <Card >
        <div className={styles.root}>
@@ -30,7 +26,7 @@ export default function JobCompanyPreview(props: Props) {
            <div className={styles.companyInfo}>
              {company?.industry && <div className={styles.desc}>{company.industry?.name}</div>}
              <div className={styles.name}>{company?.name}</div>
-             {company.url && <a href={company.url} className={styles.link}>Go to website</a>}
+             {company.url && <a href={Formatter.formatUrl(company.url) ?? '#'} className={styles.link}>{t('job_page_company_go_website')}</a>}
            </div>
          </div>
          <div className={styles.right}>

@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function VacancyHiringStageCard(props: Props) {
-  console.log('props.vacancy', props.vacancy)
   return (
     <Card className={styles.root}>
       <div className={styles.top}>
