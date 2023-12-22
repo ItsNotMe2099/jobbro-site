@@ -82,8 +82,8 @@ export interface IVacancy {
   coverLetterRequired: ApplicationInfoRequirements;
   isSavedByCurrentProfile: boolean;
   totalViews: number;
-  totalApplications: number;
-  totalProposals: number;
+  totalApplications: string;
+  totalProposals: string;
   hashVacancy: string
   applicationFormLanguage: string
   applyAutoMessage: IAutoMessage
