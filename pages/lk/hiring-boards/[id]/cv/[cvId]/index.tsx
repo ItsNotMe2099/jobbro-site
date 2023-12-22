@@ -26,7 +26,7 @@ const CvPageInner = () => {
       cvEvaluationContext.removeRecord(cvId, vacancyId)
     }
   }, [cvId, vacancyId])
-  return ((cvContext.loading || !cvContext?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!} evaluation={evaluation} backLink={Routes.lkJob(vacancyId)}/>
+  return ((cvContext.loading || !cvContext?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!} evaluation={evaluation} backLink={Routes.lkHiringBoard(vacancyId)}/>
   )
 }
 

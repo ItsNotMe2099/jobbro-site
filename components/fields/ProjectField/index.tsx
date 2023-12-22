@@ -39,8 +39,12 @@ export default function ProjectField(props: Props) {
       }
     }
   }
+  const handleCreate = (value: string) => {
+  return ProjectRepository.create({title: value})
+  }
   return (
     <SelectField<IProject> {...(props as any)} async={true}
+                           onCreateOption={handleCreate} creatable={true}
                            defaultOption={field.value ? {label: field.value?.title ?? '', value: field.value} : null}
                           loadOptions={loadOptions} options={[]}
                          initialAsyncData={{page: 1}}/>

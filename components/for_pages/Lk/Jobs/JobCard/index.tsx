@@ -118,7 +118,7 @@ const JobCardInner = (props: Props) => {
             <div className={styles.employees}>
               <PersonSvg color={colors.textSecondary} />
               <div className={styles.quantity}>
-                {props.vacancy.totalApplications}
+                {props.vacancy.totalApplications + props.vacancy.totalProposals}
               </div>
             </div>
           </div>}
@@ -148,7 +148,7 @@ const JobCardInner = (props: Props) => {
               <div className={styles.employees}>
                 <PersonSvg color={colors.textSecondary} />
                 <div className={styles.quantity}>
-                  {props.vacancy.totalApplications}
+                  {props.vacancy.totalApplications + props.vacancy.totalProposals}
                 </div>
               </div>
               <div className={styles.publish}>

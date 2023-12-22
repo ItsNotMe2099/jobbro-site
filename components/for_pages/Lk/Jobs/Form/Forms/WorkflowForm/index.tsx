@@ -9,6 +9,7 @@ import Dictionary from '@/utils/Dictionary'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import KeywordField from '@/components/fields/KeywordField'
 import useTranslation from 'next-translate/useTranslation'
+import ProjectField from '@/components/fields/ProjectField'
 
 type MyFormikType = FormikProps<IVacancyFormData>
 
@@ -28,6 +29,10 @@ export default function WorkflowForm(props: Props) {
           </div>
           <SelectField<string> label={t('job_form_tab_workflow_field_lang')} className={styles.select} name='applicationFormLanguage' options={[{label: 'English', value: 'en'}]} />
         </div>
+      </Card>
+      <Card title={t('job_form_tab_workflow_section_project')}>
+        <ProjectField placeholder={t('job_form_tab_workflow_field_project_ph')} className={styles.select} name='project' />
+
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>{t('job_form_tab_workflow_section_auto_reply')}</div>

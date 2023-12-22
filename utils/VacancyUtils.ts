@@ -23,16 +23,19 @@ export default class VacancyUtils {
     const monthDay = toMonth ? lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), toMonth, 1)) : lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), !toYear || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , 1))
 
     let end = new Date(toYear || (new Date()).getFullYear() , toMonth || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , monthDay.getDate(), 24, 24, 59, 9999)
-    if(toYear === 1999){
-      console.log('dsadsd',monthDay, start, end)
+    console.log('EndDate', end,'-', toYear, toMonth)
+    try {
+      const {days, months, years} = intervalToDuration({start, end})
+
+      return [
+        ...(years ? [`${years} ${Formatter.pluralize(years, 'year', 'years', 'years')} `] : []),
+        ...(months ? [`${months} ${Formatter.pluralize(months, 'month', 'months', 'months')} `] : []),
+        ...(!years && !months && days ? [`${days} ${Formatter.pluralize(days, 'day', 'days', 'days')} `] : [])
+      ].join(' ')
+    }catch (e) {
+      return ''
     }
-    const { days, months, years } = intervalToDuration({ start, end })
-    return [
-      ...(years ? [`${years} ${Formatter.pluralize(years, 'year', 'years', 'years')} `] : []),
-      ...(months ? [`${months} ${Formatter.pluralize(months, 'month', 'months', 'months')} `] : []),
-      ...(!years && !months && days ? [`${days} ${Formatter.pluralize(days, 'day', 'days', 'days')} `] : [])
-    ].join(' ')
-  }
+    }
 
   static getTotalExperienceDuration(expirence: ExperienceInfo[]){
     const data = expirence.map(({fromMonth, fromYear, toMonth, toYear}) => {
@@ -44,11 +47,12 @@ export default class VacancyUtils {
 
     const filterToNow = data.filter(i => i.toNow)
     const dataNoNow = data.filter(i => !i.toNow)
-    const sum = dataNoNow.reduce((sum,i) => sum + differenceInDays(i.end ?? new Date(), i.start),0)
+    const sum = dataNoNow.filter(i => !!i.start && !isNaN(i.start.getTime())).reduce((sum,i) => sum + differenceInDays(!i.end || isNaN(i.end.getTime()) ? new Date() : i.end, i.start),0)
 
     const daysExperienceToNow = (filterToNow?.length > 0 ? differenceInDays(filterToNow[0].end ?? new Date(), filterToNow[0].start) : 0)
     const daysExperienceSubstractNow = filterToNow?.length > 0 ? dataNoNow.filter((i) => i.start.getTime() >= filterToNow[0].start.getTime()).reduce((sum,i) => sum + differenceInDays(i.end ?? new Date(), i.start),0) : 0
     const totalDays = sum + daysExperienceToNow - daysExperienceSubstractNow
+    console.log('totalDays',dataNoNow, totalDays, sum, daysExperienceToNow, daysExperienceSubstractNow)
     const { days, months, years } = intervalToDuration({ start: 0, end: totalDays * 24 * 60 * 60 * 1000 })
 
     return [

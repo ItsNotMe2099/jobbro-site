@@ -113,6 +113,9 @@ export class Routes {
   static lkHiringBoard(id: string | number) {
     return `/lk/hiring-boards/${id}`
   }
+  static lkHiringBoardCv(id: string | number, cvId: number) {
+    return `/lk/hiring-boards/${id}/cv/${cvId}`
+  }
 
   static get lkScorecardsTemplates() {
     return '/lk/scorecard-templates'

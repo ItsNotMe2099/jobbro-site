@@ -18,6 +18,7 @@ import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
 interface Props{
   cv: ICV
   evaluation?: Nullable<ICVEvaluation> | undefined
+  backLink: string
 }
 const CvForHirerPage = (props: Props) => {
   const appContext = useAppContext()
@@ -30,7 +31,7 @@ const CvForHirerPage = (props: Props) => {
 
 
      <div ref={ref} className={styles.container}>
-        <PageTitle title={cv.title} link={Routes.lkCandidatesBase} />
+        <PageTitle title={cv.title} link={props.backLink} />
         <div className={styles.wrapper}>
           <div className={styles.top}>
             <CardWithPhoto cv={cv} />

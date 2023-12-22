@@ -83,6 +83,7 @@ export interface IVacancy {
   isSavedByCurrentProfile: boolean;
   totalViews: number;
   totalApplications: number;
+  totalProposals: number;
   hashVacancy: string
   applicationFormLanguage: string
   applyAutoMessage: IAutoMessage
