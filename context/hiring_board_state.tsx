@@ -141,7 +141,7 @@ export function HiringBoardWrapper(props: Props) {
         onConfirm: async () => {
         }
       } as ConfirmModalArguments)
-      return
+      return null
     }
     return new Promise<Nullable<IVacancyWithHiringStages>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
