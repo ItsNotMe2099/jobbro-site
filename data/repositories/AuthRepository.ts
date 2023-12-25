@@ -36,6 +36,16 @@ export default class AuthRepository {
     return res
   }
 
+  static async confirmManagerInvite(data: { email: string, code: string, firstName: string, password: string }): Promise<IAuthResponse> {
+    const res = await request<IAuthResponse>({
+        method: 'post',
+        url: '/api/auth/manager-email-confirm',
+        data
+      }
+    )
+    return res
+  }
+
   static async passwordReset(login: string): Promise<ISendCodeResponse> {
     const res = await request<ISendCodeResponse>({
       method: 'post',

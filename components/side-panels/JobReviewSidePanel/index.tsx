@@ -15,6 +15,7 @@ import {Goal, SnackbarType} from '@/types/enums'
 import FeedbackRepository from '@/data/repositories/FeedbackRepository'
 import FieldLabel from '@/components/fields/FieldLabel'
 import Analytics from '@/utils/goals'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -29,6 +30,7 @@ export interface IFormData {
 
 export default function JobReviewSidePanel(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const args = appContext.panelArguments as JobReviewSidePanelArguments
   const [loading, setLoading] = useState<boolean>(false)
   let ref = useRef<HTMLFormElement | null>(null)
@@ -66,30 +68,30 @@ export default function JobReviewSidePanel(props: Props) {
     <SidePanelLayout>
       <FormikProvider value={formik}>
         <Form className={styles.form}>
-          <SidePanelHeader title={'Evaluate'}/>
+          <SidePanelHeader title={t('job_review_title')}/>
           <SidePanelBody fixed>
             <div className={styles.fields}>
               <div className={styles.field}>
-                <FieldLabel label={'Assess the quality of candidate selection'} styleType={'large'}/>
+                <FieldLabel label={t('job_review_field_mark_candidate_selection')} styleType={'large'}/>
                 <StarRatingsField name={'markCandidateSelection'}/>
-                <TextAreaField name={'reviewCandidateSelection'} label={'Write a review'}/>
+                <TextAreaField name={'reviewCandidateSelection'} label={t('job_review_field_review_candidate_selection')}/>
               </div>
               <div className={styles.field}>
 
-                <FieldLabel label={'Evaluate the quality of work on the platform'} styleType={'large'}/>
+                <FieldLabel label={t('job_review_field_mark_platform')} styleType={'large'}/>
                 <StarRatingsField name={'markPlatform'}/>
-                <TextAreaField name={'reviewPlatform'} label={'Write a review'}/>
+                <TextAreaField name={'reviewPlatform'} label={t('job_review_field_review_platform')}/>
               </div>
             </div>
           </SidePanelBody>
           <SidePanelFooter>
             <div className={styles.buttons}>
               <Button spinner={loading} type='submit' className={styles.apply} styleType='large' color='green'>
-                Send Review
+                {t('job_review_button_sent')}
               </Button>
               <Button disabled={loading} onClick={appContext.hidePanel} className={styles.btn} styleType='large'
                       color='white'>
-                Cancel
+                {t('job_review_button_cancel')}
               </Button>
             </div>
           </SidePanelFooter>

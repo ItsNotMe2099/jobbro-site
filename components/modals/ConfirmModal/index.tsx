@@ -7,6 +7,7 @@ import ModalHeader from '@/components/layout/Modal/ModalHeader'
 import ModalBody from '@/components/layout/Modal/ModalBody'
 import ModalFooter from '@/components/layout/Modal/ModalFooter'
 import classNames from 'classnames'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props{
   isBottomSheet?: boolean
@@ -14,7 +15,7 @@ interface Props{
 export function ConfirmModal(props: Props) {
   const appContext = useAppContext()
   const args = appContext.modalArguments as ConfirmModalArguments
-
+  const { t } = useTranslation()
   const handleCancel = () => {
     if(!args.onCancel){
       appContext.hideModal()
@@ -24,10 +25,10 @@ export function ConfirmModal(props: Props) {
   }
   const footer = (<div className={styles.buttons}>
     <Button styleType={'large'} color='transparent' fluid type="button" onClick={handleCancel}>
-      {args.cancel || 'Нет'}
+      {args.cancel || t('confirm_modal_button_cancel')}
     </Button>
     <Button  className={classNames(styles.confirmButton, {[styles[args.confirmColor ?? 'green']]: true})}  styleType={'large'} color='transparent' fluid type="button" onClick={args.onConfirm}>
-      {args.confirm || 'Да'}
+      {args.confirm || t('confirm_modal_button_confirm')}
     </Button>
   </div>)
   const body = (<div className={styles.body}>
