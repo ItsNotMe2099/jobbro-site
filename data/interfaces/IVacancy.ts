@@ -16,6 +16,7 @@ import {IProposal} from '@/data/interfaces/IProposal'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
+import {IProject} from '@/data/interfaces/IProject'
 
 export interface IHiringStageDescription {
   title: string;
@@ -61,6 +62,7 @@ export interface IVacancy {
   benefitsTitles: string[];
   keywords: IKeyword[];
   keywordsTitles: string[];
+  projectTitle: string;
   benefitsDescription: IVacancyPageBlock;
   experience: Experience;
   workplace: Workplace;
@@ -90,6 +92,7 @@ export interface IVacancy {
   declineAutoMessage: IAutoMessage
   createdAt: Date;
   creationType: VacancyCreationType
+  project: IProject | null
 }
 export interface IVacancyWithApply extends IVacancy{
   proposals: IProposal[]

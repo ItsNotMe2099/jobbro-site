@@ -16,6 +16,7 @@ import IFile from '@/data/interfaces/IFile'
 import Button from '@/components/ui/Button'
 import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 import useTranslation from 'next-translate/useTranslation'
+import Validator from '@/utils/validator'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -94,11 +95,11 @@ export default function AccountProfileForm(props: Props) {
               />
               <InputField
                 disabled={true}
-                label={t('account_profile_field_email')} name='email'
+
+                label={t('account_profile_field_email')} name='email' validate={Validator.email}
               />
-              <InputField
-                disabled={true}
-                label={t('account_profile_field_phone')} name='phone'
+              <InputField format={'phone'}
+                label={t('account_profile_field_phone')} name='phone'  validate={Validator.phone}
               />
 
             </div>

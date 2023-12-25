@@ -61,7 +61,7 @@ const JobsPageInner = () => {
         </CardsLayout>
         <StickyFab boundaryElement={styles.container} containerRef={ref}>
           <div className={styles.plus}>
-            {showMenu ? <MenuOptions className={styles.menu}/> : <></>}
+            {showMenu ? <MenuOptions className={styles.menu} onClick={() => setShowMenu(false)}/> : <></>}
             <Fab active={showMenu} onClick={() => setShowMenu(!showMenu)}/>
           </div>
 

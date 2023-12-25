@@ -98,7 +98,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
   const { ref, maskRef } = useIMask({
     mask: pattern as any || /.*/, ...(props.format && ['number', 'price', 'weight'].includes(props.format) ? {
       mask: Number,
-      max: props.max ?? 10000000,
+      max: props.max ?? undefined,
       min: props.min ?? 0,
 
     } : {})

@@ -71,6 +71,7 @@ export interface IVacancyFormData {
   benefits: string[]
   skills: string[]
   keywords: string[]
+  project: Nullable<string>
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
@@ -88,10 +89,11 @@ export default function CreateJobManuallyForm(props: Props) {
   let ref = useRef<HTMLDivElement | null>(null)
 
   const handleSubmit = async (data: IVacancyFormData) => {
-    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
+    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office', 'project']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
       keywordsTitles: data.keywords,
+      projectTitle: data.project,
       officeId: data?.office?.id,
       companyId: companyContext.company?.id,
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
@@ -136,6 +138,7 @@ export default function CreateJobManuallyForm(props: Props) {
     benefits: props.initialValuesAi?.benefits ?? vacancyContext.vacancy?.benefits?.map(i => i.title) ?? [],
     skills: props.initialValuesAi?.skills ?? vacancyContext.vacancy?.skills?.map(i => i.title) ?? [],
     keywords: props.initialValuesAi?.keywords ?? vacancyContext.vacancy?.keywords?.map(i => i.title) ?? [],
+    project: vacancyContext.vacancy?.project?.title ?? null,
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},

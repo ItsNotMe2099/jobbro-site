@@ -224,6 +224,7 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
         classNamePrefix="yg-select"
         isSearchable={true}
         isClearable={true}
+        isLoading={props.isLoading}
         placeholder={props.placeholder}
         onChange={(option) => {
           setSelected(option)

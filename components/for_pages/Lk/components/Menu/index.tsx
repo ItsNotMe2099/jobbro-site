@@ -60,7 +60,7 @@ export default function Menu(props: Props) {
         </div>
         <div className={styles.btn}>
           {showOptions &&
-            <MenuOptions/>}
+            <MenuOptions onClick={() => setShowOptions(false)}/>}
           <Button onClick={() => setShowOptions(!showOptions)} styleType='large' color='green'>
             {t('hirer_left_menu_new_job')}
           </Button>

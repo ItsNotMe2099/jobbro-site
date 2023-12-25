@@ -119,7 +119,6 @@ const JobCardInner = (props: Props) => {
               <PersonSvg color={colors.textSecondary} />
               <div className={styles.quantity}>
                 {parseInt(props.vacancy.totalApplications, 10) + parseInt(props.vacancy.totalProposals, 10)}
-
               </div>
             </div>
           </div>}

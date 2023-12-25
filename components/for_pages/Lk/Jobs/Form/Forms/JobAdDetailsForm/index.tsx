@@ -46,12 +46,12 @@ export default function JobAdDetailsForm(props: Props) {
       <Card title={t('job_form_tab_details_section_details')}>
         <div className={styles.wrapper}>
           <div className={styles.line}>
-            <ServiceCategoryField placeholder={t('job_form_tab_details_field_category')} className={styles.select} name='categoryId'  />
-            <ServiceCategoryField placeholder={t('job_form_tab_details_field_sub-category')} categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
+            <ServiceCategoryField label={t('job_form_tab_details_field_category')} className={styles.select} name='categoryId' onChange={() => props.formik.setFieldValue('subCategoryId', null)}  />
+            <ServiceCategoryField label={t('job_form_tab_details_field_sub-category')} categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
           </div>
           <div className={styles.line}>
-            <SelectField<Employment> placeholder={t('job_form_tab_details_field_employment')} className={styles.select} name='employment' options={Dictionary.getEmploymentOptions(t)} />
-            <SelectField<Workplace> placeholder={t('job_form_tab_details_field_workplace')} className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions(t)} />
+            <SelectField<Employment> label={t('job_form_tab_details_field_employment')} className={styles.select} name='employment' options={Dictionary.getEmploymentOptions(t)} />
+            <SelectField<Workplace> label={t('job_form_tab_details_field_workplace')} className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions(t)} />
           </div>
           <OfficeField placeholder={t('job_form_tab_details_field_office')} className={styles.select} name='office'  />
         </div>

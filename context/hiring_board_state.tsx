@@ -26,7 +26,7 @@ interface IState {
   updateHiringStages: (data: DeepPartial<IHiringStage>[]) => Promise<Nullable<IVacancyWithHiringStages>>,
   moveHiringStage: (stageId: number, toIndex: number) => Promise<void>
   createHiringStage: (data: DeepPartial<IHiringStage>) => Promise<Nullable<IVacancyWithHiringStages>>,
-  deleteHiringStage: (data: IHiringStage) => Promise<Nullable<IVacancyWithHiringStages>>,
+  deleteHiringStage: (data: IHiringStageWithApply) => Promise<Nullable<IVacancyWithHiringStages>>,
   moveToStage: (cv: ICVWithApply, hiringStageId: number) => Promise<void>
 }
 
@@ -43,7 +43,7 @@ const defaultValue: IState = {
   delete: async () => null,
   updateHiringStages: async (data: DeepPartial<IHiringStage>[]) => null,
   createHiringStage: async (data: DeepPartial<IHiringStage>) => null,
-  deleteHiringStage: async (data: IHiringStage) => null,
+  deleteHiringStage: async (data: IHiringStageWithApply) => null,
   moveToStage: async (cv: ICVWithApply, hiringStageId: number) => {},
   moveHiringStage: async (stageId: number, toIndex: number) => {}
 }
@@ -134,7 +134,15 @@ export function HiringBoardWrapper(props: Props) {
       throw err
     }
   }
-  const deleteHiringStage = async (hiringStage: IHiringStage): Promise<Nullable<IVacancyWithHiringStages>> => {
+  const deleteHiringStage = async (hiringStage: IHiringStageWithApply): Promise<Nullable<IVacancyWithHiringStages>> => {
+    if(hiringStage.currentCandidatesCount > 0){
+      appContext.showModal(ModalType.Confirm, {
+        text: `You cant delete «${hiringStage?.title}» because it contains candidates`,
+        onConfirm: async () => {
+        }
+      } as ConfirmModalArguments)
+      return
+    }
     return new Promise<Nullable<IVacancyWithHiringStages>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
         text: `Are what you want to delete hiring stage «${hiringStage?.title}» ?`,
