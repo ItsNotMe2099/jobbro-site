@@ -14,6 +14,7 @@ import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {ICV} from '@/data/interfaces/ICV'
 import {Nullable} from '@/types/types'
 import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
+import useTranslation from 'next-translate/useTranslation'
 interface Props{
   cv: ICV
   evaluation?: Nullable<ICVEvaluation> | undefined
@@ -22,7 +23,7 @@ interface Props{
 const CvForHirerPage = (props: Props) => {
   const appContext = useAppContext()
   const cv = props.cv
-
+  const { t } = useTranslation()
 
   let ref = useRef<HTMLDivElement | null>(null)
 
@@ -42,10 +43,10 @@ const CvForHirerPage = (props: Props) => {
         </div>
         <ControlsStickyFooter btns={[
           <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>
-            Send Invite
+            {t('cv_preview_send_invite')}
           </Button>,
           <Button className={styles.cancel} styleType='large' color='white' href={props.backLink} >
-            Cancel
+            {t('cv_preview_cancel')}
           </Button>
         ]} boundaryElement={`.${styles.container}`} formRef={ref} />
       </div>

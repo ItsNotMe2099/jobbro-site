@@ -9,12 +9,14 @@ import UserUtils from '@/utils/UserUtils'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {Relocation} from '@/data/enum/Relocation'
 import AvatarCircular from '@/components/ui/AvatarCircular'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   cv: ICV
 }
 
 export default function CardWithPhoto(props: Props) {
+  const { t } = useTranslation()
   const {cv} = props
   return (
     <Card>
@@ -34,7 +36,7 @@ export default function CardWithPhoto(props: Props) {
           </div>
           <div className={styles.location}>
             <div className={classNames(styles.ready, { [styles.notReady]: cv.relocation !== Relocation.yes  })}>
-              {cv.relocation === Relocation.yes ? 'Ready to relocate' : 'Not ready to relocate'}
+              {cv.relocation === Relocation.yes ? t('cv_preview_profile_relocation_ready') : t('cv_preview_profile_relocation_not_ready')}
             </div>
             {cv.country && <div className={styles.country}>
               <LocationSvg color={colors.textSecondary} />
@@ -43,7 +45,7 @@ export default function CardWithPhoto(props: Props) {
           </div>
           {(cv.contacts?.length > 0) && <div className={styles.contacts}>
             <div className={styles.title}>
-              Contacts
+              {t('cv_preview_profile_contacts')}
             </div>
             {cv.contacts.filter(i => !!i.email).length > 0 && <div className={styles.email}>
               <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' />

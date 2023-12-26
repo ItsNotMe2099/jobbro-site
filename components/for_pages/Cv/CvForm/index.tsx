@@ -167,56 +167,53 @@ export default function CvForm(props: Props) {
       <Form ref={ref} className={styles.form}>
         <FormErrorScroll formik={formik} />
         <div className={styles.root}>
-          <Card title='Specialization'>
+          <Card title={t('cv_form_section_specialization')}>
             <div className={styles.wrapper}>
-              <InputField name='title' label={'Title'}
+              <InputField name={t('cv_form_field_title')} label={'Title'}
                           validate={Validator.required}
               />
               <div className={styles.line}>
-                <ServiceCategoryField placeholder='Category' className={styles.select} name='categoryId'/>
-                <ServiceCategoryField placeholder='Sub-category' categoryId={formik.values.categoryId}
+                <ServiceCategoryField label={t('cv_form_field_category')} className={styles.select} name='categoryId'/>
+                <ServiceCategoryField label={t('cv_form_field_sub_category')} categoryId={formik.values.categoryId}
                                       className={styles.select} name='subCategoryId'/>
               </div>
             </div>
           </Card>
-          <Card title='Details'>
+          <Card title={t('cv_form_section_details')}>
             <div className={styles.wrapper}>
               <FileField
                 isImage
+                withCrop
                 name='image'
                 accept={[FileUploadAcceptType.Image]}
               />
-              <InputField name='name' label={'Name'}
+              <InputField name='name' label={t('cv_form_field_name')}
                           validate={Validator.required}
               />
               <div className={styles.line}>
                 <div className={styles.location}>
-                  <CountryField className={styles.select} name={'country'} label={'Country'} onChange={handleChangeCountry}/>
-                  <CityField className={styles.select}  name={'city'} label={'City'}
+                  <CountryField className={styles.select} name={'country'} label={t('cv_form_field_country')} onChange={handleChangeCountry}/>
+                  <CityField className={styles.select}  name={'city'} label={t('cv_form_field_city')}
                              country={formik.values.country?.country}/>
                 </div>
                 <SelectField<Relocation>
                   className={styles.select}
-                  label='Relocate' name={'relocate'}
-                  options={[{label: 'Not ready', value: Relocation.no}, {label: 'Ready', value: Relocation.yes}]}/>
+                  label={t('cv_form_field_relocate')} name={'relocate'}
+                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.no}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.yes}]}/>
               </div>
             </div>
           </Card>
-          <Card title='Salary'>
+          <Card title={t('cv_form_section_salary')}>
             <div className={styles.line}>
-              <CurrencyField className={styles.select} name='currency'/>
-              <InputField className={styles.select} format={'number'} placeholder='Salary maximum' name='salaryMax'
-                          label={formik.values.salaryMax ? 'Salary maximum' : ''}
-              />
-              <InputField className={styles.select} format={'number'} placeholder='Salary minimum' name='salaryMin'
-                          label={formik.values.salaryMin ? 'Salary minimum' : ''}
-              />
-              <SelectField<SalaryType> className={styles.select} placeholder='Type' name='salaryType'
+              <CurrencyField className={styles.select} name='currency' label={t('cv_form_field_currency')}/>
+              <InputField className={styles.select} format={'number'} label={t('cv_form_field_salary_max')} name='salaryMax'/>
+              <InputField className={styles.select} format={'number'} label={t('cv_form_field_salary_min')} name='salaryMin'/>
+              <SelectField<SalaryType> className={styles.select} label={t('cv_form_field_salary_type')} name='salaryType'
                                        options={Dictionary.getSalaryTypeOptions(t)}/>
             </div>
           </Card>
           <Card title={<div className={styles.top}>
-            <div className={styles.title}>Contacts</div>
+            <div className={styles.title}>{t('cv_form_section_contacts')}</div>
             <SwitchField name={'contactsVisible'}/>
           </div>}>
             {formik.values.contactsVisible && <FieldArray name={'contacts'}>
@@ -228,18 +225,18 @@ export default function CvForm(props: Props) {
                            className={classNames(styles.fieldListLine, styles.line)}>
                         <SelectField<CvContactPersonType>
                           className={styles.column}
-                          label='Type' name={`contacts[${index}].type`}
-                          options={[{label: 'Email', value: CvContactPersonType.Email}, {
-                            label: 'Phone',
+                          label={t('cv_form_field_contact_type')} name={`contacts[${index}].type`}
+                          options={[{label: t('cv_form_field_contact_email'), value: CvContactPersonType.Email}, {
+                            label: t('cv_form_field_contact_phone'),
                             value: CvContactPersonType.Phone
                           }]}/>
                         {formik.values.contacts[index].type === CvContactPersonType.Email && <InputField
-                          label={'Email'}
+                          label={t('cv_form_field_contact_email')}
                           className={styles.column}
                           name={`contacts[${index}].email`}
                           validate={Validator.email}/>}
                         {formik.values.contacts[index].type === CvContactPersonType.Phone && <InputField
-                          label={'Phone'}
+                          label={t('cv_form_field_contact_phone')}
                           format={'phone'}
                           className={styles.column}
                           name={`contacts[${index}].phone`}
@@ -255,19 +252,19 @@ export default function CvForm(props: Props) {
                         type: CvContactPersonType.Email,
                         email: null
                       } : {type: CvContactPersonType.Phone, phone: null})} className={styles.add}>
-                      Add Type
+                      {t('cv_form_contact_add')}
                     </div>
                   </div>
                 </div>)}
             </FieldArray>}
           </Card>
           <Card title={<div className={styles.top}>
-            <div className={styles.title}>About me</div>
+            <div className={styles.title}>{t('cv_form_section_about_me')}</div>
             <SwitchField name={'about.visible'}/>
           </div>}>
             {formik.values.about?.visible ? <RichTextField name='about.description'/> : <></>}
           </Card>
-          <Card title={'Education'}>
+          <Card title={t('cv_form_section_education')}>
             <FieldArray name={'educationInfo'}>
               {arrayHelpers => (
                 <div className={styles.root} data-field={'educationInfo'}>
@@ -275,11 +272,11 @@ export default function CvForm(props: Props) {
                     {(formik.values.educationInfo ?? []).map((i, index) => <div className={styles.line}>
                         <div key={`education_${index}`}
                              className={classNames(styles.fieldListLine, styles.fields)}>
-                          <InputField name={`educationInfo[${index}].institution`} label={'Institution'}/>
-                          <InputField name={`educationInfo[${index}].speciality`} label={'Speciality'}/>
+                          <InputField name={`educationInfo[${index}].institution`} label={t('cv_form_field_education_institution')}/>
+                          <InputField name={`educationInfo[${index}].speciality`} label={t('cv_form_field_education_speciality')}/>
                           <div className={styles.line}>
-                            <InputField name={`educationInfo[${index}].fromYear`} label={'From year'}/>
-                            <InputField name={`educationInfo[${index}].toYear`} label={'To year'}/>
+                            <InputField name={`educationInfo[${index}].fromYear`} label={t('cv_form_field_education_from_year')}/>
+                            <InputField name={`educationInfo[${index}].toYear`} label={t('cv_form_field_education_to_year')}/>
                           </div>
                         </div>
                         <IconButton
@@ -297,19 +294,19 @@ export default function CvForm(props: Props) {
                     toMonth: null,
                     toYear: null
                   })} className={styles.add}>
-                    Add University
+                    {t('cv_form_education_add')}
                   </div>
                 </div>
               )}
             </FieldArray>
           </Card>
-          <Card title={'Courses'}>
+          <Card title={t('cv_form_section_courses')}>
             <FieldArray name={'coursesInfo'}>
               {arrayHelpers => (
                 <div className={styles.root} data-field={'coursesInfo'}>
                   <div className={styles.fields}>
                     {(formik.values.coursesInfo ?? []).map((i, index) =>
-                      <InputField key={index} name={`coursesInfo[${index}].name`} label={'Title'}
+                      <InputField key={index} name={`coursesInfo[${index}].name`} label={t('cv_form_field_courses_title')}
                                   suffix={index > 0 ?
                                     <CloseSvg
                                       className={styles.remove}
@@ -317,22 +314,22 @@ export default function CvForm(props: Props) {
                     )}
                   </div>
                   <div onClick={() => arrayHelpers.push({name: null})} className={styles.add}>
-                    Add Courses
+                    {t('cv_form_courses_add')}
                   </div>
                 </div>
               )}
             </FieldArray>
           </Card>
           <Card title={<div className={styles.top}>
-            <div className={styles.title}>Skills</div>
+            <div className={styles.title}>{t('cv_form_section_skills')}</div>
             <SwitchField name={'skillsDescription.visible'}/>
           </div>}>
             {formik.values.skillsDescription?.visible ? <RichTextField name='skillsDescription.description'/> : <></>}
           </Card>
-          <Card title='Skills Tags'>
-            <SkillField className={styles.select} placeholder='Search skills' name='skills'/>
+          <Card title={t('cv_form_section_skills_tags')}>
+            <SkillField className={styles.select} placeholder={t('cv_form_field_skills_tags_ph')} name='skills'/>
           </Card>
-          <Card title='Languages'>
+          <Card title={t('cv_form_section_languages')}>
             <FieldArray name={'languageKnowledges'}>
               {arrayHelpers => (
                 <div className={styles.root} data-field={'languageKnowledges'}>
@@ -340,9 +337,9 @@ export default function CvForm(props: Props) {
                     {(formik.values.languageKnowledges ?? []).map((i, index) => <div className={styles.line}>
                         <div key={`language_${index}`} className={classNames(styles.fieldListLine, styles.line)}>
                           <LanguageField className={styles.column} name={`languageKnowledges[${index}].language`}
-                                         label={'Language'}/>
+                                         label={t('cv_form_field_languages_language')}/>
                           <SelectField<string> className={styles.column} name={`languageKnowledges[${index}].level`}
-                                               label={'Level'}
+                                               label={t('cv_form_field_languages_level')}
                                                options={[
                                                  {label: 'A1', value: 'A1'},
                                                  {
@@ -366,14 +363,14 @@ export default function CvForm(props: Props) {
                     )}
                   </div>
                   <div onClick={() => arrayHelpers.push({language: null, level: null})} className={styles.add}>
-                    Add Language
+                    {t('cv_form_languages_add')}
                   </div>
                 </div>
               )}
             </FieldArray>
 
           </Card>
-          <Card title={'Professional Experience'}>
+          <Card title={t('cv_form_section_experience')}>
             <FieldArray name={'experienceInfo'}>
               {arrayHelpers => (
                 <div className={styles.root} data-field={'experienceInfo'}>
@@ -382,15 +379,15 @@ export default function CvForm(props: Props) {
                       <div key={`experience_${index}`}
                            className={classNames(styles.fieldListLine, styles.fields)}>
 
-                        <InputField placeholder='Employer name' className={styles.select}
+                        <InputField label={t('cv_form_field_experience_employer_name')} className={styles.select}
                                     name={`experienceInfo[${index}].company`} validate={Validator.required}/>
-                        <CountryField placeholder='Locate' className={styles.select}
+                        <CountryField label={t('cv_form_field_experience_country')} className={styles.select}
                                       name={`experienceInfo[${index}].country`}/>
                         <div className={styles.line}>
-                          <DateYearMonthField name={`experienceInfo[${index}].fromMonthYear`} label={'From'}/>
-                          <DateYearMonthField name={`experienceInfo[${index}].toMonthYear`} label={'To'}/>
+                          <DateYearMonthField name={`experienceInfo[${index}].fromMonthYear`} label={t('cv_form_field_experience_from')}/>
+                          <DateYearMonthField name={`experienceInfo[${index}].toMonthYear`} label={t('cv_form_field_experience_to')}/>
                         </div>
-                        <InputField name={`experienceInfo[${index}].position`} label={'Job title'}
+                        <InputField name={`experienceInfo[${index}].position`} label={t('cv_form_field_experience_position')}
                                     validate={Validator.required}/>
                         <RichTextField name={`experienceInfo[${index}].description`}/>
                       </div>
@@ -407,7 +404,7 @@ export default function CvForm(props: Props) {
                     toDate: null,
                     description: null
                   })} className={styles.add}>
-                    Add Employer
+                    {t('cv_form_experience_add')}
                   </div>
                 </div>
               )}
@@ -418,19 +415,19 @@ export default function CvForm(props: Props) {
         <FormStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}>
           <>
             <Button  type={'submit'} styleType='large' color='green' spinner={props.loading ?? false}>
-              {'Save'}
+              {t('form_button_save')}
             </Button>
             {props.cancelLink && <Button href={props.cancelLink} type={'button'} styleType='large' color='white'>
-              {'Cancel'}
+              {t('form_button_cancel')}
             </Button>}
             <div className={styles.preview} onClick={props.onPreview}>
               {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
                 :
                 <NoEyeSvg color={colors.green} className={styles.eye}/>
               }
-              {!props.preview ? <div className={styles.text}>Preview</div>
+              {!props.preview ? <div className={styles.text}>{t('cv_form_button_preview')}</div>
                 :
-                <div className={styles.text}>Close Preview Mode</div>
+                <div className={styles.text}>{t('cv_form_button_close_preview')}</div>
               }
             </div>
           </>
