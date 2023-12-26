@@ -5,21 +5,21 @@ import EllipseSvg from '@/components/svg/EllipseSvg'
 import { colors } from '@/styles/variables'
 import { useResize } from '@/components/hooks/useResize'
 import HappyBckgrndMobileSvg from '@/components/svg/HappyBckgrndMobileSvg'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function Happy(props: Props) {
-
+  const { t } = useTranslation()
   const items = [
-    { val: '90%', desc: <>...accuracy of candidate<br /> selection without HR<br /> manager&apos;s involvement</> },
+    { val: '90%', desc: t('main_lending_stat_accuracy') },
     {
-      val: '30 hours', desc: <>...of HR managers&apos; efficiency<br /> due to AI assistance
-      </>
+      val: '30 hours', desc: t('main_lending_stat_efficiency')
     },
     {
-      val: '5/5', desc: <> ...usability index</>
+      val: '5/5', desc: t('main_lending_stat_usability')
     }
   ]
 

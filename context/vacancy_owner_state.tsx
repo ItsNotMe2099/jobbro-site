@@ -7,6 +7,7 @@ import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {JobReviewSidePanelArguments} from '@/types/side_panel_arguments'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IState {
   vacancyId?: Nullable<number> | undefined
@@ -58,6 +59,7 @@ export function VacancyOwnerWrapper(props: Props) {
   const [loading, setLoading] = useState<boolean>(true)
   const [editLoading, setEditLoading] = useState<boolean>(false)
   const [editStatusLoading, setEditStatusLoading] = useState<boolean>(false)
+  const { t } = useTranslation()
   useEffect(() => {
     setVacancy(props.vacancy as Nullable<IVacancy>)
     setLoading(false)
@@ -121,7 +123,8 @@ export function VacancyOwnerWrapper(props: Props) {
   const deleteRequest = async (): Promise<Nullable<IVacancy>> => {
     return new Promise<Nullable<IVacancy>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to delete «${vacancy?.name}» ?`,
+        title: t('confirm_job_publish_title', {name: vacancy?.name}),
+        text: t('confirm_job_publish_desc', {name: vacancy?.name}),
         onConfirm: async () => {
           try {
             appContext.hideModal()
@@ -159,7 +162,8 @@ export function VacancyOwnerWrapper(props: Props) {
   const publish = async (): Promise<Nullable<IVacancy>> => {
     return new Promise<Nullable<IVacancy>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to publish «${vacancy?.name}» ?`,
+        title: t('confirm_job_publish_title', {name: vacancy?.name}),
+        text: t('confirm_job_publish_desc', {name: vacancy?.name}),
         onConfirm: async () => {
           await updateStatusRequest(PublishStatus.Published)
           appContext.hideModal()
@@ -171,7 +175,8 @@ export function VacancyOwnerWrapper(props: Props) {
   const pause = async (): Promise<Nullable<IVacancy>> => {
     return new Promise<Nullable<IVacancy>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to pause «${vacancy?.name}» ?`,
+        title: t('confirm_job_publish_title', {name: vacancy?.name}),
+        text: t('confirm_job_publish_desc', {name: vacancy?.name}),
         onConfirm: async () => {
           await updateStatusRequest(PublishStatus.Paused)
           appContext.hideModal()
@@ -183,7 +188,8 @@ export function VacancyOwnerWrapper(props: Props) {
   const close = async (): Promise<Nullable<IVacancy>> => {
     return new Promise<Nullable<IVacancy>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to close «${vacancy?.name}» ?`,
+        title: t('confirm_job_publish_title', {name: vacancy?.name}),
+        text: t('confirm_job_publish_desc', {name: vacancy?.name}),
         onConfirm: async () => {
        //   await updateStatusRequest(PublishStatus.Closed)
           appContext.hideModal()

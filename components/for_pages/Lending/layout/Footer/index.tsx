@@ -7,13 +7,14 @@ import InstagramLendingSvg from '@/components/svg/InstagramLendingSvg'
 import LinkedInLendingSvg from '@/components/svg/LinkedInLendingSvg'
 import TwitterLendingSvg from '@/components/svg/TwitterLendingSvg'
 import YoutubeLendingSvg from '@/components/svg/YoutubeLendingSvg'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function Footer(props: Props) {
-
+  const { t } = useTranslation()
   const socials = [
     { icon: <FbLendingSvg color={colors.white} />, link: CONTACTS.facebook },
     { icon: <InstagramLendingSvg color={colors.white} />, link: CONTACTS.instagram },
@@ -23,24 +24,24 @@ export default function Footer(props: Props) {
   ]
 
   const columns = [
-    { label: 'About us', link: '#' },
-    { label: 'Book a demo', link: '#' },
-    { label: 'Blog', link: '#' },
-    { label: 'Pricing', link: '#' },
-    { label: 'Contact', link: '#' },
-    { label: 'Features', link: '#' },
-    { label: 'Sign In', link: '#' },
-    { label: 'Sign Up', link: '#' },
-    { label: 'Style Guide', link: '#' },
-    { label: 'Changelog', link: '#' },
-    { label: 'Licenses', link: '#' },
-    { label: 'More Templates', link: '#' },
+    { label: t('main_lending_footer_menu_about'), link: '#' },
+    { label: t('main_lending_footer_menu_book_demo'), link: '#' },
+    { label: t('main_lending_footer_menu_blog'), link: '#' },
+    { label: t('main_lending_footer_menu_pricing'), link: '#' },
+    { label: t('main_lending_footer_menu_contact'), link: '#' },
+    { label: t('main_lending_footer_menu_features'), link: '#' },
+    { label: t('main_lending_footer_menu_sign_in'), link: '#' },
+    { label: t('main_lending_footer_menu_sign_up'), link: '#' },
+    { label: t('main_lending_footer_menu_style_guide'), link: '#' },
+    { label: t('main_lending_footer_menu_changelog'), link: '#' },
+    { label: t('main_lending_footer_menu_licenses'), link: '#' },
+    { label: t('main_lending_footer_menu_more_templates'), link: '#' },
   ]
 
   const bottom = [
-    { label: 'Privacy Policy', link: 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing' },
-    { label: 'Terms of Service', link: '#' },
-    { label: 'Cookies Settings', link: '#' },
+    { label: t('main_lending_footer_link_privacy_policy'), link: 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing' },
+    { label: t('main_lending_footer_link_terms'), link: '#' },
+    { label: t('main_lending_footer_link_cookies'), link: '#' },
   ]
 
   return (
@@ -53,7 +54,7 @@ export default function Footer(props: Props) {
           <div className={styles.info}>
             <div className={styles.item}>
               <div className={styles.title}>
-                Adress
+                {t('main_lending_footer_address')}
               </div>
               <div className={styles.text} style={{ maxWidth: '303px' }}>
                 {CONTACTS.adress}
@@ -61,7 +62,7 @@ export default function Footer(props: Props) {
             </div>
             <div className={styles.item}>
               <div className={styles.title}>
-                Contact
+                {t('main_lending_footer_contact')}
               </div>
               <div className={styles.text}>
                 {CONTACTS.phone}

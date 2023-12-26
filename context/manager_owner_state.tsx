@@ -7,6 +7,7 @@ import UserUtils from '@/utils/UserUtils'
 import {IManagerCreateRequest} from '@/data/interfaces/IManagerCreateRequest'
 import {IManager} from '@/data/interfaces/IManager'
 import ManagerOwnerRepository from '@/data/repositories/ManagerOwnerRepository'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IState {
   managerId: Nullable<string> | undefined,
@@ -49,6 +50,7 @@ interface Props {
 
 export function ManagerOwnerWrapper(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [manager, setManager] = useState<Nullable<IManager>>(props.manager as Nullable<IManager>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -115,7 +117,8 @@ export function ManagerOwnerWrapper(props: Props) {
 
     return new Promise<Nullable<IManager>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Вы уверены что хотите удалить сотрудника «${UserUtils.getName(manager) || manager?.email}» ?`,
+        title: t('confirm_manager_delete_title', {name: UserUtils.getName(manager) || manager?.email}),
+        text: t('confirm_manager_delete_desc', {name: UserUtils.getName(manager) || manager?.email}),
         onConfirm: async () => {
           try {
             appContext.hideModal()

@@ -9,6 +9,7 @@ import { useAppContext } from '@/context/state'
 import { SnackbarType } from '@/types/enums'
 import SiteApplicationRepository from '@/data/repositories/SiteApplicationRepository'
 import showToast from '@/utils/showToast'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData {
   name: Nullable<string>
@@ -22,7 +23,7 @@ interface Props {
 }
 
 export default function TryItForm(props: Props) {
-
+  const { t } = useTranslation()
   const [loading, setLoading] = useState<boolean>(false)
   const appContext = useAppContext()
 
@@ -30,7 +31,7 @@ export default function TryItForm(props: Props) {
     setLoading(true)
     try {
     await SiteApplicationRepository.create(data)
-      showToast({title: 'Application sent'})
+      showToast({title: t('toast_landing_application_sent_title'), text: t('toast_landing_application_sent_desc')})
       formik.resetForm()
     } catch (err) {
       console.error(err)
@@ -59,19 +60,19 @@ export default function TryItForm(props: Props) {
       <Form className={styles.form}>
         <InputField lendingInput
           classNameInput={styles.input}
-          placeholder='Name'
+          placeholder={t('main_lending_try_field_name')}
           classNameInputWrapper={styles.inputWrapper}
           name='name'
           validate={Validator.required} />
         <InputField
           lendingInput
-          placeholder='E-mail'
+          placeholder={t('main_lending_try_field_email')}
           classNameInput={styles.input}
           classNameInputWrapper={styles.inputWrapper}
           name='email'
           validate={Validator.combine([Validator.required, Validator.email])} />
         <InputField
-          placeholder='Phone'
+          placeholder={t('main_lending_try_field_phone')}
           lendingInput
           classNameInput={styles.input}
           classNameInputWrapper={styles.inputWrapper}
@@ -79,13 +80,13 @@ export default function TryItForm(props: Props) {
           name='phone'
           validate={Validator.required} />
         <InputField
-          placeholder='Company'
+          placeholder={t('main_lending_try_field_company')}
           lendingInput
           classNameInput={styles.input}
           classNameInputWrapper={styles.inputWrapper}
           name='company'/>
         <Button className={styles.btn} type={'submit'} spinner={loading} color='black'>
-          Try demo
+          {t('main_lending_try_field_button_submit')}
         </Button>
       </Form>
     </FormikProvider>

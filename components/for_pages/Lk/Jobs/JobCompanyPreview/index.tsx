@@ -26,7 +26,7 @@ export default function JobCompanyPreview(props: Props) {
            <div className={styles.companyInfo}>
              {company?.industry && <div className={styles.desc}>{company.industry?.name}</div>}
              <div className={styles.name}>{company?.name}</div>
-             {company.url && <a href={Formatter.formatUrl(company.url) ?? '#'} className={styles.link}>{t('job_page_company_go_website')}</a>}
+             {company.url && <a href={Formatter.formatUrl(company.url) ?? '#'} className={styles.link}>{t('job_preview_company_go_website')}</a>}
            </div>
          </div>
          <div className={styles.right}>

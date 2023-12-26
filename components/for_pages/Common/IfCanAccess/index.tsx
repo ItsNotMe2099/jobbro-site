@@ -19,6 +19,7 @@ interface Props {
 
 export default function IfCanAccess(props: Props) {
   const appContext = useAppContext()
+  console.log('IFCanAccess', ( (props.profileType && props.profileType === appContext.aboutMe?.profileType) || !props.profileType), ((props.hirerRole && props.hirerRole === appContext.aboutMe?.hirerRole) || !props.hirerRole), appContext.aboutMe?.hirerRole)
   if(( (props.profileType && props.profileType === appContext.aboutMe?.profileType) || !props.profileType) && ((props.hirerRole && props.hirerRole === appContext.aboutMe?.hirerRole) || !props.hirerRole)){
     return props.children
   }

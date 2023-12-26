@@ -66,7 +66,7 @@ export default function CandidateCard(props: Props) {
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
-          text: t('candidates_base_card_remove_confirm', {name: UserUtils.getName(cv)}),
+          text: t('confirm_candidate_remove', {name: UserUtils.getName(cv)}),
           onConfirm: async () => {
 
             favoriteContext.unlike(cv!.id)

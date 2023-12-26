@@ -6,6 +6,7 @@ import {ModalType, SnackbarType} from '@/types/enums'
 import CvOwnerRepository from '@/data/repositories/CvOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IState {
   cvId?: Nullable<number> | undefined
@@ -54,7 +55,7 @@ export function CVOwnerWrapper(props: Props) {
   const [loading, setLoading] = useState<boolean>(false)
   const [editLoading, setEditLoading] = useState<boolean>(false)
   const [editStatusLoading, setEditStatusLoading] = useState<boolean>(false)
-
+  const { t } = useTranslation()
   useEffect(() => {
     setCV(props.cv as Nullable<ICV>)
 
@@ -119,7 +120,8 @@ export function CVOwnerWrapper(props: Props) {
     return new Promise<Nullable<ICV>>((resolve, reject) => {
       console.log('DeleteReq1')
       appContext.showModal(ModalType.Confirm, {
-        text: `Вы уверены что хотите удалить резюму «${cv?.title}» ?`,
+        title: t('confirm_cv_delete_title', {name: cv?.title}),
+        text: t('confirm_cv_delete_desc', {name: cv?.title}),
         onConfirm: async () => {
           try {
             appContext.hideModal()
@@ -157,7 +159,8 @@ export function CVOwnerWrapper(props: Props) {
   const publish = async (): Promise<Nullable<ICV>> => {
     return new Promise<Nullable<ICV>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to publish «${cv?.title}» ?`,
+        title: t('confirm_cv_publish_title', {name: cv?.title}),
+        text: t('confirm_cv_publish_desc', {name: cv?.title}),
         onConfirm: async () => {
           await updateStatusRequest(PublishStatus.Published)
           appContext.hideModal()
@@ -169,7 +172,8 @@ export function CVOwnerWrapper(props: Props) {
   const pause = async (): Promise<Nullable<ICV>> => {
     return new Promise<Nullable<ICV>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to pause «${cv?.title}» ?`,
+        title: t('confirm_cv_publish_title', {name: cv?.title}),
+        text: t('confirm_cv_publish_desc', {name: cv?.title}),
         onConfirm: async () => {
           await updateStatusRequest(PublishStatus.Paused)
           appContext.hideModal()

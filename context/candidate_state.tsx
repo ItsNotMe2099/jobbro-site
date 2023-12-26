@@ -5,6 +5,8 @@ import { Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {ModalType, SnackbarType} from '@/types/enums'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
+import useTranslation from 'next-translate/useTranslation'
+import UserUtils from '@/utils/UserUtils'
 
 interface IState {
   candidateId: number | undefined,
@@ -35,6 +37,7 @@ interface Props {
 
 export function CandidateWrapper(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [candidate, setCandidate] = useState<Nullable<ICandidate>>(props.candidate as Nullable<ICandidate>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
@@ -71,7 +74,7 @@ export function CandidateWrapper(props: Props) {
   const deleteRequest = async (): Promise<Nullable<ICandidate>> => {
     return new Promise<Nullable<ICandidate>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to delete «${candidate?.cv.title}» ?`,
+        text: t('confirm_candidate_remove', {name: UserUtils.getName(candidate?.cv!)}),
         onConfirm: async () => {
           try {
             appContext.hideModal()

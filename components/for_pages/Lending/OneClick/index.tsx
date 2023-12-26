@@ -3,13 +3,14 @@ import ArrowClickSvg from '@/components/svg/ArrowClickSvg'
 import { colors } from '@/styles/variables'
 import SocialsSvg from '@/components/svg/SocialsSvg'
 import { useResize } from '@/components/hooks/useResize'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function OneClick(props: Props) {
-
+  const { t } = useTranslation()
   const { isPhoneWidth } = useResize()
 
   return (
@@ -18,11 +19,11 @@ export default function OneClick(props: Props) {
         <div className={styles.left}>
           <ArrowClickSvg color={colors.greenLending} />
           <div className={styles.title}>
-            One click — all platforms
+            {t('main_lending_one_click_title')}
           </div>
           <div className={styles.text}>
-            With our solution you can post your jobs one each{!isPhoneWidth &&<br />} main platform. One{isPhoneWidth &&<br />} click and everybody will see you{!isPhoneWidth &&<br />} new{isPhoneWidth &&<br />} position.
-          </div>
+            {t('main_lending_one_click_desc')}
+            </div>
         </div>
         <SocialsSvg className={styles.svg} />
       </div>

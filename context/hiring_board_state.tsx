@@ -10,6 +10,7 @@ import IHiringStage, {IHiringStageWithApply} from '@/data/interfaces/IHiringStag
 import {ICVWithApply} from '@/data/interfaces/ICV'
 import {omit} from '@/utils/omit'
 import Analytics from '@/utils/goals'
+import useTranslation from 'next-translate/useTranslation'
 
 type AppliesByStages = {[key: number]: ICVWithApply[]}
 interface IState {
@@ -58,6 +59,7 @@ interface Props {
 
 export function HiringBoardWrapper(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [vacancy, setVacancy] = useState<Nullable<IVacancyWithHiringStages>>(props.vacancy ?? null)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [publishLoading, setPublishLoading] = useState<boolean>(false)
@@ -137,7 +139,8 @@ export function HiringBoardWrapper(props: Props) {
   const deleteHiringStage = async (hiringStage: IHiringStageWithApply): Promise<Nullable<IVacancyWithHiringStages>> => {
     if(hiringStage.currentCandidatesCount > 0){
       appContext.showModal(ModalType.Confirm, {
-        text: `You cant delete «${hiringStage?.title}» because it contains candidates`,
+        title: t('confirm_hiring_stage_cant_delete_not_empty_title', {name: hiringStage?.title}),
+        text: t('confirm_hiring_stage_cant_delete_not_empty_desc', {name: hiringStage?.title}),
         onConfirm: async () => {
         }
       } as ConfirmModalArguments)
@@ -145,8 +148,9 @@ export function HiringBoardWrapper(props: Props) {
     }
     return new Promise<Nullable<IVacancyWithHiringStages>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are what you want to delete hiring stage «${hiringStage?.title}» ?`,
-        onConfirm: async () => {
+        title: t('confirm_hiring_stage_delete_title', {name: hiringStage?.title}),
+        text: t('confirm_hiring_stage_delete_desc', {name: hiringStage?.title}),
+         onConfirm: async () => {
           try {
             appContext.hideModal()
             setDeleteLoading(true)
@@ -171,7 +175,6 @@ export function HiringBoardWrapper(props: Props) {
     try {
       const oldHiringStageId =  (cv?.applications?.length ?? 0) > 0?  cv?.applications[0].hiringStageId : (cv.proposals?.length ?? 0) > 0 ? cv?.proposals[0].hiringStageId : null
       setEditLoading(true)
-      console.log('oldHiringStageId', oldHiringStageId)
         if(!oldHiringStageId){
           return
         }
@@ -186,7 +189,6 @@ export function HiringBoardWrapper(props: Props) {
             ...(proposal ? {proposals: [{...proposal, hiringStageId}]} : {})} ]
            : appliesByStagesRef.current[hiringStageId]
       }
-      console.log('DrageResult1', newAppliesByStages)
       setAppliesByStages(newAppliesByStages)
       const res = await HiringBoardRepository.moveToStage({
         ...(cv?.applications?.length > 0 ? {applicationId: cv?.applications[0].id} : {}),

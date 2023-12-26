@@ -5,6 +5,7 @@ import {useAppContext} from '@/context/state'
 import {ModalType, SnackbarType} from '@/types/enums'
 import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IState {
   officeId?: Nullable<number> | undefined
@@ -43,6 +44,7 @@ interface Props {
 
 export function OfficeOwnerWrapper(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [office, setOffice] = useState<Nullable<IOffice>>(props.office as Nullable<IOffice>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -109,10 +111,10 @@ export function OfficeOwnerWrapper(props: Props) {
   const deleteRequest = async (): Promise<Nullable<IOffice>> => {
 
     return new Promise<Nullable<IOffice>>((resolve, reject) => {
-      console.log('DeleteReq1')
       appContext.showModal(ModalType.Confirm, {
-        text: `Вы уверены что хотите удалить офис «${office?.name}» ?`,
-        onConfirm: async () => {
+        title: t('confirm_office_title', {name: office?.name}),
+        text: t('confirm_office_delete', {name: office?.name}),
+         onConfirm: async () => {
           try {
             appContext.hideModal()
             setDeleteLoading(true)

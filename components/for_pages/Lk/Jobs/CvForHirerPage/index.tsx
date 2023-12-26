@@ -1,7 +1,6 @@
 import styles from './index.module.scss'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef} from 'react'
-import {Routes} from '@/types/routes'
 import ControlsStickyFooter from '@/components/for_pages/Common/ControlsStickyFooter'
 import Button from '@/components/ui/Button'
 import CardWithPhoto from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardWithPhoto'
@@ -45,7 +44,7 @@ const CvForHirerPage = (props: Props) => {
           <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>
             Send Invite
           </Button>,
-          <Button className={styles.cancel} styleType='large' color='white' href={Routes.lkCandidatesBase} >
+          <Button className={styles.cancel} styleType='large' color='white' href={props.backLink} >
             Cancel
           </Button>
         ]} boundaryElement={`.${styles.container}`} formRef={ref} />
