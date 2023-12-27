@@ -1,5 +1,6 @@
+import styles from './index.module.scss'
+
 import TwitterSvg from '@/components/svg/TwitterSvg'
-import styles from 'components/layout/Footer/index.module.scss'
 import FbSvg from '@/components/svg/FbSvg'
 import InstagramSvg from '@/components/svg/InstagramSvg'
 import Link from 'next/link'

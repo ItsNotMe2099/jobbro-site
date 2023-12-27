@@ -31,6 +31,7 @@ interface Props {
 
 export default function Header(props: Props) {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const [fromTop, setFromTop] = useState<number>(0)
@@ -92,7 +93,7 @@ export default function Header(props: Props) {
         Jobbro
       </div>
       <div className={styles.menu}>
-        {menu.map((i, index) =>
+        {!isTabletWidth &&menu.map((i, index) =>
           <Link href={i.link} key={index} className={styles.item}>
             {i.label}
           </Link>

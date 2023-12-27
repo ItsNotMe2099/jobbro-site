@@ -1,4 +1,4 @@
-@import "../../../styles/index";
+@import 'styles/index';
 
 .root {
   height: 40px;
@@ -8,6 +8,9 @@
   justify-content: flex-end;
   @include list(16px, true);
   margin-top: auto;
+  @include mq($TabletWidth, max) {
+    margin-bottom: 135px;
+  }
 }
 
 .icon {

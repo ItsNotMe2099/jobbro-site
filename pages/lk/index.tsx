@@ -14,7 +14,7 @@ export const getServerSideProps = getAuthServerSideProps(null, async (context, u
   console.log('userProfileType', user?.profileType)
   switch (user?.profileType){
     case ProfileType.Employee:
-      redirect = Routes.lkDashboard
+      redirect = Routes.profileResume
       break
     case ProfileType.Hirer:
       redirect = Routes.lkDashboard

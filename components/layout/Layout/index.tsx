@@ -5,13 +5,14 @@ import Header from 'components/layout/Header'
 import Footer from 'components/layout/Footer'
 import { useAppContext } from '@/context/state'
 import { Sticky, StickyContainer } from 'react-sticky'
+import TabBar from '../TabBar'
 interface Props {
   children?: ReactElement | ReactElement[]
 }
 
 export default function Layout(props: Props) {
 
-  const appContext = useAppContext()
+  const {isTabletWidth} = useAppContext().size
 
   return (
     <div className={styles.root}>
@@ -24,10 +25,11 @@ export default function Layout(props: Props) {
         <div className={styles.container}>
           {props.children}
         </div>
+        {isTabletWidth && 
+        <TabBar/>
+        }
         <Footer />
       </StickyContainer>
-
-
     </div>
   )
 }
