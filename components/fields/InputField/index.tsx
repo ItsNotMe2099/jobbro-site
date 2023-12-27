@@ -98,14 +98,15 @@ export default function InputField<T extends string | number>(props: InputFieldP
   const { ref, maskRef } = useIMask({
     mask: pattern as any || /.*/, ...(props.format && ['number', 'price', 'weight'].includes(props.format) ? {
       mask: Number,
-      max: props.max ?? undefined,
-      min: props.min ?? 0,
-
+      thousandsSeparator: ' ',
+      scale: 0,
+      // max: props.max ?? undefined,
+      // min: props.min ?? 0,
     } : {})
   }, {
     onAccept: (value) => {
       const formatted = formatValue(formatValueByType(props.format!, value as any as InputValueType<T>) as InputValueType<T>)
-      helpers.setValue(formatted)
+      helpers.setValue(/*formatted*/value)
       props.onChange?.(formatted)
       setTimeout(() => {
         maskRef.current?.updateValue()
@@ -113,8 +114,8 @@ export default function InputField<T extends string | number>(props: InputFieldP
     }
   })
   const autoCompleteProps: any = props.noAutoComplete ? { autoComplete: 'off', autoCorrect: 'off' } : {}
+  
   useEffect(() => {
-
     if (maskRef.current && (props.format === 'phone' || props.format === 'phoneAndEmail')) {
       const phone = `${field.value && !`${field.value}`.startsWith('+') ? '+' : ''}${field.value}`
       if (isValidPhoneNumber(phone || '')) {
@@ -144,8 +145,6 @@ export default function InputField<T extends string | number>(props: InputFieldP
     } else {
       maskRef.current?.updateValue()
     }
-
-
   }, [ref.current, field.value])
 
   const updateValueFromMask = () => {
@@ -187,6 +186,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
     }, 50)
     helpers.setValue(formatted)
   }
+
   return (
     <div className={classNames(styles.root, props.className, {
       [props.errorClassName as string]: showError,

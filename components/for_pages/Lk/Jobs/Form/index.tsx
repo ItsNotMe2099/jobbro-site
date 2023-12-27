@@ -59,8 +59,8 @@ export interface IVacancyFormData {
   workplace: Nullable<Workplace>
   office: Nullable<IOffice>
   currency: Nullable<string>
-  salaryMin: Nullable<number>
-  salaryMax: Nullable<number>
+  salaryMin: Nullable<string|number>
+  salaryMax: Nullable<string|number>
   salaryType: Nullable<SalaryType>
   experience: Nullable<Experience>
   benefitsDescription: { description: Nullable<string>, visible: boolean }
@@ -89,6 +89,8 @@ export default function CreateJobManuallyForm(props: Props) {
   let ref = useRef<HTMLDivElement | null>(null)
 
   const handleSubmit = async (data: IVacancyFormData) => {
+    const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
+    const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
     const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office', 'project']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
@@ -96,6 +98,8 @@ export default function CreateJobManuallyForm(props: Props) {
       projectTitle: data.project,
       officeId: data?.office?.id,
       companyId: companyContext.company?.id,
+      salaryMax,
+      salaryMin,
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {

@@ -65,8 +65,8 @@ export interface ICvFormData {
   city: Nullable<IGeoName>
   relocation: Nullable<Relocation>
   currency: Nullable<string>
-  salaryMin: Nullable<number>
-  salaryMax: Nullable<number>
+  salaryMin: Nullable<string|number>
+  salaryMax: Nullable<number|number>
   salaryType: Nullable<SalaryType>
   about: { description: Nullable<string>, visible: boolean }
   skillsDescription: { description: Nullable<string>, visible: boolean }
@@ -84,7 +84,11 @@ export default function CvForm(props: Props) {
   const { t } = useTranslation()
   const cv = props.cv
   let ref = useRef<HTMLFormElement | null>(null)
+
   const handleSubmit = async (data: ICvFormData) => {
+    const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
+    const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
+
     const newData = {
       ...omit(data, ['skills', 'country', 'city', 'image']),
       countryId: data.country?.geonameid,
@@ -104,7 +108,9 @@ export default function CvForm(props: Props) {
           toMonth: toMonth ?? (toYear ? 11 : null),
           toYear: toYear ?? null
         }
-      })
+      }),
+      salaryMax,
+      salaryMin,
     }
 
     try {
