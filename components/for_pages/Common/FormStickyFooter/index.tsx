@@ -8,7 +8,7 @@ import {ReactElement} from 'react'
 export interface FormStickyFooterProps {
   boundaryElement: string
   formRef: React.RefObject<HTMLElement>
-
+  className?: string
 }
 interface Props extends FormStickyFooterProps{
   children?: ReactElement | ReactElement[]
@@ -26,8 +26,9 @@ export default function FormStickyFooter(props: Props) {
       isIOSFixEnabled={false}
       hideOnBoundaryHit={false}>
       {({ isFixed, wrapperStyles, wrapperRef, holderStyles, holderRef, ...rest }) => (
-        <div {...rest} ref={holderRef} style={holderStyles}>
+        <div {...rest} ref={holderRef} style={holderStyles} >
           <div
+            className={props.className}
             {...rest}
             style={
               isFixed ?

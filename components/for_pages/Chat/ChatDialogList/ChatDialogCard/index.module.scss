@@ -1,8 +1,9 @@
-@import "../../../../../styles/index";
+@import 'styles/index';
 
 .root {
   display: flex;
   @include list(24px, true);
+  margin-bottom: 16px;
 }
 
 .icon {

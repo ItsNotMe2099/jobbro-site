@@ -1,5 +1,6 @@
-import BannerSvg from '@/components/svg/BannerSvg'
 import styles from './index.module.scss'
+
+import BannerSvg from '@/components/svg/BannerSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 import { colors } from '@/styles/variables'
 
@@ -14,7 +15,7 @@ export default function Banner(props: Props) {
       <div className={styles.text}>
         Find your dream <br />job with us
       </div>
-      <BannerSvg />
+      <BannerSvg  className={styles.bannerSvg}/>
       <CloseSvg color={colors.white} className={styles.close} onClick={props.onClose} />
     </div>
   )

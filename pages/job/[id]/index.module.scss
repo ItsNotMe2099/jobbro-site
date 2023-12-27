@@ -13,3 +13,14 @@
 .container{
   flex: 1;
 }
+
+.footer {
+  max-width: calc(100vw - 420px);
+  @include mq($SmDesktopWidth, max) {
+    max-width: unset;
+    width: unset;
+  }
+  @include mq($TabletWidth, max) {
+    margin-inline: 16px;    
+  }
+}

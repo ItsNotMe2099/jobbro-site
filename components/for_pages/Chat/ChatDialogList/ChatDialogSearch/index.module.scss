@@ -1,6 +1,15 @@
-@import "../../../../../styles/index";
+@import 'styles/index';
 
 .root{
   position: relative;
+}
+
+.input {
+  @include mq($TabletWidth, max) {
+    height: 40px;    
+    .inputWrapper {
+      background-color: white !important;
+    }
+  }
 }
 

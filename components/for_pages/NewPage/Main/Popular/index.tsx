@@ -1,3 +1,4 @@
+import Title from '../Title'
 import Card from './Card'
 import styles from './index.module.scss'
 
@@ -18,9 +19,7 @@ export default function Popular(props: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.title}>
-        Popular professions
-      </div>
+      <Title title={'Popular professions'} text={''}/>
       <div className={styles.cards}>
         {cards.map((i, index) =>
           <Card position={i.position} salary={i.salary} vacancies={i.vacancies} index={index} key={index} />

@@ -5,6 +5,10 @@
 .container {
     margin-top: 65px;
     position: relative;
+        @include mq($TabletWidth, max) {
+        margin-top: -60px;
+    }
+
 }
 
 .wrapper {
@@ -16,6 +20,7 @@
 
 .main {
     flex: 1;
+    width: 100%;
 }
 
 .content {
@@ -27,4 +32,20 @@
 .cards {
     display: flex;
     @include list(32px, true);
+    width: calc(100vw - 420px);
+    @include mq($SmDesktopWidth, max) {
+        width: 100%;
+    }
+    @include mq($TabletWidth, max) {
+        padding-inline: 16px;
+    }
+    // min-width: 800px;
+
+    .slide {
+        width: calc(33.3% - 10px);
+        min-width: 272px;
+        @include mq($TabletWidth, max) {
+            min-width: 150px;
+        }
+    }
 }

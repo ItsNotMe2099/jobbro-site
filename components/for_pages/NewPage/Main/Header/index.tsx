@@ -1,13 +1,19 @@
-import Button from '@/components/ui/Button'
 import styles from './index.module.scss'
+
+import Button from '@/components/ui/Button'
 import Card from '@/components/for_pages/Common/Card'
 import InputSearch from '@/components/ui/InputSearch'
+import { useAppContext } from '@/context/state'
 
 interface Props {
 
 }
 
 export default function Header(props: Props) {
+  const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
+
+
 
   return (
     <div className={styles.root}>
@@ -15,10 +21,11 @@ export default function Header(props: Props) {
         <Card className={styles.card}>
           <InputSearch
             searchRequest={() => null}
-            placeholder='Profession, position or company'
+            placeholder={isTabletWidth? 'Search':'Profession, position or company'}
             searchIcon
           />
         </Card>
+        {!isTabletWidth &&
         <div className={styles.bottom}>
           <div className={styles.stats}>
             <div className={styles.stat}>
@@ -56,6 +63,7 @@ export default function Header(props: Props) {
             </Button>
           </div>
         </div>
+        }
       </div>
 
     </div>

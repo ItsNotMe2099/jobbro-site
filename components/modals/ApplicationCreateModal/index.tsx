@@ -20,6 +20,7 @@ import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import useTranslation from 'next-translate/useTranslation'
+import BottomSheetFooter from '@/components/layout/BottomSheet/BottomSheetFooter'
 
 interface Props {
   isBottomSheet?: boolean
@@ -81,15 +82,18 @@ const ApplicationCreateModalInner = (props: Props) => {
       {t('apply_create_button_cancel')}
     </Button>
   </div>
+
+
   if (props.isBottomSheet) {
     return (
       <BottomSheetLayout closeIconColor={colors.black}>
         <BottomSheetBody>{body}</BottomSheetBody>
+        <BottomSheetFooter>
+          {footer}
+        </BottomSheetFooter>
       </BottomSheetLayout>
     )
   }
-
-
   return (
   <>
       <ModalLayout fixed className={styles.modalLayout}>

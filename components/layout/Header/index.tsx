@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import styles from './index.module.scss'
+
+import Link from 'next/link'
 import ChatSvg from '@/components/svg/ChatSvg'
 import {colors} from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'

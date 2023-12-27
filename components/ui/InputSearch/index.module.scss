@@ -8,6 +8,9 @@
   background-color: $background-secondary;
   display: flex;
   align-items: center;
+  @include mq($TabletWidth, max) {
+    height: 48px;
+  }
 }
 
 .correct {

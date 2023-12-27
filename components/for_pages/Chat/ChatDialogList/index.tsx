@@ -1,4 +1,5 @@
-import styles from 'components/for_pages/Chat/ChatDialogList/index.module.scss'
+import styles from './index.module.scss'
+
 import Card from '@/components/for_pages/Common/Card'
 import ChatDialogCard from '@/components/for_pages/Chat/ChatDialogList/ChatDialogCard'
 import {ChatWrapper, useChatContext} from '@/context/chat_state'
@@ -14,6 +15,8 @@ import Tabs from '@/components/ui/Tabs'
 import {IOption} from '@/types/types'
 import {useState} from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import { useAppContext } from '@/context/state'
+import { MyEvents } from '../../Calendar/MyEvents'
 enum TabKey{
   All = 'all',
   Invites = 'invites',
@@ -25,6 +28,8 @@ interface Props {
 
 const ChatDialogListInner = (props: Props) => {
   const chatContext = useChatContext()
+  const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const { t } = useTranslation()
   const [tab, setTab] = useState<TabKey>(TabKey.All)
   const debouncedSearchChange = debounce(async (search: InputValueType<string>) => {
@@ -45,10 +50,16 @@ const ChatDialogListInner = (props: Props) => {
     })
   }
   return (<div className={styles.root}>
-      <PageTitle title={t('chats_title')}/>
-      <Card>
-        <ChatDialogSearch onChange={(val) => debouncedSearchChange(val)}/>
-      </Card>
+      {!isTabletWidth &&
+        <PageTitle title={t('chats_title')}/>
+      }
+      <div className={styles.top}>
+        <Card className={styles.searchCard}>
+          <ChatDialogSearch onChange={(val) => debouncedSearchChange(val)}/>
+        </Card>
+        {isTabletWidth && <MyEvents className={styles.myEvents}/>}
+      </div>
+      
       <div>
       <Tabs<TabKey> value={tab} onClick={handleChangeTab} options={tabs} />
       </div>

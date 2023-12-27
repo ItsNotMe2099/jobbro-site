@@ -18,6 +18,8 @@ export default function JobDetailsPreview(props: Props) {
   const skills =  (job.skills?.map(i => i?.title ?? i) ?? [])
   const keywords = (job.keywords?.map(i => i?.title ?? i) ?? [])
   const benefits = (job.benefits?.map(i => i?.title ?? i) ?? [])
+
+  
   return (<div className={styles.root}>
       <Card title={job.name}>
         <>

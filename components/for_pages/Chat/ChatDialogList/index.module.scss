@@ -1,7 +1,33 @@
-@import "../../../../styles/index";
+@import 'styles/index';
 
 .root {
   display: flex;
   flex-direction: column;
   @include list(32px, false);
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.searchCard {
+  @include mq($TabletWidth, max) {
+    padding: unset !important;
+  }
+}
+
+.top {
+  @include mq($TabletWidth, max) {
+    background-color: $green;
+    margin-inline: -16px;
+    padding: 0px 16px 20px;
+    margin-bottom: 20px;
+    margin-top: -100px;
+    padding-top: 100px;
+  }
+
+  .myEvents {
+    margin-bottom: -40px;
+  }
+
 }
