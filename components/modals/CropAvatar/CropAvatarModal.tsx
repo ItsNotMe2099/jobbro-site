@@ -5,11 +5,11 @@ import ModalBody from '@/components/layout/Modal/ModalBody'
 import { useAppContext } from '@/context/state'
 import { useRef, useState } from 'react'
 import Button from '@/components/ui/Button'
-// import dynamic from 'next/dynamic'
 import classNames from 'classnames'
 import AvatarEditor from 'react-avatar-editor'
 import useTranslation from 'next-translate/useTranslation'
-// export const Avatar = dynamic(() => import('react-avatar-editor'), { ssr: false })
+import BottomSheetLayout from '@/components/layout/BottomSheet/BottomSheetLayout'
+import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
 
 export interface Props {
   isBottomSheet?: boolean
@@ -40,6 +40,7 @@ export default function CropAvatarModal(props: Props) {
 
   const body = (
     <div className={styles.root}>
+      <p className={styles.title}>Crop photo</p>
       <div className={styles.avatar} id='avatar'>
       <AvatarEditor
       //@ts-ignore
@@ -64,6 +65,17 @@ export default function CropAvatarModal(props: Props) {
       <Button className={classNames(styles.button, styles.buttonBordered)} styleType={'large'} color={'green'}  onClick={props.onClose}>{t('crop_modal_button_cancel')}</Button>
     </div>
   )
+
+  if(props.isBottomSheet) {
+    return (
+      <BottomSheetLayout>
+        <BottomSheetBody>
+          {body}
+        </BottomSheetBody>
+      </BottomSheetLayout>
+    )
+    
+  }
 
   return (
     <ModalLayout className={styles.modalLayout}>

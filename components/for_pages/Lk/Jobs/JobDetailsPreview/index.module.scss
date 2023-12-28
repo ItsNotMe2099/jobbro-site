@@ -24,5 +24,63 @@
 
 .tasks {
   margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.stages {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  margin-top: 16px;
+  .stage {
+    display: flex;
+    row-gap: 8px;
+    flex-direction: column;
+    margin-left: 36px;
+    &:last-of-type {
+      .hiringDescription {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .hiringTitle {
+    position: relative;
+    font-weight: 600;
+    font-size: 20px;
+
+    &:before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      border: 6px solid #24B563;
+      top: 0px;
+      left: -30px;
+      border-radius: 20px;
+    }
+  }
+
+  .hiringDescription {
+    position: relative;
+    margin: unset;
+    color: $text-secondary;
+
+
+    &:before {
+      content: "";
+      position: absolute;
+      background-color: $green;
+      top: -10px;
+      left: -21px;
+      border-radius: 20px;
+      height: calc(100% + 28px);
+      width: 4px;
+    }
+  }
 }
 

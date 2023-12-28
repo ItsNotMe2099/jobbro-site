@@ -34,7 +34,7 @@ interface IState {
   bottomSheet: ModalType | null
   showModal: <T extends unknown>(type: ModalType, args?: T) => void
   hideModal: () => void
-  showBottomSheet: (type: ModalType, args?: any) => void,
+  showBottomSheet: <T extends unknown>(type: ModalType, args?: T) => void,
   hideBottomSheet: () => void
   sidePanel: SidePanelType | null
   panelArguments: any
@@ -335,7 +335,7 @@ export function AppWrapper(props: Props) {
     setModalArguments(null)
   }
 
-  const showBottomSheet = (type: ModalType, props?: any) => {
+  const showBottomSheet = <T extends unknown>(type: ModalType, props?: T) => {
     ReactModal.setAppElement('body')
     setModalArguments(props)
     setBottomSheet(type)

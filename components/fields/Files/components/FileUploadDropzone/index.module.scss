@@ -9,6 +9,10 @@
   border: 2px solid $green;
   padding: 27px 39px 39px 32px;
 
+  svg {
+    flex-shrink: 0;
+  }
+
 }
 
 .info {

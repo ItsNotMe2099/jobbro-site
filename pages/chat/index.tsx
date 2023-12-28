@@ -14,15 +14,15 @@ interface Props {
 const ChatPage = (props: Props) => {
   const appContext = useAppContext()
   if(!appContext.allLoaded){
-    return <Layout>
+    return <Layout >
       <ContentLoader isOpen={true} style={'page'}/>
     </Layout>
   }
   if(appContext.aboutMe?.profileType === ProfileType.Hirer){
-    return (<LkPageHirerLayoutInner><ChatDialogList/></LkPageHirerLayoutInner>)
+    return (<LkPageHirerLayoutInner ><ChatDialogList/></LkPageHirerLayoutInner>)
 
   }else{
-    return (<LayoutWithMyEvents>
+    return (<LayoutWithMyEvents >
       <ChatDialogList/>
     </LayoutWithMyEvents>)
   }

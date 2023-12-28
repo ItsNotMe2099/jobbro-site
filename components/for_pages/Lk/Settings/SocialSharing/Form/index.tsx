@@ -46,7 +46,7 @@ export default function SocialSharingForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
-        <Card title={'Job ad image'}>
+        <Card title={'Job ad image'} className={styles.card}>
           <div className={styles.wrapper}>
             <div className={styles.top}>
               <div className={styles.text}>

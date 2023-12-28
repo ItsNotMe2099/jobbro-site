@@ -3,4 +3,11 @@
   display: flex;
   flex-direction: column;
   @include list(32px, false);
+  @include mq($SmDesktopWidth, max) {
+    row-gap: 16px;    
+  }
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+    padding-bottom: 16px;
+  }
 }

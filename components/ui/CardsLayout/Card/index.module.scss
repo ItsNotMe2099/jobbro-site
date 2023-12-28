@@ -13,6 +13,10 @@
   // height: 306px;
   min-width: 264px;
   max-width: 300px;
+  @include mq($PhoneWidth, max) {
+    width: 100%;
+    max-width: unset;
+  }
 }
 
 .list {

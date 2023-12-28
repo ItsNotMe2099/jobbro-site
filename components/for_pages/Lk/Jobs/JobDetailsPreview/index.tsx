@@ -52,16 +52,43 @@ export default function JobDetailsPreview(props: Props) {
             {benefits.length > 0 && <ChipList>
               {benefits.map(i => <Chip>{i}</Chip>)}
             </ChipList>}
-          </div>}
-          {skills.length > 0 && <div className={styles.tasks}>
-            <div className={styles.title}>
-              {t('job_preview_skills')}
-            </div>
 
-            <ChipList>
-              {skills.map(i => <Chip>{i}</Chip>)}
-            </ChipList>
+            {benefits.length > 0 && <ChipList>
+              {benefits.map(i => <Chip>{i}</Chip>)}
+            </ChipList>}
+
           </div>}
+
+          {job.contactPerson && job.contactPerson.visible && <div className={styles.tasks}>
+            <div className={styles.title}>
+              {'Contact person'}
+            </div>
+            <HtmlText>{job.contactPerson.name||''}</HtmlText>
+          </div>}
+          {job.hiringStagesDescriptions && job.hiringStagesDescriptions.length > 0 && <div className={styles.tasks}>
+            <div className={styles.title}>
+              {'Hiring stages'}
+            </div>
+            <div className={styles.stages}>
+              {job.hiringStagesDescriptions.map(i => <div className={styles.stage}>
+                <div className={styles.hiringTitle}>
+                  {i.title}
+                </div>
+                <p className={styles.hiringDescription}>{i.description}</p>
+              </div>)}
+            </div>
+          </div>}
+
+          {job.keywords && job.keywords.length > 0 && <div className={styles.tasks}>
+            <div className={styles.title}>
+              {'Keywords'}
+            </div>
+            {job.keywords.length > 0 && <ChipList>
+              {keywords.map(i => <Chip>{i}</Chip>)}
+            </ChipList>}
+          </div>
+
+          }
         </>
       </Card>
     </div>

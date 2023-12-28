@@ -54,7 +54,7 @@ const JobsPageInner = () => {
           } as JobFilterSidePanelArguments)}>Filter</FilterButton>
         ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
-        <CardsLayout type={view==='row' ? 'list' : 'cards'}>
+        <CardsLayout type={view==='row' ? 'list' : 'cards'} className={styles.cards}>
           {vacancyListContext.data.data.map(i =>
             <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>
           )}

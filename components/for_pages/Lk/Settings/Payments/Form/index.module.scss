@@ -9,7 +9,11 @@
 
 .line {
   display: flex;
-  @include list(24px, true);
+  column-gap: 24px;
+  @include mq($TabletWidth, max) {
+    flex-wrap: wrap;
+    row-gap: 24px;    
+  }
 }
 
 .card {

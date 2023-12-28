@@ -6,13 +6,14 @@ import { useAppContext } from '@/context/state'
 
 interface Props {
   children?: ReactElement | ReactElement[]
+  hideTabbar?: boolean
 }
 
 const LayoutWithMyEvents = (props: Props) => {
   const appContext = useAppContext()
   const {isTabletWidth} = appContext.size
   return (
-    <Layout>
+    <Layout hideTabbar={props.hideTabbar}>
       <div className={styles.root}>
         <div className={styles.container}>
           {props.children}

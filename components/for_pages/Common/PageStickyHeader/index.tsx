@@ -16,10 +16,12 @@ interface Props extends FormStickyFooterProps{
 
 export default function PageStickyHeader(props: Props) {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   let position = usePosition(props.formRef, { callOnResize: true })
   const windowWidth = useWindowWidth()
+  const width = windowWidth - (position?.left ?? 0)
   return (
-    <RenderPropSticky disabled={appContext.isMobile} boundaryElement={props.boundaryElement}
+    <RenderPropSticky /*disabled={appContext.isMobile}*/ boundaryElement={props.boundaryElement}
       topOffset={-120}
       mode={'top'}
       isIOSFixEnabled={false}
@@ -34,13 +36,13 @@ export default function PageStickyHeader(props: Props) {
                   ...wrapperStyles,
                   transform: appContext.headerDirection === 'up' ? 'translate3d(0px, 120px, 0px)' : 'translate3d(0px, 0px, 0px)',
                   display: 'flex',
-                  width: windowWidth - (position?.left ?? 0) - 32,
+                  width: isTabletWidth?width:width - 32,
                   zIndex: 2,
 
                 } :
                 {
                   ...wrapperStyles,
-                  width: windowWidth - (position?.left ?? 0) - 32,
+                  width: isTabletWidth?width:width - 32,
 
                 }
             }

@@ -1,5 +1,6 @@
-import PolygonSvg from '@/components/svg/PolygonSvg'
 import styles from './index.module.scss'
+
+import PolygonSvg from '@/components/svg/PolygonSvg'
 import Card from '@/components/for_pages/Common/Card'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'

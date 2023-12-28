@@ -6,6 +6,7 @@ import FileUploadIconPreview from 'components/fields/Files/components/FileUpload
 import {colors} from 'styles/variables'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {Line} from 'rc-progress'
+import Spinner from '@/components/ui/Spinner'
 // import Formatter from '@/utils/formatter'
 
 interface Props {
@@ -27,7 +28,7 @@ interface Props {
 export default function FileListItem(props: Props) {
 
   const getButton = (): ReactElement | null => {
-    if (props.progress > -1) {
+    if (props.progress < 100) {
       return <div className={styles.button} onClick={props.onCancel}><CloseSvg color={colors.textSecondary}/></div>
     }
     if (props.value) {
@@ -40,9 +41,9 @@ export default function FileListItem(props: Props) {
     <div
       className={classNames({
         [styles.root]: true,
-
       }, props.className)}
     >
+      {props.progress && props.progress !== 100 && <Spinner size={24} className={styles.spinner}/>}
 
       <FileUploadIconPreview
         progress={props.progress}

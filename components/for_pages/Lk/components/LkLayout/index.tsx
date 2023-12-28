@@ -1,15 +1,17 @@
-import Menu from '../Menu'
 import styles from './index.module.scss'
+
+import Menu from '../Menu'
 import {ReactElement} from 'react'
 import Layout from '@/components/layout/Layout'
 
 interface Props {
   children?: ReactElement | ReactElement[]
+  hideTabbar?: boolean
 }
 
 const LkPageHirerLayoutInner = (props: Props) => {
   return (
-    <Layout>
+    <Layout hideTabbar={props.hideTabbar}>
       <div className={styles.root}>
         <Menu/>
         <div className={styles.container} >
