@@ -8,6 +8,7 @@ import {IManagerCreateRequest} from '@/data/interfaces/IManagerCreateRequest'
 import {IManager} from '@/data/interfaces/IManager'
 import ManagerOwnerRepository from '@/data/repositories/ManagerOwnerRepository'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface IState {
   managerId: Nullable<string> | undefined,
@@ -145,7 +146,7 @@ export function ManagerOwnerWrapper(props: Props) {
       setDeleteLoading(true)
       const res = await ManagerOwnerRepository.delete(props.managerId!)
       handleDelete(manager!)
-
+      showToast({title: t('toast_manager_deleted_title'), text: t('toast_manager_deleted_desc')})
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)

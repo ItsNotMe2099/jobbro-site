@@ -16,6 +16,7 @@ import {useRef} from 'react'
 import FileListField from '@/components/fields/Files/FileListField'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 
 interface IFormData {
@@ -41,8 +42,12 @@ export default function CompanyCareerForm(props: Props) {
       }
       if (companyOwnerContext.company) {
         await companyOwnerContext.update(submitData)
+        showToast({title: t('toast_company_career_edited_title'), text: t('toast_company_career_edited_desc')})
+
       } else {
         await companyOwnerContext.create(submitData)
+        showToast({title: t('toast_company_created_title'), text: t('toast_company_created_desc')})
+
       }
     } catch (err) {
       // console.error(err)

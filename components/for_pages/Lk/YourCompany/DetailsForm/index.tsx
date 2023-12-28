@@ -22,6 +22,7 @@ import Dictionary from '@/utils/Dictionary'
 import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface IFormData {
   name: Nullable<string>
@@ -58,9 +59,13 @@ export default function CompanyDetailsForm(props: Props) {
 
       if(companyOwnerContext.company){
         await companyOwnerContext.update(submitData)
+        showToast({title: t('toast_company_details_edited_title'), text: t('toast_company_details_edited_desc')})
+
       }else{
         console.log('dsdsad')
         await companyOwnerContext.create(submitData)
+        showToast({title: t('toast_company_created_title'), text: t('toast_company_created_desc')})
+
       }
     } catch (err) {
       console.error(err)

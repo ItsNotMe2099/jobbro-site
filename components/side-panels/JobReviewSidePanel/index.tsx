@@ -16,6 +16,7 @@ import FeedbackRepository from '@/data/repositories/FeedbackRepository'
 import FieldLabel from '@/components/fields/FieldLabel'
 import Analytics from '@/utils/goals'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -40,6 +41,7 @@ export default function JobReviewSidePanel(props: Props) {
       await FeedbackRepository.create({...data, vacancyId: args.vacancyId})
       Analytics.goal(Goal.JobFeedbackCreate, {...data, vacancyId: args.vacancyId})
       appContext.hidePanel()
+      showToast({title: t('toast_vacancy_review_created_title'), text: t('toast_vacancy_review_created_desc')})
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)

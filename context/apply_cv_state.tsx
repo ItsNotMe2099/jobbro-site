@@ -13,6 +13,7 @@ import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import ProposalRepository from '@/data/repositories/ProposalRepository'
 import {ApplyStatus} from '@/data/enum/ApplyStatus'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface IState {
   cv: Nullable<ICVWithApply>,
@@ -93,6 +94,7 @@ export function ApplyCvWrapper(props: Props) {
             await ProposalRepository.reject(proposal.id)
             handleUpdate({...cv, proposals: [{...proposal, status: ApplyStatus.Rejected}]})
           }
+          showToast({title: t('toast_cv_rejected_title'), text: t('toast_cv_rejected_desc')})
           appContext.hideModal()
         }
       } as ConfirmModalArguments)

@@ -20,6 +20,7 @@ import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelSt
 import {omit} from '@/utils/omit'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -47,8 +48,10 @@ export default function CompanyOfficeForm(props: Props) {
     try {
       if (officeContext.office) {
         await officeContext.update(newData)
+        showToast({title: t('toast_office_created_title'), text: t('toast_office_created_desc')})
       } else {
         await officeContext.create({...newData, companyId: companyOwnerContext.company?.id} as DeepPartial<IOffice>)
+        showToast({title: t('toast_office_edited_title'), text: t('toast_office_edited_desc')})
       }
     await router.push(Routes.lkCompanyOffices)
     } catch (err) {

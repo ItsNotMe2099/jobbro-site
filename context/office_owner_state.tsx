@@ -6,6 +6,7 @@ import {ModalType, SnackbarType} from '@/types/enums'
 import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface IState {
   officeId?: Nullable<number> | undefined
@@ -121,6 +122,7 @@ export function OfficeOwnerWrapper(props: Props) {
             const res = await OfficeOwnerRepository.delete(props.officeId!)
             handleDelete(office!)
             resolve(office)
+            showToast({title: t('toast_office_deleted_title'), text: t('toast_office_deleted_desc')})
           } catch (err) {
             if (err instanceof RequestError) {
               appContext.showSnackbar(err.message, SnackbarType.error)

@@ -9,8 +9,6 @@ import Card from '@/components/for_pages/Common/Card'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import ContentLoader from '@/components/ui/ContentLoader'
 import useTranslation from 'next-translate/useTranslation'
-import {HirerRole} from '@/data/enum/HirerRole'
-import IfCanAccess from '@/components/for_pages/Common/IfCanAccess'
 
 interface Props {
 
@@ -24,9 +22,7 @@ const LkTeamPageInner = (props: Props) => {
   })
   return (
     <div className={styles.root}>
-      <IfCanAccess hirerRole={HirerRole.Admin}>
         <TeamForm/>
-      </IfCanAccess>
       <Card title={t('team_title')}>
         <>
           {!managerListContext.isLoaded && managerListContext.isLoading ?

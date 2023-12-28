@@ -17,6 +17,7 @@ import styles from '@/pages/lk/candidates-base/index.module.scss'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {Routes} from '@/types/routes'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -40,6 +41,7 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
     try{
       setSending(true)
       await CvOwnerRepository.update(aiRequest?.cv!.id!, data as DeepPartial<ICV>)
+      showToast({title: t('toast_cv_request_cv_edited_title'), text: t('toast_cv_request_cv_edited_desc')})
       router.push(Routes.lkCandidateAiCvRequests)
     } catch (err) {
       if (err instanceof RequestError) {

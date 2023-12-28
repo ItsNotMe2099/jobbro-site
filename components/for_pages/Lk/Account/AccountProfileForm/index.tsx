@@ -17,6 +17,7 @@ import Button from '@/components/ui/Button'
 import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateRequest'
 import useTranslation from 'next-translate/useTranslation'
 import Validator from '@/utils/validator'
+import showToast from '@/utils/showToast'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -40,8 +41,7 @@ export default function AccountProfileForm(props: Props) {
 
     try {
       await aboutMeContext.update(data as ICurrentUserUpdateRequest)
-      appContext.showSnackbar('Изменения сохранены', SnackbarType.success)
-
+      showToast({title: t('toast_account_edited_title'), text: t('toast_account_edited_desc')})
     } catch (err) {
       console.error(err)
       if (err instanceof RequestError) {

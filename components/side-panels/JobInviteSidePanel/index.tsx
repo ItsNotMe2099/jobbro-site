@@ -19,6 +19,7 @@ import ProposalRepository from '@/data/repositories/ProposalRepository'
 import Analytics from '@/utils/goals'
 import Validator from '@/utils/validator'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -54,6 +55,7 @@ export default function JobInviteSidePanel(props: Props) {
     try {
       await ProposalRepository.create({vacancyId: data.vacancyId!, cvId: args.cv.id})
       Analytics.goal(Goal.JobInviteCv)
+      showToast({title: t('toast_invited_to_vacancy_title'), text: t('toast_invited_to_vacancy_desc')})
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)

@@ -7,6 +7,7 @@ import {ModalType, SnackbarType} from '@/types/enums'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import useTranslation from 'next-translate/useTranslation'
 import UserUtils from '@/utils/UserUtils'
+import showToast from '@/utils/showToast'
 
 interface IState {
   candidateId: number | undefined,
@@ -82,6 +83,8 @@ export function CandidateWrapper(props: Props) {
             const res = await CandidateRepository.delete(props.candidate!.id!)
             handleDelete(candidate!)
             resolve(candidate)
+            showToast({title: t('toast_candidate_deleted_title'), text: t('toast_candidate_deleted_desc')})
+
           } catch (err) {
             if (err instanceof RequestError) {
               appContext.showSnackbar(err.message, SnackbarType.error)

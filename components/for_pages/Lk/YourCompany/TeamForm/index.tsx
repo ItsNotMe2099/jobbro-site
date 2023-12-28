@@ -13,6 +13,7 @@ import Spinner from '@/components/ui/Spinner'
 import {useCompanyOwnerContext} from '@/context/company_owner_state'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -30,6 +31,8 @@ const TeamFormInner = (props: Props) => {
   const handleSubmit = async (data: IFormData) => {
     try {
     await managerOwnerContext.create({...data, companyId: companyOwnerContext.company!.id} as any)
+      showToast({title: t('toast_manager_added_title'), text: t('toast_manager_added_desc')})
+
       formik.resetForm()
     } catch (err) {
 

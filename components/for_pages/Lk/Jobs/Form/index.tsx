@@ -34,6 +34,7 @@ import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
 import Analytics from '@/utils/goals'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 
 enum TabKey {
@@ -105,6 +106,7 @@ export default function CreateJobManuallyForm(props: Props) {
     try {
       if (vacancyContext.vacancy) {
         await vacancyContext.update(newData)
+        showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
         if(props.fromAi){
