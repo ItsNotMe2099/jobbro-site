@@ -1,5 +1,6 @@
 import FormStickyFooter, {FormStickyFooterProps} from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props extends FormStickyFooterProps{
   onCancel: () => void
@@ -7,13 +8,14 @@ interface Props extends FormStickyFooterProps{
 }
 
 export default function FormSaveCancelStickyFooter(props: Props) {
+  const {t} = useTranslation()
   return (
     <FormStickyFooter boundaryElement={props.boundaryElement} formRef={props.formRef}>
       <Button spinner={props.loading ?? false} type='submit' styleType='large' color='green'>
-        Save
+        {t('form_button_save')}
       </Button>
       <Button type={'button'} styleType='large' color='white' onClick={() => props.onCancel()}>
-        Cancel
+        {t('form_button_cancel')}
       </Button>
     </FormStickyFooter>
   )

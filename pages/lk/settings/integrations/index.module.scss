@@ -3,8 +3,14 @@
 .root {
     display: flex;
     flex-direction: column;
-    @include list(64px, false);
     margin-top: 64px;
+    @include mq($TabletWidth, min) {
+        @include list(64px, false);        
+    }
+    @include mq($TabletWidth, max) {
+        margin-top: unset;
+        row-gap: 24px;
+    }
 }
 
 .title {
@@ -19,11 +25,23 @@
 .cards {
     display: flex;
     flex-wrap: wrap;
-    @include list(32px, true);
     margin-top: 32px;
+    row-gap: 16px;
+    column-gap: 16px;
+    margin-top: 16px;
+    // @include mq($TabletWidth, max) {
+    //     @include list(64px, false);        
+    // }
+    @include mq($TabletWidth, min) {
+    }
+
 }
 
 .card {
     width: calc(28% - 32px);
+    min-width: 214px;
     margin-bottom: 32px;
+    @include mq($TabletWidth, max) {
+        margin-bottom: unset;
+    }
 }

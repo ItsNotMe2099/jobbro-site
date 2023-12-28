@@ -3,6 +3,11 @@
 .root {
   flex-basis: 325px;
   transition: all ease 0.25s;
+  @include mq($SmDesktopWidth, max) {
+    flex-basis: unset;
+    width: 100%;
+    padding-inline: 16px;
+  }
 }
 
 .better {
@@ -51,4 +56,11 @@
   width: 325px;
   margin-left: -325px;
   transform: translateX(325px);
+  @include mq($SmDesktopWidth, max) {
+    transform: unset;
+    width: 100%;
+    margin-left: unset;
+    height: unset;
+
+  }
 }

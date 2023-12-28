@@ -1,6 +1,17 @@
 import { useState,  useEffect } from 'react'
 import { breakpoints } from 'styles/variables'
 
+export interface IResizeValues {
+  width?: number;
+  isDesktopWidth?: boolean;
+  isMdDesktopWidth?: boolean;
+  isSmDesktopWidth?: boolean;
+  isPhoneWidth?: boolean;
+  isLPhoneWidth?: boolean;
+  isMPhoneWidth?: boolean;
+  isTabletWidth?: boolean;
+}
+
 
 export const useResize = () => {
 

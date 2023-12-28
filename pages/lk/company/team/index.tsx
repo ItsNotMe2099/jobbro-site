@@ -8,6 +8,7 @@ import ManagerCard from '@/components/for_pages/Lk/YourCompany/ManagerCard'
 import Card from '@/components/for_pages/Common/Card'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import ContentLoader from '@/components/ui/ContentLoader'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -15,18 +16,20 @@ interface Props {
 
 const LkTeamPageInner = (props: Props) => {
   const managerListContext = useManagerListOwnerContext()
+  const {t} = useTranslation()
   useEffectOnce(() => {
     managerListContext.reFetch()
   })
   return (
     <div className={styles.root}>
-    <TeamForm/>
-      <Card title='Team members'>
+        <TeamForm/>
+      <Card title={t('team_title')}>
         <>
-        {!managerListContext.isLoaded &&  managerListContext.isLoading ? <ContentLoader style={'block'} isOpen={true}/> : <></>}
-        {managerListContext.isLoaded && <div className={styles.list}>
-        {managerListContext.data.data.map((i) => <ManagerCard manager={i}/>)}
-        </div>}
+          {!managerListContext.isLoaded && managerListContext.isLoading ?
+            <ContentLoader style={'block'} isOpen={true}/> : <></>}
+          {managerListContext.isLoaded && <div className={styles.list}>
+            {managerListContext.data.data.map((i) => <ManagerCard manager={i}/>)}
+          </div>}
         </>
       </Card>
     </div>
@@ -36,7 +39,7 @@ const LkTeamPageInner = (props: Props) => {
 
 
 const LkTeamPage = (props: Props) => {
-  return <ManagerListOwnerWrapper >
+  return <ManagerListOwnerWrapper>
     <LkTeamPageInner {...props}/>
   </ManagerListOwnerWrapper>
 }

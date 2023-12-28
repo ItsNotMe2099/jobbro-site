@@ -5,6 +5,7 @@ import { IField } from '@/types/types'
 import usePressAndHover from '@/components/hooks/usePressAndHover'
 import CheckboxWithLabel from '@/components/ui/CheckboxWithLabel'
 import {ReactElement} from 'react'
+import FieldError from '@/components/fields/FieldError'
 
 interface Props extends IField<boolean> {
   label?: string | ReactElement
@@ -26,6 +27,7 @@ const CheckBoxField = (props: Props) => {
   return (
     <div ref={ref} className={styles.root} onClick={handleChange} data-field={props.name}>
       <CheckboxWithLabel label={props.label} checked={field.value} onClick={handleChange} showError={showError}/>
+      <FieldError showError={showError}>{meta.error}</FieldError>
     </div>
 
   )

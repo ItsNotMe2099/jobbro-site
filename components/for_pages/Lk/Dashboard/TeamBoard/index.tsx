@@ -12,12 +12,14 @@ import DashboardChartLine from '@/components/for_pages/Lk/Dashboard/LkDashboardL
 import DashBoardManagerCard from '@/components/for_pages/Lk/Dashboard/LkDashboardLayout/DashBoardManagerCard'
 import {CardViewType} from '@/types/enums'
 import CardsLayout from '@/components/ui/CardsLayout'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 const LkDashboardTeamBoard = (props: Props) => {
+  const { t } = useTranslation()
   const [dashGraphics, setDashGraphics] = useState<Nullable<IDashboardGraphics>>(null)
   const [managers, setManagers] = useState<IDashBoardManager[]>([])
   const init = async () => {
@@ -44,12 +46,12 @@ const LkDashboardTeamBoard = (props: Props) => {
     <div className={styles.root}>
       {dashGraphics && <Card >
         <ChipList>
-          <DashboardChartCircle className={styles.chart} label={'New Candidates'} value={dashGraphics.newCandidates.applications_in_week + dashGraphics.newCandidates.proposals_in_week} progress={50} suffixType={'percent'} color={'#FB6F9E'}/>
-          <DashboardChartBars className={styles.chart} label={'Processed Candidates'} value={dashGraphics.processedCandidates.applications_processed_in_week + dashGraphics.processedCandidates.proposals_processed_in_week} color={'#67C8FF'}/>
+          <DashboardChartCircle className={styles.chart} label={t('dashboard_new_candidates')} value={dashGraphics.newCandidates.applications_in_week + dashGraphics.newCandidates.proposals_in_week} progress={50} suffixType={'percent'} color={'#FB6F9E'}/>
+          <DashboardChartBars className={styles.chart} label={t('dashboard_processed_candidates')} value={dashGraphics.processedCandidates.applications_processed_in_week + dashGraphics.processedCandidates.proposals_processed_in_week} color={'#67C8FF'}/>
           {/*<DashboardChartCircle className={styles.chart} label={'Hiring Stage Conversion'}  value={0} progress={50} suffixType={'percent'}/>*/}
-          <DashboardChartCircle className={styles.chart} label={'Average move time by hiring stage'}  value={`${dashGraphics.averageMoveTime.average_move_time_in_week}`} progress={50} suffixType={'minutes'} color={'#2E77E5'}/>
-          <DashboardChartLine className={styles.chart} label={'Jobs being processed'}  value={dashGraphics.jobsBeingProcessed.manager_vacancies_published_in_week + dashGraphics.jobsBeingProcessed.total_vacancies_published_in_week} />
-          <DashboardChartBars className={styles.chart} label={'Turnover During Probationary'}  value={75}  color={'#FF385D'}/>
+          <DashboardChartCircle className={styles.chart}  label={t('dashboard_average_move_time')}  value={`${dashGraphics.averageMoveTime.average_move_time_in_week}`} progress={50} suffixType={'minutes'} color={'#2E77E5'}/>
+          <DashboardChartLine className={styles.chart} label={t('dashboard_jobs_processed')}   value={dashGraphics.jobsBeingProcessed.manager_vacancies_published_in_week + dashGraphics.jobsBeingProcessed.total_vacancies_published_in_week} />
+          <DashboardChartBars className={styles.chart} label={t('dashboard_turnover_probationary')}   value={75}  color={'#FF385D'}/>
         </ChipList>
       </Card>}
       {/* <div className={styles.cards}>

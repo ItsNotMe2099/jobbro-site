@@ -12,6 +12,7 @@ import {useRef} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   job: IVacancy
@@ -19,20 +20,33 @@ interface Props {
 
 const JobPageInner = (props: Props) => {
   const appContext = useAppContext()
-
+  const {isTabletWidth} = appContext.size
+  const {isSmDesktopWidth} = appContext.size
+  const { t } = useTranslation()
   const ref = useRef<HTMLDivElement | null>(null)
+
+  const openApplicationModal = () => {
+    if(isTabletWidth) {
+      appContext.showBottomSheet(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
+      return
+    }
+    appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
+  }
+
   return (<Layout>
       <div className={styles.root}>
         <div ref={ref} className={styles.container}>
           <JobPreview job={props.job} company={props.job.company}/>
-          <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref}>
+          <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
-                    onClick={() => appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)}>
-              Apply
+                    onClick={() => openApplicationModal()}>
+              {t('job_preview_button_apply')}
             </Button>
           </FormStickyFooter>
         </div>
+        {!isSmDesktopWidth &&
         <ApplyForJobCard vacancyId={props.job.id}/>
+        }
       </div>
     </Layout>
   )

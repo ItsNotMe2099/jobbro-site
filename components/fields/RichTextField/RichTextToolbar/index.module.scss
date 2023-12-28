@@ -13,8 +13,8 @@
   padding: 3px 5px;
   line-height: 100%;
   transition: background-color 0.2s;
-  width: 40px;
-  height: 40px;
+  width: clamp(25px, 9vw, 40px);
+  height: clamp(25px, 9vw, 40px);
   display: flex;
   border-radius: 100%;
   align-items: center;

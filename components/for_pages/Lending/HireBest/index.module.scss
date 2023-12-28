@@ -46,6 +46,7 @@
   font-weight: 400;
   line-height: 90%;
   color: $white-90;
+  white-space: pre-line;
   font-family: 'Work Sans';
 
   @include mq(1320px, max) {
@@ -73,6 +74,7 @@
 }
 
 .btn {
+  text-transform: uppercase;
   width: 124px;
   margin-top: 40px;
   height: 56px;

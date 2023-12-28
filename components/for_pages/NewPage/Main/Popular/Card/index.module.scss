@@ -8,6 +8,12 @@
   flex-direction: column;
   background-color: $white;
   width: calc(33% - 32px);
+  @include mq($TabletWidth, max) {
+    width: calc(50% - 16px);
+  }
+  @include mq($PhoneWidth, max) {
+    width: 100%;
+  }
 }
 
 .top {

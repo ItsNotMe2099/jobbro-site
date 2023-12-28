@@ -33,6 +33,7 @@
   font-weight: 400;
   line-height: 140%;
   color: $white-90;
+  white-space: pre-line;
 
   @include mq($PhoneWidth, max) {
     font-size: 14px;

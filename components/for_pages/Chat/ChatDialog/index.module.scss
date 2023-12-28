@@ -7,7 +7,9 @@
   max-height: 100%;
   flex: 1;
   height: calc(100vh - 135px);
-
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+  }
 }
 .title{
   margin-bottom: 28px;

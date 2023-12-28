@@ -4,6 +4,7 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import { IVacancyWithApply} from '@/data/interfaces/IVacancy'
 import {IAppliesListRequest} from '@/data/interfaces/IAppliesListRequest'
 import {ICVWithApply} from '@/data/interfaces/ICV'
+import {omit} from '@/utils/omit'
 
 export default class AppliesRepository {
   static async fetchForEmployee(data: IAppliesListRequest, config?: AxiosRequestConfig): Promise<IPagination<IVacancyWithApply>> {
@@ -24,7 +25,11 @@ export default class AppliesRepository {
       url: '/api/cv/candidatesForVacancy',
       data: {
         vacancyId,
-        ...data,
+        ...omit(data, ['skills', 'profileType', 'country']),
+        ...((data.skills?.length ?? 0) > 0 ? {skills: data.skills?.map(i => i.id)?.join(',')} : {}),
+        ...((data.profileType?.length ?? 0) > 0 ? {profileType: data.profileType?.join(',')} : {}),
+        ...(data.country ? {countries: [data.country]} : {}),
+        ...(data.salaryType ? {salaryType: [data.salaryType]} : {})
       },
       config,
     })

@@ -1,4 +1,4 @@
-import styles from 'components/for_pages/Chat/ChatDialogList/ChatDialogCard/index.module.scss'
+import styles from './index.module.scss'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
 import IChat from '@/data/interfaces/IChat'

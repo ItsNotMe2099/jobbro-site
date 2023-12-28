@@ -7,6 +7,8 @@ import {DraggableProvided} from 'react-beautiful-dnd'
 import DragSvg from '@/components/svg/DragSvg'
 import {colors} from '@/styles/variables'
 import Link from 'next/link'
+import {Routes} from '@/types/routes'
+import {useHiringBoardContext} from '@/context/hiring_board_state'
 interface Props {
   apply: ICVWithApply
   dragProvided: DraggableProvided
@@ -16,13 +18,14 @@ interface Props {
 
 export default function HiringBoardCard(props: Props) {
   const {apply, dragProvided} = props
+  const hiringBoardContext = useHiringBoardContext()
   return (
 
         <div className={styles.root} ref={dragProvided.innerRef} {...dragProvided.draggableProps}>
           {props.isDraggable && <div {...dragProvided.dragHandleProps}>
             <DragSvg color={colors.simpleGrey}/>
           </div>}
-          <Link href={'#'} className={styles.link}>
+          <Link href={Routes.lkHiringBoardCv(hiringBoardContext.vacancyId!, apply.id)} className={styles.link}>
           <AvatarCircular size={40} initials={apply?.name?.charAt(0)} file={apply?.image ?? apply?.profile?.image ?? null} />
           <div className={styles.info}>
             <div className={styles.name}>

@@ -7,6 +7,7 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
 import {Nullable} from '@/types/types'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import {omit} from '@/utils/omit'
 
 export interface IVacancyFilter extends IVacancyOwnerListRequest {
   showClosed?: boolean
@@ -109,9 +110,14 @@ export function VacancyListOwnerWrapper(props: Props) {
       abortControllerRef.current?.abort()
     }
     abortControllerRef.current = new AbortController()
+
     try {
        res = await VacancyOwnerRepository.fetch({
-        ...(((filterRef.current.statuses?.length ?? 0) > 0 || !filterRef.current.showClosed) ? {
+          ...omit(filterRef.current, ['statuses', 'projects','showClosed']),
+         ...((filterRef.current.projects?.length ?? 0) > 0 ? {
+           projects: filterRef.current.projects
+         } : {}),
+         ...(((filterRef.current.statuses?.length ?? 0) > 0 || !filterRef.current.showClosed) ? {
           statuses: [
             ...((filterRef.current.statuses?.length ?? 0)> 0 ? filterRef.current.statuses! : []),
             ...(filterRef.current.showClosed ? ((filterRef.current.statuses?.length ?? 0) > 0 ? [PublishStatus.Closed] : []) : (!filterRef.current.statuses?.length ? [PublishStatus.Draft, PublishStatus.Paused, PublishStatus.Published] : []))]

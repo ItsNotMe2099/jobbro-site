@@ -16,6 +16,8 @@ import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import styles from '@/pages/lk/candidates-base/index.module.scss'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {Routes} from '@/types/routes'
+import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -24,6 +26,7 @@ interface Props {
 const CandidateBaseCvEditPageInner = (props: Props) => {
   const router = useRouter()
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [loading, setLoading] = useState<boolean>(true)
   const [sending, setSending] = useState<boolean>(false)
   const [aiRequest, setAiRequest] = useState<IAiCvRequest | null>(null)
@@ -38,6 +41,7 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
     try{
       setSending(true)
       await CvOwnerRepository.update(aiRequest?.cv!.id!, data as DeepPartial<ICV>)
+      showToast({title: t('toast_cv_request_cv_edited_title'), text: t('toast_cv_request_cv_edited_desc')})
       router.push(Routes.lkCandidateAiCvRequests)
     } catch (err) {
       if (err instanceof RequestError) {
@@ -48,7 +52,7 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
     setSending(false)
   }
   return (<div className={styles.root} ref={containerRef}>
-     <PageTitle title={'Check Resume'} link={Routes.lkCandidateAiCvRequests}/>
+     <PageTitle title={t('request_cv_check_title')} link={Routes.lkCandidateAiCvRequests}/>
 
     {loading && !aiRequest ? <ContentLoader isOpen={true}/> :
       <CvForm onSubmit={handleSubmit} loading={sending} cv={aiRequest!.cv} cancelLink={Routes.lkCandidateAiCvRequests}/>

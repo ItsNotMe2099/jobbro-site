@@ -8,6 +8,7 @@ import {IOption} from '@/types/types'
 import {Routes} from '@/types/routes'
 import {CompanyOwnerWrapper, useCompanyOwnerContext} from '@/context/company_owner_state'
 import ContentLoader from '@/components/ui/ContentLoader'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey{
   Details = 'details',
@@ -22,17 +23,18 @@ interface Props{
 }
 const LkCompanyPageLayoutInner = (props: Props) => {
   const companyOwnerContext = useCompanyOwnerContext()
+  const {t} = useTranslation()
   const options: IOption<TabKey>[] = [
-    {label: 'Details', value: TabKey.Details, href: Routes.lkCompanyDetails},
+    {label: t('company_tab_details'), value: TabKey.Details, href: Routes.lkCompanyDetails},
     ...(companyOwnerContext.company ? [
-      {label: 'Career page', value: TabKey.Career, href: Routes.lkCompanyCareer},
-      {label: 'Offices', value: TabKey.Offices, href: Routes.lkCompanyOffices},
-      {label: 'Team', value: TabKey.Team, href: Routes.lkCompanyTeam},
+      {label:  t('company_tab_career'), value: TabKey.Career, href: Routes.lkCompanyCareer},
+      {label:  t('company_tab_offices'), value: TabKey.Offices, href: Routes.lkCompanyOffices},
+      {label:  t('company_tab_team'), value: TabKey.Team, href: Routes.lkCompanyTeam},
     ] : [])
   ]
   return (
     <div className={styles.root}>
-      <PageTitle title='Your Company' />
+      <PageTitle title={ t('company_title')} />
       <Tabs<TabKey> options={options} />
       {companyOwnerContext.loading ? <ContentLoader style={'page'} isOpen/> : props.children}
     </div>

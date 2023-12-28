@@ -19,6 +19,8 @@ import {IGeoName} from '@/data/interfaces/ILocation'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
 import {omit} from '@/utils/omit'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
+import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface Props {
 
@@ -38,6 +40,7 @@ export default function CompanyOfficeForm(props: Props) {
   const companyOwnerContext = useCompanyOwnerContext()
   const appContext = useAppContext()
   const router = useRouter()
+  const {t} = useTranslation()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
 
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
@@ -45,8 +48,10 @@ export default function CompanyOfficeForm(props: Props) {
     try {
       if (officeContext.office) {
         await officeContext.update(newData)
+        showToast({title: t('toast_office_created_title'), text: t('toast_office_created_desc')})
       } else {
         await officeContext.create({...newData, companyId: companyOwnerContext.company?.id} as DeepPartial<IOffice>)
+        showToast({title: t('toast_office_edited_title'), text: t('toast_office_edited_desc')})
       }
     await router.push(Routes.lkCompanyOffices)
     } catch (err) {
@@ -75,7 +80,6 @@ export default function CompanyOfficeForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
-  console.log('Country11', formik.values.country)
   const handleChangeCountry = () => {
     formik.setFieldValue('city', null)
     formik.setFieldValue('postalCode', null)
@@ -86,16 +90,16 @@ export default function CompanyOfficeForm(props: Props) {
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <FormErrorScroll formik={formik} />
-        <Card className={styles.card} title='Details'>
-            <InputField name={'name'} label={'Office name'} validate={Validator.required}/>
+        <Card className={styles.card} title={t('office_form_section_details')}>
+            <InputField name={'name'} label={t('office_form_field_name')} validate={Validator.required}/>
             <div className={styles.columns}>
-              <CountryField name={'country'} label={'Country'} validate={Validator.required} onChange={handleChangeCountry}/>
-              <InputField name={'postalCode'} label={'Postal code'}/>
+              <CountryField name={'country'} label={t('office_form_field_country')} validate={Validator.required} onChange={handleChangeCountry}/>
+              <InputField name={'postalCode'} label={t('office_form_field_postal')}/>
             </div>
-            <CityField name={'city'} label={'City'} country={formik.values.country?.country}/>
+            <CityField name={'city'} label={t('office_form_field_city')} country={formik.values.country?.country}/>
             <div className={styles.columns}>
-              <InputField name={'street'} label={'Street name'}/>
-              <InputField name={'house'} label={'House number'}/>
+              <InputField name={'street'} label={t('office_form_field_street')}/>
+              <InputField name={'house'} label={t('office_form_field_house')}/>
             </div>
         </Card>
         <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={handleCancel} loading={officeContext.editLoading}/>

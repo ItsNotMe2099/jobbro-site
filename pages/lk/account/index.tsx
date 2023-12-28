@@ -13,6 +13,7 @@ import {AboutMeWrapper} from '@/context/aboutme_state'
 import AccountProfileForm from '@/components/for_pages/Lk/Account/AccountProfileForm'
 import {useAppContext} from '@/context/state'
 import ContentLoader from '@/components/ui/ContentLoader'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey {
   Profile = 'allProfiles',
@@ -21,11 +22,12 @@ enum TabKey {
 
 const LkAccountPageInner = () => {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [tab, setTab] = useState<TabKey>(TabKey.Profile)
   const router = useRouter()
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   const tabs: IOption<TabKey>[] = [
-    {label: 'Profile Information', value: TabKey.Profile},
+    {label: t('account_tab_profile'), value: TabKey.Profile},
    // {label: 'Notification', value: TabKey.Notification},
   ]
 
@@ -36,7 +38,7 @@ const LkAccountPageInner = () => {
 
   return (<div className={styles.root} ref={containerRef}>
       <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
-        <PageTitle title={'Account'}/>
+        <PageTitle title={t('account_title')}/>
         <Tabs<TabKey> options={tabs} value={tab} onClick={handleChangeTab}/>
       </PageStickyHeader>
       {!appContext.aboutMeLoaded && <ContentLoader style={'block'} isOpen={true}/>}

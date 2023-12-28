@@ -9,4 +9,10 @@
 .cards {
   display: flex;
   @include list(31px, true);
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+    padding-inline: 16px;
+    row-gap: 24px;
+
+  }
 }

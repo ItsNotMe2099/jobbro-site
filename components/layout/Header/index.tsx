@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import styles from './index.module.scss'
+
+import Link from 'next/link'
 import ChatSvg from '@/components/svg/ChatSvg'
 import {colors} from '@/styles/variables'
 import BellSvg from '@/components/svg/BellSvg'
@@ -15,6 +16,8 @@ import {NotificationType} from '@/data/interfaces/INotification'
 import {useRouter} from 'next/router'
 import classNames from 'classnames'
 import {useEffect, useState} from 'react'
+import useTranslation from 'next-translate/useTranslation'
+
 
 enum MenuProfileKey {
   UserProfile = 'profile',
@@ -28,28 +31,23 @@ interface Props {
 
 export default function Header(props: Props) {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const [fromTop, setFromTop] = useState<number>(0)
-
-
-
-
-
-
-
+  const { t } = useTranslation()
   const menu = appContext.aboutMe?.profileType === ProfileType.Hirer ? [
-    { label: 'Products', link: '#' },
-    { label: 'Resources', link: '#' },
-    { label: 'Pricing', link: '#' },
+    { label: t('header_menu_products'), link: '#' },
+    { label: t('header_menu_resources'), link: '#' },
+    { label: t('header_menu_pricing'), link: '#' },
   ] : (appContext.aboutMe?.profileType === ProfileType.Employee ? [
-    { label: 'Main', link: Routes.index },
-    { label: 'Applies', link: Routes.lkApplies },
-    { label: 'Marks', link: Routes.marks },
+    { label: t('header_menu_main'), link: Routes.index },
+    { label: t('header_menu_applies'), link: Routes.lkApplies },
+    { label: t('header_menu_marks'), link: Routes.marks },
   ] : [
-    { label: 'Search Jobs', link: Routes.index },
-    { label: 'Create Resume', link: '/sdsdsd' },
-    { label: 'Login', link: Routes.login() },
+    { label: t('header_menu_search_jobs'), link: Routes.index },
+    { label: t('header_menu_create_resume'), link: '/' },
+    { label: t('header_menu_login'), link: Routes.login() },
   ])
     const accountOptions = [
 
@@ -91,11 +89,11 @@ export default function Header(props: Props) {
   }
   return (
     <div className={classNames(styles.root, styles[appContext.headerDirection])}>
-      <div className={styles.logo}>
+      <div className={styles.logo} >
         Jobbro
       </div>
       <div className={styles.menu}>
-        {menu.map((i, index) =>
+        {!isTabletWidth &&menu.map((i, index) =>
           <Link href={i.link} key={index} className={styles.item}>
             {i.label}
           </Link>
@@ -114,11 +112,11 @@ export default function Header(props: Props) {
         onClickItem={handleClickProfileItem}
         icon={<AccSvg color={colors.white} />}
         groups={[
-          {options: [{label: 'User profile', value: MenuProfileKey.UserProfile}], },
-          {options: [{label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed}]}]}
+          {options: [{label: t('header_user_profile'), value: MenuProfileKey.UserProfile}], },
+          {options: [{label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed}]}]}
         options={[
-          {label: 'User profile', value: MenuProfileKey.UserProfile},
-          {label: 'Logout', value: MenuProfileKey.Logout, color: colors.textRed},
+          {label: t('header_user_profile'), value: MenuProfileKey.UserProfile},
+          {label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed},
         ]}/>
       </div>}
     </div>

@@ -7,17 +7,31 @@
   align-items: center;
   justify-content: space-around;
   position: relative;
-  padding-top: 24px;
+  padding-top: clamp(16px, 4vw, 24px);
+  @include mq($TabletWidth, max) {
+    margin-inline: 16px;
+    padding-right: 26px;
+
+
+    .bannerSvg {
+      width: 25vw;
+      height: 25vw;
+    }
+  }
 }
 
 .text {
   color: #FFF;
   font-family: 'Inter';
-  font-size: 32px;
+  font-size: clamp(16px, 5vw, 32px);
   font-style: normal;
   font-weight: 500;
   line-height: 130%;
   letter-spacing: -0.32px;
+  @include mq($TabletWidth, max) {
+    align-self: flex-start;
+  }
+  
 }
 
 .close {

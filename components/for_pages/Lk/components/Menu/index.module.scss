@@ -3,20 +3,39 @@
 .root {
   flex-basis: 325px;
   transition: all ease 0.25s;
+  @include mq($SmDesktopWidth, max) {
+    position: fixed;
+    top:100px;
+    right: 0;
+    z-index: 20;
+    transition: ease-in-out .7s;
+  }
+}
+
+.down {
+  top: 0px;
 }
 
 .collapsed {
   flex-basis: 0px;
 
+
   .wrapper {
     transform: translateX(-32px);
+    @include mq($SmDesktopWidth, max) {
+      transform: translateX(100%);
+    }
   }
 
   .arrows {
     transform: translateX(32px);
     background-color: $green;
-
     border-radius: 0px 4px 4px 0px;
+    @include mq($SmDesktopWidth, max) {
+      transform: translateX(0px);
+      border-radius: 4px 0px 0px 4px;
+    }
+
     svg{
       transform: rotate(180deg);
       path{
@@ -24,6 +43,8 @@
       }
     }
   }
+
+
 
 }
 
@@ -40,6 +61,19 @@
   width: 325px;
   margin-left: -325px;
   transform: translateX(325px);
+  @include mq($SmDesktopWidth, max) {
+    transform: translateX(0%);
+    height: unset;
+    border-radius: 24px 0px 0px 24px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  //   transform: translateX(-100%);
+    
+  //   // &_active {
+  //   //   transform: translateX(0px);
+  //   // }
+  }
+
+
 }
 
 .menu {
@@ -85,6 +119,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 4px;
   &:hover{
     background-color: $green;
     svg{
@@ -94,7 +129,16 @@
     }
   }
 
+  @include mq($SmDesktopWidth, max) {
+    right: unset;
+    left: -54px;
+    height: 40px;
+    width: 30px;
+    border-top: 2px white solid;
+    border-left: 2px white solid;
+    border-bottom: 2px white solid;
 
+  }
 }
 
 
@@ -154,4 +198,11 @@
 .text {
   @include smallText;
   color: $text-secondary;
+}
+
+.menuOpener {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
 }

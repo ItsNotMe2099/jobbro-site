@@ -1,5 +1,8 @@
 @import "styles/index";
 .root{
+  @include mq($SmDesktopWidth, max) {
+    padding-bottom: 16px;
+  }
 
 }
 .card{

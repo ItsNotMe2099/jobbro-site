@@ -17,6 +17,12 @@
     right: 0px;
     background-color: $background-secondary;
   }
+
+  @include mq($SmDesktopWidth, max) {
+    border-radius: unset;
+    padding-bottom: 16px;
+    padding-inline: 16px;
+  }
 }
 
 .transitioned {

@@ -9,6 +9,7 @@ import ClockSvg from '@/components/svg/ClockSvg'
 import { useCallback, useRef } from 'react'
 import TimeField from '@/components/fields/TimeField'
 import Validator from '@/utils/validator'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   value: Date,
@@ -24,12 +25,12 @@ interface Props {
 export default function MeetingDaySlots(props: Props) {
   const slotsRef = useRef<HTMLDivElement>(null!)
   const {values, setValues} = useFormikContext() as any
-
+  const { t } = useTranslation()
   const isMoreThenHour = useCallback((index: number):boolean => {
     const startHour = parseInt(values?.slots[format(props.value, 'yyyy-MM-dd')][index]?.start?.split(':').join(''))
     const endHour = parseInt(values?.slots[format(props.value, 'yyyy-MM-dd')][index]?.end?.split(':').join(''))
     if(!startHour || !endHour) return false
-    const isBigger = endHour - startHour >= 10000  
+    const isBigger = endHour - startHour >= 10000
     return isBigger
   }, [values])
 
@@ -43,7 +44,7 @@ export default function MeetingDaySlots(props: Props) {
         <div className={styles.day}>{format(props.value, 'EEEE, MMMM dd')}</div>
         <div className={styles.timezone}>
           <ClockSvg color={colors.simpleGrey}/>
-          <div className={styles.label}>Time zone</div>
+          <div className={styles.label}> {t('event_form_slots_timezone')}</div>
           <div className={styles.value}>{format(new Date(), 'zzz')}</div>
         </div>
       </div>
@@ -59,13 +60,13 @@ export default function MeetingDaySlots(props: Props) {
                       onClick={() => arrayHelpers.remove(index)}>
                       <CloseSvg className={styles.deleteIcon} color={colors.textSecondary}/>
                     </IconButton>
-                    Time slot {index+1}
+                    {t('event_form_slots_time_slot')} {index+1}
                   </div>
                   <div className={styles.fields}>
                     <TimeField
                       className={styles.field}
                       key={index}
-                      label={'Start time'}
+                      label={t('event_form_slots_start_time')}
                       resettable={true}
                       minuteStep={15}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].start`}
@@ -74,7 +75,7 @@ export default function MeetingDaySlots(props: Props) {
                     <TimeField
                       className={styles.field}
                       key={index}
-                      label={'End time'}
+                      label={t('event_form_slots_end_time')}
                       resettable={true}
                       minuteStep={isMoreThenHour(index) ? 30 : 15}
                       name={`slots[${format(props.value, 'yyyy-MM-dd')}][${index}].end`}
@@ -93,7 +94,7 @@ export default function MeetingDaySlots(props: Props) {
                 }, 50)
 
                 }}>
-                Add slot
+                {t('event_form_slots_add')}
               </div>
             </div>
           </>

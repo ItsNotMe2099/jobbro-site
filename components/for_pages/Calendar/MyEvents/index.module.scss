@@ -2,6 +2,11 @@
 
 .root {
   width: 325px;
+  @include mq($TabletWidth, max) {
+    width: 100%;
+    margin-top: 16px;
+    padding: 16px !important;
+  }
 }
 
 .container {
@@ -18,6 +23,9 @@
   display: flex;
   @include list(16px, true);
   align-items: center;
+  @include mq($TabletWidth, max) {
+    margin-bottom: 8px;
+  }
 }
 
 .calendar {
@@ -32,7 +40,7 @@
 
 
 .date {
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);
   font-style: normal;
   font-weight: 600;
   line-height: 24px;
@@ -47,5 +55,28 @@
 .events{
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   @include list(24px);
+  @include mq($TabletWidth, max) {
+    max-height: 0px;
+    transition: .3s ease-in-out;
+    overflow: auto;
+    margin-top: unset;
+  }
+
+
+}
+
+.watchAll {
+  color: $green;
+  font-weight: 600;
+  margin-left: 64px;
+}
+
+.counter {
+  margin-left: auto;
+}
+
+.open {
+  max-height: 500px;
 }

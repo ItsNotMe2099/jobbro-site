@@ -8,13 +8,14 @@ import { useResize } from '@/components/hooks/useResize'
 import MobileMenuSvg from '@/components/svg/MobileMenuSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {Routes} from '@/types/routes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function Header(props: Props) {
-
+  const { t } = useTranslation()
   const [isMenuMobileOpen, setMenuMobileOpen] = useState<boolean>(false)
 
   const { isPhoneWidth } = useResize()
@@ -49,14 +50,14 @@ export default function Header(props: Props) {
         <div className={styles.right}>
           <div className={styles.links}>
             <Link className={styles.link} href={'#'}>
-              Contacts
+              {t('main_lending_header_menu_contacts')}
             </Link>
             <Link className={styles.link} href={Routes.findJobs}>
-              Find jobs
+              {t('main_lending_header_menu_find_jobs')}
             </Link>
           </div>
           <Button className={styles.btn} color='transparent' styleType='small'>
-            Try demo <ArrowChevronRightSvg color={colors.white} />
+            {t('main_lending_header_button_try_demo')} <ArrowChevronRightSvg color={colors.white} />
           </Button>
         </div>
       }
@@ -65,14 +66,14 @@ export default function Header(props: Props) {
           <div className={styles.right}>
             <div className={styles.links}>
               <Link className={styles.link} href={'#'}>
-                Contacts
+                {t('main_lending_header_menu_contacts')}
               </Link>
               <Link className={styles.link} href={Routes.findJobs}>
-                Find jobs
+                {t('main_lending_header_menu_find_jobs')}
               </Link>
             </div>
             <Button className={styles.btn} color='transparent' styleType='small'>
-              Try demo <ArrowChevronRightSvg color={colors.white} />
+              {t('main_lending_header_button_try_demo')} <ArrowChevronRightSvg color={colors.white} />
             </Button>
           </div>
         </div>}

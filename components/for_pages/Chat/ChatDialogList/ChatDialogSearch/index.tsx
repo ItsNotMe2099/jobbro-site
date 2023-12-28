@@ -1,4 +1,4 @@
-import styles from 'components/for_pages/Chat/ChatDialogList/ChatDialogSearch/index.module.scss'
+import styles from './index.module.scss'
 import React, {KeyboardEventHandler} from 'react'
 import InputField, {InputValueType} from '@/components/fields/InputField'
 import {Form, FormikProvider, useFormik} from 'formik'
@@ -30,7 +30,7 @@ export default function ChatDialogSearch(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.root}>
-        <InputField name={'text'} placeholder={'Поиск'} prefix={'search'} onChange={handleChange}/>
+        <InputField className={styles.input} classNameInputWrapper={styles.inputWrapper} name={'text'} placeholder={'Search'} prefix={'search'} onChange={handleChange}/>
       </Form>
     </FormikProvider>
   )

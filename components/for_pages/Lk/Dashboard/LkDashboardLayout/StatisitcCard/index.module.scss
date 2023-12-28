@@ -2,6 +2,9 @@
 
 .root {
     min-width: 414px;
+    @include mq($MdDesktopWidth, max) {
+        width: 100%;
+    }
 }
 
 .wrapper {

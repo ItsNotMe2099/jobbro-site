@@ -7,11 +7,6 @@ import Layout from '@/components/layout/Layout'
 import ContentLoader from '@/components/ui/ContentLoader'
 import LayoutWithMyEvents from '@/components/layout/LayoutWithMyEvents'
 
-enum TabKey{
-  All = 'all',
-  Invites = 'invites',
-  NewMessages = 'newMessages'
-}
 interface Props {
 
 }
@@ -19,15 +14,15 @@ interface Props {
 const ChatPage = (props: Props) => {
   const appContext = useAppContext()
   if(!appContext.allLoaded){
-    return <Layout>
+    return <Layout >
       <ContentLoader isOpen={true} style={'page'}/>
     </Layout>
   }
   if(appContext.aboutMe?.profileType === ProfileType.Hirer){
-    return (<LkPageHirerLayoutInner><ChatDialogList/></LkPageHirerLayoutInner>)
+    return (<LkPageHirerLayoutInner ><ChatDialogList/></LkPageHirerLayoutInner>)
 
   }else{
-    return (<LayoutWithMyEvents>
+    return (<LayoutWithMyEvents >
       <ChatDialogList/>
     </LayoutWithMyEvents>)
   }

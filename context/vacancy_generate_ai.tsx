@@ -100,7 +100,12 @@ export function VacancyGenerateAiWrapper(props: Props) {
     if(!requestRef.current  || ([AiRequestStatus.Finished, AiRequestStatus.Error] as AiRequestStatus[]).includes(requestRef.current?.status as AiRequestStatus)){
       return
     }
-    AiVacancyGenRequestRepository.fetchById(requestRef.current!.id).then(i => setRequest(i))
+    AiVacancyGenRequestRepository.fetchById(requestRef.current!.id).then(i => {
+      setRequest(i)
+      if(requestRef.current){
+        requestUpdateState$.next(i)
+      }
+    })
   }
   const create = async (message: string) => {
     try {
@@ -170,7 +175,6 @@ export function VacancyGenerateAiWrapper(props: Props) {
       subscriptionUpdate.unsubscribe()
     }
   }, [request])
-
   const value: IState = {
     ...defaultValue,
     join: () => {

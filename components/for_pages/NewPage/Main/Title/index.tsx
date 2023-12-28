@@ -4,6 +4,8 @@ import Link from 'next/link'
 interface Props {
   title: string
   text: string
+  link?: string
+  hideLink?: boolean
 }
 
 export default function Title(props: Props) {
@@ -18,9 +20,11 @@ export default function Title(props: Props) {
           {props.text}
         </div>
       </div>
+      {props.link && !props.hideLink &&
       <Link href={'#'} className={styles.link}>
         Show more
       </Link>
+      }
     </div>
   )
 }

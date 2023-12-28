@@ -1,5 +1,4 @@
 import styles from './index.module.scss'
-import CircleSvg from '@/components/svg/CircleSvg'
 import {colors} from '@/styles/variables'
 import React, {ReactElement} from 'react'
 
@@ -13,7 +12,7 @@ interface Props {
 function FilterButtonInner(props: Props,  ref: React.ForwardedRef<HTMLDivElement>) {
   return (
     <div className={styles.root} onClick={props.disabled ? () =>{} : props.onClick} ref={ref}>
-      <span>{props.children}</span>{props.hasValue && <CircleSvg className={styles.circle} color={colors.green}/>}
+      <span>{props.children}</span>{props.hasValue && <div className={styles.circle} color={colors.green}/>}
     </div>
   )
 }

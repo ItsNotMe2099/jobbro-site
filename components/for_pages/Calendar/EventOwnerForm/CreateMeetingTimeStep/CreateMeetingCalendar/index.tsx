@@ -1,7 +1,6 @@
 import styles from './index.module.scss'
 import {useEffect, useState} from 'react'
 import { getMonthStart} from '@/utils/date'
-import { useTranslation } from 'next-i18next'
 import {format} from 'date-fns'
 import CalendarToolbar from '@/components/for_pages/Common/Calendar/CalendarToolbar'
 import EventCalendar from '@/components/ui/EventCalendar'
@@ -20,8 +19,6 @@ interface Props {
 export default function CreateMeetingCalendar(props: Props) {
   const {value, onChange} = props
   const [activeStartDate, setActiveStartDate] = useState(getMonthStart(new Date()))
-  const [view, setView] = useState('month')
-  const {t, i18n} = useTranslation('common')
 
   useEffect(() => {
     const beginOfMonth = new Date(value.getFullYear(), value.getMonth(), 1)

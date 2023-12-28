@@ -1,12 +1,14 @@
 import styles from './index.module.scss'
 import Title from '../Title'
 import Card from './Card'
+import { useAppContext } from '@/context/state'
 
 interface Props {
 
 }
 
 export default function WorkIn(props: Props) {
+  const {isTabletWidth} = useAppContext().size
 
   const cards = [
     {
@@ -34,7 +36,7 @@ export default function WorkIn(props: Props) {
 
   return (
     <div className={styles.root}>
-      <Title title='Work in Dki Jakarta' text='Current vacancies in your city' />
+      <Title title='Work in Dki Jakarta' text={'Current vacancies in your city'} link={''} hideLink={isTabletWidth} />
       <div className={styles.cards}>
         {cards.map((i, index) =>
           <Card key={index} salary={i.salary} country={i.country} position={i.position} views={i.views} published={i.published} />

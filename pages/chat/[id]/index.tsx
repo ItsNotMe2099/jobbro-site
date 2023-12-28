@@ -12,7 +12,7 @@ interface Props {
 const ChatPage = (props: Props) => {
   const router = useRouter()
   return (
-    <Layout>
+    <Layout hideTabbar>
     <div className={styles.root}>
       <ChatDialog chatId={parseInt(router.query.id as string)} onBackClick={() => {router.replace(Routes.chat)}}/>
     </div>

@@ -46,7 +46,6 @@ const AiCvRequestsInner = (props: Props) => {
     }
     aiCvRequestListContext.uploadFiles(acceptedFiles)
   }
-  console.log('aiCvRequestListContext.dataInProgress', aiCvRequestListContext.dataInProgress)
   const dropzoneAccept: Accept = useMemo(() => {
     let obj = {}
     const arr =  [FileUploadAcceptType.Pdf].map(i => Converter.getFileUploadAccept(i)) ?? {} as Accept

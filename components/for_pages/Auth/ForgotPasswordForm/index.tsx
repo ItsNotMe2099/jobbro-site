@@ -10,6 +10,7 @@ import { useAppContext } from '@/context/state'
 import { useRouter } from 'next/router'
 import { Routes } from '@/types/routes'
 import AuthRepository from '@/data/repositories/AuthRepository'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData{
   email: string
@@ -19,8 +20,8 @@ interface Props {
 }
 
 export default function ForgotPasswordForm(props: Props) {
-
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const redirect = router.query.redirect as string
@@ -56,20 +57,20 @@ export default function ForgotPasswordForm(props: Props) {
     <FormikProvider value={formik}>
       <Form className={styles.form}>
         <div className={styles.title}>
-          Reset password
+          {t('password_forgot_title')}
         </div>
         <div className={styles.text}>
-          Enter your email with Jobbro Account. We will send new password to this email.
+          {t('password_forgot_desc')}
         </div>
-        <InputField label='Email' name='email'
+        <InputField label={t('password_forgot_field_email')} name='email'
 
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            Reset
+            {t('password_forgot_button_reset')}
           </Button>
           <Button href={Routes.login(redirect)} className={styles.btn} styleType='large' color='white'>
-            Cancel
+            {t('password_forgot_button_cancel')}
           </Button>
         </div>
       </Form>

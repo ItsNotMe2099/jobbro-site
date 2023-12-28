@@ -15,6 +15,7 @@ import { Nullable } from '@/types/types'
 import { useRouter } from 'next/router'
 import NoData from '@/components/for_pages/Common/NoData'
 import CardsLayout from '@/components/ui/CardsLayout'
+import useTranslation from 'next-translate/useTranslation'
 
 
 interface Props {
@@ -24,7 +25,7 @@ interface Props {
 const LkCompanyOfficesPageInner = (props: Props) => {
   const router = useRouter()
   const officeListOwnerContext = useOfficeListOwnerContext()
-
+  const {t} = useTranslation()
   const ref = useRef<Nullable<HTMLDivElement>>(null)
   useEffectOnce(() => {
     officeListOwnerContext.reFetch()
@@ -32,16 +33,14 @@ const LkCompanyOfficesPageInner = (props: Props) => {
   return (
     <div ref={ref} className={classNames(styles.root, { [styles.cards]: officeListOwnerContext.data.total > 0 })}>
       {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total === 0 &&
-        <NoData title='Failed find any office' text={<>Every job for publication requires at least the one office<br /> to be added on Jobbro. You can add
-          more details so that<br /> candidates find your jobs more easily. Contact us if you<br />
-          have issues creating an office.</>}
+        <NoData title={t('office_stub_title')} text={t('office_stub_desc')}
           btn={<Button href={Routes.lkCompanyOfficeCreate} className={styles.btn} styleType='large' color='green'>
-            Add office
+            {t('office_stub_action')}
           </Button>} />
       }
       {!officeListOwnerContext.isLoaded && officeListOwnerContext.isLoading &&
         <ContentLoader style={'page'} isOpen={true} />}
-      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 && 
+      {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 &&
       // <div className={styles.offices}>
       //   {officeListOwnerContext.data.data.map((i, index) =>
       //     <OfficeCard className={styles.office} key={index} office={i} />

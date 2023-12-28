@@ -1,20 +1,22 @@
 import styles from './index.module.scss'
 import { ReactElement } from 'react'
 import CalendarPictureSvg from '@/components/svg/CalendarPictureSvg'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   children?: ReactElement | ReactElement[]
 }
 
 export const MyEventsEmpty = (props: Props) => {
+  const { t } = useTranslation()
   return (
       <div className={styles.root}>
         <CalendarPictureSvg className={styles.pic} />
         <div className={styles.schedule}>
-          No scheduled meets
+          {t('event_select_events_stub_title')}
         </div>
         <div className={styles.bottom}>
-          Apply for any vacancy and receive<br /> an invitation for an interview
+          {t('event_select_events_stub_desc')}
         </div>
       </div>
   )

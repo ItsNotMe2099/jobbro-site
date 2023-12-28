@@ -24,7 +24,7 @@ const ApplyCardInner = (props: Props) => {
 
 
   return (
-    <Card className={styles.root}>
+    <Card className={styles.root} link={`/job/${vacancy.id}`} >
       <div className={styles.top}>
         <div className={styles.avatar}>
           <AvatarCircular size={68} initials={vacancy.company?.name?.slice(0, 2) ?? null} file={vacancy.company.logo}/>
@@ -35,7 +35,9 @@ const ApplyCardInner = (props: Props) => {
             <div className={styles.status}></div>
           </div>
 
-          <div className={styles.salary}>{VacancyUtils.formatSalary(vacancy)}</div>
+          <div className={styles.salary}>
+            {VacancyUtils.formatSalary(vacancy)}
+          </div>
         </div>
 
       </div>

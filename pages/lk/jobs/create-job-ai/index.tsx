@@ -8,20 +8,18 @@ import {useEffect, useRef, useState} from 'react'
 import {useVacancyGenerateAiContext, VacancyGenerateAiWrapper} from '@/context/vacancy_generate_ai'
 import JobAiGenerateMessageForm from '@/components/for_pages/Lk/Jobs/JobAiGenerate/JobAiGenerateMessageForm'
 import {Nullable} from '@/types/types'
-// import JobAiStickyFooter from '@/components/for_pages/Lk/Jobs/JobAiGenerate/JobAiStickyFooter'
 import CreateJobManuallyForm from '@/components/for_pages/Lk/Jobs/Form'
 import IAiVacancyGenRequest from '@/data/interfaces/IAiVacancy'
 import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 import {CompanyOwnerWrapper} from '@/context/company_owner_state'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const CreateJobAiPageInner = () => {
-
+  const { t } = useTranslation()
   const [preview, setPreview] = useState<boolean>(false)
   const ref = useRef<Nullable<HTMLDivElement>>(null)
-
   const vacancyGenerateAiContext = useVacancyGenerateAiContext()
-  console.log('vacancyGenerateAiContext', vacancyGenerateAiContext.request)
   const [initialRequest, setInitialRequest] = useState<Nullable<IAiVacancyGenRequest>>(null)
 
   useEffect(() => {
@@ -34,12 +32,12 @@ const CreateJobAiPageInner = () => {
   }, [])
   return (
         <div className={styles.root} ref={ref} >
-          {preview ? <PageTitle title={'Preview mode'} onBack={() => setPreview(false)} />
-            : <PageTitle title={'Job Creating'} link={Routes.lkJobs} />}
+          {preview ? <PageTitle title={t('Preview mode')} onBack={() => setPreview(false)} />
+            : <PageTitle title={t('Job Creating')} link={Routes.lkJobs} />}
           <div className={styles.form}>
             {initialRequest &&   <VacancyOwnerWrapper><CreateJobManuallyForm fromAi={true} initialValuesAi={vacancyGenerateAiContext.request?.result} preview={preview} onPreview={() => setPreview(!preview)}/></VacancyOwnerWrapper>}
           </div>
-          {!preview && 
+          {!preview &&
           // <JobAiStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
           //   <div>
             <JobAiGenerateMessageForm/>

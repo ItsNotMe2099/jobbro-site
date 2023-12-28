@@ -2,20 +2,19 @@ import React, {useRef} from 'react'
 import {IField, IOption, Nullable} from '@/types/types'
 import {useField} from 'formik'
 import SelectField from '@/components/fields/SelectField'
-import {IProject} from '@/data/interfaces/IProject'
 import ProjectRepository from '@/data/repositories/ProjectRepository'
 
 
-interface Props extends IField<IProject> {
+interface Props extends IField<string> {
   resettable?: boolean
-  onChange?: (value: Nullable<IProject>) => void
+  onChange?: (value: Nullable<string>) => void
   className?: string
 }
 
 export default function ProjectField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [field] = useField<IProject>(props as any)
-  const loadOptions = async (search: string, loadedOptions: IOption<IProject>[], data: any): Promise<{ options: IOption<IProject>[], hasMore: boolean, additional?: any | null }> => {
+  const [field, meta, helpers] = useField<string>(props as any)
+  const loadOptions = async (search: string, loadedOptions: IOption<string>[], data: any): Promise<{ options: IOption<string>[], hasMore: boolean, additional?: any | null }> => {
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()
@@ -30,8 +29,8 @@ export default function ProjectField(props: Props) {
     const hasMore = res.total > res.data.length + loadedOptions.length
     return {
       options: res.data.map(i => ({
-        label: i.title ?? '',
-        value: i
+        label: i.title,
+        value: i.title
       })),
       hasMore: hasMore,
       additional: {
@@ -39,9 +38,15 @@ export default function ProjectField(props: Props) {
       }
     }
   }
+  console.log('ProjectValue', field.value)
+  const handleCreate = async (value: string) => {
+    helpers.setValue(value)
+    return value
+  }
   return (
-    <SelectField<IProject> {...(props as any)} async={true}
-                           defaultOption={field.value ? {label: field.value?.title ?? '', value: field.value} : null}
+    <SelectField<string> {...(props as any)} async={true}
+                           onCreateOption={handleCreate} creatable={true}
+                           defaultOption={field.value ? {label: field.value ?? '', value: field.value} : null}
                           loadOptions={loadOptions} options={[]}
                          initialAsyncData={{page: 1}}/>
   )

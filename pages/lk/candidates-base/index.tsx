@@ -4,19 +4,24 @@ import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef, useState} from 'react'
-// import classNames from 'classnames'
 import {useRouter} from 'next/router'
 import CandidateCard from '@/components/for_pages/Lk/Jobs/CandidateCard'
-import {CandidateListWrapper, useCandidateListContext} from '@/context/candidate_list_state'
+import { CandidateListWrapper, useCandidateListContext} from '@/context/candidate_list_state'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
-import {CardViewType} from '@/types/enums'
+import {CardViewType, SidePanelType} from '@/types/enums'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import Tabs from '@/components/ui/Tabs'
 import {IOption, Nullable} from '@/types/types'
 import {Routes} from '@/types/routes'
 import CardsLayout from '@/components/ui/CardsLayout'
+import useTranslation from 'next-translate/useTranslation'
+import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
+import {useAppContext} from '@/context/state'
+import SortFilterButton from '@/components/for_pages/Common/FilterToolbar/SortFilterButton'
+import {CvListSortType} from '@/data/enum/CvListSortType'
+import {CvFilterSidePanelArguments} from '@/types/side_panel_arguments'
 
 enum TabKey {
   AllProfiles = 'allProfiles',
@@ -27,11 +32,13 @@ const CandidatesPageInner = () => {
   const candidateListContext = useCandidateListContext()
   const [view, setView] = useState<CardViewType>(CardViewType.Card)
   const [tab, setTab] = useState<TabKey>(TabKey.AllProfiles)
+  const appContext = useAppContext()
+  const { t } = useTranslation()
   const router = useRouter()
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   const tabs: IOption<TabKey>[] = [
-    {label: 'All Profiles', value: TabKey.AllProfiles},
-    {label: 'Upload CV', value: TabKey.UploadCv},
+    {label: t('candidates_base_tab_all_profiles'), value: TabKey.AllProfiles},
+    {label: t('candidates_base_tab_upload_cv'), value: TabKey.UploadCv},
   ]
 
   const handleChangeTab = (tab: TabKey) => {
@@ -50,18 +57,24 @@ const CandidatesPageInner = () => {
 
   return (<div className={styles.root} ref={containerRef}>
       <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
-        <PageTitle title={'Candidates base'}/>
+        <PageTitle title={t('candidates_base_title')}/>
         <Tabs<TabKey> options={tabs} value={tab} onClick={handleChangeTab}/>
         <>{tab === TabKey.UploadCv && <FilterToolbar left={[]}/>}</>
       </PageStickyHeader>
       <div className={styles.wrapper}>
-        <FilterToolbar left={[]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
-        {/* <div className={classNames(styles.cards, {[styles.rows]: view === CardViewType.Row})}>
-          {candidateListContext.data.data.map(i =>
-            <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>
-          )}
-        </div> */}
-        <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'} >
+        <FilterToolbar left={[
+          <SortFilterButton<CvListSortType> value={candidateListContext.sortType} options={[
+            {label: t('cv_filter_sort_from_new_to_old'), value: CvListSortType.FromNewToOld},
+            {label: t('cv_filter_sort_from_old_to_new'), value: CvListSortType.FromOldToNew},
+            {label: t('cv_filter_sort_from_low_to_high'), value: CvListSortType.FromLowToHighSalary},
+            {label: t('cv_filter_sort_from_high_to_low'), value: CvListSortType.FromHighToLowSalary}
+          ]} onChange={(sort) => candidateListContext.setSortType(sort ?? null)}/>,
+          <FilterButton key={'filter'} hasValue={!candidateListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.CandidateBaseFilter, {
+            filter: candidateListContext.filter,
+            onSubmit: candidateListContext.setFilter
+          } as CvFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
+        ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+        <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'}>
           {candidateListContext.data.data.map(i =>
             <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}/>
           )}

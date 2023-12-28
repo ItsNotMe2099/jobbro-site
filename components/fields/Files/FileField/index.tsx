@@ -30,14 +30,16 @@ interface Props extends IField<IFile | File | null> {
 }
 
 export default function FileField(props: Props) {
+  
   const appContext = useAppContext()
+  const {isTabletWidth } = appContext.size
   const abortControllerRef = useRef<AbortController>()
   const [previewPath, setPreviewPath] = useState('')
   const [previewName, setPreviewName] = useState('')
   const [previewSize, setPreviewSize] = useState<number>(0)
-  const [progress, setProgress] = useState(-1)
   // @ts-ignore
   const [field, meta, helpers] = useField<IFile | File | null>(props)
+  const [progress, setProgress] = useState(field.value? 100: 0)
   const showError = meta.touched && !!meta.error
   const [avatarRef, press, hover] = usePressAndHover()
   const [error, setError] = useState<any>(null)
@@ -95,7 +97,7 @@ export default function FileField(props: Props) {
           }
         })
         if (fileData) {
-          setProgress(-1)
+          setProgress(100)
           setPreviewPath('')
           helpers.setValue(fileData)
         }
@@ -111,6 +113,12 @@ export default function FileField(props: Props) {
 
   const onDrop = async (acceptedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => {
     if (acceptedFiles.length && props.withCrop) {
+      if(isTabletWidth) {
+        appContext.showBottomSheet<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: acceptedFiles[0], onEdit: (image: File) => {
+          downloadFile(image)
+        }})
+        return
+      }
       appContext.showModal<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: acceptedFiles[0], onEdit: (image: File) => {
         downloadFile(image)
       }})

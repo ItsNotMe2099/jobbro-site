@@ -14,6 +14,7 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
 
 enum MenuKey{
@@ -34,6 +35,7 @@ const JobCardInner = (props: Props) => {
   const vacancyContext = useVacancyOwnerContext()
   const vacancy = vacancyContext.vacancy!
   const router = useRouter()
+  const { t } = useTranslation()
   const getColor = (status: PublishStatus) => {
     switch (status) {
       case PublishStatus.Draft:
@@ -58,22 +60,22 @@ const JobCardInner = (props: Props) => {
 
   const menuGroups: IOptionGroup<MenuKey>[] = [
     ...(!([PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-      {title: 'Status', options: [
+      {title: t('job_card_menu_status'), options: [
           ...(!([PublishStatus.Published, PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: 'Publish', value: MenuKey.Publish},
+            {label: t('job_card_menu_publish'), value: MenuKey.Publish},
           ] : []),
           ...(!([PublishStatus.Paused] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: 'Pause', value: MenuKey.Pause},
+            {label: t('job_card_menu_pause'), value: MenuKey.Pause},
           ] : []),
 
-          {label: 'Close', value: MenuKey.Close},
+          {label: t('job_card_menu_close'), value: MenuKey.Close},
         ]},
 ]: []),
 
-    {title: 'Operations', options: [
-        {label: 'Edit', value: MenuKey.Edit},
-        {label: 'Duplicate', value: MenuKey.Duplicate},
-        {label: 'Delete', value: MenuKey.Delete, color: colors.textRed},
+    {title: t('job_card_menu_operations'), options: [
+        {label: t('job_card_menu_edit'), value: MenuKey.Edit},
+        {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
+        {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
       ]},
   ]
   const handleMenuItemClick = (key: MenuKey) => {
@@ -101,13 +103,13 @@ const JobCardInner = (props: Props) => {
   const formattedPublishDate = format(new Date(vacancy.schedulePublishAt ?? vacancy.createdAt),'dd MMMM yyyy')
   return (
     <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
-      <Link href={Routes.lkJob(vacancy.id)} className={classNames(styles.container, { [styles.rowContainer]: props.view === CardViewType.Row })}
+      <Link href={Routes.lkJob(vacancy.id)} className={classNames(styles.container)}
         style={{ backgroundColor: getColor(props.vacancy.status) }}>
         <div className={styles.wrapper}>
           {props.view !== 'row' && <div className={styles.top}>
             <div className={styles.publish}>
               <div className={styles.published}>
-                Publish Date:
+                {t('job_card_publish_date')}:
               </div>
               <div className={styles.date}>
                 {formattedPublishDate}
@@ -116,20 +118,20 @@ const JobCardInner = (props: Props) => {
             <div className={styles.employees}>
               <PersonSvg color={colors.textSecondary} />
               <div className={styles.quantity}>
-                {props.vacancy.totalApplications}
+                {parseInt(props.vacancy.totalApplications, 10) + parseInt(props.vacancy.totalProposals, 10)}
               </div>
             </div>
           </div>}
           <div className={styles.middle}>
             <div className={styles.published}>
-              Market
+              {vacancy.project?.title ?? <>&nbsp;</>}
             </div>
             <div className={styles.name}>
               {vacancy.name}
             </div>
           </div>
           {props.view === CardViewType.Row && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-            {Dictionary.getVacancyStatusName(vacancy.status)}
+            {Dictionary.getVacancyStatusName(vacancy.status, t)}
           </div>}
         </div>
         {props.view === CardViewType.Row &&
@@ -146,12 +148,12 @@ const JobCardInner = (props: Props) => {
               <div className={styles.employees}>
                 <PersonSvg color={colors.textSecondary} />
                 <div className={styles.quantity}>
-                  {props.vacancy.totalApplications}
+                  {parseInt(props.vacancy.totalApplications, 10) + parseInt(props.vacancy.totalProposals, 10)}
                 </div>
               </div>
               <div className={styles.publish}>
                 <div className={styles.published}>
-                  Publish Date:
+                  {t('job_card_publish_date')}:
                 </div>
                 <div className={styles.date}>
                   {formattedPublishDate}
@@ -160,7 +162,7 @@ const JobCardInner = (props: Props) => {
             </div>
           </div>}
         {props.view === CardViewType.Card && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-          {Dictionary.getVacancyStatusName(vacancy.status)}
+          {Dictionary.getVacancyStatusName(vacancy.status, t)}
         </div>}
       </Link>
       <div className={styles.bottom}>

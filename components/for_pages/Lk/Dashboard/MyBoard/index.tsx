@@ -22,12 +22,14 @@ import Analytics from '@/utils/goals'
 import {Goal} from '@/types/enums'
 import ManagerOwnerRepository from '@/data/repositories/ManagerOwnerRepository'
 import {IManager} from '@/data/interfaces/IManager'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   managerId?: number
 }
 
 const LkDashboardMyBoard = (props: Props) => {
+  const { t } = useTranslation()
   const [dashStatistic, setDashStatistic] = useState<Nullable<IDashboardStatistic>>(null)
   const [dashGraphics, setDashGraphics] = useState<Nullable<IDashboardGraphics>>(null)
   const [manager, setManager] = useState<Nullable<IManager>>(null)
@@ -65,9 +67,6 @@ const LkDashboardMyBoard = (props: Props) => {
   useEffectOnce(() => {
     init()
   })
-
-  console.log('Manager111', manager, props.managerId)
-
   return (
     <div className={styles.root}>
       <div className={styles.top}>
@@ -77,7 +76,7 @@ const LkDashboardMyBoard = (props: Props) => {
             <div className={styles.item}>
               <div className={styles.leftSide}>
                 <SparksSmallSvg color={colors.textSecondary} />
-                <div className={styles.label}>Saved time with AI</div>
+                <div className={styles.label}>{t('dashboard_saved_time_ai')}</div>
               </div>
               <div className={styles.right}>
                 {dashStatistic?.savedTimeWithAi ?? ''}
@@ -86,7 +85,7 @@ const LkDashboardMyBoard = (props: Props) => {
             <div className={styles.item}>
               <div className={styles.leftSide}>
                 <CompletedSvg color={colors.textSecondary} />
-                <div className={styles.label}>Сompleted jobs</div>
+                <div className={styles.label}>{t('dashboard_complated_jobs')}</div>
               </div>
               <div className={styles.right}>
                 {dashStatistic?.completedJobs ?? ''}
@@ -95,7 +94,7 @@ const LkDashboardMyBoard = (props: Props) => {
             <div className={styles.item}>
               <div className={styles.leftSide}>
                 <CheckedSvg color={colors.textSecondary} />
-                <div className={styles.label}>Checked CV per day</div>
+                <div className={styles.label}>{t('dashboard_checked_cv')}</div>
               </div>
               <div className={styles.right}>
                 {dashStatistic?.checkedCVPerDay ?? ''}
@@ -107,12 +106,12 @@ const LkDashboardMyBoard = (props: Props) => {
       </div>
       {dashGraphics && <Card >
         <ChipList>
-        <DashboardChartCircle className={styles.chart} label={'New Candidates'} value={dashGraphics.newCandidates.applications_in_week + dashGraphics.newCandidates.proposals_in_week} progress={50} color={'#FB6F9E'} suffixType={'percent'}/>
-        <DashboardChartBars className={styles.chart} label={'Processed Candidates'} value={dashGraphics.processedCandidates.applications_processed_in_week + dashGraphics.processedCandidates?.proposals_processed_in_week} color={'#67C8FF'}/>
+        <DashboardChartCircle className={styles.chart} label={t('dashboard_new_candidates')} value={dashGraphics.newCandidates.applications_in_week + dashGraphics.newCandidates.proposals_in_week} progress={50} color={'#FB6F9E'} suffixType={'percent'}/>
+        <DashboardChartBars className={styles.chart} label={t('dashboard_processed_candidates')} value={dashGraphics.processedCandidates.applications_processed_in_week + dashGraphics.processedCandidates?.proposals_processed_in_week} color={'#67C8FF'}/>
           {/*<DashboardChartCircle className={styles.chart} label={'Hiring Stage Conversion'}  value={0} progress={50} suffixType={'percent'}/>*/}
-        <DashboardChartCircle className={styles.chart} label={'Average move time by hiring stage'}  value={`${dashGraphics.averageMoveTime.average_move_time_in_week}`} progress={50} suffixType={'minutes'} color={'#2E77E5'}/>
-        <DashboardChartLine className={styles.chart} label={'Jobs being processed'}  value={dashGraphics.jobsBeingProcessed.manager_vacancies_published_in_week + dashGraphics.jobsBeingProcessed.total_vacancies_published_in_week} />
-        <DashboardChartBars className={styles.chart} label={'Turnover During Probationary'}  value={75}  color={'#FF385D'}/>
+        <DashboardChartCircle className={styles.chart} label={t('dashboard_average_move_time')}  value={`${dashGraphics.averageMoveTime.average_move_time_in_week}`} progress={50} suffixType={'minutes'} color={'#2E77E5'}/>
+        <DashboardChartLine className={styles.chart} label={t('dashboard_jobs_processed')}  value={dashGraphics.jobsBeingProcessed.manager_vacancies_published_in_week + dashGraphics.jobsBeingProcessed.total_vacancies_published_in_week} />
+        <DashboardChartBars className={styles.chart} label={t('dashboard_turnover_probationary')}  value={75}  color={'#FF385D'}/>
         </ChipList>
       </Card>}
       <>

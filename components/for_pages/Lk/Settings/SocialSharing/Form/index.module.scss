@@ -65,3 +65,9 @@
 
 .colors {}
 
+.card {
+  @include mq($SmDesktopWidth, max) {
+    margin-bottom: 16px;
+  }
+}
+

@@ -5,6 +5,8 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {IAppliesListRequest} from '@/data/interfaces/IAppliesListRequest'
 import AppliesRepository from '@/data/repositories/AppliesRepository'
 import {ICVWithApply} from '@/data/interfaces/ICV'
+import {Nullable} from '@/types/types'
+import {CvListSortType} from '@/data/enum/CvListSortType'
 
 export interface IApplyCvFilter extends IAppliesListRequest {
 }
@@ -17,6 +19,9 @@ interface IState {
   setPage: (page: number) => void
   filter: IApplyCvFilter
   setFilter: (data: IApplyCvFilter) => void
+  filterIsEmpty: boolean
+  sortType: Nullable<CvListSortType>
+  setSortType: (sortType: Nullable<CvListSortType>) => void
   reFetch: () => Promise<IPagination<ICVWithApply>>
   fetchMore: () => void
 }
@@ -29,6 +34,9 @@ const defaultValue: IState = {
   setPage: (page: number) => null,
   filter: {},
   setFilter: (data: IApplyCvFilter) => null,
+  filterIsEmpty: false,
+  sortType: null,
+  setSortType: (sortType: Nullable<CvListSortType>) => null,
   reFetch: async () => ({data: [], total: 0}),
   fetchMore: () => null
 }
@@ -48,6 +56,9 @@ export function ApplyCvListWrapper(props: Props) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [filter, setFilter] = useState<IApplyCvFilter>({})
+  const [sortType, setSortType] = useState<Nullable<CvListSortType>>(null)
+  const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
+
   const filterRef = useRef<IApplyCvFilter>(filter)
   const abortControllerRef = useRef<AbortController | null>(null)
 
@@ -71,7 +82,22 @@ export function ApplyCvListWrapper(props: Props) {
       subscriptionDelete.unsubscribe()
     }
   }, [data])
-
+  const getSortParam = (sortType: CvListSortType) => {
+    switch (sortType){
+      case CvListSortType.FromNewToOld:
+        return 'createdAt,DESC'
+      case CvListSortType.FromOldToNew:
+        return 'createdAt,ASC'
+      case CvListSortType.FromLowToHighSalary:
+        return 'salaryMin,ASC'
+      case CvListSortType.FromHighToLowSalary:
+        return 'salaryMin,DESC'
+      case CvListSortType.FromHighToLowScore:
+        return 'score,ASC'
+      case CvListSortType.FromLowToHighScore:
+        return 'score,DESC'
+    }
+  }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<ICVWithApply>> => {
     setIsLoading(true)
     let res: IPagination<ICVWithApply> = {data: [], total: 0}
@@ -83,7 +109,8 @@ export function ApplyCvListWrapper(props: Props) {
       res = await AppliesRepository.fetchForHirer(props.vacancyId, {
         ...filterRef.current,
         limit: filterRef.current.limit ?? limit,
-        page
+        page,
+        ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
       }, {signal: abortControllerRef.current?.signal})
       setData(page > 1 ? (i) => ({total: res.total, data: [...i.data, ...res.data]}) : res)
 
@@ -96,7 +123,10 @@ export function ApplyCvListWrapper(props: Props) {
     setIsLoading(false)
     return res
   }
-
+  const checkIsFilterEmpty = () => {
+    const filter = filterRef.current
+    return Boolean(!filter.profileType?.length && !filter.skills?.length && !filter.country && !filter.salaryType && !filter.salaryMin && !filter.salaryMax && !filter.scoreMin && !filter.scoreMax)
+  }
   const reFetch = () => {
     setPage(1)
     setData({data: [], total: 0})
@@ -119,6 +149,13 @@ export function ApplyCvListWrapper(props: Props) {
       setFilter(data)
       reFetch()
     },
+    sortType,
+    setSortType: (sortType) => {
+      sortTypeRef.current = sortType
+      setSortType(sortType)
+      reFetch()
+    },
+    filterIsEmpty: checkIsFilterEmpty(),
     reFetch,
     fetchMore: () => {
       setPage(i => i + 1)

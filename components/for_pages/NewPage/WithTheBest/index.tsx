@@ -1,7 +1,8 @@
+import styles from './index.module.scss'
+
 import Link from 'next/link'
 import Card from '../../Common/Card'
 import CompanyCard from './CompanyCard'
-import styles from './index.module.scss'
 
 interface Props {
 

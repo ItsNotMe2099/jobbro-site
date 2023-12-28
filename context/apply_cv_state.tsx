@@ -12,6 +12,8 @@ import UserUtils from '@/utils/UserUtils'
 import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import ProposalRepository from '@/data/repositories/ProposalRepository'
 import {ApplyStatus} from '@/data/enum/ApplyStatus'
+import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 interface IState {
   cv: Nullable<ICVWithApply>,
@@ -42,6 +44,7 @@ interface Props {
 
 export function ApplyCvWrapper(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [cv, setCv] = useState<Nullable<ICVWithApply>>(props.cv as Nullable<ICVWithApply>)
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -79,7 +82,8 @@ export function ApplyCvWrapper(props: Props) {
   }
   const reject = async () => {
       appContext.showModal(ModalType.Confirm, {
-        text: `Are you sure that you want to reject «${UserUtils.getName(cv)}» ?`,
+        title: t('confirm_apply_reject_title', {name: UserUtils.getName(cv)}),
+        text: t('confirm_apply_reject_desc', {name: UserUtils.getName(cv)}),
         onConfirm: async () => {
           const application = (cv?.applications?.length ?? 0) > 0 ? cv?.applications[0] : null
           const proposal = (cv?.proposals?.length ?? 0) > 0 ? cv?.proposals[0] : null
@@ -90,6 +94,7 @@ export function ApplyCvWrapper(props: Props) {
             await ProposalRepository.reject(proposal.id)
             handleUpdate({...cv, proposals: [{...proposal, status: ApplyStatus.Rejected}]})
           }
+          showToast({title: t('toast_cv_rejected_title'), text: t('toast_cv_rejected_desc')})
           appContext.hideModal()
         }
       } as ConfirmModalArguments)

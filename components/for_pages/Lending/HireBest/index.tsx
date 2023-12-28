@@ -5,13 +5,14 @@ import LightSvg from '@/components/svg/LightSvg'
 import ArrowChevronRightSvg from '@/components/svg/ArrowChevronRightSvg'
 import Button from '@/components/ui/Button'
 import { useResize } from '@/components/hooks/useResize'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function HireBest(props: Props) {
-
+  const { t } = useTranslation()
   const { isPhoneWidth } = useResize()
 
   return (
@@ -20,14 +21,13 @@ export default function HireBest(props: Props) {
         <div className={styles.left}>
           {!isPhoneWidth && <LightSvg className={styles.light} color={colors.green} />}
           <div className={styles.top}>
-            Hire only<br />
-            the best
+            {t('main_lending_hire_best_title')}
           </div>
           <div className={styles.middle}>
-            A recruitment platform that works{isPhoneWidth && <br />} side by{!isPhoneWidth && <br />} side with your team
+            {t('main_lending_hire_best_desc')}
           </div>
           <Button className={styles.btn} color='green' styleType='large'>
-            HIRING <ArrowChevronRightSvg color={colors.white} />
+            {t('main_lending_hire_best_hiring')} <ArrowChevronRightSvg color={colors.white} />
           </Button>
         </div>
         <Image className={styles.img}

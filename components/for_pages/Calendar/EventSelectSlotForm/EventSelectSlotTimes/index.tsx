@@ -5,6 +5,7 @@ import ClockSvg from '@/components/svg/ClockSvg'
 import RadioField from '@/components/fields/RadioField'
 import {useEventSlotListContext} from '@/context/event_slot_list_context'
 import Validator from '@/utils/validator'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -13,6 +14,7 @@ interface Props {
 
 export default function EventSelectSlotTimes(props: Props) {
   const eventListContext = useEventSlotListContext()
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -20,7 +22,7 @@ export default function EventSelectSlotTimes(props: Props) {
           className={styles.day}>{eventListContext.currentDate ? format(eventListContext.currentDate, 'EEEE, MMMM dd') : '&nbsp;'}</div>
         <div className={styles.timezone}>
           <ClockSvg color={colors.simpleGrey}/>
-          <div className={styles.label}>Time zone</div>
+          <div className={styles.label}>{t('event_select_slot_timezone')}</div>
           <div className={styles.value}>{format(new Date(), 'zzz')}</div>
         </div>
       </div>

@@ -16,17 +16,19 @@ import {AiCvRequestListWrapper, useAiCvRequestListOwnerContext} from '@/context/
 import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
 import {colors} from '@/styles/variables'
 import Spinner from '@/components/ui/Spinner'
+import useTranslation from 'next-translate/useTranslation'
 enum TabKey{
   AllProfiles = 'allProfiles',
   UploadCv = 'uploadCv'
 }
 const AiCvRequestsPageInner = () => {
   const aiCvRequestListContext = useAiCvRequestListOwnerContext()
+  const { t } = useTranslation()
   const [tab, setTab] = useState<TabKey>(TabKey.UploadCv)
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   const tabs: IOption<TabKey>[] = [
-    {label: 'All Profiles', value: TabKey.AllProfiles},
-    {label: 'Upload CV', value: TabKey.UploadCv},
+    {label: t('candidates_base_tab_all_profiles'), value: TabKey.AllProfiles},
+    {label: t('candidates_base_tab_upload_cv'), value: TabKey.UploadCv},
   ]
   const router = useRouter()
 
@@ -46,13 +48,13 @@ const AiCvRequestsPageInner = () => {
 
   return (<div className={styles.root} ref={containerRef}>
           <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
-            <PageTitle title={'Candidates base'} />
+            <PageTitle title={t('candidates_base_title')} />
             <Tabs<TabKey> options={tabs} value={tab} onClick={handleChangeTab}/>
             <FilterToolbar left={[...(aiCvRequestListContext.selectedIds?.length > 0 && !aiCvRequestListContext.isActionLoading ? [
-                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => {aiCvRequestListContext.setSelectAllCompleted(!aiCvRequestListContext.isSelectAllCompleted)}}>Select all completed</FilterButton>,
+                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => {aiCvRequestListContext.setSelectAllCompleted(!aiCvRequestListContext.isSelectAllCompleted)}}>{t('candidates_base_tab_upload_cv_action_select_all')}</FilterButton>,
               // eslint-disable-next-line react/no-unescaped-entities
-                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => aiCvRequestListContext.moveSelected()}>Move to "All Profiles"</FilterButton>,
-                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => aiCvRequestListContext.deleteSelected()}>Delete</FilterButton>
+                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => aiCvRequestListContext.moveSelected()}>{t('candidates_base_tab_upload_cv_action_move')}</FilterButton>,
+                <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => aiCvRequestListContext.deleteSelected()}>{t('candidates_base_tab_upload_cv_action_delete')}</FilterButton>
               ] : []),
               ...(aiCvRequestListContext.isActionLoading ? [
                 <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>

@@ -6,6 +6,8 @@ import {useAppContext} from 'context/state'
 import {CandidateAddedStoreType} from '@/data/interfaces/CandidateAddedStoreType'
 import CandidateRepository from '@/data/repositories/CandidateRepository'
 import Analytics from '@/utils/goals'
+import showToast from '@/utils/showToast'
+import useTranslation from 'next-translate/useTranslation'
 
 const tmpList: number[] = []
 
@@ -33,6 +35,7 @@ interface Props {
 
 export function CandidateAddedWrapper(props: Props) {
   const appContext = useAppContext()
+  const {t} = useTranslation()
   const [store, setStore] = useState<CandidateAddedStoreType>(initStore)
   const isLogged = appContext.isLogged
   const isLoggedRef = useRef<boolean>(isLogged)
@@ -73,6 +76,8 @@ export function CandidateAddedWrapper(props: Props) {
       setStore(join(storeRef.current, [id]))
       try {
         await CandidateRepository.create(id)
+        showToast({title: t('toast_candidate_added_title'), text: t('toast_candidate_added_desc')})
+
         Analytics.goal(Goal.CandidateBaseAdd)
       } catch (err) {
         if (err instanceof RequestError) {
@@ -84,6 +89,8 @@ export function CandidateAddedWrapper(props: Props) {
       setStore(storeRef.current.filter(item => item != id))
       try {
         await CandidateRepository.delete(id)
+        showToast({title: t('toast_candidate_deleted_title'), text: t('toast_candidate_deleted_desc')})
+
       } catch (err) {
         if (err instanceof RequestError) {
           appContext.showSnackbar(err.message, SnackbarType.error)

@@ -19,8 +19,10 @@ const HiringBoardInner = (props: Props) => {
         const cvId = parseInt(result.draggableId?.replace('apply_', '') ?? '', 10)
         const sourceHiringStageId = result.source?.droppableId ? parseInt(result.source?.droppableId?.replace('stage_', '') ?? '', 10) : null
         const destHiringStageId = result.destination?.droppableId ? parseInt(result.destination?.droppableId?.replace('stage_', '') ?? '', 10) : null
+
         if(sourceHiringStageId && destHiringStageId) {
           const cv = hiringBoardContext.appliesByStages[sourceHiringStageId]?.find(i => i.id === cvId)
+
           if(cv) {
             hiringBoardContext.moveToStage(cv, destHiringStageId)
           }

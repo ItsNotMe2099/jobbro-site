@@ -4,6 +4,9 @@ import { LkDashboardPageLayout } from '@/components/for_pages/Lk/Dashboard/LkDas
 import LkDashboardMyBoard from '@/components/for_pages/Lk/Dashboard/MyBoard'
 import {useRouter} from 'next/router'
 import {HirerRole} from '@/data/enum/HirerRole'
+import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import Analytics from '@/utils/goals'
+import {Goal} from '@/types/enums'
 
 interface Props {
 
@@ -11,6 +14,9 @@ interface Props {
 
 const LkDashboardManagerBoardPage = (props: Props) => {
   const router = useRouter()
+  useEffectOnce(() => {
+    Analytics.goal(Goal.DashboardManagerView)
+  })
   return (<LkDashboardMyBoard managerId={parseInt(router.query.id as string, 10)}/>
   )
 }

@@ -15,6 +15,8 @@ import IFile from '@/data/interfaces/IFile'
 import {useRef} from 'react'
 import FileListField from '@/components/fields/Files/FileListField'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
+import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 
 interface IFormData {
@@ -30,7 +32,7 @@ export default function CompanyCareerForm(props: Props) {
   const appContext = useAppContext()
   const companyOwnerContext = useCompanyOwnerContext()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
-
+  const {t} = useTranslation()
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     try {
       // console.log('Data111', data)
@@ -40,8 +42,12 @@ export default function CompanyCareerForm(props: Props) {
       }
       if (companyOwnerContext.company) {
         await companyOwnerContext.update(submitData)
+        showToast({title: t('toast_company_career_edited_title'), text: t('toast_company_career_edited_desc')})
+
       } else {
         await companyOwnerContext.create(submitData)
+        showToast({title: t('toast_company_created_title'), text: t('toast_company_created_desc')})
+
       }
     } catch (err) {
       // console.error(err)
@@ -68,13 +74,13 @@ export default function CompanyCareerForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form  ref={ref} className={styles.root}>
-        <Card title='Domain'>
+        <Card title={t('company_career_form_section_domain')}>
           <InputField disabled name='domain'
                       prefix=
                         {<CopySvg onClick={() => handleCopy()} className={styles.copy}
                                   color={colors.simpleGrey}/>}/>
         </Card>
-        <Card title='Image Gallery'>
+        <Card title={t('company_career_form_section_gallery')}>
           <div className={styles.wrapper}>
             <FileListField
               isImage
@@ -91,11 +97,10 @@ export default function CompanyCareerForm(props: Props) {
             />
             <div className={styles.why}>
               <div className={styles.title}>
-                Why upload images?
+                {t('company_career_form_why_upload')}
               </div>
               <div className={styles.desc}>
-                Showcasing images on your company<br/> profile is a great way to give candidates<br/> a feel for your
-                culture and office space.
+                {t('company_career_form_why_upload_desc')}
               </div>
             </div>
           </div>

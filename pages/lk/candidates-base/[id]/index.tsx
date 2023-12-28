@@ -8,6 +8,7 @@ import {CandidateWrapper, useCandidateContext} from '@/context/candidate_state'
 import {useAppContext} from '@/context/state'
 import CvForHirerPage from '@/components/for_pages/Lk/Jobs/CvForHirerPage'
 import ContentLoader from '@/components/ui/ContentLoader'
+import {Routes} from '@/types/routes'
 
 const CandidatePageInner = () => {
   const appContext = useAppContext()
@@ -23,7 +24,7 @@ const CandidatePageInner = () => {
 
   let ref = useRef<HTMLDivElement | null>(null)
 
-  return ((candidateContext.loading || !candidateContext.candidate?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!}/>
+  return ((candidateContext.loading || !candidateContext.candidate?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!} backLink={Routes.lkCandidatesBase}/>
   )
 }
 

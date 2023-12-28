@@ -16,6 +16,7 @@ import {colors} from '@/styles/variables'
 import MenuButton from '@/components/ui/MenuButton'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {ICandidate} from '@/data/interfaces/ICandidate'
+import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {HirerRole} from '@/data/enum/HirerRole'
@@ -38,6 +39,7 @@ export default function CandidateCard(props: Props) {
 
   const appContext = useAppContext()
   const favoriteContext = useCandidateAddedContext()
+  const {t} = useTranslation()
   const cv = props.candidate.cv
   useEffect(() => {
     favoriteContext.addRecord(cv!.id)
@@ -47,14 +49,14 @@ export default function CandidateCard(props: Props) {
     description: null
   }
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Download resume in PDF', value: MenuKey.DownloadPdf},
+    {label: t('candidates_base_card_menu_download'), value: MenuKey.DownloadPdf},
     ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [{
-      label: 'Remove from base',
+      label: t('candidates_base_card_menu_remove'),
       value: MenuKey.RemoveFromBase
     }] : []),
-    {label: 'Invite', value: MenuKey.InviteToOtherJob},
-    {label: 'Select', value: MenuKey.Select},
-    {label: 'Share', value: MenuKey.Share},
+    {label: t('candidates_base_card_menu_invite'), value: MenuKey.InviteToOtherJob},
+    {label: t('candidates_base_card_menu_select'), value: MenuKey.Select},
+    {label: t('candidates_base_card_menu_share'), value: MenuKey.Share},
   ]
 
   const handleMenuClick = (value: MenuKey) => {
@@ -64,7 +66,7 @@ export default function CandidateCard(props: Props) {
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
-          text: `Are you sure that you want to remove candidate «${UserUtils.getName(cv)}» from base?`,
+          text: t('confirm_candidate_remove', {name: UserUtils.getName(cv)}),
           onConfirm: async () => {
 
             favoriteContext.unlike(cv!.id)

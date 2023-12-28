@@ -8,6 +8,7 @@ import CvForHirerPage from '@/components/for_pages/Lk/Jobs/CvForHirerPage'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {CvWrapper, useCvContext} from '@/context/cv_state'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
+import {Routes} from '@/types/routes'
 
 const CvPageInner = () => {
   const appContext = useAppContext()
@@ -25,7 +26,7 @@ const CvPageInner = () => {
       cvEvaluationContext.removeRecord(cvId, vacancyId)
     }
   }, [cvId, vacancyId])
-  return ((cvContext.loading || !cvContext?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!} evaluation={evaluation}/>
+  return ((cvContext.loading || !cvContext?.cv) ? <ContentLoader style={'block'} isOpen={true}/>  :  <CvForHirerPage cv={cv!} evaluation={evaluation} backLink={Routes.lkJob(vacancyId)}/>
   )
 }
 

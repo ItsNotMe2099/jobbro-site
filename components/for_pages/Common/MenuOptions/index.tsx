@@ -5,34 +5,37 @@ import Link from 'next/link'
 import DocSvg from '@/components/svg/DocSvg'
 import SparksSvg from '@/components/svg/SparksSvg'
 import classNames from 'classnames'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   className?: string
+  onClick: () => void
 }
 
 export default function MenuOptions(props: Props) {
+  const { t } = useTranslation()
 
   return (
     <div className={classNames(styles.options, props.className)}>
-      <Link href={Routes.lkJobsCreateJobManually} className={styles.option}>
+      <Link href={Routes.lkJobsCreateJobManually}  onClick={props.onClick} className={styles.option}>
         <DocSvg color={colors.green} />
         <div className={styles.desc}>
           <div className={styles.main}>
-            Create manually
+            {t('new_job_dropdown_create_manually')}
           </div>
           <div className={styles.text}>
-            Filling out the vacancy form
+            {t('new_job_dropdown_manual_desc')}
           </div>
         </div>
       </Link>
-      <Link href={Routes.lkJobsCreateJobAi} className={styles.option}>
+      <Link href={Routes.lkJobsCreateJobAi} className={styles.option} onClick={props.onClick}>
         <SparksSvg color={colors.green} />
         <div className={styles.desc}>
           <div className={styles.main}>
-            Create with AI
+            {t('new_job_dropdown_create_ai')}
           </div>
           <div className={styles.text}>
-            Fast automatic generation
+            {t('new_job_dropdown_ai_desc')}
           </div>
         </div>
       </Link>

@@ -16,6 +16,7 @@ import {IVacancy} from '@/data/interfaces/IVacancy'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import IEvent from '@/data/interfaces/IEvent'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
+import { IResizeValues, useResize } from '@/components/hooks/useResize'
 
 interface IState {
   isMobile: boolean
@@ -33,7 +34,7 @@ interface IState {
   bottomSheet: ModalType | null
   showModal: <T extends unknown>(type: ModalType, args?: T) => void
   hideModal: () => void
-  showBottomSheet: (type: ModalType, args?: any) => void,
+  showBottomSheet: <T extends unknown>(type: ModalType, args?: T) => void,
   hideBottomSheet: () => void
   sidePanel: SidePanelType | null
   panelArguments: any
@@ -90,6 +91,8 @@ interface IState {
 
   eventCreateState$: Subject<IEvent>,
   eventUpdateState$: Subject<IEvent>,
+
+  size: IResizeValues
 }
 
 const fileUploadingState$ = new Subject<boolean>()
@@ -166,6 +169,9 @@ const defaultValue: IState = {
   headerDirection: 'up',
   setDirection: () => null,
 
+  size: {},
+
+
 
   vacancyCreateState$,
   vacancyUpdateState$,
@@ -200,6 +206,7 @@ const defaultValue: IState = {
   eventCreateState$,
   eventUpdateState$,
 
+
 }
 
 const ModalsBottomSheet: ModalType[] = [
@@ -215,7 +222,7 @@ interface Props {
   token?: string
 }
 
-export function AppWrapper(props: Props) {
+export function AppWrapper(props: Props) {  
   const [snackbar, setSnackbar] = useState<SnackbarData | null>(null)
   const [token, setToken] = useState<string | null>(props.token ?? null)
   const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
@@ -232,6 +239,7 @@ export function AppWrapper(props: Props) {
   const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
   const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
   const [headerDirection, setDirection] = useState<'up'|'down'>('up')
+  const size = useResize()
 
   const showSnackbar = (text: string, type: SnackbarType) => {
 
@@ -327,7 +335,7 @@ export function AppWrapper(props: Props) {
     setModalArguments(null)
   }
 
-  const showBottomSheet = (type: ModalType, props?: any) => {
+  const showBottomSheet = <T extends unknown>(type: ModalType, props?: T) => {
     ReactModal.setAppElement('body')
     setModalArguments(props)
     setBottomSheet(type)
@@ -367,6 +375,7 @@ export function AppWrapper(props: Props) {
     isOverlayShown,
     headerDirection,
     setDirection,
+    size,
     showOverlay: () => {
       setIsOverlayShown(true)
     },

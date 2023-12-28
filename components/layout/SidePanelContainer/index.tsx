@@ -4,6 +4,7 @@ import JobsFilterSidePanel from '@/components/side-panels/JobsFilterSidePanel'
 import SidePanel from '@/components/ui/SidePanel'
 import JobReviewSidePanel from '@/components/side-panels/JobReviewSidePanel'
 import JobInviteSidePanel from '@/components/side-panels/JobInviteSidePanel'
+import CvFilterSidePanel from '@/components/side-panels/CvFilterSidePanel'
 
 interface Props {
 }
@@ -15,6 +16,10 @@ export default function SidePanelContainer(props: Props) {
       {appContext.sidePanel === SidePanelType.JobsFilter &&
         <SidePanel>
           <JobsFilterSidePanel/>
+        </SidePanel>}
+      {appContext.sidePanel === SidePanelType.CandidateBaseFilter &&
+        <SidePanel>
+          <CvFilterSidePanel/>
         </SidePanel>}
       {appContext.sidePanel === SidePanelType.JobReview &&
         <SidePanel>

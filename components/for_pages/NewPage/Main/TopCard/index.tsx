@@ -1,5 +1,6 @@
-import Card from '@/components/for_pages/Common/Card'
 import styles from './index.module.scss'
+
+import Card from '@/components/for_pages/Common/Card'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 

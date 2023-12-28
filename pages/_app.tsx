@@ -24,7 +24,6 @@ import {FavoriteWrapper} from '@/context/favorite_state'
 import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
 import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
-
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -54,6 +53,10 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                 <Head>
                   <link rel="preconnect" href="https://fonts.googleapis.com"/>
                   <link rel="preconnect" href="https://fonts.gstatic.com"/>
+                  <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"
+                  />
                   <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
                     rel="stylesheet"/>
@@ -114,5 +117,4 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   return props
 }
 
-// export default appWithTranslation(MyApp)
 export default MyApp

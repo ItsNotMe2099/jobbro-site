@@ -7,17 +7,19 @@ import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import HiringBoardJobCard from '@/components/for_pages/Lk/HiringBoards/HiringBoardListJobCard'
 import {HiringBoardListWrapper, useHiringBoardListContext} from '@/context/hiring_board_list_state'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
+import useTranslation from 'next-translate/useTranslation'
 
 
 
 const HiringBoardsInner = () => {
   const hiringBoardListContext = useHiringBoardListContext()
+  const { t } = useTranslation()
   useEffectOnce(() => {
     hiringBoardListContext.reFetch()
   })
   return (
     <div className={styles.container}>
-      <PageTitle title={'Hiring boards'} />
+      <PageTitle title={t('hiring_boards_title')} />
       <div className={styles.wrapper}>
         <FilterToolbar left={[]} />
         <div className={styles.cards}>

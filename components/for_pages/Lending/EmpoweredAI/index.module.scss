@@ -48,6 +48,7 @@
   font-weight: 400;
   line-height: 100%;
   color: $white;
+  white-space: pre-line;
   font-family: 'Work Sans';
 
   @include mq($PhoneWidth, max) {
@@ -57,6 +58,7 @@
 }
 
 .everything {
+  white-space: pre-line;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -152,6 +154,7 @@
 }
 
 .hr {
+  white-space: pre-line;
   font-size: 57px;
   font-style: normal;
   font-weight: 400;

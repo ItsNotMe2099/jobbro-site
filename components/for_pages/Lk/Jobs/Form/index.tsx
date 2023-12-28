@@ -33,6 +33,8 @@ import IAiVacancyGenRequest, {IAiVacancy} from '@/data/interfaces/IAiVacancy'
 import {useVacancyGenerateAiContext} from '@/context/vacancy_generate_ai'
 import Analytics from '@/utils/goals'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
+import useTranslation from 'next-translate/useTranslation'
+import showToast from '@/utils/showToast'
 
 
 enum TabKey {
@@ -58,8 +60,8 @@ export interface IVacancyFormData {
   workplace: Nullable<Workplace>
   office: Nullable<IOffice>
   currency: Nullable<string>
-  salaryMin: Nullable<number>
-  salaryMax: Nullable<number>
+  salaryMin: Nullable<string|number>
+  salaryMax: Nullable<string|number>
   salaryType: Nullable<SalaryType>
   experience: Nullable<Experience>
   benefitsDescription: { description: Nullable<string>, visible: boolean }
@@ -70,6 +72,7 @@ export interface IVacancyFormData {
   benefits: string[]
   skills: string[]
   keywords: string[]
+  project: Nullable<string>
   applicationFormLanguage: Nullable<string>
   applyAutoMessage: {template: Nullable<string>, enabled: boolean}
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
@@ -78,26 +81,32 @@ export interface IVacancyFormData {
 }
 
 export default function CreateJobManuallyForm(props: Props) {
-
   const appContext = useAppContext()
   const vacancyContext = useVacancyOwnerContext()
   const companyContext = useCompanyOwnerContext()
   const vacancyGenerateAiContext = useVacancyGenerateAiContext()
   const router = useRouter()
+  const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
 
   const handleSubmit = async (data: IVacancyFormData) => {
-    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office']),
+    const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
+    const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
+    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office', 'project']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
       keywordsTitles: data.keywords,
+      projectTitle: data.project,
       officeId: data?.office?.id,
       companyId: companyContext.company?.id,
+      salaryMax,
+      salaryMin,
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {
       if (vacancyContext.vacancy) {
         await vacancyContext.update(newData)
+        showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
         if(props.fromAi){
@@ -135,6 +144,7 @@ export default function CreateJobManuallyForm(props: Props) {
     benefits: props.initialValuesAi?.benefits ?? vacancyContext.vacancy?.benefits?.map(i => i.title) ?? [],
     skills: props.initialValuesAi?.skills ?? vacancyContext.vacancy?.skills?.map(i => i.title) ?? [],
     keywords: props.initialValuesAi?.keywords ?? vacancyContext.vacancy?.keywords?.map(i => i.title) ?? [],
+    project: vacancyContext.vacancy?.project?.title ?? null,
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
@@ -194,9 +204,9 @@ export default function CreateJobManuallyForm(props: Props) {
 
   const [tab, setTab] = useState<TabKey>(TabKey.AdDetails)
   const options: IOption<TabKey>[] = [
-    {label: 'Job ad Details', value: TabKey.AdDetails},
-    {label: 'Application Form', value: TabKey.ApplicationForm},
-    {label: 'Workflow', value: TabKey.Workflow}
+    {label: t('job_form_tab_ad_details'), value: TabKey.AdDetails},
+    {label: t('job_form_tab_application_form'), value: TabKey.ApplicationForm},
+    {label: t('job_form_tab_workflow'), value: TabKey.Workflow}
   ]
 
   const handleSaveClick = async () => {
@@ -228,19 +238,19 @@ export default function CreateJobManuallyForm(props: Props) {
   const preview = ( <JobPreview job={formik.values as any as IVacancy} company={companyContext.company}/>)
   const formFooter = ( <>
     {!props.preview && (!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Published} styleType='large' color='green'>
-      Publish
+      {t('job_form_button_publish')}
     </Button>}
     {!props.preview && <Button disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
-      {!vacancyContext.vacancy! ? 'Save as draft' : 'Save'}
+      {!vacancyContext.vacancy! ? t('job_form_button_save_draft') : t('job_form_button_save')}
     </Button>}
     <div className={styles.preview} onClick={props.onPreview}>
       {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
         :
         <NoEyeSvg color={colors.green} className={styles.eye}/>
       }
-      {!props.preview ? <div className={styles.text}>Preview</div>
+      {!props.preview ? <div className={styles.text}>{t('job_form_button_preview')}</div>
         :
-        <div className={styles.text}>Close Preview Mode</div>
+        <div className={styles.text}>{t('job_form_button_close_preview')}</div>
       }
     </div>
   </>)

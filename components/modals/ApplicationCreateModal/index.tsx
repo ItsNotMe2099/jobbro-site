@@ -19,6 +19,8 @@ import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {PublishStatus} from '@/data/enum/PublishStatus'
+import useTranslation from 'next-translate/useTranslation'
+import BottomSheetFooter from '@/components/layout/BottomSheet/BottomSheetFooter'
 
 interface Props {
   isBottomSheet?: boolean
@@ -27,6 +29,7 @@ interface Props {
 const ApplicationCreateModalInner = (props: Props) => {
   const appContext = useAppContext()
   const cvListContext = useCVListOwnerContext()
+  const { t } = useTranslation()
   const isLoading = cvListContext.isLoading
   const [sending, setSending] = useState(false)
   const [selectedCv, setSelectedCv] = useState<Nullable<ICV>>(null)
@@ -63,7 +66,7 @@ const ApplicationCreateModalInner = (props: Props) => {
   )
 
   const body = ( cvListContext.isLoaded && cvListContext.data.length === 0
-      ? <StubEmpty>No resume</StubEmpty>
+      ? <StubEmpty>{t('apply_create_no_cv')}</StubEmpty>
     : (!cvListContext.isLoaded ? (<ContentLoader isOpen={true}/>) : (<>
         <div className={styles.list}>
           {cvListContext.data.filter(i => i.status === PublishStatus.Published).map(i => <CvOwnerSmallCard key={i.id} cv={i} checked={selectedCv?.id === i.id} onClick={() => selectedCv?.id === i.id ? setSelectedCv(null) : setSelectedCv(i)}/>)}
@@ -73,21 +76,24 @@ const ApplicationCreateModalInner = (props: Props) => {
 
   const footer = <div className={styles.buttons}>
     <Button spinner={sending} type='submit' disabled={!selectedCv} onClick={handleApply} styleType='large' color='green'>
-      Apply
+      {t('apply_create_button_apply')}
     </Button>
     <Button onClick={() => appContext.hideModal()} styleType='large' color='white'>
-      Cancel
+      {t('apply_create_button_cancel')}
     </Button>
   </div>
+
+
   if (props.isBottomSheet) {
     return (
       <BottomSheetLayout closeIconColor={colors.black}>
         <BottomSheetBody>{body}</BottomSheetBody>
+        <BottomSheetFooter>
+          {footer}
+        </BottomSheetFooter>
       </BottomSheetLayout>
     )
   }
-
-
   return (
   <>
       <ModalLayout fixed className={styles.modalLayout}>

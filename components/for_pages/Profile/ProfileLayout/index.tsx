@@ -7,6 +7,7 @@ import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
 import { ProfileCalendar } from '../ProfileCalendar'
 import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey {
   Resume = 'resume',
@@ -22,9 +23,11 @@ interface Props {
 }
 const ProfilePageLayoutInner = (props: Props) => {
   const router = useRouter()
+
+  const { t } = useTranslation()
   const options: IOption<TabKey>[] = [
-    { label: 'Resume', value: TabKey.Resume, href: Routes.profileResume },
-    { label: 'Settings', value: TabKey.Settings, href: Routes.profileSettings },
+    { label: t('employee_profile_tab_resume'), value: TabKey.Resume, href: Routes.profileResume },
+    { label: t('employee_profile_tab_settings'), value: TabKey.Settings, href: Routes.profileSettings },
   ]
 
   const [page, setPage] = useState<number>(1)
@@ -36,12 +39,39 @@ const ProfilePageLayoutInner = (props: Props) => {
     //fetch here
   }
 
+
+  /*  
+  TODO: переделать, просто например на странице /lk/applies показывался тайтл Profile и табы, а должно быть просто Applies,
+  и добавлять еще кучу условий не очень решение 
+  */
+  const title = (() => {
+    if(router.asPath.includes('edit')) {
+      return 'Editor resume'
+    }
+    else if(router.asPath.includes('chat')) {
+      return 'Chat'
+    }
+    else if(router.asPath.includes('profile')) {
+      return 'Profile'
+    }
+    else if(router.asPath.includes('applies')) {
+      return 'Applies'
+    }
+    else {
+      return ''
+    }
+  })()
+
+
+
   return (
     <div className={styles.root}>
-      <PageTitle title={router.asPath.includes('edit') ? 'Editor resume' : router.asPath.includes('chat') ? 'Chat' : 'Profile'}
-        link={router.asPath.includes('edit') ? Routes.profile : ''} />
+      <PageTitle 
+      title={title}
+      link={router.asPath.includes('edit') ? Routes.profile : ''} 
+      />
 
-      {!router.asPath.includes('edit') && <Tabs<TabKey> options={options} />}
+      {!router.asPath.includes('edit') && router.asPath.includes('profile') && <Tabs<TabKey> options={options} />}
       {props.children}
     </div>
   )

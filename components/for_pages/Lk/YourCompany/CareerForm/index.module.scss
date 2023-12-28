@@ -29,6 +29,9 @@
     grid-template-areas: "dropzone why"  "fileList fileList";
     column-gap: 24px;
     row-gap: 24px;
+    @include mq($DesktopWidth, max) {
+        grid-template-areas: "why" "dropzone" "fileList";
+    }
 }
 
 .why {
@@ -57,6 +60,7 @@
         font-weight: 400;
         line-height: 24px;
         color: $text-primary;
+      white-space: pre-line;
     }
 }
 

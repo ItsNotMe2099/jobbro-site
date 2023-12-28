@@ -46,9 +46,9 @@ export default function FileListField(props: Props) {
   // @ts-ignore
   const [field, meta, helpers] = useField<IFile[] | null>(props)
   const [files, setFiles] = useState<IFileListItem[]>(field.value?.map(i => ({
-    id: uuidv4(),
+    id: i.id.toString(),
     value: i,
-    progress: -1
+    progress: 100
   })) ?? [])
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export default function FileListField(props: Props) {
   }, [files])
 
   const handleDelete = async (file: IFileListItem) => {
+    
     if (field.value) {
       try {
         setFiles(files => files.filter(f => f.id !== file.id))
@@ -97,6 +98,7 @@ export default function FileListField(props: Props) {
 
         try {
           (abortController as IAbortControllerWithId).id = file.id
+          abortControllersRef.current = [...(abortControllersRef.current ?? []), abortController]
           const fileData = await FileRepository.uploadFile(acceptedFile, {
             signal: abortController.signal,
             onUploadProgress: (e) => {
@@ -109,7 +111,7 @@ export default function FileListField(props: Props) {
           if (fileData) {
             setFiles(files => files.map(f => f.id === file.id ? ({
               ...f,
-              progress: -1,
+              progress: 100,
               previewPath: '',
               value: fileData
             }) : f))

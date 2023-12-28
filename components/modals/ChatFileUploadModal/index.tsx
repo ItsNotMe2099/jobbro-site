@@ -18,6 +18,7 @@ import FileListField from '@/components/fields/Files/FileListField'
 import IFile from '@/data/interfaces/IFile'
 import ModalFooter from '@/components/layout/Modal/ModalFooter'
 import {ChatFileUploadModalArguments} from '@/types/modal_arguments'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormData{
   message: Nullable<string>
@@ -29,6 +30,7 @@ interface Props{
 export function ChatFileUploadModal(props: Props) {
   const appContext = useAppContext()
   const chatContext = useChatDialogContext()
+  const { t } = useTranslation()
   const args = appContext.modalArguments as ChatFileUploadModalArguments
   const [sending, setSending] = useState<boolean>(false)
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
@@ -86,7 +88,7 @@ export function ChatFileUploadModal(props: Props) {
                 ref={inputRef}
                 name={'message'}
                 disabled={sending}
-                placeholder={'Сообщение'}
+                placeholder={t('chat_message_form_placeholder')}
                 styleType={'message'}
                 onKeyDown={handleKeyDown}
                 className={cx(styles.textarea)}

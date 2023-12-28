@@ -8,10 +8,11 @@ import OneClick from '@/components/for_pages/Lending/OneClick'
 import TryIt from '@/components/for_pages/Lending/TryIt'
 import Layout from '@/components/for_pages/Lending/layout/Layout'
 import { useResize } from '@/components/hooks/useResize'
+import useTranslation from 'next-translate/useTranslation'
 
 
 export default function LendingPage() {
-
+  const { t } = useTranslation()
   const { isPhoneWidth } = useResize()
 
   return (
@@ -19,32 +20,28 @@ export default function LendingPage() {
       <HireBest />
       <EmpoweredAI />
       <Item
-        btnText='Try now'
-        title='Job creation'
-        text={<>The platform helps you to form a perfect job advertisement. AI writes descriptions<br />
-          the way you want and suggest you key skills and values for any position you have.</>}
+        btnText={t('main_lending_job_creation_button')}
+        title={t('main_lending_job_creation_title')}
+        text={t('main_lending_job_creation_desc')}
         image={isPhoneWidth ? '/lending/job-creation-mobile.png' : '/lending/job-creation-desk.png'}
       />
       <div className={styles.wrapper}>
         <Item
           className={styles.base}
           classBtn={styles.creationBtn}
-          btnText='Create base'
-          title='Every candidate in one place'
-          text={<>Every candidate who has ever replied you is saved in our database, so you {isPhoneWidth && <br/>} can easily {!isPhoneWidth && <br />}
-            access any of them whenever you want. Now you won&apos;t lose any wonderful addition <br />
-            to your team.</>}
+          btnText={t('main_lending_base_creation_button')}
+          title={t('main_lending_base_creation_title')}
+          text={t('main_lending_base_creation_desc')}
           image={isPhoneWidth ? '/lending/every-candidate-mobile.png' : '/lending/every-candidate-desk.png'}
         />
       </div>
       <Happy />
       <OneClick />
       <Item
-        btnText='Try now'
+        btnText={t('main_lending_clear_view_button')}
         classImg={styles.clear}
-        title='Clear view on your recruitment'
-        text={<>Get access to all the statistics of your recruitment process, from personal HR metrics<br />
-          and hiring flow data to user and candidate satisfaction.</>}
+        title={t('main_lending_clear_view_title')}
+        text={t('main_lending_clear_view_desc')}
         image={isPhoneWidth ? '/lending/clear-view-mobile.png' : '/lending/clear-view-desk.png'}
       />
       <TryIt />

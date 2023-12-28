@@ -5,10 +5,11 @@ import ModalBody from '@/components/layout/Modal/ModalBody'
 import { useAppContext } from '@/context/state'
 import { useRef, useState } from 'react'
 import Button from '@/components/ui/Button'
-// import dynamic from 'next/dynamic'
 import classNames from 'classnames'
 import AvatarEditor from 'react-avatar-editor'
-// export const Avatar = dynamic(() => import('react-avatar-editor'), { ssr: false })
+import useTranslation from 'next-translate/useTranslation'
+import BottomSheetLayout from '@/components/layout/BottomSheet/BottomSheetLayout'
+import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
 
 export interface Props {
   isBottomSheet?: boolean
@@ -18,7 +19,7 @@ export interface Props {
 export interface ICropAvatarModalProps {
   image: string|File,
   onEdit: (image: File) => void
-} 
+}
 
 
 export default function CropAvatarModal(props: Props) {
@@ -26,7 +27,7 @@ export default function CropAvatarModal(props: Props) {
   const args = appContext.modalArguments as ICropAvatarModalProps
   const editorRef = useRef<AvatarEditor>(null!)
   const [cropRadius, setCropRadius] = useState(100)
-
+  const { t } = useTranslation()
   const sendImage = () => {
     const canvasScaled = editorRef.current
     const dataUrl = canvasScaled.getImage()
@@ -39,16 +40,17 @@ export default function CropAvatarModal(props: Props) {
 
   const body = (
     <div className={styles.root}>
+      <p className={styles.title}>Crop photo</p>
       <div className={styles.avatar} id='avatar'>
-      <AvatarEditor 
-      //@ts-ignore 
+      <AvatarEditor
+      //@ts-ignore
       ref={(e) => editorRef.current = e}
       image={args.image}
       crossOrigin='anonymous'
       scale={cropRadius/100}
       width={288}
       borderRadius={300}
-      color={[255, 255, 255, 0.6]} 
+      color={[255, 255, 255, 0.6]}
       backgroundColor={'#0a0a0a30'}
       height={290} />
       </div>
@@ -59,10 +61,21 @@ export default function CropAvatarModal(props: Props) {
         </p>
         <input type='range' min={50} max={200} value={cropRadius} onChange={(e) => setCropRadius(parseInt(e.target.value))} />
       </div>
-      <Button className={styles.button} styleType={'large'} color={'green'}  onClick={() => {sendImage()}}>Save</Button>
-      <Button className={classNames(styles.button, styles.buttonBordered)} styleType={'large'} color={'green'}  onClick={props.onClose}>Cancel</Button>   
+      <Button className={styles.button} styleType={'large'} color={'green'}  onClick={() => {sendImage()}}>{t('crop_modal_button_save')}</Button>
+      <Button className={classNames(styles.button, styles.buttonBordered)} styleType={'large'} color={'green'}  onClick={props.onClose}>{t('crop_modal_button_cancel')}</Button>
     </div>
   )
+
+  if(props.isBottomSheet) {
+    return (
+      <BottomSheetLayout>
+        <BottomSheetBody>
+          {body}
+        </BottomSheetBody>
+      </BottomSheetLayout>
+    )
+    
+  }
 
   return (
     <ModalLayout className={styles.modalLayout}>

@@ -8,6 +8,7 @@ import {debounce} from 'debounce'
 import {useVacancyListOwnerContext, VacancyListOwnerWrapper} from '@/context/vacancy_owner_list_state'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import RadioCheckbox from '@/components/ui/RadioCheckbox'
+import FieldError from '@/components/fields/FieldError'
 
 
 interface Props extends IField<number> {
@@ -19,6 +20,8 @@ interface Props extends IField<number> {
 const JobWithSearchFieldInner = (props: Props) => {
   const vacancyListOwnerContext = useVacancyListOwnerContext()
   const [field, meta, helpers] = useField<number>(props as any)
+  const showError = meta.touched && !!meta.error
+
   useEffect(() => {
     vacancyListOwnerContext.reFetch()
   }, [])
@@ -32,6 +35,7 @@ const JobWithSearchFieldInner = (props: Props) => {
   return (
     <div className={styles.root}>
           <InputField name={'search'} noAutoComplete={true} suffix={'search'} label={'Search'} onChange={debouncedSearchChange}/>
+      <FieldError showError={showError}>{meta.error}</FieldError>
 
       <div className={styles.list}>
         {vacancyListOwnerContext.data.data.map((vacancy) => <div

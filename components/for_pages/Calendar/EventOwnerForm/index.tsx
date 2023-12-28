@@ -17,6 +17,7 @@ import {SnackbarType} from '@/types/enums'
 import EventRepository from '@/data/repositories/EventRepository'
 import IEvent from '@/data/interfaces/IEvent'
 import {useAppContext} from '@/context/state'
+import useTranslation from 'next-translate/useTranslation'
 
 interface IFormDataSlot {
   start: string
@@ -53,12 +54,13 @@ interface Props {
 
 export default function EventOwnerForm(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const [formLoading, setFormLoading] = useState(false)
   const formRef = useRef<HTMLDivElement | null>(null)
   const steps: IFormStep<FormStep>[] = [
-    {key: FormStep.Participants, name: 'Members to meetings'},
-    {key: FormStep.Details, name: 'Theme and place'},
-    {key: FormStep.Time, name: 'Available days'},
+    {key: FormStep.Participants, name: t('event_form_step_participants')},
+    {key: FormStep.Details, name: t('event_form_step_details')},
+    {key: FormStep.Time, name: t('event_form_step_time')},
   ]
   const [step, setStep] = useState<FormStep>(FormStep.Participants)
   const handlePrevious = () => {
@@ -122,7 +124,7 @@ export default function EventOwnerForm(props: Props) {
 
 
     return (<div className={styles.root}  ref={formRef}>
-      <PageTitle title='Calendar Widget' onBack={props.onBack} />
+      <PageTitle title={t('event_form_title')} onBack={props.onBack} />
 
       <Card className={styles.card}>
         <FormikProvider value={formik}>
@@ -140,11 +142,11 @@ export default function EventOwnerForm(props: Props) {
       </Card>
       <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={formRef}>
         <Button spinner={formLoading} type='button' styleType='large' color='green' onClick={() => formik.submitForm()}>
-          Next
+          {t('event_form_button_next')}
         </Button>
         <>
         {step !== FormStep.Participants && <Button disabled={formLoading} type='button' styleType='large' color='white' onClick={handlePrevious}>
-          Previous
+          {t('event_form_button_previous')}
         </Button>}
         </>
       </FormStickyFooter>

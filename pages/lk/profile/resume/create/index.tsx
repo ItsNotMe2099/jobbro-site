@@ -7,6 +7,8 @@ import {useRouter} from 'next/router'
 import {DeepPartial} from '@/types/types'
 import {ICV} from '@/data/interfaces/ICV'
 import {Routes} from '@/types/routes'
+import showToast from '@/utils/showToast'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -14,12 +16,14 @@ interface Props {
 
 const ProfileResumeEditPageInner = (props: Props) => {
   const cvOwnerContext = useCVOwnerContext()
+  const { t } = useTranslation()
   const router = useRouter()
   const handleSubmit = async (data: DeepPartial<ICV>) => {
     if (cvOwnerContext.cv) {
       await cvOwnerContext.update(data as DeepPartial<ICV>)
     } else {
       await cvOwnerContext.create(data as DeepPartial<ICV>)
+      showToast({title: t('toast_cv_edited_title'), text: t('toast_cv_edited_desc')})
     }
     router.push(Routes.profileResume)
   }

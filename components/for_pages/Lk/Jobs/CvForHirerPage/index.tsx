@@ -1,7 +1,6 @@
 import styles from './index.module.scss'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef} from 'react'
-import {Routes} from '@/types/routes'
 import ControlsStickyFooter from '@/components/for_pages/Common/ControlsStickyFooter'
 import Button from '@/components/ui/Button'
 import CardWithPhoto from '@/components/for_pages/Lk/CandidatesBase/Candidate/Cards/CardWithPhoto'
@@ -15,14 +14,16 @@ import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {ICV} from '@/data/interfaces/ICV'
 import {Nullable} from '@/types/types'
 import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
+import useTranslation from 'next-translate/useTranslation'
 interface Props{
   cv: ICV
   evaluation?: Nullable<ICVEvaluation> | undefined
+  backLink: string
 }
 const CvForHirerPage = (props: Props) => {
   const appContext = useAppContext()
   const cv = props.cv
-
+  const { t } = useTranslation()
 
   let ref = useRef<HTMLDivElement | null>(null)
 
@@ -30,7 +31,7 @@ const CvForHirerPage = (props: Props) => {
 
 
      <div ref={ref} className={styles.container}>
-        <PageTitle title={cv.title} link={Routes.lkCandidatesBase} />
+        <PageTitle title={cv.title} link={props.backLink} />
         <div className={styles.wrapper}>
           <div className={styles.top}>
             <CardWithPhoto cv={cv} />
@@ -42,10 +43,10 @@ const CvForHirerPage = (props: Props) => {
         </div>
         <ControlsStickyFooter btns={[
           <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>
-            Send Invite
+            {t('cv_preview_send_invite')}
           </Button>,
-          <Button className={styles.cancel} styleType='large' color='white' href={Routes.lkCandidatesBase} >
-            Cancel
+          <Button className={styles.cancel} styleType='large' color='white' href={props.backLink} >
+            {t('cv_preview_cancel')}
           </Button>
         ]} boundaryElement={`.${styles.container}`} formRef={ref} />
       </div>

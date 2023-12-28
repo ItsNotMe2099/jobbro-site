@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useField } from 'formik'
 import { IField, IOption, Nullable } from '@/types/types'
 import styles from './index.module.scss'
@@ -24,7 +24,7 @@ export interface SelectFieldProps<T> extends IField<T> {
   initialAsyncData?: any
   resettable?: boolean
   menuPosition?: 'fixed' | 'absolute'
-  onCreateOption?: (data: string) => void
+  onCreateOption?: (data: string) => Promise<T>
   selectKey?: string
   defaultOption?: Nullable<IOption<T>>
   isLoading?: boolean | undefined
@@ -34,6 +34,8 @@ export interface SelectFieldProps<T> extends IField<T> {
 export default function SelectField<T>(props: SelectFieldProps<T>) {
 
   const [field, meta, helpers] = useField(props as any)
+  const [isAddingLoading, setIsAddingLoading] = useState(false)
+
   const showError = meta.touched && !!meta.error
   const handleChange = (selectedOption: any) => {
     helpers.setValue(selectedOption)
@@ -48,6 +50,11 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
   }
 
   const uniqueKey = props.selectKey ?? `${props.name}`
+
+  if(props.name === 'project') {
+    console.log('ProjectValue22', field.value, props.defaultOption, props.options)
+  }
+
   return (
     <div className={classNames(styles.root, props.className, {[styles.fluid]: props.fluid})} data-field={props.name}>
       {props.creatable ? <CreateSelectAsync<T>
@@ -55,14 +62,16 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         key={uniqueKey}
         value={field.value}
         hasError={showError}
+        isLoading={isAddingLoading}
         noOptionsMessage={props.noOptionsMessage}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         placeholder={props.placeholder ?? ''}
-        onCreateOption={props.onCreateOption}
+       // onCreateOption={handleCreateOption}
         onChange={(value) => {
           helpers.setValue(value)
           props.onChange?.(value)
         }}
+        defaultOption={props.defaultOption}
         resettable={props.resettable ?? false}
         loadOptions={props.loadOptions!}
         initialAsyncData={props.initialAsyncData}
