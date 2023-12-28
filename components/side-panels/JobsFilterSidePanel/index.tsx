@@ -17,6 +17,7 @@ import FieldLabel from '@/components/fields/FieldLabel'
 import ProjectEntitiesField from '@/components/fields/ProjectEntitiesField'
 import {omit} from '@/utils/omit'
 import {IProject} from '@/data/interfaces/IProject'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -31,6 +32,7 @@ export interface IFormData {
 
 export default function JobsFilterSidePanel(props: Props) {
   const appContext = useAppContext()
+  const { t } = useTranslation()
   const args = appContext.panelArguments as JobFilterSidePanelArguments
   const [loading, setLoading] = useState<boolean>(false)
   const handleSubmit =  (data: IFormData) => {
@@ -63,25 +65,25 @@ export default function JobsFilterSidePanel(props: Props) {
     <SidePanelLayout>
       <FormikProvider value={formik}>
         <Form className={styles.form}>
-          <SidePanelHeader title={'Filter'}/>
+          <SidePanelHeader title={t('job_filter_title')}/>
           <SidePanelBody fixed>
             <div className={styles.fields}>
               <div className={styles.field}>
 
-                <CheckboxMultipleField<PublishStatus> name={'statuses'} label={'Status'} labelStyleType={'large'} options={[
+                <CheckboxMultipleField<PublishStatus> name={'statuses'} label={t('job_filter_field_status')} labelStyleType={'large'} options={[
                   {label: 'Published', value: PublishStatus.Published},
                   {label: 'Draft', value: PublishStatus.Draft},
                   {label: 'Paused', value: PublishStatus.Paused},
                 ]} />
               </div>
               <div className={styles.field}>
-                <FieldLabel label={'Projects'} styleType={'large'} />
+                <FieldLabel label={t('job_filter_field_projects')} styleType={'large'} />
 
-                <ProjectEntitiesField name={'projects'} placeholder={'Search projects'}  />
+                <ProjectEntitiesField name={'projects'} placeholder={t('job_filter_field_projects_ph')}  />
               </div>
-                  <DateField iconName={'field_date'} name='publishedAt' placeholder='Open Date' label={'Date'} labelStyleType={'large'}/>
+                  <DateField iconName={'field_date'} name='publishedAt' label={t('job_filter_field_published_at')} labelStyleType={'large'}/>
               <div className={styles.field}>
-                <FieldLabel label={'Closed jobs'} styleType={'large'} />
+                <FieldLabel label={t('job_filter_field_show_closed')} styleType={'large'} />
                     <CheckBoxField name='showClosed' label='Show'  />
               </div>
             </div>
@@ -89,10 +91,10 @@ export default function JobsFilterSidePanel(props: Props) {
           <SidePanelFooter>
             <div className={styles.buttons}>
             <Button spinner={loading} type='submit' className={styles.apply} styleType='large' color='green'>
-              Apply
+              {t('job_filter_button_apply')}
             </Button>
             <Button onClick={appContext.hidePanel} className={styles.btn} styleType='large' color='white'>
-              Cancel
+              {t('job_filter_button_cancel')}
             </Button>
             </div>
           </SidePanelFooter>
