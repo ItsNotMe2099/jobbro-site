@@ -20,6 +20,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {HirerRole} from '@/data/enum/HirerRole'
+import {runtimeConfig} from '@/config/runtimeConfig'
 
 enum MenuKey {
   DownloadPdf = 'downloadPdf',
@@ -63,6 +64,8 @@ export default function CandidateCard(props: Props) {
     switch (value) {
       case MenuKey.DownloadPdf:
         Analytics.goal(Goal.CvDownloadPdf)
+        window.open(`${runtimeConfig.HOST}/api/cv/${cv!.id}/exportToPdf`, '_blank')
+
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
