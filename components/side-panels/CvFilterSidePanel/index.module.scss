@@ -6,6 +6,19 @@
   flex: 1;
   height: 100vh;
 }
+.rows{
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+  .columns{
+    display: flex;
+    flex-direction: row;
+    @include list(24px, true);
+    > div{
+      flex: 1;
+    }
+  }
+}
 .fields{
   display: flex;
   flex-direction: column;
@@ -15,14 +28,14 @@
 .field{
   display: flex;
   flex-direction: column;
-  @include list(16px, false);
+  //@include list(16px, false);
 }
 
 
 .buttons {
     display: flex;
     @include list(32px, true);
-    padding: 32px 0;
+
 }
 
 .apply {

@@ -49,9 +49,9 @@ const JobsPageInner = () => {
           {label: t('jobs_filter_sort_from_high_to_low'), value: VacancyOwnerListSortType.FromHighToLowSalary}
         ]} onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}/>,
           <FilterButton key={'filter'} hasValue={!vacancyListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
-            ...vacancyListContext.filter,
+            filter: vacancyListContext.filter,
             onSubmit: vacancyListContext.setFilter
-          } as JobFilterSidePanelArguments)}>Filter</FilterButton>
+          } as JobFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
         ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
         <CardsLayout type={view==='row' ? 'list' : 'cards'} className={styles.cards}>

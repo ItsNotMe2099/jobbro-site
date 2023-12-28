@@ -4,13 +4,20 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {ICandidateListRequest} from '@/data/interfaces/ICandidateListRequest'
 import {ICandidate} from '@/data/interfaces/ICandidate'
 import {CandidateAddedStoreType} from '@/data/interfaces/CandidateAddedStoreType'
+import {omit} from '@/utils/omit'
 
 export default class CandidateRepository {
   static async fetch(data: ICandidateListRequest, config?: AxiosRequestConfig): Promise<IPagination<ICandidate>> {
     const res = await request<IPagination<ICandidate>>({
       method: 'get',
       url: '/api/owner/candidate',
-      data,
+      data: {
+        ...omit(data, ['skills', 'profileType', 'country']),
+        ...((data.skills?.length ?? 0) > 0 ? {skills: data.skills?.map(i => i.id).join(',')} : {}),
+        ...((data.profileType?.length ?? 0) > 0 ? {profileType: data.profileType?.join(',')} : {}),
+        ...(data.country ? {countries: [data.country]} : {}),
+        ...(data.salaryType ? {salaryType: [data.salaryType]} : {})
+      },
       config,
     })
     return res

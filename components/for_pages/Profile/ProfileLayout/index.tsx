@@ -7,6 +7,7 @@ import { IOption } from '@/types/types'
 import { Routes } from '@/types/routes'
 import { ProfileCalendar } from '../ProfileCalendar'
 import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 
 enum TabKey {
   Resume = 'resume',
@@ -22,9 +23,11 @@ interface Props {
 }
 const ProfilePageLayoutInner = (props: Props) => {
   const router = useRouter()
+
+  const { t } = useTranslation()
   const options: IOption<TabKey>[] = [
-    { label: 'Resume', value: TabKey.Resume, href: Routes.profileResume },
-    { label: 'Settings', value: TabKey.Settings, href: Routes.profileSettings },
+    { label: t('employee_profile_tab_resume'), value: TabKey.Resume, href: Routes.profileResume },
+    { label: t('employee_profile_tab_settings'), value: TabKey.Settings, href: Routes.profileSettings },
   ]
 
   const [page, setPage] = useState<number>(1)

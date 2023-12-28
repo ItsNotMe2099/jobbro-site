@@ -2,7 +2,6 @@ import styles from './index.module.scss'
 import {DeepPartial, IField} from 'types/types'
 import { useField } from 'formik'
 import DatePicker, {ReactDatePickerProps} from 'react-datepicker'
-import ru from 'date-fns/locale/ru'
 import classNames from 'classnames'
 import FieldIconSvg from 'components/svg/FieldIconSvg'
 import { format, parse } from 'date-fns'
@@ -40,7 +39,7 @@ export default function DateField(props: Props) {
             [styles.hover]: hover,
             [styles.press]: press,
           },)}
-          locale={ru}
+         // locale={en}
           selected={field.value ? parse(field.value, 'dd.MM.yyyy', new Date()) : null}
           dateFormat="dd.MM.yyyy"
           placeholderText={props.placeholder}

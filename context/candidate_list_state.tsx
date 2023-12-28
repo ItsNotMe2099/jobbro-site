@@ -5,6 +5,8 @@ import {CanceledError} from 'axios'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {ICandidateListRequest} from '@/data/interfaces/ICandidateListRequest'
 import CandidateRepository from '@/data/repositories/CandidateRepository'
+import {Nullable} from '@/types/types'
+import {CvListSortType} from '@/data/enum/CvListSortType'
 
 export interface ICandidateFilter extends ICandidateListRequest {
 }
@@ -17,6 +19,9 @@ interface IState {
   setPage: (page: number) => void
   filter: ICandidateFilter
   setFilter: (data: ICandidateFilter) => void
+  filterIsEmpty: boolean
+  sortType: Nullable<CvListSortType>
+  setSortType: (sortType: Nullable<CvListSortType>) => void
   reFetch: () => Promise<IPagination<ICandidate>>
   fetchMore: () => void
 }
@@ -29,6 +34,9 @@ const defaultValue: IState = {
   setPage: (page: number) => null,
   filter: {page: 1, limit: 10},
   setFilter: (data: ICandidateFilter) => null,
+  filterIsEmpty: false,
+  sortType: null,
+  setSortType: (sortType: Nullable<CvListSortType>) => null,
   reFetch: async () => ({data: [], total: 0}),
   fetchMore: () => null
 }
@@ -47,7 +55,9 @@ export function CandidateListWrapper(props: Props) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [filter, setFilter] = useState<ICandidateFilter>({page: 1, limit: props.limit ?? 10})
+  const [sortType, setSortType] = useState<Nullable<CvListSortType>>(null)
   const filterRef = useRef<ICandidateFilter>(filter)
+  const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const limit = props.limit ?? 20
@@ -73,6 +83,18 @@ export function CandidateListWrapper(props: Props) {
       subscriptionDelete.unsubscribe()
     }
   }, [data])
+  const getSortParam = (sortType: CvListSortType) => {
+    switch (sortType){
+      case CvListSortType.FromNewToOld:
+        return 'createdAt,DESC'
+      case CvListSortType.FromOldToNew:
+        return 'createdAt,ASC'
+      case CvListSortType.FromLowToHighSalary:
+        return 'salaryMin,ASC'
+      case CvListSortType.FromHighToLowSalary:
+        return 'salaryMin,DESC'
+    }
+  }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<ICandidate>> => {
     setIsLoading(true)
     let res: IPagination<ICandidate> = {data: [], total: 0}
@@ -84,8 +106,10 @@ export function CandidateListWrapper(props: Props) {
        res = await CandidateRepository.fetch({
         ...filterRef.current,
        limit: filterRef.current.limit ?? limit,
-        page
-      }, {signal: abortControllerRef.current?.signal})
+        page,
+         ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
+
+       }, {signal: abortControllerRef.current?.signal})
       setData(page > 1 ? (i) => ({total: res.total, data: [...i.data, ...res.data]}) : res)
 
     } catch (err) {
@@ -103,6 +127,11 @@ export function CandidateListWrapper(props: Props) {
     setData({data: [], total: 0})
     setIsLoaded(false)
     return fetch({page: 1})
+  }
+  const checkIsFilterEmpty = () => {
+    const filter = filterRef.current
+    console.log('Fitrewewe', filter)
+    return Boolean(!filter.profileType?.length && !filter.skills?.length && !filter.country && !filter.salaryType && !filter.salaryMin && !filter.salaryMax)
   }
   const value: IState = {
     ...defaultValue,
@@ -124,7 +153,14 @@ export function CandidateListWrapper(props: Props) {
     fetchMore: () => {
       setPage(i => i + 1)
       fetch({page: page + 1})
-    }
+    },
+    sortType,
+    setSortType: (sortType) => {
+      sortTypeRef.current = sortType
+      setSortType(sortType)
+      reFetch()
+    },
+    filterIsEmpty: checkIsFilterEmpty(),
   }
 
 

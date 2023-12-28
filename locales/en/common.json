@@ -574,6 +574,37 @@
   "main_lending_footer_link_terms": "Terms of Service",
   "main_lending_footer_link_cookies": "Cookies Settings",
 
-  "seo_main_title": "",
-  "seo_main_desc": ""
+  "seo_main_title": "Jobbro: Streamline Recruitment in Indonesia with AI - Vacancies, Assessment & Analytics",
+  "seo_main_desc": "Jobbro revolutionizes recruitment in Indonesia with cutting-edge AI technology. Our platform offers AI-generated job vacancies, comprehensive candidate assessments, a robust database for each candidate, detailed analytics, and statistics for your recruitment process. Plus, with multiposting across various platforms and aggregators, Jobbro ensures your vacancies reach the right audience. Simplify your hiring, gain insightful data, and connect with top talent effortlessly. Explore Jobbro today and transform your recruitment strategy!",
+
+  "employee_profile_tab_resume": "Resume",
+  "employee_profile_tab_settings": "Settings",
+
+  "cv_filter_field_profile": "Profile",
+  "cv_filter_field_profile_all": "All",
+  "cv_filter_field_profile_verificated": "Verificated",
+  "cv_filter_field_profile_manual": "Manual",
+
+  "filter_toolbar_filter": "Filter",
+  "cv_filter_title": "Filter",
+  "cv_filter_field_score": "Score",
+  "cv_filter_field_score_min": "Minimum, %",
+  "cv_filter_field_score_max": "Maximum, %",
+  "cv_filter_field_salary_min": "Salary minimum",
+  "cv_filter_field_salary_max": "Salary maximum",
+  "cv_filter_field_currency": "Currency",
+  "cv_filter_field_salary_type": "Period",
+  "cv_filter_field_skills": "Skills",
+  "cv_filter_field_skills_ph": "Search skills",
+  "cv_filter_field_location": "Location",
+  "cv_filter_field_country": "Country",
+  "cv_filter_button_apply": "Apply",
+  "cv_filter_button_cancel": "Cancel",
+  "cv_filter_sort_from_new_to_old": "From New to Old",
+  "cv_filter_sort_from_old_to_new": "From old to New",
+  "cv_filter_sort_score_from_low_to_high": "Low to High Score",
+  "cv_filter_sort_score_from_high_to_low": "High to Low Score",
+  "cv_filter_sort_from_low_to_high": "Low to High Salary",
+  "cv_filter_sort_from_high_to_low": "High to Low Salary"
+
 }

@@ -1,11 +1,9 @@
-import {PublishStatus} from '@/data/enum/PublishStatus'
 import {ICV} from '@/data/interfaces/ICV'
+import {ICandidateFilter} from '@/context/candidate_list_state'
+import {IVacancyFilter} from '@/context/vacancy_owner_list_state'
 
 export interface JobFilterSidePanelArguments {
-  statuses: PublishStatus[]
-  projects: number[]
-  publishedDate: string
-  showClosed: boolean
+  filter: IVacancyFilter
   onSubmit: (data: any) => void
 }
 
@@ -15,6 +13,12 @@ export interface JobReviewSidePanelArguments {
 
 export interface JobInviteSidePanelArguments {
   cv: ICV
+}
+
+export interface CvFilterSidePanelArguments {
+  showScore?: boolean
+  filter: ICandidateFilter
+  onSubmit: (data: any) => void
 }
 
 

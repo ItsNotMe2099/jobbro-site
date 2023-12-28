@@ -124,7 +124,7 @@ const JobCardInner = (props: Props) => {
           </div>}
           <div className={styles.middle}>
             <div className={styles.published}>
-              {t('job_card_market')}
+              {vacancy.project?.title ?? <>&nbsp;</>}
             </div>
             <div className={styles.name}>
               {vacancy.name}

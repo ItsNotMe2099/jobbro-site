@@ -77,7 +77,9 @@ export enum Languages {
 export enum SidePanelType {
   JobsFilter = 'jobsFilter',
   JobReview = 'jobReview',
-  InviteToJob = 'inviteToJob'
+  InviteToJob = 'inviteToJob',
+  CandidateBaseFilter = 'candidateBaseFilter',
+  JobAppliesFilter = 'jobAppliesFilter',
 }
 
 export enum CardViewType {

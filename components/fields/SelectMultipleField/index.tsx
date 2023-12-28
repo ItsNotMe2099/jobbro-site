@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import FieldError from '@/components/fields/FieldError'
 import { Props as SelectProps } from 'react-select/dist/declarations/src'
 import SelectMultiple from '@/components/fields/SelectMultiplie'
-import {CreateSelectAsync} from '@/components/fields/Select'
+import {CreateSelectAsync, SelectAsync} from '@/components/fields/Select'
 
 type WithId = {id: number| string}
 export interface SelectMultipleFieldProps<T> extends IField<T[]> {
@@ -67,11 +67,32 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
 
   return (
     <div className={classNames(styles.root, props.className)} data-field={props.name}>
-      <SelectMultiple<T> values={props.values} onDelete={handleDelete} select={ <CreateSelectAsync<T[]>
+      <SelectMultiple<T>  formatLabel={props.formatLabel}
+                           values={props.values} onDelete={handleDelete} select={ props.creatable ? <CreateSelectAsync<T[]>
         label={props.label as string}
         key={uniqueKey} // Add a unique key to trigger re-render
         options={props.options}
-        value={field.value}
+     //   value={field.value}
+        isLoading={isAddingLoading}
+        hasError={showError}
+        formatLabel={props.formatLabel}
+        initialAsyncData={props.initialAsyncData}
+        formatCreateLabel={(value: string) => `Create «${value}»`}
+        menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
+        // @ts-ignore
+        loadOptions={props.loadOptions}
+        noOptionsMessage={props.noOptionsMessage}
+        resettable={props.resettable ?? false}
+        placeholder={props.placeholder ?? ''}
+        selectProps={props.selectProps}
+        onCreateOption={handleCreateOption}
+        // @ts-ignore
+        onChange={handleOnSelect}
+      /> : <SelectAsync<T[]>
+        label={props.label as string}
+        key={uniqueKey} // Add a unique key to trigger re-render
+        options={props.options}
+     //  value={field.value}
         isLoading={isAddingLoading}
         hasError={showError}
         formatLabel={props.formatLabel}
