@@ -9,11 +9,13 @@ import {ExperienceInfo} from '@/data/interfaces/Common'
 export default class VacancyUtils {
   static formatSalary(data: {
     currency: string
-    salaryMin?: Nullable<number>
-    salaryMax?: Nullable<number>
-    salaryType?: Nullable<SalaryType>}): string {
-    const values = [data.salaryMin, data.salaryMax].filter(i => !!i).map(i => Formatter.formatNumber(i!))
-
+    salaryMin?: Nullable<string | number>
+    salaryMax?: Nullable<string | number>
+    salaryType?: Nullable<SalaryType>}): string | null {
+    const values = [data.salaryMin, data.salaryMax].filter(i => !!i && i != '0').map(i => Formatter.formatNumber(i!))
+    if(values?.length === 0){
+      return null
+    }
     return `${values.join(' - ')}${data.currency ? `${CurrencyUtils.getCurrentSymbol(data.currency!)}` : ''}${data.salaryType ? `/${Dictionary.getSalaryTypeShortName(data.salaryType!)}` : ''}`
   }
 

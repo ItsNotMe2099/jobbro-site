@@ -54,8 +54,8 @@ export interface IVacancy {
   skills: ISkill[];
   skillsTitles: string[];
   tasks: string;
-  salaryMin: number;
-  salaryMax: number;
+  salaryMin: string | number;
+  salaryMax: string | number;
   salaryType: SalaryType;
   currency: string;
   benefits: IBenefit[];

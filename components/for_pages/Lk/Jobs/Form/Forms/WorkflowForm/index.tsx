@@ -10,6 +10,7 @@ import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequiremen
 import KeywordField from '@/components/fields/KeywordField'
 import useTranslation from 'next-translate/useTranslation'
 import ProjectField from '@/components/fields/ProjectField'
+import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
 
 type MyFormikType = FormikProps<IVacancyFormData>
 
@@ -19,6 +20,7 @@ interface Props {
 
 export default function WorkflowForm(props: Props) {
   const {t} = useTranslation()
+  const vacancyContext = useVacancyOwnerContext()
   return (
     <div className={styles.root}>
       <Card title={t('job_form_tab_workflow_section_settings')}>
@@ -31,7 +33,7 @@ export default function WorkflowForm(props: Props) {
         </div>
       </Card>
       <Card title={t('job_form_tab_workflow_section_project')}>
-        <ProjectField placeholder={t('job_form_tab_workflow_field_project_ph')} className={styles.select} name='project' />
+        <ProjectField placeholder={t('job_form_tab_workflow_field_project_ph')} className={styles.select} name='project' defaultOption={vacancyContext?.vacancy?.project} />
 
       </Card>
       <Card title={<div className={styles.top}>

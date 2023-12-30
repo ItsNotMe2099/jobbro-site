@@ -66,7 +66,7 @@ export interface ICvFormData {
   relocation: Nullable<Relocation>
   currency: Nullable<string>
   salaryMin: Nullable<string|number>
-  salaryMax: Nullable<number|number>
+  salaryMax: Nullable<number | string>
   salaryType: Nullable<SalaryType>
   about: { description: Nullable<string>, visible: boolean }
   skillsDescription: { description: Nullable<string>, visible: boolean }

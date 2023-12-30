@@ -104,8 +104,9 @@ export default class Formatter {
     }
   }
 
-  static formatNumber(num: number, separator?: string) {
-    return num?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+  static formatNumber(num: number | string, separator?: string) {
+    const str = typeof  num === 'string' ? num : num?.toString()
+    return str.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
   }
 
 

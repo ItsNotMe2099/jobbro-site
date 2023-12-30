@@ -3,12 +3,14 @@ import {IField, IOption, Nullable} from '@/types/types'
 import {useField} from 'formik'
 import SelectField from '@/components/fields/SelectField'
 import ProjectRepository from '@/data/repositories/ProjectRepository'
+import {IProject} from '@/data/interfaces/IProject'
 
 
 interface Props extends IField<string> {
   resettable?: boolean
   onChange?: (value: Nullable<string>) => void
   className?: string
+  defaultOption?: IProject | null | undefined
 }
 
 export default function ProjectField(props: Props) {
@@ -38,7 +40,7 @@ export default function ProjectField(props: Props) {
       }
     }
   }
-  console.log('ProjectValue', field.value)
+  console.log('ProjectValue', props.defaultOption )
   const handleCreate = async (value: string) => {
     helpers.setValue(value)
     return value
@@ -46,7 +48,8 @@ export default function ProjectField(props: Props) {
   return (
     <SelectField<string> {...(props as any)} async={true}
                            onCreateOption={handleCreate} creatable={true}
-                           defaultOption={field.value ? {label: field.value ?? '', value: field.value} : null}
+                         defaultOptions
+                           defaultOption={props.defaultOption ? {label: props.defaultOption.title, value: props.defaultOption.title} : null}
                           loadOptions={loadOptions} options={[]}
                          initialAsyncData={{page: 1}}/>
   )

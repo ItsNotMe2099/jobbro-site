@@ -14,6 +14,7 @@ export default class VacancyOwnerRepository {
       url: '/api/vacancy/currentUser',
       data: {
         ...(data.sort ? {sort: data.sort} : {}),
+        ...(data.search ? {search: data.search} : {}),
         ...(data.publishedAt ? {
           publishedAt: format(parse(data.publishedAt, 'dd.mm.yyyy', new Date()), 'yyyy-mm-dd')
         } : {}),
