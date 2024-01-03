@@ -5,13 +5,16 @@ import {runtimeConfig} from 'config/runtimeConfig'
 import Cookies from 'js-cookie'
 import {CookiesType, SnackbarType} from 'types/enums'
 import {useAppContext} from 'context/state'
-import IAiVacancyGenRequestUpdate from '@/data/interfaces/IAiVacancy'
+import IAiVacancyGenRequestUpdate, {IAiVacancy} from '@/data/interfaces/IAiVacancy'
 import AiVacancyGenRequestRepository from '@/data/repositories/AiRequestRepository'
 import IAiVacancyGenRequest from '@/data/interfaces/IAiVacancy'
 import {Nullable, RequestError} from '@/types/types'
 import {debounce} from 'debounce'
 import useWindowFocus from 'use-window-focus'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
+import {Employment} from '@/data/enum/Employment'
+import {Experience} from '@/data/enum/Experience'
+import {SalaryType} from '@/data/enum/SalaryType'
 interface IState {
   reconnectState$: Subject<boolean>,
   requestUpdateState$: Subject<IAiVacancyGenRequestUpdate>,
@@ -59,6 +62,23 @@ export function VacancyGenerateAiWrapper(props: Props) {
     }
     fetch()
   }, 1000)
+  const formatResult = (result: IAiVacancy): IAiVacancy => {
+    return {
+      ...result,
+      employment: result.employment &&
+      Object.values(Employment).includes(result.employment as Employment)
+        ? result.employment
+        : null,
+      experience: result.experience &&
+      Object.values(Experience).includes(result.experience as Experience)
+        ? result.experience
+        : null,
+      salaryType: result.salaryType &&
+      Object.values(SalaryType).includes(result.salaryType as SalaryType)
+        ? result.salaryType
+        : null,
+    }
+  }
   useEffect(() => {
     requestRef.current = request
   }, [request])
@@ -101,7 +121,7 @@ export function VacancyGenerateAiWrapper(props: Props) {
       return
     }
     AiVacancyGenRequestRepository.fetchById(requestRef.current!.id).then(i => {
-      setRequest(i)
+      setRequest({...i, result: i.result ? formatResult(i.result!) : i.result})
       if(requestRef.current){
         requestUpdateState$.next(i)
       }
@@ -111,7 +131,7 @@ export function VacancyGenerateAiWrapper(props: Props) {
     try {
       setSending(true)
       const request = await AiVacancyGenRequestRepository.create(message)
-      setRequest(request)
+      setRequest({...request, result: request.result ? formatResult(request.result!) : request.result})
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
@@ -167,7 +187,8 @@ export function VacancyGenerateAiWrapper(props: Props) {
     const subscriptionUpdate = requestRawUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       console.log('subscriptionUpdate', request, requestRef.current, request?.id === requestRef.current?.id || !requestRef.current?.id)
       if(request?.id === requestRef.current?.id || !requestRef.current?.id) {
-        setRequest(request)
+        setRequest({...request, result: request.result ? formatResult(request.result!) : request.result})
+
         requestUpdateState$.next(request)
       }
     })
