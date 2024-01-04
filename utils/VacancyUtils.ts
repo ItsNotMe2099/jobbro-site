@@ -25,7 +25,7 @@ export default class VacancyUtils {
     const monthDay = toMonth ? lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), toMonth, 1)) : lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), !toYear || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , 1))
 
     let end = new Date(toYear || (new Date()).getFullYear() , toMonth || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , monthDay.getDate(), 24, 24, 59, 9999)
-    console.log('EndDate', end,'-', toYear, toMonth)
+
     try {
       const {days, months, years} = intervalToDuration({start, end})
 

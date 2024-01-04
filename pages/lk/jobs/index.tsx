@@ -25,6 +25,8 @@ import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import CardsLayout from '@/components/ui/CardsLayout'
 import useTranslation from 'next-translate/useTranslation'
 import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
+import NoData from '@/components/for_pages/Common/NoData'
+import ContentLoader from '@/components/ui/ContentLoader'
 
 
 
@@ -54,11 +56,21 @@ const JobsPageInner = () => {
           } as JobFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
         ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
+
+        {vacancyListContext.isLoaded && vacancyListContext.data.total === 0 &&
+          <NoData
+            title={vacancyListContext.filterIsEmpty ? t('stub_jobs_filter_title') : t('stub_jobs_title')}
+            text={vacancyListContext.filterIsEmpty ? t('stub_jobs_filter_desc') : t('stub_jobs_desc')}
+          />
+        }
+        {!vacancyListContext.isLoaded && vacancyListContext.isLoading &&
+          <ContentLoader style={'page'} isOpen={true}/>}
+        {vacancyListContext.isLoaded && vacancyListContext.data.total > 0 &&
         <CardsLayout type={view==='row' ? 'list' : 'cards'} className={styles.cards}>
           {vacancyListContext.data.data.map(i =>
             <JobCard view={view} className={styles.card} vacancy={i} key={i.id}/>
           )}
-        </CardsLayout>
+        </CardsLayout>}
         <StickyFab boundaryElement={styles.container} containerRef={ref}>
           <div className={styles.plus}>
             {showMenu ? <MenuOptions className={styles.menu} onClick={() => setShowMenu(false)}/> : <></>}

@@ -33,7 +33,7 @@ import DateYearMonthField from '@/components/fields/DateYearMonthField'
 import IconButton from '@/components/ui/IconButton'
 import classNames from 'classnames'
 import {omit} from '@/utils/omit'
-import {format, parse} from 'date-fns'
+import {format, lastDayOfMonth, parse} from 'date-fns'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import FileField from '@/components/fields/Files/FileField'
 import useTranslation from 'next-translate/useTranslation'
@@ -142,9 +142,12 @@ export default function CvForm(props: Props) {
     educationInfo: cv?.educationInfo ?? [],
     coursesInfo: cv?.coursesInfo ?? [],
     experienceInfo: cv?.experienceInfo?.map(i => {
+      const monthDay = i.toMonth && !isNaN(i.toMonth) ? lastDayOfMonth(new Date(i.toYear || (new Date()).getFullYear(), i.toMonth, 1)) : lastDayOfMonth(new Date(i.toYear || (new Date()).getFullYear(), !i.toYear || i.toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , 1))
+
       return {...i,
-        fromMonthYear: i.fromYear ? format(new Date(i.fromYear, i.fromMonth ?? 1, 1, 0,0, 0), 'dd.MM.yyyy') : null,
-        toMonthYear: i.toYear ? format(new Date(i.toYear, i.toMonth ?? 1, 1, 0,0, 0), 'dd.MM.yyyy') : null,}
+
+        fromMonthYear: i.fromYear && !isNaN(i.fromYear) ? format((i.fromMonth || i.fromYear) ? new Date(i.fromYear || (new Date()).getFullYear() , i.fromMonth || 0, 1, 0, 0, 0, 0) : new Date(), 'dd.MM.yyyy') : null,
+        toMonthYear: i.toYear && !isNaN(i.toYear)  ? format( new Date(i.toYear || (new Date()).getFullYear() , i.toMonth || i.toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , monthDay.getDate(), 24, 24, 59, 9999), 'dd.MM.yyyy') : null,}
     }) ?? [],
     contactsVisible: cv?.contactsVisible ?? false,
     contacts: cv?.contacts?.map(i => ({

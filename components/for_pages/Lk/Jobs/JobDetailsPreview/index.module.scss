@@ -2,7 +2,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  @include list(32px, false);
+  @include list(40px, false);
 }
 
 .salary {
@@ -21,12 +21,16 @@
 .title {
   @include h1;
 }
-
-.tasks {
-  margin-top: 40px;
+.fields{
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  @include list(40px);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
 }
 
 .stages {
@@ -83,4 +87,27 @@
     }
   }
 }
+.inputs{
+  display: flex;
+  flex-direction: row;
+  @include list(24px, true);
 
+}
+.input{
+  flex: 1;
+ background-color: $background-secondary;
+  border-radius: 13px;
+  padding: 16px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  @include list(8px);
+}
+.inputLabel{
+  color: $text-primary;
+  font-weight: 700;
+}
+.inputValue{
+  color: $text-primary;
+  font-weight: 400;
+}

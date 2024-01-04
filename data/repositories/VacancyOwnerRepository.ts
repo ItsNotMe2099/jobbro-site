@@ -8,7 +8,6 @@ import {format, parse} from 'date-fns'
 
 export default class VacancyOwnerRepository {
   static async fetch(data: IVacancyOwnerListRequest, config?: AxiosRequestConfig): Promise<IPagination<IVacancy>> {
-    console.log('FetchData22', data)
     const res = await request<IPagination<IVacancy>>({
       method: 'get',
       url: '/api/vacancy/currentUser',

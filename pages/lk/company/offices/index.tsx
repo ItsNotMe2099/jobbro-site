@@ -1,5 +1,4 @@
 import styles from './index.module.scss'
-import Button from '@/components/ui/Button'
 import { Routes } from '@/types/routes'
 import OfficeCard from 'components/for_pages/Lk/YourCompany/Offices/OfficeCard'
 import classNames from 'classnames'
@@ -34,18 +33,12 @@ const LkCompanyOfficesPageInner = (props: Props) => {
     <div ref={ref} className={classNames(styles.root, { [styles.cards]: officeListOwnerContext.data.total > 0 })}>
       {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total === 0 &&
         <NoData title={t('office_stub_title')} text={t('office_stub_desc')}
-          btn={<Button href={Routes.lkCompanyOfficeCreate} className={styles.btn} styleType='large' color='green'>
-            {t('office_stub_action')}
-          </Button>} />
+                btn={t('office_stub_action')} btnHref={Routes.lkCompanyOfficeCreate}
+         />
       }
       {!officeListOwnerContext.isLoaded && officeListOwnerContext.isLoading &&
         <ContentLoader style={'page'} isOpen={true} />}
       {officeListOwnerContext.isLoaded && officeListOwnerContext.data.total > 0 &&
-      // <div className={styles.offices}>
-      //   {officeListOwnerContext.data.data.map((i, index) =>
-      //     <OfficeCard className={styles.office} key={index} office={i} />
-      //   )}
-      // </div>
       <CardsLayout>
         {officeListOwnerContext.data.data.map((i, index) =>
           <OfficeCard className={styles.office} key={index} office={i} />

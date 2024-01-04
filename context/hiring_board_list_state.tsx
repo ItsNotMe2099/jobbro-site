@@ -5,9 +5,20 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {IVacancyWithHiringStages} from '@/data/interfaces/IVacancy'
 import HiringBoardRepository from '@/data/repositories/HiriginBoardRepository'
 import {IHiringBoardListRequest} from '@/data/interfaces/IHiringBoardListRequest'
+import {Nullable} from '@/types/types'
+import {omit} from '@/utils/omit'
+import {PublishStatus} from '@/data/enum/PublishStatus'
 
 export interface IHiringBoardListFilter extends IHiringBoardListRequest {
+  showClosed?: boolean
 }
+export enum HiringBoardListSortType{
+  FromNewToOld = 'fromNewToOld',
+  FromOldToNew = 'fromOldToNew ',
+  FromLowToHighSalary = 'fromLowToHighSalary',
+  FromHighToLowSalary = 'fromHighToLowSalary',
+}
+
 
 interface IState {
   data: IPagination<IVacancyWithHiringStages>
@@ -17,6 +28,9 @@ interface IState {
   setPage: (page: number) => void
   filter: IHiringBoardListFilter
   setFilter: (data: IHiringBoardListFilter) => void
+  filterIsEmpty: boolean
+  sortType: Nullable<HiringBoardListSortType>
+  setSortType: (sortType: Nullable<HiringBoardListSortType>) => void
   reFetch: () => Promise<IPagination<IVacancyWithHiringStages>>
   fetchMore: () => void
 }
@@ -29,8 +43,11 @@ const defaultValue: IState = {
   setPage: (page: number) => null,
   filter: {},
   setFilter: (data: IHiringBoardListFilter) => null,
+  filterIsEmpty: true,
   reFetch: async () => ({data: [], total: 0}),
-  fetchMore: () => null
+  fetchMore: () => null,
+  sortType: null,
+  setSortType: (sortType: Nullable<HiringBoardListSortType>) => null,
 }
 
 const HiringBoardListContext = createContext<IState>(defaultValue)
@@ -46,8 +63,11 @@ export function HiringBoardListWrapper(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-  const [filter, setFilter] = useState<IHiringBoardListFilter>({})
+  const [filter, setFilter] = useState<IHiringBoardListFilter>({showClosed: true})
   const filterRef = useRef<IHiringBoardListFilter>(filter)
+  const [sortType, setSortType] = useState<Nullable<HiringBoardListSortType>>(null)
+
+  const sortTypeRef = useRef<Nullable<HiringBoardListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const limit = props.limit ?? 20
@@ -55,7 +75,18 @@ export function HiringBoardListWrapper(props: Props) {
     await Promise.all([fetch()])
     setIsLoaded(true)
   }
-
+  const getSortParam = (sortType: HiringBoardListSortType) => {
+    switch (sortType){
+      case HiringBoardListSortType.FromNewToOld:
+        return 'createdAt,DESC'
+      case HiringBoardListSortType.FromOldToNew:
+        return 'createdAt,ASC'
+      case HiringBoardListSortType.FromLowToHighSalary:
+        return 'salaryMin,ASC'
+      case HiringBoardListSortType.FromHighToLowSalary:
+        return 'salaryMin,DESC'
+    }
+  }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<IVacancyWithHiringStages>> => {
     setIsLoading(true)
     let res: IPagination<IVacancyWithHiringStages> = {data: [], total: 0}
@@ -65,7 +96,17 @@ export function HiringBoardListWrapper(props: Props) {
     abortControllerRef.current = new AbortController()
     try {
       res = await HiringBoardRepository.fetch({
-        ...filterRef.current,
+        ...omit(filterRef.current, ['statuses', 'projects','showClosed']),
+        ...((filterRef.current.projects?.length ?? 0) > 0 ? {
+          projects: filterRef.current.projects
+        } : {}),
+        ...(((filterRef.current.statuses?.length ?? 0) > 0 || !filterRef.current.showClosed) ? {
+          statuses: [
+            ...((filterRef.current.statuses?.length ?? 0)> 0 ? filterRef.current.statuses! : []),
+            ...(filterRef.current.showClosed ? ((filterRef.current.statuses?.length ?? 0) > 0 ? [PublishStatus.Closed] : []) : (!filterRef.current.statuses?.length ? [PublishStatus.Draft, PublishStatus.Paused, PublishStatus.Published] : []))]
+        } : {}),
+
+        ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
         limit: filterRef.current.limit ?? limit,
         page
       }, {signal: abortControllerRef.current?.signal})
@@ -87,6 +128,11 @@ export function HiringBoardListWrapper(props: Props) {
     setIsLoaded(false)
     return fetch({page: 1})
   }
+  const checkIsFilterEmpty = () => {
+    const filter = filterRef.current
+    console.log('Check filter', filter)
+    return Boolean(!filter.statuses?.length && !filter.projects?.length && !filter.publishedAt && filter.showClosed)
+  }
   const value: IState = {
     ...defaultValue,
     isLoaded,
@@ -107,7 +153,14 @@ export function HiringBoardListWrapper(props: Props) {
     fetchMore: () => {
       setPage(i => i + 1)
       fetch({page: page + 1})
-    }
+    },
+    sortType,
+    setSortType: (sortType) => {
+      sortTypeRef.current = sortType
+      setSortType(sortType)
+      reFetch()
+    },
+    filterIsEmpty: checkIsFilterEmpty(),
 
   }
 

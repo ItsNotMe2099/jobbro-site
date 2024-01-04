@@ -42,6 +42,10 @@ export class Routes {
     return '/lk/profile/resume'
   }
 
+  static get profileResumeCreate() {
+    return '/lk/profile/resume/create'
+  }
+
   static profileResumeEdit(id: string | number) {
     return `/lk/profile/resume/edit/${id}`
   }
