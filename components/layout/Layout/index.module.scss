@@ -23,3 +23,8 @@
     margin: unset;
   }
 }
+
+.headerHide {
+  transition-delay: 1s;
+  z-index: -1;
+}

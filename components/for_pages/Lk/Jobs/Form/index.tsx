@@ -69,6 +69,7 @@ export interface IVacancyFormData {
   tasks: Nullable<string>
   cvRequired: Nullable<ApplicationInfoRequirements>
   coverLetterRequired: Nullable<ApplicationInfoRequirements>
+  languageKnowledges: {language: string, level: string}[] 
   benefits: string[]
   skills: string[]
   keywords: string[]
@@ -133,6 +134,7 @@ export default function CreateJobManuallyForm(props: Props) {
     workplace:  vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
     currency: 'EUR',
+    languageKnowledges: [],
     salaryMin:  vacancyContext.vacancy?.salaryMin?? null,
     salaryMax: vacancyContext.vacancy?.salaryMax?? null,
     salaryType: vacancyContext.vacancy?.salaryType?? null,

@@ -6,6 +6,8 @@ import DocSvg from '@/components/svg/DocSvg'
 import SparksSvg from '@/components/svg/SparksSvg'
 import classNames from 'classnames'
 import useTranslation from 'next-translate/useTranslation'
+import { useDetectOutsideClick } from '@/components/hooks/useDetectOutsideClick'
+import { useEffect, useRef } from 'react'
 
 interface Props {
   className?: string
@@ -14,10 +16,18 @@ interface Props {
 
 export default function MenuOptions(props: Props) {
   const { t } = useTranslation()
+  const optionsRef = useRef(null!)
+  const [active, setActive] = useDetectOutsideClick(optionsRef.current, true)
+
+  useEffect(()=>{
+    !active &&props.onClick()
+  }, [active])
+
+
 
   return (
-    <div className={classNames(styles.options, props.className)}>
-      <Link href={Routes.lkJobsCreateJobManually}  onClick={props.onClick} className={styles.option}>
+    <div className={classNames(styles.options, props.className)} ref={optionsRef}>
+      <Link href={Routes.lkJobsCreateJobManually}  onClick={()=>props.onClick} className={styles.option}>
         <DocSvg color={colors.green} />
         <div className={styles.desc}>
           <div className={styles.main}>
