@@ -56,7 +56,7 @@ export default function Header(props: Props) {
               {t('main_lending_header_menu_find_jobs')}
             </Link>
           </div>
-          <Button className={styles.btn} color='transparent' styleType='small'>
+          <Button href={'#application'} className={styles.btn} color='transparent' styleType='small'>
             {t('main_lending_header_button_try_demo')} <ArrowChevronRightSvg color={colors.white} />
           </Button>
         </div>
