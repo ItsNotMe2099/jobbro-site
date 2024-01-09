@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import styles from './index.module.scss'
-import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
+import CheckBoxGreenSvg from '@/components/svg/CheckBoxGreenSvg'
 
 interface Props {
   title?: string
@@ -24,7 +24,7 @@ export default function Toast(props: Props) {
 
   return (<div className={styles.root}> 
     <div className={styles.left}>
-      {props.icon||<CheckBoxSvg className={styles.check}/>}
+      {props.icon||<CheckBoxGreenSvg className={styles.check}/>}
     </div>
     <div className={styles.body}>
       {props.title && <div className={styles.title}>{props.title}</div>}
