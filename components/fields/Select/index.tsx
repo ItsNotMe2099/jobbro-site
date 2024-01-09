@@ -99,6 +99,7 @@ interface AsyncProps<T> {
   defaultOption?: Nullable<IOption<T>>
 }
 export function SelectAsync<T>(props: AsyncProps<T>) {
+  console.log(props)
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
@@ -194,8 +195,8 @@ export function CreateSelectAsync<T>(props: CreateAsyncProps<T>) {
         <FieldLabel label={props.label} focused={focused || !!props.value}/>
       }
       <CreatableAsyncPaginate<IOption<T>, false, GroupBase<IOption<T>>>
-        defaultValue={selected}
-        value={selected}
+        defaultValue={selected ?? props.defaultOption}
+        value={selected ?? props.defaultOption}
        // isLoading={props.isLoading}
         ref={mainRef}
         formatCreateLabel={props.formatCreateLabel}

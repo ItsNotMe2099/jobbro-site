@@ -23,7 +23,7 @@ const JobWithSearchFieldInner = (props: Props) => {
   const showError = meta.touched && !!meta.error
 
   useEffect(() => {
-    vacancyListOwnerContext.reFetch()
+    vacancyListOwnerContext.setFilter({showClosed: false})
   }, [])
   const handleSelect = (vacancy: IVacancy) => {
       helpers.setValue(vacancy.id)

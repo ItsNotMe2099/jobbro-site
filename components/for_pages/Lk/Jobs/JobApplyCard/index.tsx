@@ -20,6 +20,7 @@ import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
 import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
+import {runtimeConfig} from '@/config/runtimeConfig'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -68,6 +69,7 @@ const JobApplyCardInner = (props: Props) => {
     switch (value){
       case MenuKey.DownloadPdf:
           Analytics.goal(Goal.CvDownloadPdf)
+        window.open(`${runtimeConfig.HOST}/api/cv/${cv!.id}/exportToPdf`, '_blank')
         break
       case MenuKey.AddToBase:
         favoriteContext.like(cv!.id)

@@ -31,6 +31,7 @@ export interface SelectMultipleFieldProps<T> extends IField<T[]> {
 }
 // @ts-ignore
 export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T>) {
+  console.log(props.options)
 
   const [field, meta, helpers] = useField<T[]>(props as any)
   const showError = meta.touched && !!meta.error
@@ -67,12 +68,16 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
 
   return (
     <div className={classNames(styles.root, props.className)} data-field={props.name}>
-      <SelectMultiple<T>  formatLabel={props.formatLabel}
-                           values={props.values} onDelete={handleDelete} select={ props.creatable ? <CreateSelectAsync<T[]>
+      <SelectMultiple<T>  
+      formatLabel={props.formatLabel}
+      values={props.values} 
+      onDelete={handleDelete} 
+      select={ props.creatable &&
+        <CreateSelectAsync<T[]>
         label={props.label as string}
         key={uniqueKey} // Add a unique key to trigger re-render
         options={props.options}
-     //   value={field.value}
+        //   value={field.value}
         isLoading={isAddingLoading}
         hasError={showError}
         formatLabel={props.formatLabel}
@@ -88,11 +93,13 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
         onCreateOption={handleCreateOption}
         // @ts-ignore
         onChange={handleOnSelect}
-      /> : <SelectAsync<T[]>
+        /> 
+      ||
+        <SelectAsync<T[]>
         label={props.label as string}
         key={uniqueKey} // Add a unique key to trigger re-render
         options={props.options}
-     //  value={field.value}
+        //  value={field.value}
         isLoading={isAddingLoading}
         hasError={showError}
         formatLabel={props.formatLabel}
@@ -108,7 +115,8 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
         onCreateOption={handleCreateOption}
         // @ts-ignore
         onChange={handleOnSelect}
-      />}/>
+        />
+      }/>
       <FieldError className={props.errorClassName} showError={showError}>{meta.error?.toString()}</FieldError>
     </div>
   )

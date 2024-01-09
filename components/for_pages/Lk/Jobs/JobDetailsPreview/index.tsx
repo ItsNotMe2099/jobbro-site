@@ -7,6 +7,7 @@ import HtmlText from '@/components/ui/HtmlText'
 import ChipList from '@/components/ui/ChipList'
 import Chip from '@/components/ui/Chip'
 import useTranslation from 'next-translate/useTranslation'
+import Dictionary from '@/utils/Dictionary'
 
 interface Props {
   job: IVacancy
@@ -19,23 +20,40 @@ export default function JobDetailsPreview(props: Props) {
   const keywords = (job.keywords?.map(i => i?.title ?? i) ?? [])
   const benefits = (job.benefits?.map(i => i?.title ?? i) ?? [])
 
-  
-  return (<div className={styles.root}>
+
+  return (
       <Card title={job.name}>
-        <>
+          <>
           {(job.salaryMin || job.salaryMax) && <div className={styles.salary}>
             {VacancyUtils.formatSalary(job)}
           </div>}
+          </>
+
+        <div className={styles.fields}>
+          <div className={styles.inputs}>
+            <div className={styles.input}>
+              <div className={styles.inputLabel}>{t('job_preview_requirements_experience')}</div>
+              <div className={styles.inputValue}>3 — 6 years</div>
+            </div>
+            <div className={styles.input}>
+              <div className={styles.inputLabel}>{t('job_preview_employment_type')}</div>
+              <div className={styles.inputValue}>{Dictionary.getEmploymentName(job.employment, t)}</div>
+            </div>
+            <div className={styles.input}>
+              <div className={styles.inputLabel}>{t('job_preview_workplace')}</div>
+              <div className={styles.inputValue}>{Dictionary.getWorkplaceName(job.workplace, t)}</div>
+            </div>
+          </div>
           {job.intro.visible && <div className={styles.intro}>
             <HtmlText>{job.intro.description}</HtmlText>
           </div>}
-          {job.tasks && <div className={styles.tasks}>
+          {job.tasks && <div className={styles.field}>
             <div className={styles.title}>
               {t('job_preview_tasks')}
             </div>
             <HtmlText>{job.tasks}</HtmlText>
           </div>}
-          {job.requirements && <div className={styles.tasks}>
+          {job.requirements && <div className={styles.field}>
             <div className={styles.title}>
               {t('job_preview_requirements')}
             </div>
@@ -43,7 +61,7 @@ export default function JobDetailsPreview(props: Props) {
             <HtmlText>{job.requirements}</HtmlText>
           </div>}
 
-          {(job.benefitsDescription?.visible || job.benefits.length > 0) && <div className={styles.tasks}>
+          {(job.benefitsDescription?.visible || job.benefits.length > 0) && <div className={styles.field}>
             <div className={styles.title}>
               {t('job_preview_benefits')}
             </div>
@@ -59,13 +77,13 @@ export default function JobDetailsPreview(props: Props) {
 
           </div>}
 
-          {job.contactPerson && job.contactPerson.visible && <div className={styles.tasks}>
+          {job.contactPerson && job.contactPerson.visible && <div className={styles.field}>
             <div className={styles.title}>
               {'Contact person'}
             </div>
             <HtmlText>{job.contactPerson.name||''}</HtmlText>
           </div>}
-          {job.hiringStagesDescriptions && job.hiringStagesDescriptions.length > 0 && <div className={styles.tasks}>
+          {job.hiringStagesDescriptions && job.hiringStagesDescriptions.length > 0 && <div className={styles.field}>
             <div className={styles.title}>
               {'Hiring stages'}
             </div>
@@ -79,7 +97,7 @@ export default function JobDetailsPreview(props: Props) {
             </div>
           </div>}
 
-          {job.keywords && job.keywords.length > 0 && <div className={styles.tasks}>
+          {job.keywords && job.keywords.length > 0 && <div className={styles.field}>
             <div className={styles.title}>
               {'Keywords'}
             </div>
@@ -89,8 +107,7 @@ export default function JobDetailsPreview(props: Props) {
           </div>
 
           }
-        </>
+        </div>
       </Card>
-    </div>
   )
 }

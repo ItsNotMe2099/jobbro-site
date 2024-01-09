@@ -9,11 +9,13 @@ import {ExperienceInfo} from '@/data/interfaces/Common'
 export default class VacancyUtils {
   static formatSalary(data: {
     currency: string
-    salaryMin?: Nullable<number>
-    salaryMax?: Nullable<number>
-    salaryType?: Nullable<SalaryType>}): string {
-    const values = [data.salaryMin, data.salaryMax].filter(i => !!i).map(i => Formatter.formatNumber(i!))
-
+    salaryMin?: Nullable<string | number>
+    salaryMax?: Nullable<string | number>
+    salaryType?: Nullable<SalaryType>}): string | null {
+    const values = [data.salaryMin, data.salaryMax].filter(i => !!i && i != '0').map(i => Formatter.formatNumber(i!))
+    if(values?.length === 0){
+      return null
+    }
     return `${values.join(' - ')}${data.currency ? `${CurrencyUtils.getCurrentSymbol(data.currency!)}` : ''}${data.salaryType ? `/${Dictionary.getSalaryTypeShortName(data.salaryType!)}` : ''}`
   }
 
@@ -23,7 +25,7 @@ export default class VacancyUtils {
     const monthDay = toMonth ? lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), toMonth, 1)) : lastDayOfMonth(new Date(toYear || (new Date()).getFullYear(), !toYear || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , 1))
 
     let end = new Date(toYear || (new Date()).getFullYear() , toMonth || toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , monthDay.getDate(), 24, 24, 59, 9999)
-    console.log('EndDate', end,'-', toYear, toMonth)
+
     try {
       const {days, months, years} = intervalToDuration({start, end})
 

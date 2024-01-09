@@ -8,6 +8,7 @@ import PersonSvg from '@/components/svg/PersonSvg'
 import Dictionary from '@/utils/Dictionary'
 import useTranslation from 'next-translate/useTranslation'
 import Formatter from '@/utils/formatter'
+import InternetSvg from '@/components/svg/InternetSvg'
 
 interface Props {
  company: ICompany
@@ -26,7 +27,7 @@ export default function JobCompanyPreview(props: Props) {
            <div className={styles.companyInfo}>
              {company?.industry && <div className={styles.desc}>{company.industry?.name}</div>}
              <div className={styles.name}>{company?.name}</div>
-             {company.url && <a href={Formatter.formatUrl(company.url) ?? '#'} className={styles.link}>{t('job_preview_company_go_website')}</a>}
+             {company.url && <a href={Formatter.formatUrl(company.url) ?? '#'} className={styles.link}><InternetSvg color={colors.green}/>{t('job_preview_company_go_website')}</a>}
            </div>
          </div>
          <div className={styles.right}>

@@ -7,10 +7,11 @@
   @media (max-width: $xs-max) {
     font-size: 16px;
   }
-  :global{
-    p{
+  :global {
+    p {
       margin: 0;
-      strong{
+
+      strong {
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -18,24 +19,29 @@
         color: $text-primary;
       }
     }
-    a{
+
+    a {
       color: $green;
       text-decoration: underline;
-      &:hover{
+
+      &:hover {
         text-decoration: none;
       }
     }
-    figure{
+
+    figure {
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      img{
+
+      img {
         display: block;
         max-width: 100%;
       }
-      figcaption{
+
+      figcaption {
         font-size: 14px;
         font-style: italic;
         font-weight: 400;
@@ -45,30 +51,65 @@
         padding: 0;
       }
     }
-    blockquote{
+
+    blockquote {
       margin: 0;
       font-style: italic;
       font-weight: 500;
 
     }
-    ul, ol{
+
+    ul, ol {
       margin: 0;
       list-style-position: inside;
       color: $text-primary;
+      li{
+        margin-bottom: 8px;
+      }
     }
-    ol{
-      li::marker{
-        font-size: 18px;
-        color: $green;
-        @media (max-width: $xs-max) {
-          font-size: 16px;
+
+    ol {
+      list-style: none;
+      counter-reset: my-counter;
+
+      li {
+        position: relative;
+        padding: 0px 0px 0px 24px;
+        counter-increment: my-counter;
+
+        &:before {
+          position: absolute;
+          content: counter(my-counter) "";
+          left: 0px;
+          top: 0px;
+          color: $green;
+          font-size: inherit;
+          line-height: inherit;
+          font-weight: 600;
         }
       }
     }
-    ul{
-      list-style-type: circle;
+
+    ul {
+      li {
+        list-style-type: none;
+        position: relative;
+        padding: 0px 0px 0px 24px;
+
+        &:after {
+          content: " ";
+          position: absolute;
+          left: 0px;
+          top: 9px;
+          width: 8px;
+          height: 8px;
+          border-radius: 100%;
+          background: $green;
+        }
+      }
     }
-    ul,ol, blockquote{
+
+    ul, ol, blockquote {
 
     }
   }

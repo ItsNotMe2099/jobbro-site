@@ -9,13 +9,13 @@ import {IVacancy} from '@/data/interfaces/IVacancy'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {IOptionGroup} from '@/types/types'
 import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
-import Dictionary from '@/utils/Dictionary'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
+import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
 
 enum MenuKey{
   Publish = 'publish',
@@ -44,19 +44,12 @@ const JobCardInner = (props: Props) => {
         return colors.grey
       case PublishStatus.Paused:
         return colors.lightOrange
+      case PublishStatus.Closed:
+        return colors.grey
     }
   }
 
-  const getColorStatus = (status: PublishStatus) => {
-    switch (status) {
-      case PublishStatus.Draft:
-        return colors.darkBlue
-      case PublishStatus.Published:
-        return colors.green
-      case PublishStatus.Paused:
-        return colors.darkOrange
-    }
-  }
+
 
   const menuGroups: IOptionGroup<MenuKey>[] = [
     ...(!([PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
@@ -130,9 +123,7 @@ const JobCardInner = (props: Props) => {
               {vacancy.name}
             </div>
           </div>
-          {props.view === CardViewType.Row && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-            {Dictionary.getVacancyStatusName(vacancy.status, t)}
-          </div>}
+          {props.view === CardViewType.Row && <JobStatus/>}
         </div>
         {props.view === CardViewType.Row &&
           <div className={styles.rowBottom}>
@@ -161,9 +152,7 @@ const JobCardInner = (props: Props) => {
               </div>
             </div>
           </div>}
-        {props.view === CardViewType.Card && <div className={styles.status} style={{ color: getColorStatus(vacancy.status) }}>
-          {Dictionary.getVacancyStatusName(vacancy.status, t)}
-        </div>}
+        {props.view === CardViewType.Card && <JobStatus/>}
       </Link>
       <div className={styles.bottom}>
         {props.view === CardViewType.Card && <div className={styles.left}>

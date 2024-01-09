@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { ReactElement, useEffect, useState } from 'react'
 import { FieldValidator } from 'formik/dist/types'
 import { useIMask } from 'react-imask'
-import { AsYouType, isValidPhoneNumber } from 'libphonenumber-js'
+import { AsYouType, isValidPhoneNumber, validatePhoneNumberLength } from 'libphonenumber-js'
 import cx from 'classnames'
 import Converter from 'utils/converter'
 import { IField } from 'types/types'
@@ -65,16 +65,20 @@ const getInitialPatternFromFormat = (format: FormatType | undefined) => {
       return null
   }
 }
+
 export default function InputField<T extends string | number>(props: InputFieldProps<T>) {
   const [focused, setFocus] = useState(false)
   const [obscureShow, setObscureShow] = useState(false)
   const [field, meta, helpers] = useField(props as any)
   const [phoneIsValid, setPhoneIsValid] = useState(false)
   const [pattern, setPattern] = useState<string | null | NumberConstructor>(getInitialPatternFromFormat(props.format))
+
   const showError = meta.touched && !!meta.error && !focused
+
   const formatValue = (value: InputValueType<T>) => {
     return props.formatValue ? props.formatValue(value) : value
   }
+
   const parseValue = (value: InputValueType<T>) => {
     return props.parseValue ? props.parseValue(value) : value
   }
@@ -95,6 +99,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
         return value
     }
   }
+
   const { ref, maskRef } = useIMask({
     mask: pattern as any || /.*/, ...(props.format && ['number', 'price', 'weight'].includes(props.format) ? {
       mask: Number,
@@ -113,24 +118,31 @@ export default function InputField<T extends string | number>(props: InputFieldP
       }, 50)
     }
   })
+
   const autoCompleteProps: any = props.noAutoComplete ? { autoComplete: 'off', autoCorrect: 'off' } : {}
   
   useEffect(() => {
     if (maskRef.current && (props.format === 'phone' || props.format === 'phoneAndEmail')) {
       const phone = `${field.value && !`${field.value}`.startsWith('+') ? '+' : ''}${field.value}`
-      if (isValidPhoneNumber(phone || '')) {
+      const asYouType = new AsYouType()
+      asYouType.input(phone || '')
+      const noMoreDigits = validatePhoneNumberLength(phone+'0', asYouType.country)
+      const notValidLength = validatePhoneNumberLength(phone, asYouType.country)
+      const template = asYouType.getTemplate() + (noMoreDigits === undefined ? 'x' : '')
+
+      if (isValidPhoneNumber(phone || '') || notValidLength === undefined) {
         if (!phoneIsValid) {
           setPhoneIsValid(true)
-          const asYouType = new AsYouType()
-          asYouType.input(phone || '')
-          setPattern(Converter.convertLibphonenumberToMask(asYouType.getTemplate()))
+          setPattern(Converter.convertLibphonenumberToMask(template + (noMoreDigits === undefined ? ' xxx' : '')))
           updateValueFromMask()
         }
-      } else if (phoneIsValid) {
+        return
+      } else if (phoneIsValid && noMoreDigits !== 'TOO_LONG') {
         setPhoneIsValid(false)
         setPattern(defaultPhonePattern)
         updateValueFromMask()
       }
+      
       if (props.format === 'phoneAndEmail') {
         const looksLikePhone = /^\+?\d\s?\d\s?\d/.test(field.value || '') || /\d/.test(field.value || '')
         const looksLikeEmail = /[@.]/.test(field.value || '')
@@ -149,7 +161,9 @@ export default function InputField<T extends string | number>(props: InputFieldP
 
   const updateValueFromMask = () => {
     setTimeout(() => {
-      helpers.setValue(maskRef.current?.value ?? null)
+      helpers.setValue(maskRef.current?.value ?? null);
+      (ref.current as any).selectionStart = (maskRef.current?.value as string).length
+
     }, 50)
   }
 
@@ -161,6 +175,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
       }
     }
   }
+  
   const renderSuffix = () => {
     if (props.suffix === 'search') {
       return <div className={cx(styles.suffix)}><SearchSvg color={colors.black} /></div>
@@ -169,6 +184,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
     }
     return props.suffix
   }
+
   const renderPrefix = () => {
     if (props.prefix === 'search') {
       return <div className={cx(styles.prefix)}><SearchSvg color={colors.textSecondary} /></div>
@@ -177,6 +193,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
     }
     return props.prefix
   }
+
   const handleClear = () => {
     const formatted = props.format ? formatValue(formatValueByType(props.format!, '' as any as InputValueType<T>) as InputValueType<T>) : formatValue('' as InputValueType<T>)
     helpers.setValue(formatted)

@@ -51,7 +51,6 @@ export default function ProjectEntitiesField(props: Props) {
                                  findValue={(value) => !!field.value.find(i => i.id === value.id)}
                                  placeholder={props.placeholder}
                                  formatLabel={(v) => {
-                                   console.log('FormatLabel', v)
                                    return (v as IProject).title}}
                                  loadOptions={loadOptions} options={[]}
                                  initialAsyncData={{page: 1}}/>

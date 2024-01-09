@@ -18,6 +18,7 @@ import CurrencyField from '@/components/fields/CurrencyField'
 import SkillField from '@/components/fields/SkillField'
 import BenefitField from '@/components/fields/BenefitField'
 import useTranslation from 'next-translate/useTranslation'
+import LanguagesField from '@/components/fields/LanguagesField'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -61,6 +62,9 @@ export default function JobAdDetailsForm(props: Props) {
       </Card>
       <Card title='Experience'>
         <SelectField<Experience> className={styles.select} placeholder={t('job_form_tab_details_field_experience_ph')} name='experience' options={Dictionary.getExperienceOptions(t)} />
+      </Card>
+      <Card title={'Languages Tags'}>
+        <LanguagesField name='languageKnowledges'/>
       </Card>
       <Card title={t('job_form_tab_details_section_skills')}>
         <SkillField className={styles.select} placeholder={t('job_form_tab_details_field_skills_ph')} name='skills' />

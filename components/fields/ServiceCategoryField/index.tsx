@@ -22,7 +22,7 @@ const ServiceCategoryFieldInner = (props: Props) => {
   }, [props.categoryId])
 
   return (
-   <SelectField<number | null> isLoading={serviceCategoryListContext.isLoading}  {...(props as any)}   options={serviceCategoryListContext.data.map(i => ({label: i.name, value: i.id}))} selectKey={`${props.name}${props.categoryId ?? ''}`}/>
+   <SelectField<number | null> selectProps={{isSearchable: true}} isLoading={serviceCategoryListContext.isLoading}  {...(props as any)}   options={serviceCategoryListContext.data.map(i => ({label: i.name, value: i.id}))} selectKey={`${props.name}${props.categoryId ?? ''}`}/>
    )
 }
 

@@ -35,6 +35,10 @@
 }
 .link{
   color: $green;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(8px, true);
   &:hover{
     text-decoration: underline;
   }

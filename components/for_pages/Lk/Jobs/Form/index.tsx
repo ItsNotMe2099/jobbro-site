@@ -69,6 +69,7 @@ export interface IVacancyFormData {
   tasks: Nullable<string>
   cvRequired: Nullable<ApplicationInfoRequirements>
   coverLetterRequired: Nullable<ApplicationInfoRequirements>
+  languageKnowledges: {language: string, level: string}[] 
   benefits: string[]
   skills: string[]
   keywords: string[]
@@ -85,6 +86,7 @@ export default function CreateJobManuallyForm(props: Props) {
   const vacancyContext = useVacancyOwnerContext()
   const companyContext = useCompanyOwnerContext()
   const vacancyGenerateAiContext = useVacancyGenerateAiContext()
+  const lastAIResultRef = useRef<Nullable<IAiVacancy >| undefined>(props.initialValuesAi)
   const router = useRouter()
   const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
@@ -128,15 +130,16 @@ export default function CreateJobManuallyForm(props: Props) {
     intro: props.initialValuesAi?.intro ? { description: props.initialValuesAi.intro, visible: true } :  vacancyContext.vacancy?.intro ??  { description: null, visible: false },
     categoryId: vacancyContext.vacancy?.categoryId?? null,
     subCategoryId: vacancyContext.vacancy?.subCategoryId?? null,
-    employment:  vacancyContext.vacancy?.employment?? null,
+    employment: props.initialValuesAi?.employment ? props.initialValuesAi.employment as Employment : (vacancyContext.vacancy?.employment ?? null),
     workplace:  vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
     currency: 'EUR',
+    languageKnowledges: [],
     salaryMin:  vacancyContext.vacancy?.salaryMin?? null,
     salaryMax: vacancyContext.vacancy?.salaryMax?? null,
     salaryType: vacancyContext.vacancy?.salaryType?? null,
-    experience: /*props.initialValuesAi?.experience ? props.initialValuesAi.experience as Experience :*/ (vacancyContext.vacancy?.experience ?? null),
-    benefitsDescription:  vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
+    experience: props.initialValuesAi?.experience ? props.initialValuesAi.experience as Experience : (vacancyContext.vacancy?.experience ?? null),
+    benefitsDescription:  props.initialValuesAi?.benefitsDescription ? { description: props.initialValuesAi.benefitsDescription, visible: true } :  vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
     requirements: props.initialValuesAi?.requirements ?? vacancyContext.vacancy?.requirements?? null,
     tasks: props.initialValuesAi?.tasks ?? vacancyContext.vacancy?.tasks?? null,
     cvRequired: vacancyContext.vacancy?.cvRequired ?? ApplicationInfoRequirements.Optional,
@@ -161,39 +164,51 @@ export default function CreateJobManuallyForm(props: Props) {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
 
-      if(result?.name && !formik.getFieldMeta('name').touched){
+      if(result?.name && formik.values.name !== lastAIResultRef.current?.name){
         formik.setFieldValue('name', result.name)
+      }
+      if((result?.benefits?.length ?? 0) > 0 && formik.values.benefits.length === (lastAIResultRef.current?.benefits.length ?? 0) && formik.values.benefits.every(i => lastAIResultRef.current!.benefits.includes(i))){
+        formik.setFieldValue('benefits', result!.benefits)
       }
 
-      if(result?.benefits && !formik.getFieldMeta('benefits').touched){
-         formik.setFieldValue('benefits', result.benefits)
+
+      if(result?.experience && formik.values.experience === lastAIResultRef.current?.experience){
+       formik.setFieldValue('experience', result.experience)
       }
-      if(result?.category && !formik.getFieldMeta('category').touched){
-       // formik.setFieldValue('category', result.category)
-      }
-      if(result?.experience && !formik.getFieldMeta('experience').touched){
-    //    formik.setFieldValue('experience', result.experience)
-      }
-      if(result?.intro && !formik.getFieldMeta('intro.description').touched){
+      if(result?.intro && formik.values.intro?.description === lastAIResultRef.current?.intro){
         formik.setFieldValue('intro.description', result.intro)
       }
-      if(result?.keywords && !formik.getFieldMeta('keywords').touched){
-        formik.setFieldValue('keywords', result.keywords)
+      if((result?.keywords?.length ?? 0) > 0 && formik.values.keywords.length === (lastAIResultRef.current?.keywords.length ?? 0) && formik.values.keywords.every(i => lastAIResultRef.current?.keywords.includes(i))){
+        formik.setFieldValue('keywords', result!.keywords)
       }
-      if(result?.name && !formik.getFieldMeta('name').touched){
-        formik.setFieldValue('name', result.name)
-      }
-      if(result?.requirements && !formik.getFieldMeta('requirements').touched){
+
+      if(result?.requirements && formik.values.requirements === lastAIResultRef.current?.requirements){
         formik.setFieldValue('requirements', result.requirements)
       }
-      if(result?.skills && !formik.getFieldMeta('skills').touched){
-        formik.setFieldValue('skills', result.skills)
+      if((result?.skills?.length ?? 0) > 0 && formik.values.skills.length === (lastAIResultRef.current?.skills.length ?? 0) && formik.values.skills.every(i => lastAIResultRef.current?.skills.includes(i))){
+        formik.setFieldValue('skills', result!.skills)
       }
-      if(result?.subCategory && !formik.getFieldMeta('subCategory').touched){
-        formik.setFieldValue('subCategory', result.subCategory)
-      }
-      if(result?.tasks && !formik.getFieldMeta('tasks').touched){
+
+      if(result?.tasks &&  formik.values.tasks === lastAIResultRef.current?.tasks){
         formik.setFieldValue('tasks', result.tasks)
+      }
+      if(result?.salaryType &&  formik.values.salaryType === lastAIResultRef.current?.salaryType){
+        formik.setFieldValue('salaryType', result.salaryType)
+      }
+
+      if(result?.salaryMax &&  formik.values.salaryMax === lastAIResultRef.current?.salaryMax){
+        formik.setFieldValue('salaryMax', result.salaryMax)
+      }
+
+      if(result?.salaryMin &&  formik.values.salaryMin === lastAIResultRef.current?.salaryMin){
+        formik.setFieldValue('salaryMin', result.salaryMin)
+      }
+
+      if(result?.currency &&  formik.values.currency === lastAIResultRef.current?.currency){
+        formik.setFieldValue('currency', result.currency)
+      }
+      if(result?.benefitsDescription &&  formik.values.benefitsDescription?.description === lastAIResultRef.current?.benefitsDescription){
+        formik.setFieldValue('benefitsDescription', result.benefitsDescription)
       }
 
     })
