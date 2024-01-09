@@ -15,7 +15,7 @@ export default function TryIt(props: Props) {
   const { isTabletWidth, isPhoneWidth } = useResize()
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} id={'application'}>
       <EllipseSmallSvg className={styles.small} />
       <EllipseMediumSvg className={styles.small} />
       <EllipseLargeSvg className={styles.small} />

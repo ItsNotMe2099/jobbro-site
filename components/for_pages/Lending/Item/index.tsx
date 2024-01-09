@@ -26,7 +26,7 @@ export default function Item(props: Props) {
       <div className={styles.text}>
         {props.text}
       </div>
-      <Button className={classNames(styles.btn, props.classBtn)} color='transparent' styleType='small'>
+      <Button href={'#application'} className={classNames(styles.btn, props.classBtn)} color='transparent' styleType='small'>
         {props.btnText} <ArrowChevronRightSvg color={colors.white} />
       </Button>
       <div className={styles.bottom}>

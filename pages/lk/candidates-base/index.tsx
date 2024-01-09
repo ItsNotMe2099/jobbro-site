@@ -88,7 +88,6 @@ const CandidatesPageInner = () => {
           [...(candidateListContext.selectedIds?.length > 0 && !candidateListContext.isActionLoading ? [
             <FilterButton disabled={candidateListContext.isActionLoading} onClick={() => candidateListContext.cancelSelection()}><div className={styles.selected}><IconButton onClick={() => candidateListContext.cancelSelection()}><CloseSvg color={colors.green}/></IconButton><div>{candidateListContext.isSelectAll ? t('candidates_base_select_selected_all') : t('candidates_base_select_selected_amount', {count: candidateListContext.selectedIds?.length ?? 0})}</div></div></FilterButton>,
             <FilterButton disabled={candidateListContext.isActionLoading} onClick={() => candidateListContext.setSelectAll(!candidateListContext.isSelectAll)}>{candidateListContext.isSelectAll ? t('candidates_base_select_unselect_all') : t('candidates_base_select_select_all')}</FilterButton>,
-            <FilterButton disabled={candidateListContext.isActionLoading} onClick={() => candidateListContext.cancelSelection()}>{t('candidates_base_select_close')}</FilterButton>,
           ] : candidateListContext.isActionLoading ? [    <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>] : [
             <SortFilterButton<CvListSortType> value={candidateListContext.sortType} options={[
               {label: t('cv_filter_sort_from_new_to_old'), value: CvListSortType.FromNewToOld},

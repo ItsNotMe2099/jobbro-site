@@ -69,7 +69,6 @@
   "candidates_base_card_menu_share": "Share",
   "candidates_base_select_menu_remove_from_base": "Remove",
   "candidates_base_select_menu_remove_invite": "Invite to other job",
-  "candidates_base_select_close": "Close",
   "candidates_base_select_select_all": "Select All",
   "candidates_base_select_unselect_all": "Unselect All",
   "candidates_base_select_selected_all": "Selected All",
@@ -187,11 +186,13 @@
   "job_card_menu_edit": "Edit",
   "job_card_menu_duplicate": "Duplicate",
   "job_card_menu_delete": "Delete",
+  "job_card_menu_share": "Share",
+
   "job_card_publish_date": "Publish Date",
+
 
   "job_applies_select_menu_remove_from_base": "Remove",
   "job_applies_select_menu_remove_invite": "Invite to other job",
-  "job_applies_select_close": "Close",
   "job_applies_select_select_all": "Select All",
   "job_applies_select_unselect_all": "Unselect All",
   "job_applies_select_selected_all": "Selected All",
