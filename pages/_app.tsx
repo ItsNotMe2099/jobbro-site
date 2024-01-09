@@ -44,7 +44,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
 
-    <AppWrapper isMobile={pageProps.isMobile} token={pageProps.token}>
+    <AppWrapper isMobile={pageProps.isMobile} token={pageProps.token} language={pageProps.language}>
       <NotificationWrapper>
         <FavoriteWrapper>
           <CandidateAddedWrapper>
@@ -108,6 +108,7 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
     }
     if ((appContext.ctx.req as any).cookies) {
       props.pageProps.token = (appContext.ctx as any).req.cookies[CookiesType.accessToken]
+      props.pageProps.language = (appContext.ctx as any).req.cookies[CookiesType.language]
     }
   } else if (isClient) {
     props.pageProps.isMobile = isXsScreen()
