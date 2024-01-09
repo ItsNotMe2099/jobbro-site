@@ -76,7 +76,7 @@ const JobPageInner = (props: Props) => {
 
         <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
           <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
-          <FilterToolbar left={[...(applyCvListContext.selectedIds?.length > 0 && !applyCvListContext.isActionLoading ? [
+          <FilterToolbar left={[...((applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll) && !applyCvListContext.isActionLoading ? [
             <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.cancelSelection()}><div className={styles.selected}><IconButton onClick={() => applyCvListContext.cancelSelection()}><CloseSvg color={colors.green}/></IconButton><div>{applyCvListContext.isSelectAll ? t('job_applies_select_selected_all') : t('job_applies_select_selected_amount', {count: applyCvListContext.selectedIds?.length ?? 0})}</div></div></FilterButton>,
             <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.setSelectAll(!applyCvListContext.isSelectAll)}>{applyCvListContext.isSelectAll ? t('job_applies_select_unselect_all') : t('job_applies_select_select_all')}</FilterButton>,
             <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.cancelSelection()}>{t('job_applies_select_close')}</FilterButton>,
@@ -110,7 +110,7 @@ const JobPageInner = (props: Props) => {
           {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 &&
           <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'}>
             {applyCvListContext.data.data.map((i, index) =>
-              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0}/>
+              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
             )}
           </CardsLayout>}
         </div>

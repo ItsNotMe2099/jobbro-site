@@ -15,10 +15,12 @@ import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
+import showToast from '@/utils/showToast'
 
 enum MenuKey{
   Edit = 'edit',
   Duplicate = 'duplicate',
+  Share = 'share',
   Delete = 'delete'
 }
 interface Props {
@@ -50,7 +52,8 @@ const JobCardInner = (props: Props) => {
   const menuOptions: IOption<MenuKey>[] =  [
         {label: t('job_card_menu_edit'), value: MenuKey.Edit},
         {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
-        {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
+    {label: t('job_card_menu_share'), value: MenuKey.Share},
+    {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
   ]
   const handleMenuItemClick = (key: MenuKey) => {
     switch (key){
@@ -58,6 +61,10 @@ const JobCardInner = (props: Props) => {
           router.push(Routes.lkJobEdit(vacancy.id))
         break
       case MenuKey.Duplicate:
+        break
+      case MenuKey.Share:
+        navigator.clipboard.writeText(Routes.getGlobal(Routes.job(vacancy.id)))
+        showToast({title: t('toast_job_share_copied_link')})
         break
       case MenuKey.Delete:
         vacancyContext.delete()

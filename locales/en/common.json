@@ -70,7 +70,8 @@
   "candidates_base_select_menu_remove_from_base": "Remove",
   "candidates_base_select_menu_remove_invite": "Invite to other job",
   "candidates_base_select_close": "Close",
-  "candidates_base_select_select_all": "Select",
+  "candidates_base_select_select_all": "Select All",
+  "candidates_base_select_unselect_all": "Unselect All",
   "candidates_base_select_selected_all": "Selected All",
   "candidates_base_select_selected_amount": "Selected {{count}} candidates",
 
@@ -191,7 +192,8 @@
   "job_applies_select_menu_remove_from_base": "Remove",
   "job_applies_select_menu_remove_invite": "Invite to other job",
   "job_applies_select_close": "Close",
-  "job_applies_select_select_all": "Select",
+  "job_applies_select_select_all": "Select All",
+  "job_applies_select_unselect_all": "Unselect All",
   "job_applies_select_selected_all": "Selected All",
   "job_applies_select_selected_amount": "Selected {{count}} candidates",
   "job_applies_select_change_status": "Change status",
@@ -453,6 +455,7 @@
   "toast_cv_request_cv_edited_desc": "",
   "toast_vacancy_review_created_title": "Review Created",
   "toast_vacancy_review_created_desc": "",
+  "toast_job_share_copied_link": "Link copied to your clipboard",
 
   "stub_jobs_title": "No jobs",
   "stub_jobs_desc": "You can add your first job",

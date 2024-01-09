@@ -181,6 +181,10 @@ export function ApplyCvListWrapper(props: Props) {
       setSelectedIds([])
       setSelectAll(false)
     },
+    setSelectAll: (value: boolean) => {
+
+      setSelectAll(value)
+    },
     filter,
     setFilter: async (data) => {
       filterRef.current = data

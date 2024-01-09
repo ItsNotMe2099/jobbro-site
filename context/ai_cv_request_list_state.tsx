@@ -447,7 +447,9 @@ export function AiCvRequestListWrapper(props: Props) {
       }
     },
     setSelectAllCompleted: (val: boolean) => {
+
       setSelectAllCompleted(val)
+
     }
   }
 

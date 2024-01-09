@@ -195,6 +195,10 @@ export function CandidateListWrapper(props: Props) {
       setSelectedIds([])
       setSelectAll(false)
     },
+    setSelectAll: (value: boolean) => {
+
+      setSelectAll(value)
+    },
     removeFromBaseMulti: async () => {
       let cvIds: number[] = []
       setIsActionLoading(true)
