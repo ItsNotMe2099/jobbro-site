@@ -28,7 +28,7 @@ const HiringBoardPageInner = () => {
       <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkHiringBoards} right={ <IconButton
         size={'large'}
         onClick={() => setIsEdit(!isEdit)}>
-        <SettingsSvg color={colors.textSecondary}/>
+        <SettingsSvg color={isEdit ? colors.green : colors.textSecondary}/>
       </IconButton>}/>
       <div className={styles.wrapper}>
         <FilterToolbar />
