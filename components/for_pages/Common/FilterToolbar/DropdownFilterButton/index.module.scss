@@ -1,0 +1,36 @@
+@import "styles/index";
+
+.root {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+  color: $text-primary;
+  cursor: pointer;
+  position: relative;
+}
+.button{
+  position: relative;
+
+  .circle {
+    position: absolute;
+    left: 30px;
+  }
+}
+.dropDown{
+
+}
+.default {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.16px;
+    color: $green;
+    cursor: pointer;
+    border-top: 1px solid #EBEBEB;
+}

@@ -8,6 +8,7 @@ import CandidateRepository from '@/data/repositories/CandidateRepository'
 import Analytics from '@/utils/goals'
 import showToast from '@/utils/showToast'
 import useTranslation from 'next-translate/useTranslation'
+import {Subject} from 'rxjs'
 
 const tmpList: number[] = []
 
@@ -18,13 +19,17 @@ interface IState {
   addRecord(id: number): void
   like(id: number): void
   unlike(id: number): void
+  refreshState$: Subject<boolean>,
+
 }
 
+const refreshState$ = new Subject<boolean>()
 const defaultValue: IState = {
   store: initStore,
   addRecord() {},
   like() {},
   unlike() {},
+  refreshState$
 }
 
 const CandidateAddedContext = createContext<IState>(defaultValue)

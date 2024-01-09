@@ -94,7 +94,7 @@ export default function AccountProfileForm(props: Props) {
                 label={t('account_profile_field_email')} name='email' validate={Validator.email}
               />
               <InputField format={'phone'}
-                label={t('account_profile_field_phone')} name='phone'  validate={Validator.phone}
+                label={t('account_profile_field_phone')} name='phone'
               />
 
             </div>

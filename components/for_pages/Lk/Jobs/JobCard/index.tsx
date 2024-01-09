@@ -4,23 +4,19 @@ import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
-import {CardViewType, Goal} from '@/types/enums'
+import {CardViewType} from '@/types/enums'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {PublishStatus} from '@/data/enum/PublishStatus'
-import {IOptionGroup} from '@/types/types'
+import {IOption} from '@/types/types'
 import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {format} from 'date-fns'
 import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
-import Analytics from '@/utils/goals'
 import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
 
 enum MenuKey{
-  Publish = 'publish',
-  Pause = 'pause',
-  Close = 'close',
   Edit = 'edit',
   Duplicate = 'duplicate',
   Delete = 'delete'
@@ -51,38 +47,13 @@ const JobCardInner = (props: Props) => {
 
 
 
-  const menuGroups: IOptionGroup<MenuKey>[] = [
-    ...(!([PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-      {title: t('job_card_menu_status'), options: [
-          ...(!([PublishStatus.Published, PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: t('job_card_menu_publish'), value: MenuKey.Publish},
-          ] : []),
-          ...(!([PublishStatus.Paused] as PublishStatus[]).includes(vacancy.status) ? [
-            {label: t('job_card_menu_pause'), value: MenuKey.Pause},
-          ] : []),
-
-          {label: t('job_card_menu_close'), value: MenuKey.Close},
-        ]},
-]: []),
-
-    {title: t('job_card_menu_operations'), options: [
+  const menuOptions: IOption<MenuKey>[] =  [
         {label: t('job_card_menu_edit'), value: MenuKey.Edit},
         {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
         {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
-      ]},
   ]
   const handleMenuItemClick = (key: MenuKey) => {
     switch (key){
-      case MenuKey.Publish:
-        vacancyContext.publish()
-        break
-      case MenuKey.Pause:
-        vacancyContext.pause()
-        break
-      case MenuKey.Close:
-        vacancyContext.close()
-        Analytics.goal(Goal.JobClose)
-        break
       case MenuKey.Edit:
           router.push(Routes.lkJobEdit(vacancy.id))
         break
@@ -91,6 +62,7 @@ const JobCardInner = (props: Props) => {
       case MenuKey.Delete:
         vacancyContext.delete()
         break
+
     }
   }
   const formattedPublishDate = format(new Date(vacancy.schedulePublishAt ?? vacancy.createdAt),'dd MMMM yyyy')
@@ -163,7 +135,7 @@ const JobCardInner = (props: Props) => {
             {vacancy.office?.name}
           </div>
         </div>}
-        <MenuButton<MenuKey> groups={menuGroups} onClick={handleMenuItemClick}/>
+        <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuItemClick}/>
       </div>
     </div>
   )

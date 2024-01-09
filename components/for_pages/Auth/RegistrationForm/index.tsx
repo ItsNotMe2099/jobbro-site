@@ -86,7 +86,7 @@ export default function RegistrationForm(props: Props) {
           type='password'
           name='password'
           obscure
-          validate={Validator.requiredPassword} />
+          validate={Validator.combine([Validator.requiredPassword, Validator.password])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
             {t('registration_button_create')}

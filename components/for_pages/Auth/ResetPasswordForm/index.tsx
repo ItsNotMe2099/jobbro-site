@@ -42,7 +42,7 @@ export default function ResetPasswordForm(props: Props) {
 
       appContext.setToken(res.accessToken)
       appContext.updateAboutMe()
-      if (redirect) {
+      if (redirect && redirect !== '/') {
         router.replace(redirect)
       } else {
         router.replace(Routes.lk)

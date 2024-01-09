@@ -13,6 +13,8 @@ export interface JobReviewSidePanelArguments {
 
 export interface JobInviteSidePanelArguments {
   cv: ICV
+  total?: number
+  isMulti?: boolean
 }
 
 export interface CvFilterSidePanelArguments {

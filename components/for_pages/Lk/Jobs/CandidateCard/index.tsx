@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import classNames from 'classnames'
-import {useEffect} from 'react'
+import {MouseEventHandler, useEffect} from 'react'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
 import UserUtils from '@/utils/UserUtils'
@@ -21,6 +21,7 @@ import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {HirerRole} from '@/data/enum/HirerRole'
 import {runtimeConfig} from '@/config/runtimeConfig'
+import Checkbox from '@/components/ui/Checkbox'
 
 enum MenuKey {
   DownloadPdf = 'downloadPdf',
@@ -34,6 +35,9 @@ interface Props {
   candidate: ICandidate
   className?: string
   view: CardViewType
+  onSelect: () => void
+  isSelected: boolean
+  isSelectMode: boolean
 }
 
 export default function CandidateCard(props: Props) {
@@ -83,12 +87,19 @@ export default function CandidateCard(props: Props) {
         appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)
         break
       case MenuKey.Select:
-
+        props.onSelect?.()
         break
       case MenuKey.Share:
 
         break
     }
+  }
+
+
+  const handleSelect: MouseEventHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    props.onSelect?.()
   }
   return (
     <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
@@ -126,7 +137,9 @@ export default function CandidateCard(props: Props) {
             </div>
             <div className={styles.text}>{ai.description}</div>
           </div>}
-          <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>
+          {props.isSelectMode ? <Checkbox style={'circle'} checked={props.isSelected} onClick={handleSelect} /> :
+            <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>}
+
 
         </div>
       </Link>

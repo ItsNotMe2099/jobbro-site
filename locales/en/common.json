@@ -408,7 +408,7 @@
   "toast_company_career_edited_title": "Company updated",
   "toast_company_career_edited_desc": "",
   "toast_account_edited_title": "Account updated",
-  "toast_account_deleted_desc": "",
+  "toast_account_edited_desc": "",
   "toast_vacancy_published_title": "Job published",
   "toast_vacancy_published_desc": "",
   "toast_vacancy_paused_title": "Job paused",
@@ -624,5 +624,13 @@
   "job_filter_field_published_at": "Open Date",
   "job_filter_field_show_closed": "Closed jobs",
   "job_filter_button_apply": "Apply",
-  "job_filter_button_cancel": "Cancel"
+  "job_filter_button_cancel": "Cancel",
+
+  "form_field_validation_required": "Required",
+  "form_field_validation_required_name": "Name required",
+  "form_field_validation_required_email": "Email required",
+  "form_field_validation_required_password": "Password required",
+  "form_field_validation_email": "Email",
+  "form_field_validation_password_match": "Passwords must match",
+  "form_field_validation_password": "Min length 8 symbols"
 }

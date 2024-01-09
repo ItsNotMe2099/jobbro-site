@@ -25,7 +25,7 @@ export default function ApplyForJobConfirmStep(props: Props) {
         type='password'
         name='code'
         obscure
-        validate={Validator.requiredPassword} />
+        validate={Validator.required} />
     </div>
   )
 }

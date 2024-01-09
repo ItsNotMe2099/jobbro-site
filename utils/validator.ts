@@ -17,43 +17,33 @@ export default class Validator {
   }
 
   static required(value: string | number): string | undefined {
-    return value || typeof value === 'number' ? undefined : 'Required'
+    return value || typeof value === 'number' ? undefined : 'form_field_validation_required'
   }
 
   static requiredName(value: string | number): string | undefined {
-    return value || typeof value === 'number' ? undefined : 'Enter your name'
+    return value || typeof value === 'number' ? undefined : 'form_field_validation_required_name'
   }
 
   static requiredEmail(value: string | number): string | undefined {
-    return value || typeof value === 'number' ? undefined : 'Enter your email'
+    return value || typeof value === 'number' ? undefined : 'form_field_validation_required_email'
   }
 
   static requiredPassword(value: string | number): string | undefined {
-    return value || typeof value === 'number' ? undefined : 'Enter your password'
+    return value || typeof value === 'number' ? undefined : 'form_field_validation_required_password'
   }
 
   static email(value: string): string | undefined {
     return value && !Validator.emailRe.test(value)
-      ? 'Wrong format'
+      ? 'form_field_validation_email'
       : undefined
   }
 
-  static weekScheduleRequired(value: any): string | undefined {
-    const keys = value ? Object.keys(value) : []
-    for(const key of keys){
-      if(value[key]?.active && value[key]?.startAt && value[key]?.finishAt){
-        return undefined
-      }
-    }
-    return 'Добавьте время хотя бы в 1 день'
-  }
-
   static passwordsMustMatch = (allValues: any) => (value: string): string | undefined => {
-    return value !== allValues.password ? 'Those passwords didn’t match. Try again.' : undefined
+    return value !== allValues.password ? 'form_field_validation_password_match' : undefined
   }
   static password(value: string): string | undefined {
     return value && value.length <= 6
-      ? 'Пароль должен быть больше 6 символов'
+      ? 'form_field_validation_password'
       : undefined
   }
 
