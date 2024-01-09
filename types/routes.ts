@@ -50,6 +50,10 @@ export class Routes {
     return `/lk/profile/resume/edit/${id}`
   }
 
+  static job(id: string | number) {
+    return `/job/${id}`
+  }
+
   static get lk() {
     return '/lk'
   }

@@ -23,7 +23,6 @@ export default function CheckboxMultipleField<T>(props: Props<T>) {
   const { value } = field
   const showError = meta.touched && !!meta.error
   const handleCheckboxChanged = (value: T | undefined) => {
-    console.log('handleCheckboxChanged', value)
     if (disabled) {
       return
     }

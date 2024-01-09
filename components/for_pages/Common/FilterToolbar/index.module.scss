@@ -15,8 +15,15 @@
 }
 
 .left {
-    display: flex;
-    @include list(32px, true);
+  display: flex;
+  align-items: center;
+  @include list(32px, true);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  @include list(32px, true);
 }
 
 .wide {

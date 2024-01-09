@@ -84,9 +84,7 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
   }, 5000)
 
   const init = async () => {
-    console.log('appContext.isLogged', appContext.isLogged)
     if(!appContext.isLogged){
-
       return
     }
     const res = await AiCvRequestRepository.fetch({

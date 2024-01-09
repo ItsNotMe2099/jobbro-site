@@ -79,7 +79,6 @@ export function VacancyOwnerWrapper(props: Props) {
     }
   }, [props.vacancyId, props.vacancy])
   const handleUpdate = (entity: IVacancy) => {
-    console.log('handleUpdate', entity)
     appContext.vacancyUpdateState$.next(entity)
   }
   const handleDelete = (entity: IVacancy) => {

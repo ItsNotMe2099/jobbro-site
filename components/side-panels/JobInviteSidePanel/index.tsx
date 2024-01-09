@@ -53,7 +53,11 @@ export default function JobInviteSidePanel(props: Props) {
   const handleSubmit = async (data: IFormData) => {
     setLoading(true)
     try {
-      await ProposalRepository.create({vacancyId: data.vacancyId!, cvId: args.cv.id})
+      if(args.isMulti){
+
+      }else {
+        await ProposalRepository.create({vacancyId: data.vacancyId!, cvId: args.cv.id})
+      }
       Analytics.goal(Goal.JobInviteCv)
       showToast({title: t('toast_invited_to_vacancy_title'), text: t('toast_invited_to_vacancy_desc')})
     } catch (err) {
@@ -75,7 +79,6 @@ export default function JobInviteSidePanel(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik)
 
 
   return (
@@ -86,6 +89,7 @@ export default function JobInviteSidePanel(props: Props) {
           <SidePanelBody fixed>
             <div className={styles.fields}>
               {args.cv && <CvCard cv={args.cv}/>}
+              {args.isMulti && <div className={styles.multiLabel}>{args.total} Candidates</div>}
               <div className={styles.field}>
                 <JobWithSearchField name={'vacancyId'} validate={Validator.required}/>
               </div>

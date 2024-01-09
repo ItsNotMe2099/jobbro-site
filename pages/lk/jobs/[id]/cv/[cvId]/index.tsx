@@ -19,7 +19,6 @@ const CvPageInner = () => {
   const vacancyId = parseInt(router.query.id as string, 10)
   const cvId = parseInt(router.query.cvId as string, 10)
   const evaluation = cvEvaluationContext.store[`${cvId}:${vacancyId}`]?.evaluation
-  console.log('evaluation', evaluation)
   useEffect(() => {
     cvEvaluationContext.addRecord(cvId,vacancyId)
     return () => {

@@ -9,8 +9,6 @@ interface Props {
 }
 
 export default function TimePicker(props: Props) {
-  // const [field, meta, helpers] = useField<string | null>(props as any)
-  // console.log(field)
 
   const getAllTimeOptionsWithAmPm = (minTime?: Date): string[] => {
     const minHour = minTime?.getHours()||0

@@ -54,7 +54,6 @@ export default class VacancyUtils {
     const daysExperienceToNow = (filterToNow?.length > 0 ? differenceInDays(filterToNow[0].end ?? new Date(), filterToNow[0].start) : 0)
     const daysExperienceSubstractNow = filterToNow?.length > 0 ? dataNoNow.filter((i) => i.start.getTime() >= filterToNow[0].start.getTime()).reduce((sum,i) => sum + differenceInDays(i.end ?? new Date(), i.start),0) : 0
     const totalDays = sum + daysExperienceToNow - daysExperienceSubstractNow
-    console.log('totalDays',dataNoNow, totalDays, sum, daysExperienceToNow, daysExperienceSubstractNow)
     const { days, months, years } = intervalToDuration({ start: 0, end: totalDays * 24 * 60 * 60 * 1000 })
 
     return [

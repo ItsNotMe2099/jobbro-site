@@ -67,6 +67,12 @@
   "candidates_base_card_menu_invite": "Invite",
   "candidates_base_card_menu_select": "Select",
   "candidates_base_card_menu_share": "Share",
+  "candidates_base_select_menu_remove_from_base": "Remove",
+  "candidates_base_select_menu_remove_invite": "Invite to other job",
+  "candidates_base_select_select_all": "Select All",
+  "candidates_base_select_unselect_all": "Unselect All",
+  "candidates_base_select_selected_all": "Selected All",
+  "candidates_base_select_selected_amount": "Selected {{count}} candidates",
 
   "candidates_base_tab_upload_cv_action_move": "Move to \"All Profiles\"",
   "candidates_base_tab_upload_cv_action_delete": "Delete",
@@ -180,7 +186,18 @@
   "job_card_menu_edit": "Edit",
   "job_card_menu_duplicate": "Duplicate",
   "job_card_menu_delete": "Delete",
+  "job_card_menu_share": "Share",
+
   "job_card_publish_date": "Publish Date",
+
+
+  "job_applies_select_menu_remove_from_base": "Remove",
+  "job_applies_select_menu_remove_invite": "Invite to other job",
+  "job_applies_select_select_all": "Select All",
+  "job_applies_select_unselect_all": "Unselect All",
+  "job_applies_select_selected_all": "Selected All",
+  "job_applies_select_selected_amount": "Selected {{count}} candidates",
+  "job_applies_select_change_status": "Change status",
 
   "apply_card_menu_download": "Download resume in PDF",
   "apply_card_menu_add_to_base": "Add to base",
@@ -408,7 +425,7 @@
   "toast_company_career_edited_title": "Company updated",
   "toast_company_career_edited_desc": "",
   "toast_account_edited_title": "Account updated",
-  "toast_account_deleted_desc": "",
+  "toast_account_edited_desc": "",
   "toast_vacancy_published_title": "Job published",
   "toast_vacancy_published_desc": "",
   "toast_vacancy_paused_title": "Job paused",
@@ -439,6 +456,7 @@
   "toast_cv_request_cv_edited_desc": "",
   "toast_vacancy_review_created_title": "Review Created",
   "toast_vacancy_review_created_desc": "",
+  "toast_job_share_copied_link": "Link copied to your clipboard",
 
   "stub_jobs_title": "No jobs",
   "stub_jobs_desc": "You can add your first job",
@@ -624,5 +642,13 @@
   "job_filter_field_published_at": "Open Date",
   "job_filter_field_show_closed": "Closed jobs",
   "job_filter_button_apply": "Apply",
-  "job_filter_button_cancel": "Cancel"
+  "job_filter_button_cancel": "Cancel",
+
+  "form_field_validation_required": "Required",
+  "form_field_validation_required_name": "Name required",
+  "form_field_validation_required_email": "Email required",
+  "form_field_validation_required_password": "Password required",
+  "form_field_validation_email": "Email",
+  "form_field_validation_password_match": "Passwords must match",
+  "form_field_validation_password": "Min length 8 symbols"
 }

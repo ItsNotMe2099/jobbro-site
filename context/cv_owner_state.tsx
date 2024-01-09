@@ -73,7 +73,6 @@ export function CVOwnerWrapper(props: Props) {
     }
   }, [props.cvId, props.cv])
   const handleUpdate = (entity: ICV) => {
-    console.log('handleUpdate', entity)
     appContext.cvUpdateState$.next(entity)
   }
   const handleDelete = (entity: ICV) => {
@@ -118,7 +117,6 @@ export function CVOwnerWrapper(props: Props) {
   const deleteRequest = async (): Promise<Nullable<ICV>> => {
 
     return new Promise<Nullable<ICV>>((resolve, reject) => {
-      console.log('DeleteReq1')
       appContext.showModal(ModalType.Confirm, {
         title: t('confirm_cv_delete_title', {name: cv?.title}),
         text: t('confirm_cv_delete_desc', {name: cv?.title}),

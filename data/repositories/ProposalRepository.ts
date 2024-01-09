@@ -13,6 +13,15 @@ export default class ProposalRepository {
     return res
   }
 
+  static async createMulti(data: {vacancyId: number, cvId: number}[]): Promise<IProposal> {
+    const res = await request<IProposal>({
+      method: 'post',
+      url: '/api/proposal/bulk',
+      data,
+    })
+    return res
+  }
+
   static async reject(id: number): Promise<IProposal> {
     const res = await request<IProposal>({
       method: 'patch',

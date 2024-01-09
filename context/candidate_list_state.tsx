@@ -7,6 +7,8 @@ import {ICandidateListRequest} from '@/data/interfaces/ICandidateListRequest'
 import CandidateRepository from '@/data/repositories/CandidateRepository'
 import {Nullable} from '@/types/types'
 import {CvListSortType} from '@/data/enum/CvListSortType'
+import {SidePanelType} from '@/types/enums'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 
 export interface ICandidateFilter extends ICandidateListRequest {
 }
@@ -22,6 +24,14 @@ interface IState {
   filterIsEmpty: boolean
   sortType: Nullable<CvListSortType>
   setSortType: (sortType: Nullable<CvListSortType>) => void
+  isActionLoading: boolean,
+  selectedIds: number[]
+  isSelectAll: boolean,
+  setSelectAll: (val: boolean) => void,
+  addToSelectedId: (id: number) => void,
+  cancelSelection: () => void
+  removeFromBaseMulti: () => void,
+  inviteToJobMulti: () => void,
   reFetch: () => Promise<IPagination<ICandidate>>
   fetchMore: () => void
 }
@@ -37,6 +47,14 @@ const defaultValue: IState = {
   filterIsEmpty: false,
   sortType: null,
   setSortType: (sortType: Nullable<CvListSortType>) => null,
+  isActionLoading: false,
+  selectedIds: [],
+  isSelectAll: false,
+  setSelectAll: (val: boolean) => null,
+  addToSelectedId: (id: number) => null,
+  cancelSelection: () => null,
+  removeFromBaseMulti: () => null,
+  inviteToJobMulti: () => null,
   reFetch: async () => ({data: [], total: 0}),
   fetchMore: () => null
 }
@@ -56,6 +74,10 @@ export function CandidateListWrapper(props: Props) {
   const [page, setPage] = useState<number>(1)
   const [filter, setFilter] = useState<ICandidateFilter>({page: 1, limit: props.limit ?? 10})
   const [sortType, setSortType] = useState<Nullable<CvListSortType>>(null)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const [isSelectAll, setSelectAll] = useState<boolean>(false)
+  const [isActionLoading, setIsActionLoading] = useState<boolean>(false)
+
   const filterRef = useRef<ICandidateFilter>(filter)
   const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -130,7 +152,6 @@ export function CandidateListWrapper(props: Props) {
   }
   const checkIsFilterEmpty = () => {
     const filter = filterRef.current
-    console.log('Fitrewewe', filter)
     return Boolean(!filter.profileType?.length && !filter.skills?.length && !filter.country && !filter.salaryType && !filter.salaryMin && !filter.salaryMax)
   }
   const value: IState = {
@@ -161,6 +182,66 @@ export function CandidateListWrapper(props: Props) {
       reFetch()
     },
     filterIsEmpty: checkIsFilterEmpty(),
+    isActionLoading,
+    selectedIds,
+    isSelectAll,
+    addToSelectedId: (id: number) => {
+      if (isActionLoading) {
+        return
+      }
+      setSelectedIds(i => i.includes(id) ? i.filter(i => i !== id) : [...i, id])
+    },
+    cancelSelection: () => {
+      setSelectedIds([])
+      setSelectAll(false)
+    },
+    setSelectAll: (value: boolean) => {
+
+      setSelectAll(value)
+    },
+    removeFromBaseMulti: async () => {
+      let cvIds: number[] = []
+      setIsActionLoading(true)
+      if (isSelectAll) {
+        if(data.total > data.data.length) {
+          const cvList =  await CandidateRepository.fetch({
+            ...filterRef.current,
+            limit: 1000,
+            page,
+            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
+          })
+          cvIds = cvList.data.map(i => i.id)
+        }else{
+          cvIds = data.data.map(i => i.id)
+        }
+      } else {
+        cvIds = selectedIds
+      }
+      await CandidateRepository.deleteMulti(cvIds)
+      setIsActionLoading(false)
+    },
+    inviteToJobMulti: async () => {
+      let cvIds: number[] = []
+      setIsActionLoading(true)
+      if (isSelectAll) {
+        if(data.total > data.data.length) {
+          const cvList =  await CandidateRepository.fetch({
+            ...filterRef.current,
+            limit: 1000,
+            page,
+            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
+          })
+          cvIds = cvList.data.map(i => i.id)
+        }else{
+          cvIds = data.data.map(i => i.id)
+        }
+      } else {
+        cvIds = selectedIds
+      }
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: cvIds.length, isMulti: true } as JobInviteSidePanelArguments)
+
+      setIsActionLoading(false)
+    },
   }
 
 

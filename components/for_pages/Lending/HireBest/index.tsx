@@ -26,7 +26,7 @@ export default function HireBest(props: Props) {
           <div className={styles.middle}>
             {t('main_lending_hire_best_desc')}
           </div>
-          <Button className={styles.btn} color='green' styleType='large'>
+          <Button href={'#application'}  className={styles.btn} color='green' styleType='large'>
             {t('main_lending_hire_best_hiring')} <ArrowChevronRightSvg color={colors.white} />
           </Button>
         </div>

@@ -35,7 +35,6 @@ export default function CompanyCareerForm(props: Props) {
   const {t} = useTranslation()
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     try {
-      // console.log('Data111', data)
       const submitData: DeepPartial<ICompany> = {
         ...omit(data, ['images']),
         imagesIds: data.images.map(i => i.id)

@@ -40,7 +40,6 @@ export default function ProjectField(props: Props) {
       }
     }
   }
-  console.log('ProjectValue', props.defaultOption )
   const handleCreate = async (value: string) => {
     helpers.setValue(value)
     return value

@@ -36,18 +36,20 @@ export default function IncludedJobsForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik.values)
 
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <Card title={'Category'}>
+          <></>
           
         </Card>
         <Card title={'Location'}>
+          <></>
 
         </Card>
         <Card title={'Employment Type'}>
+          <></>
 
         </Card>
         <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>

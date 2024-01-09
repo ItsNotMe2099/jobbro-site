@@ -13,7 +13,6 @@ interface Props {
 export default function HiringBoardColumn(props: Props) {
   const hiringBoardContext = useHiringBoardContext()
   const hiringStage = props.hiringStage
-  console.log('Props.index', props.index)
   return (
     <Draggable draggableId={`stage_${hiringStage.id}`} isDragDisabled={!props.isEdit} index={props.index}>
       {(provided, snapshot) => (

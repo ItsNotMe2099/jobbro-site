@@ -64,7 +64,6 @@ export default function CvFavoriteBtn(props: Props) {
       }
     }
   }, [ref.current])
-    console.log('BookmarkActive', active)
   return (
     <button
       ref={ref as any}

@@ -241,7 +241,6 @@ export default function InputField<T extends string | number>(props: InputFieldP
             }, props.classNameInput)}
             {...!props.format ? {
               onChange: (e) => {
-                console.log('OnChange', e)
                 const formatted = formatValue(e.currentTarget.value as InputValueType<T>)
                 helpers.setValue(formatted)
                 props.onChange?.(formatted)

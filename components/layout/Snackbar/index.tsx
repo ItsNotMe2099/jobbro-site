@@ -7,7 +7,6 @@ interface Props {}
 
 export default function Snackbar(props: Props) {
   const appContext = useAppContext()
-  console.log('SnackBar', appContext.snackbar?.text)
   return (
     <div className={classNames({
       [styles.root]: true,

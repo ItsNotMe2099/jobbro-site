@@ -330,7 +330,6 @@ export function AppWrapper(props: Props) {
     if (bottomSheet) {
       hideBottomSheet()
     }
-    console.log('HideModal')
     setModal(null)
     setModalArguments(null)
   }

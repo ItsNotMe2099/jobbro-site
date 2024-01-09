@@ -171,7 +171,6 @@ export function HiringBoardWrapper(props: Props) {
   }
 
   const moveToStage = async (cv: ICVWithApply, hiringStageId: number) =>{
-    console.log('moveToStage111')
     try {
       const oldHiringStageId =  (cv?.applications?.length ?? 0) > 0?  cv?.applications[0].hiringStageId : (cv.proposals?.length ?? 0) > 0 ? cv?.proposals[0].hiringStageId : null
       setEditLoading(true)

@@ -51,10 +51,31 @@ export default class CandidateRepository {
     return res
   }
 
+
+  static async createMulti(cvIds: number[]): Promise<ICandidate> {
+    const res = await request<ICandidate>({
+      method: 'post',
+      url: '/api/owner/candidate/bulk',
+      data: {bulk: cvIds.map(cvId => ({cvId}))},
+    })
+    return res
+  }
+
   static async delete(id: number): Promise<ICandidate> {
     const res = await request<ICandidate>({
       method: 'delete',
       url: `/api/owner/candidate/deleteByCv/${id}`,
+    })
+    return res
+  }
+
+  static async deleteMulti(ids: number[]): Promise<ICandidate> {
+    const res = await request<ICandidate>({
+      method: 'delete',
+      url: '/api/owner/candidate/deleteByCv/bulk',
+      data: {
+        cv: ids
+      }
     })
     return res
   }

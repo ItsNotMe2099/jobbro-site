@@ -7,6 +7,10 @@ import AppliesRepository from '@/data/repositories/AppliesRepository'
 import {ICVWithApply} from '@/data/interfaces/ICV'
 import {Nullable} from '@/types/types'
 import {CvListSortType} from '@/data/enum/CvListSortType'
+import CandidateRepository from '@/data/repositories/CandidateRepository'
+import {SidePanelType} from '@/types/enums'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
+import {useCandidateAddedContext} from '@/context/candidate_added_state'
 
 export interface IApplyCvFilter extends IAppliesListRequest {
 }
@@ -17,6 +21,14 @@ interface IState {
   isLoading: boolean
   page: number
   setPage: (page: number) => void
+  isActionLoading: boolean,
+  selectedIds: number[]
+  isSelectAll: boolean,
+  setSelectAll: (val: boolean) => void,
+  addToSelectedId: (id: number) => void,
+  cancelSelection: () => void
+  addToBaseMulti: () => void,
+  inviteToJobMulti: () => void,
   filter: IApplyCvFilter
   setFilter: (data: IApplyCvFilter) => void
   filterIsEmpty: boolean
@@ -32,13 +44,21 @@ const defaultValue: IState = {
   isLoading: false,
   page: 1,
   setPage: (page: number) => null,
+  isActionLoading: false,
+  selectedIds: [],
+  isSelectAll: false,
+  setSelectAll: (val: boolean) => null,
+  addToSelectedId: (id: number) => null,
+  cancelSelection: () => null,
+  addToBaseMulti: () => null,
+  inviteToJobMulti: () => null,
   filter: {},
   setFilter: (data: IApplyCvFilter) => null,
   filterIsEmpty: false,
   sortType: null,
   setSortType: (sortType: Nullable<CvListSortType>) => null,
   reFetch: async () => ({data: [], total: 0}),
-  fetchMore: () => null
+  fetchMore: () => null,
 }
 
 const ApplyCvListContext = createContext<IState>(defaultValue)
@@ -51,12 +71,17 @@ interface Props {
 
 export function ApplyCvListWrapper(props: Props) {
   const appContext = useAppContext()
+  const favoriteContext = useCandidateAddedContext()
   const [data, setData] = useState<IPagination<ICVWithApply>>({data: [], total: 0})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [filter, setFilter] = useState<IApplyCvFilter>({})
   const [sortType, setSortType] = useState<Nullable<CvListSortType>>(null)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const [isSelectAll, setSelectAll] = useState<boolean>(false)
+  const [isActionLoading, setIsActionLoading] = useState<boolean>(false)
+
   const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
 
   const filterRef = useRef<IApplyCvFilter>(filter)
@@ -83,7 +108,7 @@ export function ApplyCvListWrapper(props: Props) {
     }
   }, [data])
   const getSortParam = (sortType: CvListSortType) => {
-    switch (sortType){
+    switch (sortType) {
       case CvListSortType.FromNewToOld:
         return 'createdAt,DESC'
       case CvListSortType.FromOldToNew:
@@ -143,6 +168,23 @@ export function ApplyCvListWrapper(props: Props) {
       fetch({page})
     },
     data,
+    isActionLoading,
+    selectedIds,
+    isSelectAll,
+    addToSelectedId: (id: number) => {
+      if (isActionLoading) {
+        return
+      }
+      setSelectedIds(i => i.includes(id) ? i.filter(i => i !== id) : [...i, id])
+    },
+    cancelSelection: () => {
+      setSelectedIds([])
+      setSelectAll(false)
+    },
+    setSelectAll: (value: boolean) => {
+
+      setSelectAll(value)
+    },
     filter,
     setFilter: async (data) => {
       filterRef.current = data
@@ -160,8 +202,51 @@ export function ApplyCvListWrapper(props: Props) {
     fetchMore: () => {
       setPage(i => i + 1)
       fetch({page: page + 1})
-    }
+    },
+    addToBaseMulti: async () => {
+      let cvIds: number[] = []
+      setIsActionLoading(true)
+      if (isSelectAll) {
+        if(data.total > data.data.length) {
+          const cvList = await AppliesRepository.fetchForHirer(props.vacancyId, {
+            ...filterRef.current,
+            limit: 1000,
+            page: 1,
+            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
+          })
+          cvIds = cvList.data.map(i => i.id)
+        }else{
+          cvIds = data.data.map(i => i.id)
+        }
+      } else {
+        cvIds = selectedIds
+      }
+      await CandidateRepository.createMulti(cvIds)
+      favoriteContext.refreshState$.next(true)
+      setIsActionLoading(false)
+    },
+    inviteToJobMulti: async () => {
+      let cvIds: number[] = []
+      setIsActionLoading(true)
+      if (isSelectAll) {
+        if(data.total > data.data.length) {
+          const cvList = await AppliesRepository.fetchForHirer(props.vacancyId, {
+            ...filterRef.current,
+            limit: 1000,
+            page: 1,
+            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
+          })
+          cvIds = cvList.data.map(i => i.id)
+        }else{
+          cvIds = data.data.map(i => i.id)
+        }
+      } else {
+        cvIds = selectedIds
+      }
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: cvIds.length, isMulti: true } as JobInviteSidePanelArguments)
 
+      setIsActionLoading(false)
+    },
   }
 
 

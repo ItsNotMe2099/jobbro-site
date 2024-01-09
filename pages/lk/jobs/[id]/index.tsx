@@ -6,7 +6,6 @@ import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useRef, useState} from 'react'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
-import useInterval from 'use-interval'
 import {CardViewType, SidePanelType} from '@/types/enums'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
@@ -20,7 +19,7 @@ import {
 import CardsLayout from '@/components/ui/CardsLayout'
 import SortFilterButton from '@/components/for_pages/Common/FilterToolbar/SortFilterButton'
 import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
-import { CvFilterSidePanelArguments} from '@/types/side_panel_arguments'
+import {CvFilterSidePanelArguments} from '@/types/side_panel_arguments'
 import useTranslation from 'next-translate/useTranslation'
 import {CvListSortType} from '@/data/enum/CvListSortType'
 import {useAppContext} from '@/context/state'
@@ -28,7 +27,16 @@ import NoData from '@/components/for_pages/Common/NoData'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {Nullable} from '@/types/types'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
-
+import Spinner from '@/components/ui/Spinner'
+import {colors} from '@/styles/variables'
+import DropdownActionFilterButton from '@/components/for_pages/Common/FilterToolbar/DropdownFilterButton'
+import CloseSvg from '@/components/svg/CloseSvg'
+import IconButton from '@/components/ui/IconButton'
+import MenuButton from '@/components/ui/MenuButton'
+enum MenuMultiKey{
+  AddToBase = 'addToBase',
+  InviteToOtherJob = 'inviteToOtherJob',
+}
 interface Props {
 
 }
@@ -47,27 +55,32 @@ const JobPageInner = (props: Props) => {
     applyCvListContext.reFetch()
     hiringStageListContext.reFetch()
   })
-  const router = useRouter()
 
-  const [bookmark, setBookmark] = useState<boolean>(false)
-
-  const handleBookmark = () => {
+  const handleClickChangeStatusItem = (hiringStageId: number | string | null | undefined) => {
 
   }
+  const handleMenuMultiClick = (value: MenuMultiKey) => {
+    switch (value){
 
-  useInterval(() => {
-    if (bookmark) {
-      setBookmark(false)
+      case MenuMultiKey.AddToBase:
+        applyCvListContext.addToBaseMulti()
+        break
+      case MenuMultiKey.InviteToOtherJob:
+        applyCvListContext.inviteToJobMulti()
+        break
     }
-  }, 5000)
-
+  }
   return (
     <>
       <div className={styles.container} ref={containerRef}>
 
         <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
           <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
-          <FilterToolbar left={[
+          <FilterToolbar left={[...((applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll) && !applyCvListContext.isActionLoading ? [
+            <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.cancelSelection()}><div className={styles.selected}><IconButton onClick={() => applyCvListContext.cancelSelection()}><CloseSvg color={colors.green}/></IconButton><div>{applyCvListContext.isSelectAll ? t('job_applies_select_selected_all') : t('job_applies_select_selected_amount', {count: applyCvListContext.selectedIds?.length ?? 0})}</div></div></FilterButton>,
+            <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.setSelectAll(!applyCvListContext.isSelectAll)}>{applyCvListContext.isSelectAll ? t('job_applies_select_unselect_all') : t('job_applies_select_select_all')}</FilterButton>,
+            <DropdownActionFilterButton<number | string> onChange={handleClickChangeStatusItem} isLoading={applyCvListContext.isLoading} options={[...hiringStageListContext.data.map(i => ({label: i.title, value: i.id})), {label: t('apply_card_menu_status_action_reject'), value: 'reject', color: colors.textRed}]}>{t('job_applies_select_change_status')}</DropdownActionFilterButton>,
+         ] : applyCvListContext.isActionLoading ? [    <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>] : [
             <SortFilterButton<CvListSortType> value={applyCvListContext.sortType} options={[
               {label: t('cv_filter_sort_from_new_to_old'), value: CvListSortType.FromNewToOld},
               {label: t('cv_filter_sort_from_old_to_new'), value: CvListSortType.FromOldToNew},
@@ -81,7 +94,8 @@ const JobPageInner = (props: Props) => {
               filter: applyCvListContext.filter,
               onSubmit: applyCvListContext.setFilter
             } as CvFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
-          ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+          ]),
+            ]} right={applyCvListContext.selectedIds?.length > 0 ? <MenuButton<MenuMultiKey> options={[{label: 'Add to base', value: MenuMultiKey.AddToBase}, {label: 'Invite to other job', value: MenuMultiKey.InviteToOtherJob}]} onClick={handleMenuMultiClick}/> : <ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
         <div className={styles.wrapper}>
           {applyCvListContext.isLoaded && applyCvListContext.data.total === 0 &&
@@ -95,7 +109,7 @@ const JobPageInner = (props: Props) => {
           {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 &&
           <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'}>
             {applyCvListContext.data.data.map((i, index) =>
-              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id}/>
+              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
             )}
           </CardsLayout>}
         </div>

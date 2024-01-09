@@ -271,7 +271,6 @@ export function AiCvRequestListWrapper(props: Props) {
   }
 
   const reFetch = async () => {
-    console.log('reFetch11')
     setPageCompleted(1)
     setPageInProgress(1)
     setDataCompleted({data: [], total: 0})
@@ -337,7 +336,6 @@ export function AiCvRequestListWrapper(props: Props) {
       uploadFile(file, acceptedFile)
     }
     Analytics.goal(Goal.CvRequestUpload)
-    console.log('dsadsad', [...dataInProgress.data, ...files.map(i => ({file: i}))])
     setDataInProgress(res => ({total: res.total + 1, data: [...res.data, ...files.map(i => ({file: i}))]}))
 
   }
@@ -449,7 +447,9 @@ export function AiCvRequestListWrapper(props: Props) {
       }
     },
     setSelectAllCompleted: (val: boolean) => {
+
       setSelectAllCompleted(val)
+
     }
   }
 

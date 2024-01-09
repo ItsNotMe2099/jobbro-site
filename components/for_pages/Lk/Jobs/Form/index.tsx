@@ -134,7 +134,7 @@ export default function CreateJobManuallyForm(props: Props) {
     workplace:  vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
     currency: 'EUR',
-    languageKnowledges: [],
+    languageKnowledges: vacancyContext.vacancy?.languageKnowledges||[],
     salaryMin:  vacancyContext.vacancy?.salaryMin?? null,
     salaryMax: vacancyContext.vacancy?.salaryMax?? null,
     salaryType: vacancyContext.vacancy?.salaryType?? null,

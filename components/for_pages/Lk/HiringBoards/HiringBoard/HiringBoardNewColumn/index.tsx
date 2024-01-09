@@ -17,7 +17,6 @@ export default function HiringBoardNewColumn(props: Props) {
   const hiringBoardContext = useHiringBoardContext()
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const handleSubmit = async (data: {title: string}) => {
-    console.log('handleSubmit', data)
   await hiringBoardContext.createHiringStage(data)
     setIsEdit(false)
   }

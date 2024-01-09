@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import classNames from 'classnames'
-import {useEffect, useState} from 'react'
+import {MouseEventHandler, useEffect, useState} from 'react'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
 import UserUtils from '@/utils/UserUtils'
@@ -21,6 +21,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {runtimeConfig} from '@/config/runtimeConfig'
+import Checkbox from '@/components/ui/Checkbox'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -33,6 +34,9 @@ interface Props {
   cv: ICVWithApply
   className?: string
   view: CardViewType
+  onSelect: () => void
+  isSelected: boolean
+  isSelectMode: boolean
 }
 
 const JobApplyCardInner = (props: Props) => {
@@ -57,6 +61,16 @@ const JobApplyCardInner = (props: Props) => {
     }
   }, [])
 
+  useEffect(() => {
+    const subscriptionFavoriteRefresh = favoriteContext.refreshState$.subscribe((cv) => {
+      favoriteContext.addRecord(applyCvContext.cv!.id)
+    })
+
+    return () => {
+      subscriptionFavoriteRefresh.unsubscribe()
+    }
+  }, [])
+
   const menuOptions: IOption<MenuKey>[] = [
     {label: t('apply_card_menu_download'), value: MenuKey.DownloadPdf},
     {label: t('apply_card_menu_add_to_base'), value: MenuKey.AddToBase},
@@ -78,12 +92,17 @@ const JobApplyCardInner = (props: Props) => {
         appContext.showSidePanel(SidePanelType.InviteToJob, { cv } as JobInviteSidePanelArguments)
         break
       case MenuKey.Select:
-
+        props.onSelect?.()
         break
       case MenuKey.Share:
 
         break
     }
+  }
+  const handleSelect: MouseEventHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    props.onSelect?.()
   }
   return (
     <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
@@ -122,7 +141,7 @@ const JobApplyCardInner = (props: Props) => {
            <JobApplyStatus cv={props.cv}/>
           </div>
 
-          <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>
+          {props.isSelectMode ? <Checkbox style={'circle'} checked={props.isSelected} onClick={handleSelect} /> : <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>}
 
         </div>
       </Link>

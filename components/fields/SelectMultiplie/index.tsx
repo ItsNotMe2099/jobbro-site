@@ -18,7 +18,6 @@ interface Props<T> {
 }
 
 export default function SelectMultiple<T>(props: Props<T>) {
-  console.log('props.values', props.values, props.formatLabel)
   return (
    <div className={styles.root}>
      {props.values.length > 0 && <ChipList className={styles.chips}>

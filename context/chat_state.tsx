@@ -95,7 +95,6 @@ export function ChatWrapper(props: Props) {
 
       abortControllerRef.current = null
 
-      console.log('setChats', page, data.data)
       if (page === 1) {
         setChats(data.data)
       } else {

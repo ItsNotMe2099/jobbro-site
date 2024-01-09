@@ -42,7 +42,7 @@ export default function ManagerInviteConfirmForm(props: Props) {
       if (res.accessToken) {
         appContext.setToken(res.accessToken)
         await appContext.updateAboutMe()
-        if (redirect) {
+        if (redirect && redirect !== '/') {
           router.replace(redirect)
         } else {
           router.replace(Routes.lk)
@@ -91,7 +91,7 @@ export default function ManagerInviteConfirmForm(props: Props) {
           type='password'
           name='password'
           obscure
-          validate={Validator.required} />
+          validate={Validator.combine([Validator.requiredPassword, Validator.password])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
             {t('manager_invite_button_submit')}

@@ -4,7 +4,7 @@ import React, {ReactElement} from 'react'
 
 interface Props {
   hasValue?: boolean
-  children: ReactElement | string | null
+  children: ReactElement | string | null | undefined
   onClick: () => void
   disabled?: boolean | undefined
 }

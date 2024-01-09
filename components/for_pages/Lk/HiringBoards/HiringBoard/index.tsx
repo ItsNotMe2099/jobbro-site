@@ -33,7 +33,6 @@ const HiringBoardInner = (props: Props) => {
       if (result.source.index !== result.destination?.index && (result.destination?.index ?? -1) >= 0) {
         const stageId = parseInt(result.draggableId?.replace('stage_', '') ?? '', 10)
         const destIndex = result.destination?.index
-        console.log('handleDragEnd', stageId, destIndex)
         hiringBoardContext.moveHiringStage(stageId, destIndex!)
       }
     }

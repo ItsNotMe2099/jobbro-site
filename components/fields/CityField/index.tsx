@@ -17,7 +17,6 @@ export default function CityField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field] = useField<IGeoName>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<IGeoName>[], data: any): Promise<{ options: IOption<IGeoName>[], hasMore: boolean, additional?: any | null }> => {
-    console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()

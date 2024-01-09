@@ -97,7 +97,6 @@ export function VacancyGenerateAiWrapper(props: Props) {
     if(!appContext.isLogged){
       return
     }
-    console.log('ChatSocket11')
     const s = io(runtimeConfig.HOST, {
       path: '/api/chat-socket',
       reconnectionDelayMax: 10000,
@@ -147,7 +146,6 @@ export function VacancyGenerateAiWrapper(props: Props) {
     }
 
     const onConnect = () => {
-      console.log('SocketOneConnect')
       reconnectCountRef.current += 1
       if(  reconnectCountRef.current  > 1){
         reconnectState$.next(true)
@@ -185,10 +183,8 @@ export function VacancyGenerateAiWrapper(props: Props) {
   }, [socket])
   useEffect(() => {
     const subscriptionUpdate = requestRawUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
-      console.log('subscriptionUpdate', request, requestRef.current, request?.id === requestRef.current?.id || !requestRef.current?.id)
       if(request?.id === requestRef.current?.id || !requestRef.current?.id) {
         setRequest({...request, result: request.result ? formatResult(request.result!) : request.result})
-
         requestUpdateState$.next(request)
       }
     })

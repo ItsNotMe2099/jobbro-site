@@ -62,9 +62,7 @@ export function EventSlotListWrapper(props: Props) {
     })
      setSlots(res)
     slotsRef.current = res
-    console.log('FetchRes', res)
     if(!currentDateRef.current && res.length > 0){
-      console.log('SetCurrentDate', new Date(res[0].start))
       setCurrentDate(new Date(res[0].start))
     }
    }

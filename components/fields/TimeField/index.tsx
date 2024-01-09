@@ -60,9 +60,7 @@ export default function TimeField(props: Props) {
           onOpen={() => setFocus(true)}
           onClose={() => setFocus(false)}
           onChange={(date) => {
-            // console.log('onChangeData', date)
             if (date) {
-              // console.log('onChangeData2', date.format('HH:mm'))
               helpers.setValue(`${date.format('HH:mm')}:00`)
             }else{
               helpers.setValue(null)
