@@ -54,7 +54,6 @@ export default function WidgetSettingsForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik.values)
 
   return (
     <FormikProvider value={formik}>

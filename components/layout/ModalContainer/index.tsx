@@ -14,7 +14,6 @@ export default function ModalContainer(props: Props) {
     onRequestClose: appContext.hideModal,
   }
 
-  console.log('ShowModal', appContext.modal, ModalType.ApplicationCreate  )
   return (
     <RemoveScroll enabled={!!appContext.modal}>
       <div aria-hidden="true">

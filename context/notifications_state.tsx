@@ -118,7 +118,6 @@ export function NotificationWrapper(props: Props) {
   }
 
   const debouncedSave = debounce(async () => {
-    console.log('DealOffer1Save', tmpList)
     if (isLoggedRef.current && tmpList.length > 0) {
       const list = await NotificationRepository.fetchStatus(tmpList)
       if (list) {
@@ -163,7 +162,6 @@ export function NotificationWrapper(props: Props) {
       }
     }
 
-    console.log('DealOffer1Delete', tmpList)
     setStore(newStore)
     deleteRecordList.length = 0
   }, 200)
@@ -171,7 +169,6 @@ export function NotificationWrapper(props: Props) {
     store,
     addRecord(id: number, type: NotificationUnreadType) {
 
-      console.log('DealOffer1Add0', tmpList)
       if (!tmpList.find(i => i.id === id && i.type === type)) {
         tmpList.push({ id, type, time: new Date() })
         debouncedSave()

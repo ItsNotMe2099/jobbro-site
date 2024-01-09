@@ -67,7 +67,7 @@ export interface IVacancy {
   experience: Experience;
   workplace: Workplace;
   employment: Employment;
-  languageKnowledges: string[]|{language: string, level: string}[] ;
+  languageKnowledges: {language: string, level: string}[] ;
   office: IOffice;
   officeId: number;
   companyId: number;

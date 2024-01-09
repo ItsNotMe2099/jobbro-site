@@ -1,1 +1,67 @@
 @import 'styles/index';
+
+.levelList {
+  opacity: .3;
+  pointer-events: none;
+  max-width: 1200px;
+}
+
+.hasValue {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.add {
+  margin-top: 20px;
+  display: flex;
+  @include list(8px, true);
+  cursor: pointer;
+
+  .desc {
+      color: $green;
+      @include btnText;
+  }
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  column-gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding: 8px 10px;
+  border: 2px $green solid;
+  border-radius: 30px;
+}
+
+.closeButton {
+  cursor: pointer;
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+}
+
+.radioList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 146px;
+}
+
+.radioListRoot {
+  container-type: inline-size;
+}
+
+@container (width < 740px) {
+  .radioList {
+     max-height: none;
+   }
+}

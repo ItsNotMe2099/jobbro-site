@@ -1,9 +1,8 @@
 @import "styles/index";
 
 .root {
-  background-color: $white;
+  // background-color: $white;
   flex-direction: column;
-  box-shadow: 0px 4px 24px 0px rgba(110, 124, 135, 0.20);
   position: fixed;
   top: 0px;
   bottom: 0px;
@@ -11,5 +10,17 @@
   right: 0;
   height: 100%;
   width: 512px;
-  @include list(24px, false);
+  // padding-top: 24px;
+  // @include list(24px, false); 
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: .6;
+  z-index: 10;
 }

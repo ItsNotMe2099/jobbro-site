@@ -42,7 +42,6 @@ export default function InputSearch(props: Props) {
       setValue(value)
     }
     const res = await props.searchRequest(value)
-    console.log('Res', res)
   }
 
   const { callback: search } = useThrottleFn(handleSearch, 300)

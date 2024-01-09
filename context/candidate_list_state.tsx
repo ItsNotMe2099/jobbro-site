@@ -130,7 +130,6 @@ export function CandidateListWrapper(props: Props) {
   }
   const checkIsFilterEmpty = () => {
     const filter = filterRef.current
-    console.log('Fitrewewe', filter)
     return Boolean(!filter.profileType?.length && !filter.skills?.length && !filter.country && !filter.salaryType && !filter.salaryMin && !filter.salaryMax)
   }
   const value: IState = {

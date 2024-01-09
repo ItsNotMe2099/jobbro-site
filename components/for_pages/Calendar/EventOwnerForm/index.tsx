@@ -95,7 +95,6 @@ export default function EventOwnerForm(props: Props) {
       const newData = {...omit(data, ['slots', 'participants']),
         participantsIds: data.participants?.map(i => i.id),
         slots, cvId: props.cvId, vacancyId: props.vacancyId}
-      console.log('Submit', newData)
       setFormLoading(true)
       try{
         const res = await EventRepository.create(newData as DeepPartial<IEvent>)

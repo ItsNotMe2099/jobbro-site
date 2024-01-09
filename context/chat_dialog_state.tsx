@@ -129,10 +129,8 @@ export function ChatDialogWrapper(props: Props) {
    let _chat: IChat | null = null
 
     if (!props.chatId) {
-      console.log('Init0')
       if (appContext.aboutMe && props.vacancyId && (chat?.vacancyId !== props.vacancyId)) {
 
-        console.log('Init1')
         setLoading(true)
         const _chat = await ChatRepository.fetchChatBySellerIdAndReceivingPointId({
           vacancyId: props.vacancyId!,
@@ -140,7 +138,6 @@ export function ChatDialogWrapper(props: Props) {
         })
         setChat(_chat)
         if(_chat) {
-          console.log('SetCurrentChatId', _chat.id)
           chatContext.setCurrentChatId(_chat.id)
         }
         if (_chat?.messages) {
@@ -188,7 +185,6 @@ export function ChatDialogWrapper(props: Props) {
     debouncedMarkRead()
   }
   const processLoadedMessages = (data: IChatMessage[], total: number | null, fromInit: boolean = false) => {
-    console.log('processLoadedMessages', total)
     if (total === 0) {
       setTotalMessages(messages.length)
     }
@@ -303,7 +299,6 @@ export function ChatDialogWrapper(props: Props) {
     if (props.chatId) {
       chatContext.setCurrentChatId(props.chatId)
     }
-    console.log('useEffect11', appContext.aboutMeLoaded, appContext.aboutMe)
     if (appContext.aboutMeLoaded && appContext.aboutMe) {
       init()
     }else{
@@ -336,13 +331,11 @@ export function ChatDialogWrapper(props: Props) {
 
     const subscriptionChatUpdate = chatSocket.chatUpdateState$.subscribe((updated) => {
 
-      console.log('chatUpdateState$', updated, chat)
       if (chat && chat.id === updated.id) {
         setChat((i) => ({...i,...updated}))
       }
     })
     const subscriptionChatCreated = chatSocket.chatCreateState$.subscribe((created) => {
-      console.log('subscriptionChatCreated', created, props)
       if (!chat && props.vacancyId && props.vacancyId === created.vacancyId && appContext.aboutMe?.id === created.profileId) {
         init()
       }

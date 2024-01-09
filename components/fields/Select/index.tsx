@@ -99,7 +99,6 @@ interface AsyncProps<T> {
   defaultOption?: Nullable<IOption<T>>
 }
 export function SelectAsync<T>(props: AsyncProps<T>) {
-  console.log(props)
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
@@ -141,7 +140,6 @@ export function SelectAsync<T>(props: AsyncProps<T>) {
           setFocus(false)
         }}
         onChange={(option) => {
-          console.log('Selected2', option)
           setSelected(option)
           props.onChange((option as IOption<T>)?.value)
         }}

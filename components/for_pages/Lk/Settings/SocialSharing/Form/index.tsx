@@ -32,7 +32,6 @@ export default function SocialSharingForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log('FORMIK', formik.values)
 
   const [visible, setVisible] = useState<boolean>(false)
 

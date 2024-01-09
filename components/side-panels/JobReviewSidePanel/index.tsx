@@ -63,7 +63,6 @@ export default function JobReviewSidePanel(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik)
 
 
   return (

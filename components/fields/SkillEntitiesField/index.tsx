@@ -16,7 +16,6 @@ export default function SkillEntitiesField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field, meta, helpers] = useField<ISkill[]>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<ISkill>[], data: any): Promise<{ options: IOption<ISkill>[], hasMore: boolean, additional?: any | null }> => {
-    console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()
@@ -43,7 +42,6 @@ export default function SkillEntitiesField(props: Props) {
   const handleCreate = async (value: string) => {
     return value
   }
-  console.log('FieldValue111', field.value)
   return (
     <SelectMultipleField<ISkill> {...(props as any)} async={true}
                                  values={field.value}
@@ -51,7 +49,6 @@ export default function SkillEntitiesField(props: Props) {
                                  findValue={(value) => !!field.value.find(i => i.id === value.id)}
                                  placeholder={props.placeholder}
                                  formatLabel={(v) => {
-                                   console.log('FormatLabel', v)
                                    return (v as ISkill).title}}
                                  loadOptions={loadOptions} options={[]}
                                  initialAsyncData={{page: 1}}/>

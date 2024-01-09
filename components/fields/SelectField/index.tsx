@@ -51,10 +51,6 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
 
   const uniqueKey = props.selectKey ?? `${props.name}`
 
-  if(props.name === 'project') {
-    console.log('ProjectValue22', field.value, props.defaultOption, props.options)
-  }
-
   return (
     <div className={classNames(styles.root, props.className, {[styles.fluid]: props.fluid})} data-field={props.name}>
       {props.creatable ? <CreateSelectAsync<T>

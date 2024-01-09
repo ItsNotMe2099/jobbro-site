@@ -1,4 +1,4 @@
-import styles from '@/components/ui/SidePanel/index.module.scss'
+import styles from './index.module.scss'
 import classNames from 'classnames'
 import { useAppContext } from '@/context/state'
 import { ReactElement } from 'react'
@@ -14,8 +14,11 @@ export default function SidePanel(props: Props) {
   const appContext = useAppContext()
 
   return (
+  <>
+    <div className={styles.overlay} onClick={appContext.hidePanel}></div>
     <div className={classNames(styles.root, props.className)}>
       {props.children}
     </div>
+  </>
   )
 }

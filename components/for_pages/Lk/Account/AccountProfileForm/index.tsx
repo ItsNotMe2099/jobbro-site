@@ -7,7 +7,7 @@ import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
 import {FormikHelpers} from 'formik/dist/types'
 import {useAppContext} from '@/context/state'
-import {useEffect, useRef} from 'react'
+import { useRef} from 'react'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveStickyFooter'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import {useAboutMeContext} from '@/context/aboutme_state'
@@ -64,11 +64,6 @@ export default function AccountProfileForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
-
-  useEffect(()=>{
-    console.log(formik.values.image)
-  }, [formik.values.image])
-
 
   return (
     <FormikProvider value={formik}>

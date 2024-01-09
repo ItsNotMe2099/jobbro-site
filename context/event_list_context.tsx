@@ -43,7 +43,6 @@ export function EventListWrapper(props: Props) {
   }, [])
 
   useEffect(() => {
-      console.log('IsLogged', isLogged, isLoggedRef.current)
     if (isLoggedRef.current && !isLogged) {
       setEvents([])
     }

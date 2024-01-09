@@ -16,7 +16,6 @@ export default function ProjectEntitiesField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field, meta, helpers] = useField<IProject[]>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<IProject>[], data: any): Promise<{ options: IOption<IProject>[], hasMore: boolean, additional?: any | null }> => {
-    console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()
@@ -43,7 +42,6 @@ export default function ProjectEntitiesField(props: Props) {
   const handleCreate = async (value: string) => {
     return value
   }
-  console.log('FieldValue111', field.value)
   return (
     <SelectMultipleField<IProject> {...(props as any)} async={true}
                                  values={field.value}

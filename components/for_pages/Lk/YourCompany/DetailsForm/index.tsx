@@ -48,7 +48,6 @@ export default function CompanyDetailsForm(props: Props) {
   const {t} = useTranslation()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
-    console.log('handleSubmit')
     try {
 
       const submitData: DeepPartial<ICompany> = {
@@ -62,7 +61,6 @@ export default function CompanyDetailsForm(props: Props) {
         showToast({title: t('toast_company_details_edited_title'), text: t('toast_company_details_edited_desc')})
 
       }else{
-        console.log('dsdsad')
         await companyOwnerContext.create(submitData)
         showToast({title: t('toast_company_created_title'), text: t('toast_company_created_desc')})
 

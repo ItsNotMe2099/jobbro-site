@@ -59,7 +59,6 @@ export function CandidateAddedWrapper(props: Props) {
     if (isLoggedRef.current && tmpList.length > 0) {
       const likes = await CandidateRepository.fetchAdded(tmpList)
       tmpList.length = 0
-      console.log('Likes', likes, join(store, likes))
       if (likes) {
         setStore(join(store, likes))
       }

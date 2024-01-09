@@ -15,7 +15,6 @@ export default function SkillField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [field, meta, helpers] = useField<string[]>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<string>[], data: any): Promise<{ options: IOption<string>[], hasMore: boolean, additional?: any | null }> => {
-    console.log('loadOptionsSearch', search)
     const page = data.page
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()

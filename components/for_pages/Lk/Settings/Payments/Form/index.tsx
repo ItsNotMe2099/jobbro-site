@@ -49,7 +49,6 @@ export default function PaymentMethodForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log('FORMIK', formik.values)
 
   return (
     <FormikProvider value={formik}>

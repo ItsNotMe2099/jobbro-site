@@ -75,7 +75,6 @@ export default function JobInviteSidePanel(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik)
 
 
   return (

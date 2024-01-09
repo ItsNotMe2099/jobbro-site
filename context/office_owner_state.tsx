@@ -67,7 +67,6 @@ export function OfficeOwnerWrapper(props: Props) {
     }
   }, [props.officeId, props.office])
   const handleUpdate = (entity: IOffice) => {
-    console.log('handleUpdate', entity)
     appContext.officeUpdateState$.next(entity)
   }
   const handleDelete = (entity: IOffice) => {

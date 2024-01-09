@@ -34,7 +34,6 @@ export default function SettingsForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik.values)
 
   return (
     <FormikProvider value={formik}>

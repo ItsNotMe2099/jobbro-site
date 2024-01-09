@@ -58,8 +58,6 @@ export default function JobsFilterSidePanel(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log(formik)
-
 
   return (
     <SidePanelLayout>

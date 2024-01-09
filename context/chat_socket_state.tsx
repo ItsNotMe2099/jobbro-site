@@ -48,7 +48,6 @@ export function ChatSocketWrapper(props: Props) {
     if(!appContext.isLogged){
       return
     }
-    console.log('ChatSocket11')
     const s = io(runtimeConfig.HOST, {
       path: '/api/chat-socket',
       reconnectionDelayMax: 10000,
@@ -72,9 +71,7 @@ export function ChatSocketWrapper(props: Props) {
     if (!socket) {
       return
     }
-    console.log('ChatSocket', socket)
     const onConnect = () => {
-      console.log('SocketOneConnect')
       reconnectCountRef.current += 1
       if(  reconnectCountRef.current  > 1){
         reconnectState$.next(true)
@@ -101,7 +98,6 @@ export function ChatSocketWrapper(props: Props) {
       chatUpdateState$.next(chat)
     }
     const onChatCreated = (chat: IChat) => {
-      console.log('onChatCreated', chat)
       chatCreateState$.next(chat)
     }
 

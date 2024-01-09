@@ -42,7 +42,6 @@ export default function CountryField(props: Props) {
   return (
     <SelectField<IGeoName> {...(props as any)} async={true}
               onChange={(val) => {
-                console.log('OnChangeValue5', val)
               }}
                            defaultOption={field.value ? {label: field.value?.name, value: field.value} : null}
                            loadOptions={loadOptions} options={[]}

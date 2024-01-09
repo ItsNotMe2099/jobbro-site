@@ -58,9 +58,6 @@ export default function WidgetDesignForm(props: Props) {
   })
 
 
-
-  console.log(formik.values)
-
   //Widget Styles
   const [backgroundWidgetVisible, setBackgroundWidgetVisible] = useState<boolean>(false)
   const [filterBordersVisible, setFilterBordersVisible] = useState<boolean>(false)

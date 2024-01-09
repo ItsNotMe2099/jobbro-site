@@ -31,7 +31,6 @@ export interface SelectMultipleFieldProps<T> extends IField<T[]> {
 }
 // @ts-ignore
 export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T>) {
-  console.log(props.options)
 
   const [field, meta, helpers] = useField<T[]>(props as any)
   const showError = meta.touched && !!meta.error
@@ -41,7 +40,6 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
     if(!inputValue){
       return
     }
-    console.log('handleCreateOption', inputValue)
     setIsAddingLoading(true)
     const res = await props.onCreateOption(inputValue)
     if(res && !props.findValue?.(res)) {
@@ -53,14 +51,12 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
     if(!value){
       return
     }
-    console.log('handleOnSelect', value)
     if(!props.findValue?.(value)) {
       helpers.setValue([...(field.value ?? []), value])
     }
   }
 
   const handleDelete = (option: T) => {
-    console.log('handleDelete', option)
     props.onDeleteValue?.(option)
   }
   // Generate a unique key based on Formik field name and value

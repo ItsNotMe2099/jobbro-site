@@ -11,7 +11,6 @@ export default function IndexPage() {
 
 export const getServerSideProps = getAuthServerSideProps(null, async (context, user) => {
   let redirect: string = '/admin'
-  console.log('userProfileType', user?.profileType)
   switch (user?.profileType){
     case ProfileType.Employee:
       redirect = Routes.profileResume

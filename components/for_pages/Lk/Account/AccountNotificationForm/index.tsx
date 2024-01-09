@@ -25,7 +25,6 @@ export default function AccountNotificationForm(props: Props) {
   const [loading, setLoading] = useState(false)
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
-    console.log('handleSubmit')
     try {
 
 

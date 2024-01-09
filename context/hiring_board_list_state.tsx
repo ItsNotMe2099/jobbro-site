@@ -130,7 +130,6 @@ export function HiringBoardListWrapper(props: Props) {
   }
   const checkIsFilterEmpty = () => {
     const filter = filterRef.current
-    console.log('Check filter', filter)
     return Boolean(!filter.statuses?.length && !filter.projects?.length && !filter.publishedAt && filter.showClosed)
   }
   const value: IState = {

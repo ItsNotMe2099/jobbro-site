@@ -13,6 +13,8 @@ interface Props<T> extends IField<T> {
   styleType?: RadioStyleType
   errorClassName?: string
   onChange?: (value: T | undefined) => void
+  listClassName?: string
+  className?: string
 }
 
 export default function RadioField<T>(props: Props<T>) {
@@ -30,7 +32,7 @@ export default function RadioField<T>(props: Props<T>) {
   }
 
   return (
-    <div className={classNames(styles.root, {
+    <div className={classNames(styles.root, props.className, {
       [styles.styleTiles]: props.styleType === 'tile',
       [styles.styleRow]: props.styleType === 'row'
     })} data-field={props.name}>
@@ -38,7 +40,7 @@ export default function RadioField<T>(props: Props<T>) {
         [styles.label]: true,
         [styles.hasError]: showError
       })} data-field-label={props.name}>{props.label}</div>}
-      <div className={styles.list}>
+      <div className={classNames(styles.list, props.listClassName)}>
         {options.map(item => (
           <RadioFieldItem
             key={`${item.value}`}
