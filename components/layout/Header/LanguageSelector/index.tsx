@@ -9,7 +9,6 @@ import classNames from 'classnames'
 import CheckSvg from '@/components/svg/CheckSvg'
 import Spacer from '@/components/ui/Spacer'
 import { useAppContext } from '@/context/state'
-
 import setLanguage from 'next-translate/setLanguage'
 import useTranslation from 'next-translate/useTranslation'
 interface Props {
