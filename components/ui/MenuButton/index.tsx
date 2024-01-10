@@ -39,7 +39,6 @@ export default function MenuButton<T>(props: Props<T>) {
           offset: [0, 0],
         },
       },
-
     ]
   })
 

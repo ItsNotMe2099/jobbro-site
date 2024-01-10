@@ -90,7 +90,7 @@ export default function CvForm(props: Props) {
     const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
 
     const newData = {
-      ...omit(data, ['skills', 'country', 'city', 'image']),
+      ...omit(data, ['skills', 'country', 'city']),
       countryId: data.country?.geonameid,
       cityId: data.city?.geonameid,
       skillsTitles: data.skills,
@@ -207,7 +207,8 @@ export default function CvForm(props: Props) {
                 </div>
                 <SelectField<Relocation>
                   className={styles.select}
-                  label={t('cv_form_field_relocate')} name={'relocate'}
+                  label={t('cv_form_field_relocate')} name={'relocation'}
+                  resettable={true}
                   options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.no}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.yes}]}/>
               </div>
             </div>
