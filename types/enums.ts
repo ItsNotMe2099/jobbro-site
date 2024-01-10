@@ -7,6 +7,7 @@ export enum ModalType {
 }
 export enum CookiesType {
   accessToken = 'accessToken',
+  language = 'language',
 }
 
 export enum FileUploadAcceptType {

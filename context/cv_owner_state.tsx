@@ -83,6 +83,7 @@ export function CVOwnerWrapper(props: Props) {
   }
 
   const create = async (data: DeepPartial<ICV>): Promise<Nullable<ICV>> => {
+    debugger
     try {
       setEditLoading(true)
       const res = await CvOwnerRepository.create(data)

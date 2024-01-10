@@ -16,7 +16,9 @@ export default function showToast (options: showToastProps) {
     title={options.title} 
     text={options.text} 
     link={options.link}
-    linkName={options.linkName} />, 
+    linkName={options.linkName} 
+    icon={options.icon}
+    />, 
     {
     position: 'top-right',
     hideProgressBar: true,

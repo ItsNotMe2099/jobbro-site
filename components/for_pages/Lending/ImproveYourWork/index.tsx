@@ -20,9 +20,9 @@ export default function ImproveYourWork(props: Props) {
       <div className={styles.text}>
         {t('main_lending_improve_desc')}
       </div>
-      <div className={styles.bottom}>
+      <a href={'#application'} className={styles.bottom}>
         {!isPhoneWidth ? <Light2Svg className={styles.button} /> : <TryDemoBtnSvg className={styles.button} />}
-      </div>
+      </a>
     </div>
   )
 }

@@ -178,7 +178,7 @@ export default function CvForm(props: Props) {
         <div className={styles.root}>
           <Card title={t('cv_form_section_specialization')}>
             <div className={styles.wrapper}>
-              <InputField name={t('cv_form_field_title')} label={'Title'}
+              <InputField name={'title'} label={t('cv_form_field_title')}
                           validate={Validator.required}
               />
               <div className={styles.line}>

@@ -17,6 +17,7 @@ import {useRouter} from 'next/router'
 import classNames from 'classnames'
 import {useEffect, useState} from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import LanguageSelector from './LanguageSelector'
 
 
 enum MenuProfileKey {
@@ -89,7 +90,7 @@ export default function Header(props: Props) {
   }
   return (
     <div className={classNames(styles.root, styles[appContext.headerDirection])}>
-      <div className={styles.logo} >
+      <div className={styles.logo}>
         Jobbro
       </div>
       <div className={styles.menu}>
@@ -99,7 +100,9 @@ export default function Header(props: Props) {
           </Link>
         )}
       </div>
+      
       {appContext.isLogged &&  <div className={styles.controls}>
+        <LanguageSelector/>
         <HeaderButton<string>  dropdownClassName={styles.dropDownNotifications} badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])} icon={<ChatSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
         <HeaderButton<string> dropdownClassName={styles.dropDownChats} badge={notificationContext.getTotalByTypes([
           NotificationType.newApplication ,

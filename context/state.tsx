@@ -18,6 +18,7 @@ import IEvent from '@/data/interfaces/IEvent'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import { IResizeValues, useResize } from '@/components/hooks/useResize'
 
+import setLanguageNext from 'next-translate/setLanguage'
 interface IState {
   isMobile: boolean
   isDesktop: boolean
@@ -52,6 +53,8 @@ interface IState {
   isOverlayShown?: boolean
   showOverlay: () => void
   hideOverlay: () => void
+  currentLanguage: string
+  setLanguage: (language: string) => void
 
   headerDirection: 'up'|'down'
   setDirection: Dispatch<SetStateAction<'up' | 'down'>>
@@ -165,6 +168,8 @@ const defaultValue: IState = {
   isOverlayShown: false,
   showOverlay: () => null,
   hideOverlay: () => null,
+  currentLanguage: 'US',
+  setLanguage: () => null,
 
   headerDirection: 'up',
   setDirection: () => null,
@@ -220,9 +225,10 @@ interface Props {
   children: React.ReactNode
   isMobile: boolean
   token?: string
+  language?: string
 }
 
-export function AppWrapper(props: Props) {  
+export function AppWrapper(props: Props) {
   const [snackbar, setSnackbar] = useState<SnackbarData | null>(null)
   const [token, setToken] = useState<string | null>(props.token ?? null)
   const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
@@ -239,6 +245,7 @@ export function AppWrapper(props: Props) {
   const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
   const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
   const [headerDirection, setDirection] = useState<'up'|'down'>('up')
+  const [currentLanguage, setCurrentLanguage] = useState<string>(props.language || 'US')
   const size = useResize()
 
   const showSnackbar = (text: string, type: SnackbarType) => {
@@ -326,6 +333,12 @@ export function AppWrapper(props: Props) {
     }
   }
 
+  const setLanguage = (language: string) => {
+    Cookies.set(CookiesType.language, language)
+    setCurrentLanguage(language)
+    setLanguageNext(language)
+  }
+
   const hideModal = () => {
     if (bottomSheet) {
       hideBottomSheet()
@@ -375,6 +388,8 @@ export function AppWrapper(props: Props) {
     headerDirection,
     setDirection,
     size,
+    currentLanguage,
+    setLanguage,
     showOverlay: () => {
       setIsOverlayShown(true)
     },
