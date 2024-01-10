@@ -69,7 +69,7 @@ export default function Select<T>(props: Props<T>) {
         }}
         isLoading={props.isLoading}
         classNamePrefix="yg-select"
-        isSearchable={false}
+        isSearchable={true}
         placeholder={props.placeholder}
         onChange={(option) => {
           props.onChange((option as IOption<T>)?.value)

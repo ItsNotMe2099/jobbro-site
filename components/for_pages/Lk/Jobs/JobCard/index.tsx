@@ -50,8 +50,8 @@ const JobCardInner = (props: Props) => {
 
 
   const menuOptions: IOption<MenuKey>[] =  [
-        {label: t('job_card_menu_edit'), value: MenuKey.Edit},
-        {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
+    {label: t('job_card_menu_edit'), value: MenuKey.Edit},
+    {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
     {label: t('job_card_menu_share'), value: MenuKey.Share},
     {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
   ]
@@ -69,7 +69,6 @@ const JobCardInner = (props: Props) => {
       case MenuKey.Delete:
         vacancyContext.delete()
         break
-
     }
   }
   const formattedPublishDate = format(new Date(vacancy.schedulePublishAt ?? vacancy.createdAt),'dd MMMM yyyy')
@@ -142,7 +141,7 @@ const JobCardInner = (props: Props) => {
             {vacancy.office?.name}
           </div>
         </div>}
-        <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuItemClick}/>
+        <MenuButton<MenuKey> key={vacancy.id} options={menuOptions} onClick={handleMenuItemClick}/>
       </div>
     </div>
   )

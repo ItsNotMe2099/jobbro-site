@@ -1,5 +1,6 @@
+import styles from './index.module.scss'
+
 import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
-import styles from 'pages/auth/registration/index.module.scss'
 import Layout from '@/components/layout/Layout'
 import RegistrationForm from '@/components/for_pages/Auth/RegistrationForm'
 import { useState } from 'react'

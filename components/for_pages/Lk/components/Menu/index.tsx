@@ -1,5 +1,6 @@
-import {Routes} from '@/types/routes'
 import styles from './index.module.scss'
+
+import {Routes} from '@/types/routes'
 import {ReactElement, useRef, useState} from 'react'
 import Link from 'next/link'
 import ArrowsSvg from '@/components/svg/ArrowsSvg'
@@ -63,8 +64,7 @@ export default function Menu(props: Props) {
           </div>
         </div>
         <div className={styles.btn}>
-          {showOptions &&
-            <MenuOptions onClick={() => setShowOptions(false)}/>}
+          <MenuOptions className={styles.menuOptions} isActive={showOptions} onClick={() => setShowOptions(false)}/>
           <Button onClick={() => setShowOptions(!showOptions)} styleType='large' color='green'>
             {t('hirer_left_menu_new_job')}
           </Button>

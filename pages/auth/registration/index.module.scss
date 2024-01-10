@@ -1,4 +1,4 @@
-@import "../../../styles/index";
+@import 'styles/index';
 
 .root {
     display: flex;
@@ -6,8 +6,23 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 350px;
+    @include mq($TabletWidth, max) {
+        flex-wrap: wrap;
+        margin-top: 0px;
+        margin-bottom: 16px;
+    }
 }
 
 .proud {
     padding-top: 60px;
+    max-width: 650px;
+    width: 40vw;
+    @include mq($TabletWidth, max) {
+        width: 90%;
+        padding-top: unset;
+    }
+
+    svg {
+        width: 100%;
+    }
 }

@@ -1,5 +1,6 @@
-import ForgotPasswordForm from '@/components/for_pages/Auth/ForgotPasswordForm'
 import styles from './index.module.scss'
+
+import ForgotPasswordForm from '@/components/for_pages/Auth/ForgotPasswordForm'
 import Layout from '@/components/layout/Layout'
 import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import ServerClusterSvg from '@/components/svg/ServerClusterSvg'

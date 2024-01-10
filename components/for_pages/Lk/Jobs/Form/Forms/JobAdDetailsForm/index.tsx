@@ -63,7 +63,7 @@ export default function JobAdDetailsForm(props: Props) {
       <Card title='Experience'>
         <SelectField<Experience> className={styles.select} placeholder={t('job_form_tab_details_field_experience_ph')} name='experience' options={Dictionary.getExperienceOptions(t)} />
       </Card>
-      <Card title={'Languages Tags'}>
+      <Card title={t('job_form_tab_details_section_languages')}>
         <LanguagesField name='languageKnowledges'/>
       </Card>
       <Card title={t('job_form_tab_details_section_skills')}>

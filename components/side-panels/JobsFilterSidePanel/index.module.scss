@@ -22,7 +22,8 @@
 .buttons {
     display: flex;
     @include list(32px, true);
-    padding: 32px 0;
+    padding: Clamp(10px, 3.2vw, 32px) 0;
+
 }
 
 .apply {

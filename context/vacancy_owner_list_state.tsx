@@ -27,7 +27,7 @@ interface IState {
   setPage: (page: number) => void
   filter: IVacancyFilter
   setFilter: (data: IVacancyFilter) => void
-  filterIsEmpty: boolean
+  filtersCount: number
   sortType: Nullable<VacancyOwnerListSortType>
   setSortType: (sortType: Nullable<VacancyOwnerListSortType>) => void
   reFetch: () => Promise<IPagination<IVacancy>>
@@ -41,7 +41,7 @@ const defaultValue: IState = {
   page: 1,
   setPage: (page: number) => null,
   filter: {page: 1, limit: 10},
-  filterIsEmpty: true,
+  filtersCount: 0,
   setFilter: (data: IVacancyFilter) => null,
   reFetch: async () => ({data: [], total: 0}),
   fetchMore: () => null,
@@ -145,9 +145,10 @@ export function VacancyListOwnerWrapper(props: Props) {
     setIsLoaded(false)
     return fetch({page: 1})
   }
-  const checkIsFilterEmpty = () => {
+  const checkIsFilterEmpty = () => {    
     const filter = filterRef.current
-    return Boolean(!filter.statuses?.length && !filter.projects?.length && !filter.publishedAt && filter.showClosed)
+    const num:number = Object.values(filter).filter(Boolean).filter(Array.isArray).reduce((a, b) => a + b.length, 0)
+    return num
   }
   const value: IState = {
     ...defaultValue,
@@ -176,7 +177,7 @@ export function VacancyListOwnerWrapper(props: Props) {
       setSortType(sortType)
       reFetch()
     },
-    filterIsEmpty: checkIsFilterEmpty(),
+    filtersCount: checkIsFilterEmpty(),
   }
 
 

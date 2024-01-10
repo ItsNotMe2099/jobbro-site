@@ -74,19 +74,24 @@
       background-color: transparent;
       cursor: pointer;
       &:active {
-        background: $simple-grey;
+        background: $text-secondary;
       }
     }
 
     .yg-select__option--is-focused {
-      background: $green;
-      color: $white;
+      background: $background-secondary;
+      // color: $white;
     }
 
     .yg-select__option--is-selected {
-      border-color: transparent;
-      background: $green;
-      color: $white;
+      &:before {
+        content: url('/img/icons/checkSvg.svg');
+        display: block;
+        margin-right: 8px;
+      }
+      // border-color: transparent;
+      // background: $background-secondary;
+      // color: $text-primary;
     }
   }
 
@@ -147,6 +152,8 @@
   &.withLabel{
     &.inputFocused, &.withValue {
       line-height: 32px;
+      margin-top: 16px;
+
     }
   }
 }

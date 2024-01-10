@@ -33,7 +33,7 @@ export interface IOptionGroup<T> {
   options: IOption<T>[]
 }
 export interface IOption<T> {
-  label?: string
+  label?: string|JSX.Element
   value?: T
   disabled?: boolean
   description?: string

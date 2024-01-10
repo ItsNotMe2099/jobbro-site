@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function DashboardChartCircle(props: Props) {
+  console.log(props.value)
 
 
   return (
@@ -20,7 +21,7 @@ export default function DashboardChartCircle(props: Props) {
       <div className={styles.wrapper}>
         <CircularProgressbar value={props.progress}
                              styles={buildStyles({
-                               rotation: 0.25,
+                               rotation: 0,
                                strokeLinecap: 'round',
                                pathTransitionDuration: 0.5,
                                pathColor: props.color,

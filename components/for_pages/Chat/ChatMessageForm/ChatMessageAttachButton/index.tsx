@@ -1,6 +1,4 @@
-import React, {ReactElement, useRef, useState} from 'react'
-import {useDetectOutsideClick} from '@/components/hooks/useDetectOutsideClick'
-import {usePopper} from 'react-popper'
+import React, {ReactElement} from 'react'
 import IconButton from '@/components/ui/IconButton'
 import {MenuDropdown} from '@/components/ui/MenuDropdown'
 import styles from './index.module.scss'
@@ -8,7 +6,7 @@ import AttachSvg from '@/components/svg/AttachSvg'
 import {colors} from '@/styles/variables'
 import FileSvg from '@/components/svg/FileSvg'
 import CalendarSvg from '@/components/svg/CalendarSvg'
-import {useAppContext} from '@/context/state'
+import { useDropDown } from '@/components/hooks/useDropDown'
 interface MenuItemProps{
   title: string
   description: string
@@ -31,44 +29,13 @@ interface Props<T> {
 }
 
 export default function ChatMessageAttachButton<T>(props: Props<T>) {
-  const appContext = useAppContext()
-  const dropdownRef = useRef(null)
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false)
-  const [referenceElement, setReferenceElement] = useState(null)
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
-  const {styles: popperStyles, attributes, forceUpdate, update} = usePopper(referenceElement, popperElement, {
-    strategy: 'absolute',
-    placement: 'top-start',
-    modifiers: [
-      {
-        name: 'computeStyles',
-        options: {
-          adaptive: false,
-        },
-      },
-      {
-        name: 'flip',
-        enabled: false,
-      },
-      {
-        name: 'offset',
-        options: {
-          offset: [-8, 12],
-        },
-      },
-
-    ]
-  })
+  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({offset: [-8, 12], placement: 'top-start'})
 
   const handleClick = () => {
     setIsActive(!isActive)
   }
   const handleClickItem = (value: T) => {
 
-  }
-  const handleRootRef = (ref: any) => {
-    dropdownRef.current = ref
-    setReferenceElement(ref)
   }
   const handleFileClick = () => {
     setIsActive(false)
@@ -79,7 +46,7 @@ export default function ChatMessageAttachButton<T>(props: Props<T>) {
     props.onEventClick()
   }
   return (
-    <IconButton disabled={props.disabled} bgColor='grey' onClick={handleClick} ref={handleRootRef}>
+    <IconButton disabled={props.disabled} bgColor='grey' onClick={handleClick} ref={setRootRef}>
       <AttachSvg color={colors.textSecondary}/>
       <MenuDropdown ref={setPopperElement}
                        isOpen={isActive as boolean}

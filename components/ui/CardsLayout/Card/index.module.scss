@@ -13,9 +13,17 @@
   // height: 306px;
   min-width: 264px;
   max-width: 300px;
+  transition: .2s ease-in-out;
+  border-radius: 24px;
   @include mq($PhoneWidth, max) {
     width: 100%;
     max-width: unset;
+  }
+
+  @media(hover: hover) {
+    &:hover {
+      box-shadow: 0px 0px 15px -5px $text-secondary;
+    }
   }
 }
 

@@ -7,7 +7,7 @@ import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
 interface Props<T> {
   value: T,
   isActive: boolean
-  label?: string,
+  label?: string|JSX.Element,
   className?: string
   disabled?: boolean
   description?: string

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "plop": "plop",
+    "ts": "tsc --noEmit"
+
   },
   "dependencies": {
     "@cospired/i18n-iso-languages": "^4.1.0",

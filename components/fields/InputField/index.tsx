@@ -123,17 +123,18 @@ export default function InputField<T extends string | number>(props: InputFieldP
   
   useEffect(() => {
     if (maskRef.current && (props.format === 'phone' || props.format === 'phoneAndEmail')) {
-      const phone = `${field.value && !`${field.value}`.startsWith('+') ? '+' : ''}${field.value}`
+      let phone = `${field.value && !`${field.value}`.startsWith('+') ? '+' : ''}${field.value}`
       const asYouType = new AsYouType()
       asYouType.input(phone || '')
       const noMoreDigits = validatePhoneNumberLength(phone+'0', asYouType.country)
-      const notValidLength = validatePhoneNumberLength(phone, asYouType.country)
-      const template = asYouType.getTemplate() + (noMoreDigits === undefined ? 'x' : '')
+    
+      // const notValidLength = validatePhoneNumberLength(phone, asYouType.country)
+      const template = asYouType.getTemplate()
 
-      if (isValidPhoneNumber(phone || '') || notValidLength === undefined) {
+      if (isValidPhoneNumber(phone || '')) {
         if (!phoneIsValid) {
           setPhoneIsValid(true)
-          setPattern(Converter.convertLibphonenumberToMask(template + (noMoreDigits === undefined ? ' xxx' : '')))
+          setPattern(Converter.convertLibphonenumberToMask(template + (phone.length < 12? 'xxx' : '')))
           updateValueFromMask()
         }
         return
@@ -142,6 +143,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
         setPattern(defaultPhonePattern)
         updateValueFromMask()
       }
+
       
       if (props.format === 'phoneAndEmail') {
         const looksLikePhone = /^\+?\d\s?\d\s?\d/.test(field.value || '') || /\d/.test(field.value || '')

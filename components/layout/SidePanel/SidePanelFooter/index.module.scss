@@ -1,4 +1,4 @@
 @import "styles/index";
 .root{
-  padding: 24px;
+  padding: Clamp(16px, 4vw, 24px);
 }

@@ -1,7 +1,8 @@
 import styles from '@/components/ui/MenuDropdown/index.module.scss'
 import {IOption, IOptionGroup} from '@/types/types'
+
 import classNames from 'classnames'
-import React, {CSSProperties, ReactElement} from 'react'
+import React, {CSSProperties} from 'react'
 declare module 'react' {
   function forwardRef<T, P = {}>(
     render: (props: P, ref: React.Ref<T>) => React.ReactNode | null
@@ -16,7 +17,7 @@ interface Props<T> {
   attributes?: { [key: string]: { [key: string]: string } | undefined };
   isOpen?: boolean
   onClick?: (value: T) => void
-  children?: ReactElement | undefined | null
+  children?: JSX.Element|JSX.Element[]
   styleType?: 'normal' | 'separator'
 }
 
@@ -26,10 +27,9 @@ function MenuDropdownInner<T>(props: Props<T>,  ref: React.ForwardedRef<HTMLDivE
     e.preventDefault()
     e.stopPropagation()
     props.onClick?.(option.value!)
-
   }
   return (
-    <div ref={ref}
+    <div ref={ref} 
          className={classNames(styles.root, props.className, {[styles.opened]: props.isOpen}, props.styleType ? styles[props.styleType] : null)}
          style={props.style}
          {...props.attributes}>

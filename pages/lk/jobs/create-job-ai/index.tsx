@@ -33,7 +33,7 @@ const CreateJobAiPageInner = () => {
   return (
         <div className={styles.root} ref={ref} >
           {preview ? <PageTitle title={t('Preview mode')} onBack={() => setPreview(false)} />
-            : <PageTitle title={t('Job Creating')} link={Routes.lkJobs} />}
+            : <PageTitle title={t('job_create_ai_title')} link={Routes.lkJobs} />}
           <div className={styles.form}>
             {initialRequest &&   <VacancyOwnerWrapper><CreateJobManuallyForm fromAi={true} initialValuesAi={vacancyGenerateAiContext.request?.result} preview={preview} onPreview={() => setPreview(!preview)}/></VacancyOwnerWrapper>}
           </div>

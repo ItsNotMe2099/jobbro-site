@@ -1,7 +1,5 @@
 import styles from './index.module.scss'
-import {MouseEventHandler, useMemo, useRef, useState} from 'react'
-import {useDetectOutsideClick} from '@/components/hooks/useDetectOutsideClick'
-import {usePopper} from 'react-popper'
+import {MouseEventHandler, useMemo} from 'react'
 import {MenuDropdown} from '@/components/ui/MenuDropdown'
 import {useHiringStageListContext} from '@/context/hiring_stage_list_state'
 import {ICVWithApply} from '@/data/interfaces/ICV'
@@ -15,6 +13,7 @@ import {Nullable} from '@/types/types'
 import Analytics from '@/utils/goals'
 import {Goal} from '@/types/enums'
 import useTranslation from 'next-translate/useTranslation'
+import { useDropDown } from '@/components/hooks/useDropDown'
 
 
 interface Props {
@@ -22,38 +21,12 @@ interface Props {
 }
 
 export default function JobApplyStatus(props: Props) {
-  const dropdownRef = useRef(null)
   const hiringStageListContext = useHiringStageListContext()
   const applyCvContext = useApplyCvContext()
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false)
-  const [referenceElement, setReferenceElement] = useState(null)
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
   const { t } = useTranslation()
   const apply = CvUtils.getProposalOrApplicationFromCv(applyCvContext.cv)
   const isRejected = apply?.status === ApplyStatus.Rejected
-  const {styles: popperStyles, attributes, forceUpdate, update} = usePopper(referenceElement, popperElement, {
-    strategy: 'absolute',
-    placement: 'bottom-end',
-    modifiers: [
-      {
-        name: 'computeStyles',
-        options: {
-          adaptive: false,
-        },
-      },
-      {
-        name: 'flip',
-        enabled: false,
-      },
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 0],
-        },
-      },
-
-    ]
-  })
+  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown()
 
   const handleClick: MouseEventHandler = (e) => {
     if(isRejected){
@@ -79,11 +52,6 @@ export default function JobApplyStatus(props: Props) {
     }
     setIsActive(false)
   }
-  const handleRootRef = (ref: any) => {
-    dropdownRef.current = ref
-    setReferenceElement(ref)
-  }
-
 
   const statusName = useMemo<Nullable<string>>(() => {
     if(isRejected){
@@ -105,7 +73,7 @@ export default function JobApplyStatus(props: Props) {
     }
   }, [apply, hiringStageListContext.data])
   return (
-    <div className={styles.root} ref={handleRootRef}>
+    <div className={styles.root} ref={setRootRef}>
       <div className={classNames(styles.status, {[styles.rejected]: isRejected})}
            onClick={handleClick}>{statusName}{!isRejected && <ChevronDownMiniSvg className={classNames(styles.chevron, {[styles.reversed]: isActive})} color={colors.green}/>}</div>
       <MenuDropdown ref={setPopperElement}

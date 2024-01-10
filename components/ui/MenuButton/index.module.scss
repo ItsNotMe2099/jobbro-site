@@ -7,4 +7,9 @@
 }
 .menu {
   cursor: pointer;
+  transition: .2s linear;
+  border-radius: 10px;
+    &:active {
+      background-color: rgb(235, 235, 235);
+    }
 }

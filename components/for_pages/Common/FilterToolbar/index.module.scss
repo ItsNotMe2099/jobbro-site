@@ -17,7 +17,7 @@
 .left {
   display: flex;
   align-items: center;
-  @include list(32px, true);
+  @include list(42px, true);
 }
 
 .right {

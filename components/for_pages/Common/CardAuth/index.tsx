@@ -1,5 +1,5 @@
-import Button from '@/components/ui/Button'
 import styles from './index.module.scss'
+import Button from '@/components/ui/Button'
 
 interface Props {
   title: string
