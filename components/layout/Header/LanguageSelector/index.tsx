@@ -10,6 +10,8 @@ import CheckSvg from '@/components/svg/CheckSvg'
 import Spacer from '@/components/ui/Spacer'
 import { useAppContext } from '@/context/state'
 
+import setLanguage from 'next-translate/setLanguage'
+import useTranslation from 'next-translate/useTranslation'
 interface Props {
 }
 
@@ -21,7 +23,7 @@ interface Lang {
 
 export default function LanguageSelector(props: Props) {
   const appContext = useAppContext()
-
+  const {t, lang} = useTranslation()
   const langs: Lang[] = [
     {label: 'English', value: 'en', flag: <Image src={'/img/icons/usaFlag.png'} width={24} height={16} alt={''}/>},
     {label: 'Bahasa Indonesia ', value: 'id', flag: <Image src={'/img/icons/indonesiaFlag.png'} width={24} height={16} alt={''}/>},
@@ -29,8 +31,12 @@ export default function LanguageSelector(props: Props) {
 
   const wrapper = useRef(null!)
   const [active, setActive] = useDetectOutsideClick(wrapper, false)
-  const [activeLanguage, setActiveLanguage] = useState<Lang>(langs.find(el=> el.value === appContext.currentLanguage)||langs[0])
-
+  const [activeLanguage, setActiveLanguage] = useState<Lang>(langs.find(el=> el.value === lang)||langs[0])
+  const handleChangeLanguage = (lang: Lang) => {
+    setLanguage(lang.value)
+    setActiveLanguage(lang)
+    setActive(false)
+  }
   return (<div className={styles.root} ref={wrapper}>
     <div className={styles.switcher} onClick={() => setActive(!active)}>
       {activeLanguage.flag} {activeLanguage.value} <ChevronDownSvg color={colors.white} />
@@ -41,11 +47,7 @@ export default function LanguageSelector(props: Props) {
           <div
           className={styles.dropdownItem}
           key={index}
-          onClick={() => {
-            setActiveLanguage(lang)
-            appContext.setLanguage(lang.value)
-            setActive(false)
-          }}
+          onClick={() => handleChangeLanguage(lang)}
           >
             {lang.flag} {lang.label} {lang.value === activeLanguage.value ? <CheckSvg/>:<Spacer basis={16}/>}
           </div>
