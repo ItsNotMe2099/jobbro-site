@@ -88,13 +88,14 @@
   }
 }
 .inputs{
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   flex-direction: row;
-  @include list(24px, true);
+  grid-gap: 16px;
 
 }
 .input{
-  flex: 1;
+
  background-color: $background-secondary;
   border-radius: 13px;
   padding: 16px;

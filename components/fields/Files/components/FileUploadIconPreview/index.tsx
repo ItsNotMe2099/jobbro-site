@@ -46,6 +46,7 @@ export default function FileUploadIconPreview(props: Props) {
     }
 
   }
+  console.log('props111', props)
   return (
       <div
         ref={avatarRef}
@@ -55,8 +56,8 @@ export default function FileUploadIconPreview(props: Props) {
         })}
       >
         <div className={styles.wrapper}>
-          {(props.isImage && props.previewPath && !props.value) && <img className={styles.preview} src={props.previewPath} alt=""/>}
-          {(!props.isImage && props.previewPath && !props.value) && <DocumentPreview file={props.previewPath} name={props.previewName}/>}
+          {(props.isImage && props.previewPath && !(props.value as IFile)?.source) && <img className={styles.preview} src={props.previewPath} alt=""/>}
+          {(!props.isImage && props.previewPath && !(props.value as IFile)?.source) && <DocumentPreview file={props.previewName!} name={props.previewName!}/>}
           {props.isImage && (props.value as IFile)?.source && (
             <img
               className={classNames({
@@ -68,7 +69,7 @@ export default function FileUploadIconPreview(props: Props) {
             />
           )}
           {!props.isImage && (props.value as IFile)?.source && (
-            <DocumentPreview file={(props.value as IFile).source} name={(props.value as IFile).name}/>
+            <DocumentPreview file={(props.value as IFile).source ?? (props.value as File).name} name={(props.value as IFile).name ??(props.value as File).name}/>
           )}
 
 

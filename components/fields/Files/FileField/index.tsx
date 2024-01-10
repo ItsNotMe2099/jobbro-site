@@ -30,7 +30,7 @@ interface Props extends IField<IFile | File | null> {
 }
 
 export default function FileField(props: Props) {
-  
+
   const appContext = useAppContext()
   const {isTabletWidth } = appContext.size
   const abortControllerRef = useRef<AbortController>()
@@ -56,7 +56,7 @@ export default function FileField(props: Props) {
   const handleDelete = async () => {
     if (field.value) {
       try {
-        //await FileRepository.deleteMyFile(field.value.id)
+        await FileRepository.deleteMyFile((field.value as IFile).id)
         helpers.setValue(null)
       } catch (err) {
         if (err instanceof RequestError) {
@@ -67,6 +67,15 @@ export default function FileField(props: Props) {
   }
 
   const handleCancel = async () => {
+    if(props.disableUpload) {
+      setError(null)
+      setPreviewPath('')
+      setPreviewName('')
+      setPreviewSize(0)
+      setProgress(0)
+      helpers.setValue(null)
+      return
+    }
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
     }
