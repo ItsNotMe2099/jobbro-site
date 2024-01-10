@@ -35,14 +35,14 @@ export default function JobDetailsPreview(props: Props) {
               <div className={styles.inputLabel}>{t('job_preview_requirements_experience')}</div>
               <div className={styles.inputValue}>3 — 6 years</div>
             </div>
-            <div className={styles.input}>
+            {!!job.employment && <div className={styles.input}>
               <div className={styles.inputLabel}>{t('job_preview_employment_type')}</div>
               <div className={styles.inputValue}>{Dictionary.getEmploymentName(job.employment, t)}</div>
-            </div>
-            <div className={styles.input}>
+            </div>}
+            {!!job.workplace && <div className={styles.input}>
               <div className={styles.inputLabel}>{t('job_preview_workplace')}</div>
               <div className={styles.inputValue}>{Dictionary.getWorkplaceName(job.workplace, t)}</div>
-            </div>
+            </div>}
           </div>
           {job.intro.visible && <div className={styles.intro}>
             <HtmlText>{job.intro.description}</HtmlText>

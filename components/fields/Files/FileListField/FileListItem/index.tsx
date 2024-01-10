@@ -43,7 +43,7 @@ export default function FileListItem(props: Props) {
         [styles.root]: true,
       }, props.className)}
     >
-      {props.progress && props.progress !== 100 && <Spinner size={24} className={styles.spinner}/>}
+      {!!props.progress && props.progress !== 100 && <Spinner size={24} className={styles.spinner}/>}
 
       <FileUploadIconPreview
         progress={props.progress}

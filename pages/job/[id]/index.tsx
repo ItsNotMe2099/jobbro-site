@@ -37,12 +37,12 @@ const JobPageInner = (props: Props) => {
       <div className={styles.root}>
         <div ref={ref} className={styles.container}>
           <JobPreview job={props.job} company={props.job.company}/>
-          <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref} className={styles.footer}>
+          {appContext.isLogged && <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => openApplicationModal()}>
               {t('job_preview_button_apply')}
             </Button>
-          </FormStickyFooter>
+          </FormStickyFooter>}
         </div>
         {!isSmDesktopWidth &&
         <ApplyForJobCard vacancyId={props.job.id}/>
