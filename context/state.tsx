@@ -18,6 +18,7 @@ import IEvent from '@/data/interfaces/IEvent'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import { IResizeValues, useResize } from '@/components/hooks/useResize'
 
+import setLanguageNext from 'next-translate/setLanguage'
 interface IState {
   isMobile: boolean
   isDesktop: boolean
@@ -227,7 +228,7 @@ interface Props {
   language?: string
 }
 
-export function AppWrapper(props: Props) {  
+export function AppWrapper(props: Props) {
   const [snackbar, setSnackbar] = useState<SnackbarData | null>(null)
   const [token, setToken] = useState<string | null>(props.token ?? null)
   const [aboutMe, setAboutMe] = useState<IAboutMe | null>(null)
@@ -335,6 +336,7 @@ export function AppWrapper(props: Props) {
   const setLanguage = (language: string) => {
     Cookies.set(CookiesType.language, language)
     setCurrentLanguage(language)
+    setLanguageNext(language)
   }
 
   const hideModal = () => {

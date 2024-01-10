@@ -21,25 +21,26 @@ interface Lang {
 
 export default function LanguageSelector(props: Props) {
   const appContext = useAppContext()
+
   const langs: Lang[] = [
-    {label: 'English', value: 'EN', flag: <Image src={'/img/icons/usaFlag.png'} width={24} height={16} alt={''}/>},
-    {label: 'Bahasa Indonesia ', value: 'IN', flag: <Image src={'/img/icons/indonesiaFlag.png'} width={24} height={16} alt={''}/>},    
+    {label: 'English', value: 'en', flag: <Image src={'/img/icons/usaFlag.png'} width={24} height={16} alt={''}/>},
+    {label: 'Bahasa Indonesia ', value: 'id', flag: <Image src={'/img/icons/indonesiaFlag.png'} width={24} height={16} alt={''}/>},
   ]
 
   const wrapper = useRef(null!)
   const [active, setActive] = useDetectOutsideClick(wrapper, false)
   const [activeLanguage, setActiveLanguage] = useState<Lang>(langs.find(el=> el.value === appContext.currentLanguage)||langs[0])
 
-  return (<div className={styles.root} ref={wrapper}> 
+  return (<div className={styles.root} ref={wrapper}>
     <div className={styles.switcher} onClick={() => setActive(!active)}>
       {activeLanguage.flag} {activeLanguage.value} <ChevronDownSvg color={colors.white} />
     </div>
     <div className={classNames(styles.dropdown, active && styles.active) }>
       {
         langs.map((lang, index) => (
-          <div 
-          className={styles.dropdownItem} 
-          key={index} 
+          <div
+          className={styles.dropdownItem}
+          key={index}
           onClick={() => {
             setActiveLanguage(lang)
             appContext.setLanguage(lang.value)
