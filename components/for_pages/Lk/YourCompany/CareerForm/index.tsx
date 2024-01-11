@@ -99,7 +99,7 @@ export default function CompanyCareerForm(props: Props) {
                 {t('company_career_form_why_upload')}
               </div>
               <div className={styles.desc}>
-                {t('company_career_form_why_upload_desc')}
+                {t('company_career_form_why_upload_desc_1')}
               </div>
             </div>
           </div>
