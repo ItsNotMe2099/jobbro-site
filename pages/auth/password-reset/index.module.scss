@@ -6,9 +6,23 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 350px;
-    @include list(90px, true);
+    @include mq($TabletWidth, max) {
+        flex-wrap: wrap;
+        margin-top: 0px;
+        row-gap: 32px;
+        margin-bottom: unset;
+    }
 }
 
 .proud {
-    
+    padding-left: 90px;
+     @include mq($TabletWidth, max) {
+        padding-left: unset;
+        width: 90%;
+        padding-top: unset;
+    }
+
+    svg {
+        width: 100%;
+    }
 }

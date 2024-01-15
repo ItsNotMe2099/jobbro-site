@@ -3,12 +3,17 @@
 .root {
     display: flex;
     flex-direction: column;
-    @include list(24px, false);
     background-color: $white;
     border-radius: 24px;
     padding: 32px;
     width: 480px;
     margin-right: 18px;
+    @include list(24px, false);
+    @include mq($TabletWidth, max) {
+        margin-right: unset;
+        border-radius: unset;
+        width: 100%;
+    }
 }
 
 .title {

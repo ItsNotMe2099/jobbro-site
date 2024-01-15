@@ -11,8 +11,16 @@ interface Props extends IField<string> {
 }
 
 export default function LanguageField(props: Props) {
+  
   return (
-    <SelectField<string> {...props} options={LanguageUtils.getLanguageList()} />
+    <SelectField<string> {...props} options={LanguageUtils.getLanguageList().sort((a, b) => {
+      if(a.label && b.label) {
+        return a.label > b.label ? 1 : -1
+      }
+      else {
+        return 0
+      }
+    })} />
   )
 }
 

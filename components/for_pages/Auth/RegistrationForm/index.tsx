@@ -1,5 +1,6 @@
+import styles from './index.module.scss'
+
 import InputField from '@/components/fields/InputField'
-import styles from '@/components/for_pages/Auth/RegistrationForm/index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import Validator from '@/utils/validator'
 import Button from '@/components/ui/Button'

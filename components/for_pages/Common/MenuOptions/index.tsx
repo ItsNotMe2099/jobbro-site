@@ -12,6 +12,7 @@ import { useEffect, useRef } from 'react'
 interface Props {
   className?: string
   onClick: () => void
+  isActive?: boolean
 }
 
 export default function MenuOptions(props: Props) {
@@ -23,10 +24,16 @@ export default function MenuOptions(props: Props) {
     !active &&props.onClick()
   }, [active])
 
+  useEffect(()=>{
+    if(props.isActive !== undefined) {
+      setActive(props.isActive)  
+    }
+  }, [props.isActive])
+
 
 
   return (
-    <div className={classNames(styles.options, props.className)} ref={optionsRef}>
+    <div className={classNames(styles.options, props.className, active && styles.active)} ref={optionsRef}>
       <Link href={Routes.lkJobsCreateJobManually}  onClick={()=>props.onClick} className={styles.option}>
         <DocSvg color={colors.green} />
         <div className={styles.desc}>

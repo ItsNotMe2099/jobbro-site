@@ -1,5 +1,6 @@
-import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import styles from './index.module.scss'
+
+import FeelingProudSvg from '@/components/svg/FeelingProudSvg'
 import Layout from '@/components/layout/Layout'
 import LoginForm from '@/components/for_pages/Auth/LoginForm'
 

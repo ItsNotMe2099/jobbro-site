@@ -44,23 +44,36 @@ const JobsPageInner = () => {
       <div ref={ref} className={styles.container}>
         <PageStickyHeader boundaryElement={styles.container} formRef={ref}>
         <PageTitle title={t('jobs_title')}/>
-        <FilterToolbar key={'sort'} left={[<SortFilterButton<VacancyOwnerListSortType> value={vacancyListContext.sortType} options={[
-          {label: t('jobs_filter_sort_from_new_to_old'), value: VacancyOwnerListSortType.FromNewToOld},
-          {label: t('jobs_filter_sort_from_old_to_new'), value: VacancyOwnerListSortType.FromOldToNew},
-          {label: t('jobs_filter_sort_from_low_to_high'), value: VacancyOwnerListSortType.FromLowToHighSalary},
-          {label: t('jobs_filter_sort_from_high_to_low'), value: VacancyOwnerListSortType.FromHighToLowSalary}
-        ]} onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}/>,
-          <FilterButton key={'filter'} hasValue={!vacancyListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
+        <FilterToolbar 
+        key={'sort'} 
+        left={[
+          <FilterButton key={'filter'} 
+          counter={vacancyListContext.filtersCount}
+          onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
             filter: vacancyListContext.filter,
             onSubmit: vacancyListContext.setFilter
-          } as JobFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
-        ]} right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
+          } as JobFilterSidePanelArguments)}>
+            {t('filter_toolbar_filter')}
+          </FilterButton>,
+
+          <SortFilterButton<VacancyOwnerListSortType> 
+          value={vacancyListContext.sortType} 
+          options={[
+            {label: t('jobs_filter_sort_from_new_to_old'), value: VacancyOwnerListSortType.FromNewToOld},
+            {label: t('jobs_filter_sort_from_old_to_new'), value: VacancyOwnerListSortType.FromOldToNew},
+            {label: t('jobs_filter_sort_from_low_to_high'), value: VacancyOwnerListSortType.FromLowToHighSalary},
+            {label: t('jobs_filter_sort_from_high_to_low'), value: VacancyOwnerListSortType.FromHighToLowSalary}
+          ]} 
+          onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}
+          />,
+        ]} 
+        right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
 
         {vacancyListContext.isLoaded && vacancyListContext.data.total === 0 &&
           <NoData
-            title={vacancyListContext.filterIsEmpty ? t('stub_jobs_filter_title') : t('stub_jobs_title')}
-            text={vacancyListContext.filterIsEmpty ? t('stub_jobs_filter_desc') : t('stub_jobs_desc')}
+            title={vacancyListContext.filtersCount === 0 ? t('stub_jobs_filter_title') : t('stub_jobs_title')}
+            text={vacancyListContext.filtersCount === 0 ? t('stub_jobs_filter_desc') : t('stub_jobs_desc')}
           />
         }
         {!vacancyListContext.isLoaded && vacancyListContext.isLoading &&
@@ -73,8 +86,7 @@ const JobsPageInner = () => {
         </CardsLayout>}
         <StickyFab boundaryElement={styles.container} containerRef={ref}>
           <div className={styles.plus}>
-            {showMenu && 
-            <MenuOptions className={styles.menu} onClick={() => setShowMenu(false)}/>}
+            <MenuOptions isActive={showMenu} className={styles.menu} onClick={() => setShowMenu(false)}/>
             <Fab active={showMenu} onClick={() => setShowMenu(!showMenu)}/>
           </div>
 

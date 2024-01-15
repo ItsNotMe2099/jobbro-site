@@ -3,4 +3,24 @@
 
 .root {
   cursor: pointer;
+  border-radius: 10px;
+  transition: .2s ease-in-out;
+
+  svg {
+    path{
+      transition: .2s ease-in-out;
+    }
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.14);
+    }
+  }
+  &:active {
+    svg{
+      path{
+        fill: $green;
+      }
+    }
+  }
 }

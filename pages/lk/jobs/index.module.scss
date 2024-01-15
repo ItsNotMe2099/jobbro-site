@@ -55,6 +55,10 @@
   display: flex;
   justify-content: flex-end;
   max-width: 80px;
+  @include mq($TabletWidth, max) {
+    bottom: 16px;
+    right: 16px;
+  }
 }
 
 .menu {

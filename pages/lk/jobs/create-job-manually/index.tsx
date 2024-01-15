@@ -8,16 +8,18 @@ import { ProfileType } from '@/data/enum/ProfileType'
 import { useState } from 'react'
 import {VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
 import {CompanyOwnerWrapper} from '@/context/company_owner_state'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const CreateJobManuallyPageInner = () => {
+  const { t } = useTranslation()
 
   const [preview, setPreview] = useState<boolean>(false)
 
   return (
         <div className={styles.container}>
           {preview ? <PageTitle title={'Preview mode'} onBack={() => setPreview(false)} />
-            : <PageTitle title={'Job Creating'} link={Routes.lkJobs} />}
+            : <PageTitle title={t('job_create_manually_title')} link={Routes.lkJobs} />}
           <CreateJobManuallyForm preview={preview} onPreview={() => setPreview(!preview)} />
         </div>
   )

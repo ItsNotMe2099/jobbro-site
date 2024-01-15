@@ -1,7 +1,7 @@
 @import "styles/index";
 
 .root {
-    min-width: 414px;
+    flex: 1 0 auto;    
     @include mq($MdDesktopWidth, max) {
         width: 100%;
     }

@@ -12,6 +12,7 @@ import classNames from 'classnames'
 import AddSvg from '@/components/svg/AddSvg'
 import { colors } from '@/styles/variables'
 import CloseSvg from '@/components/svg/CloseSvg'
+import useTranslation from 'next-translate/useTranslation'
 
 
 interface Props extends IField<string[]> {
@@ -20,14 +21,16 @@ interface Props extends IField<string[]> {
 export default function LanguagesField(props: Props) {
   const [field, meta, helpers] = useField<ILanguageKnowledge[]>(props as any)
   const [index, setIndex] = useState<number>(field.value.length > 0?field.value.length:0)
+  const { t } = useTranslation()
+
 
   const levelOptions: IOption<string>[] = [
-    {label: 'A1 – Breakthrough or beginner', value: LanguageKnowLevel.A1},
-    {label: 'A2 – Way stage or elementary', value: LanguageKnowLevel.A2},
-    {label: 'B1 – Threshold or intermediate ', value: LanguageKnowLevel.B1},
-    {label: 'B2 – Advantage or upper intermediate ', value: LanguageKnowLevel.B2},
-    {label: 'C1 – Effective operational proficiency or advanced ', value: LanguageKnowLevel.C1},
-    {label: 'C2 – Mastery or proficiency ', value: LanguageKnowLevel.C2},
+    {label: `A1 – ${t('job_form_tab_details_section_languages_a1')}`, value: LanguageKnowLevel.A1},
+    {label: `A2 – ${t('job_form_tab_details_section_languages_a2')}`, value: LanguageKnowLevel.A2},
+    {label: `B1 – ${t('job_form_tab_details_section_languages_b1')}`, value: LanguageKnowLevel.B1},
+    {label: `B2 – ${t('job_form_tab_details_section_languages_b2')}`, value: LanguageKnowLevel.B2},
+    {label: `C1 – ${t('job_form_tab_details_section_languages_c1')}`, value: LanguageKnowLevel.C1},
+    {label: `C2 – ${t('job_form_tab_details_section_languages_c2')}`, value: LanguageKnowLevel.C2},
   ]
 
   const onRemoveTag = (ind: number) => {
@@ -53,9 +56,9 @@ export default function LanguagesField(props: Props) {
           </div> 
         }        
 
-        <LanguageField name={`languageKnowledges[${index}].language`} resettable/>
+        <LanguageField name={`languageKnowledges[${index}].language`} resettable placeholder={t('job_form_tab_details_section_languages_placeholder')}/>
         <div className={classNames(styles.levelList, field.value[index]?.language && styles.hasValue)}>
-          <p className={styles.subtitle}>Select the level of proficiency</p>
+          <p className={styles.subtitle}>{t('job_form_tab_details_section_languages_select')}</p>
           <RadioField 
           className={styles.radioListRoot}
           listClassName={styles.radioList} 

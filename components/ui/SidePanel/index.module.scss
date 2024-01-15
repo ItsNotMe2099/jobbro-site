@@ -1,7 +1,6 @@
 @import "styles/index";
 
 .root {
-  // background-color: $white;
   flex-direction: column;
   position: fixed;
   top: 0px;
@@ -10,8 +9,7 @@
   right: 0;
   height: 100%;
   width: 512px;
-  // padding-top: 24px;
-  // @include list(24px, false); 
+  max-width: 100vw;
 }
 
 .overlay {

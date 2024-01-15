@@ -1,5 +1,5 @@
-import Card from './Card'
 import styles from './index.module.scss'
+import Card from './Card'
 import classNames from 'classnames'
 
 interface Props {
