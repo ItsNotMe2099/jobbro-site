@@ -39,7 +39,7 @@ export default function ApplyForJobFirstStep(props: Props) {
                   validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
 
       <div className={styles.privacy}>
-        By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing' : 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing'}>privacy</a>
+        By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
       </div>
     </div>
   )
