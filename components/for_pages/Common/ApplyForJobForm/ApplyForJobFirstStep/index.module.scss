@@ -5,3 +5,14 @@
   flex-direction: column;
   @include list(24px);
 }
+.privacy{
+  font-weight: 400;
+  font-size: 12px;
+  a{
+    font-weight: 600;
+    color: $green;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}

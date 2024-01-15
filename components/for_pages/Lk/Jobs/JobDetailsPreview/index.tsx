@@ -16,9 +16,9 @@ interface Props {
 export default function JobDetailsPreview(props: Props) {
   const {job} = props
   const { t } = useTranslation()
-  const skills =  (job.skills?.map(i => i?.title ?? i) ?? [])
-  const keywords = (job.keywords?.map(i => i?.title ?? i) ?? [])
-  const benefits = (job.benefits?.map(i => i?.title ?? i) ?? [])
+  console.log('Job11', job)
+  const skills =  job.skills?.length > 0 ? (job.skills?.map(i => i?.title ?? i) ?? []) : job.skillsTitles ?? []
+ const benefits =  job.benefits?.length > 0 ?  (job.benefits?.map(i => i?.title ?? i) ?? []) : job.benefitsTitles ?? []
 
 
   return (
@@ -53,24 +53,23 @@ export default function JobDetailsPreview(props: Props) {
             </div>
             <HtmlText>{job.tasks}</HtmlText>
           </div>}
-          {job.requirements && <div className={styles.field}>
+          {(job.requirements || job.skills.length > 0) && <div className={styles.field}>
             <div className={styles.title}>
               {t('job_preview_requirements')}
             </div>
 
-            <HtmlText>{job.requirements}</HtmlText>
+            {job.requirements && <HtmlText>{job.requirements}</HtmlText>}
+            {skills.length > 0 && <ChipList>
+              {skills.map(i => <Chip>{i}</Chip>)}
+            </ChipList>}
           </div>}
 
-          {(job.benefitsDescription?.visible || job.benefits.length > 0) && <div className={styles.field}>
+          {(job.benefitsDescription?.visible || benefits.length > 0) && <div className={styles.field}>
             <div className={styles.title}>
               {t('job_preview_benefits')}
             </div>
 
             {job.benefitsDescription?.visible && <HtmlText>{job.benefitsDescription.description}</HtmlText>}
-            {benefits.length > 0 && <ChipList>
-              {benefits.map(i => <Chip>{i}</Chip>)}
-            </ChipList>}
-
             {benefits.length > 0 && <ChipList>
               {benefits.map(i => <Chip>{i}</Chip>)}
             </ChipList>}
@@ -85,7 +84,7 @@ export default function JobDetailsPreview(props: Props) {
           </div>}
           {job.hiringStagesDescriptions && job.hiringStagesDescriptions.length > 0 && <div className={styles.field}>
             <div className={styles.title}>
-              {'Hiring stages'}
+              {t('job_preview_hiring_stages')}
             </div>
             <div className={styles.stages}>
               {job.hiringStagesDescriptions.map(i => <div className={styles.stage}>
@@ -96,17 +95,6 @@ export default function JobDetailsPreview(props: Props) {
               </div>)}
             </div>
           </div>}
-
-          {job.keywords && job.keywords.length > 0 && <div className={styles.field}>
-            <div className={styles.title}>
-              {'Keywords'}
-            </div>
-            {job.keywords.length > 0 && <ChipList>
-              {keywords.map(i => <Chip>{i}</Chip>)}
-            </ChipList>}
-          </div>
-
-          }
         </div>
       </Card>
   )
