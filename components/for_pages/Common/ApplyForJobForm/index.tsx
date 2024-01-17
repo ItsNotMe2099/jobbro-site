@@ -14,6 +14,7 @@ import Button from '@/components/ui/Button'
 import {useAppContext} from '@/context/state'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import {Routes} from '@/types/routes'
+import CloseModalBtn from '@/components/ui/CloseModalBtn'
 
 interface Props {
   vacancyId: number
@@ -21,6 +22,7 @@ interface Props {
 
 const ApplyForJobFormInner = (props: Props) => {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const applyJobAnonymously = useApplyJobAnonymize()
   const handleSubmit = (data: IApplyJobAnonymouslyFormData) => {
     switch (applyJobAnonymously.stepKey){
@@ -49,19 +51,33 @@ const ApplyForJobFormInner = (props: Props) => {
    return (
       <FormikProvider value={formik}>
         <Form className={styles.root}>
-          <div className={styles.title}>{applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.Confirm ? 'Confirm Email' : 'Apply for job'}</div>
-      {applyJobAnonymously.loading && <ContentLoader isOpen={true}/>}
-      {!applyJobAnonymously.loading ? <>
-        {!applyJobAnonymously.request && applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.First && <ApplyForJobFirstStep/>}
-        {!applyJobAnonymously.request && applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.Confirm && <ApplyForJobConfirmStep/>}
-        {applyJobAnonymously.request != null && <ApplyForJobRequestStep/>}
-      </> : null}
-          {!applyJobAnonymously.request && ([ApplyJobAnonymouslyStepKey.First, ApplyJobAnonymouslyStepKey.Confirm] as ApplyJobAnonymouslyStepKey[]).includes(applyJobAnonymously.stepKey) &&  <Button spinner={applyJobAnonymously.sending} type='submit' className={styles.btn} fluid styleType='large' color='green'>
-            {applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.First ? 'Apply' : 'Confirm'}
-          </Button>}
-          {applyJobAnonymously.request?.status === AiRequestStatus.Finished &&  <Button type='button' href={Routes.profileResumeEdit(applyJobAnonymously.request.cv!.id!)} className={styles.btn} fluid styleType='large' color='green'>
-           Show now
-          </Button>}
+          <div className={styles.title}>
+            {applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.Confirm ? 'Confirm Email' : 'Apply for job'}
+            {isTabletWidth &&
+              <CloseModalBtn onClick={appContext.hideModal}/>
+            }
+          </div>
+          {applyJobAnonymously.loading && <ContentLoader isOpen={true}/>}
+          {!applyJobAnonymously.loading ? 
+          <>
+            {!applyJobAnonymously.request && applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.First && <ApplyForJobFirstStep/>}
+            {!applyJobAnonymously.request && applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.Confirm && <ApplyForJobConfirmStep/>}
+            {applyJobAnonymously.request != null && <ApplyForJobRequestStep/>}
+          </> 
+          : null}
+
+          {!applyJobAnonymously.request 
+          && ([ApplyJobAnonymouslyStepKey.First, ApplyJobAnonymouslyStepKey.Confirm] as ApplyJobAnonymouslyStepKey[]).includes(applyJobAnonymously.stepKey) && 
+            <Button spinner={applyJobAnonymously.sending} type='submit' className={styles.btn} fluid styleType='large' color='green'>
+              {applyJobAnonymously.stepKey === ApplyJobAnonymouslyStepKey.First ? 'Apply' : 'Confirm'}
+            </Button>
+          }
+
+          {applyJobAnonymously.request?.status === AiRequestStatus.Finished && 
+            <Button type='button' href={Routes.profileResumeEdit(applyJobAnonymously.request.cv!.id!)} className={styles.btn} fluid styleType='large' color='green'>
+                Show now
+            </Button>
+          }
         </Form>
       </FormikProvider>
   )

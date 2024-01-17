@@ -28,3 +28,13 @@
   }
 
 }
+
+.fullScreen {
+  @include mq($TabletWidth, max) {
+    max-height: unset !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    border-radius: unset !important;
+  }
+}

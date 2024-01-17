@@ -18,7 +18,7 @@ interface Props {
 export default function MenuOptions(props: Props) {
   const { t } = useTranslation()
   const optionsRef = useRef(null!)
-  const [active, setActive] = useDetectOutsideClick(optionsRef.current, true)
+  const [active, setActive] = useDetectOutsideClick(optionsRef.current, false)
 
   useEffect(()=>{
     !active &&props.onClick()

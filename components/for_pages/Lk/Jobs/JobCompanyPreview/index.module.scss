@@ -2,16 +2,23 @@
 .root {
   display: flex;
   flex-direction: row;
-  @include list(32px, true)
+  column-gap: 32px;
+  @include mq($TabletWidth, max) {
+    row-gap: 16px;
+    column-gap: 16px;
+    flex-wrap: wrap;
+  }
 }
 .left{
   flex: 1;
+  min-width: 228px;
   display: flex;
   flex-direction: row;
   @include list(24px, true);
 }
 .right{
   flex: 1;
+  min-width: 228px;
 }
 .stats{
   display: flex;

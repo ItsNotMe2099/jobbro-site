@@ -30,7 +30,7 @@ export default function Layout(props: Props) {
         <div className={styles.container}>
           {props.children}
         </div>
-        {isTabletWidth && !props.hideTabbar &&
+        {isTabletWidth && !props.hideTabbar && appContext.aboutMe &&
         <TabBar/>
         }
         <Footer />

@@ -99,6 +99,7 @@ export default function Header(props: Props) {
             {i.label}
           </Link>
         )}
+        {isTabletWidth && <Link href={menu[0].link} className={styles.item}>{menu[0].label}</Link>}
       </div>
       
       {appContext.isLogged &&  <div className={styles.controls}>
