@@ -16,9 +16,8 @@ interface Props {
 export default function JobDetailsPreview(props: Props) {
   const {job} = props
   const { t } = useTranslation()
-  console.log('Job11', job)
   const skills =  job.skills?.length > 0 ? (job.skills?.map(i => i?.title ?? i) ?? []) : job.skillsTitles ?? []
- const benefits =  job.benefits?.length > 0 ?  (job.benefits?.map(i => i?.title ?? i) ?? []) : job.benefitsTitles ?? []
+  const benefits =  job.benefits?.length > 0 ?  (job.benefits?.map(i => i?.title ?? i) ?? []) : job.benefitsTitles ?? []
 
 
   return (

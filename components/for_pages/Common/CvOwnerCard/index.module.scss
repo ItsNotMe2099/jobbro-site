@@ -1,4 +1,4 @@
-@import "../../../../styles/index";
+@import 'styles/index';
 
 .root {}
 
@@ -27,6 +27,12 @@
     display: flex;
     @include list(10px, true);
     margin-top: 24px;
+    @include mq($TabletWidth, max) {
+        flex-wrap: wrap;
+        @include list(0px, true);
+        row-gap: 10px;
+        column-gap: 10px;
+    }
 }
 
 .item {

@@ -24,4 +24,8 @@
   &.mobileMenu {
     overflow-y: hidden;
   }
+
+  @include mq($TabletWidth, max) {
+    padding: 0;
+  }
 }

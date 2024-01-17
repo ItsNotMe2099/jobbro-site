@@ -5,11 +5,10 @@ import { IField, IOption } from '@/types/types'
 import RadioField from '../RadioField'
 import { LanguageKnowLevel } from '@/data/enum/LanguageKnowLevel'
 import LanguageField from '../LanguageField'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ILanguageKnowledge } from '@/data/interfaces/ICV'
 import LanguageUtils from '@/utils/LanguageUtils'
 import classNames from 'classnames'
-import AddSvg from '@/components/svg/AddSvg'
 import { colors } from '@/styles/variables'
 import CloseSvg from '@/components/svg/CloseSvg'
 import useTranslation from 'next-translate/useTranslation'
@@ -35,8 +34,17 @@ export default function LanguagesField(props: Props) {
 
   const onRemoveTag = (ind: number) => {
     helpers.setValue(field.value.filter((_, index) => index !== ind))
-    setIndex(state => state > 0 ? state - 1: state)
   }
+
+  useEffect(()=>{
+    const lastEl = field.value.slice(-1)
+    if(lastEl[0]?.language && lastEl[0]?.level) {
+      setIndex(field.value.length)
+    }
+    else {
+      setIndex(field.value.length === 0? 0: field.value.length - 1)
+    }
+  }, [field.value])
 
   return (
       <div className={styles.root}>  
@@ -66,12 +74,12 @@ export default function LanguagesField(props: Props) {
           name={`languageKnowledges[${index}].level`}
           />
         </div>
-        {field.value[index]?.language && field.value[index]?.level &&
+        {/* {field.value[index]?.language && field.value[index]?.level &&
           <div className={styles.add} onClick={() => setIndex(index + 1)}>
             <AddSvg color={colors.green} />
             <div className={styles.desc}>Add language</div>
           </div>      
-        }
+        } */}
       </div>
   )
 }

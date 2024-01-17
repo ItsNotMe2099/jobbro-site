@@ -4,6 +4,7 @@ export enum ModalType {
   ChatFileUpload = 'chatFileUpload',
   Gallery = 'gallery',
   CropAvatarModal = 'cropAvatarModal',
+  ApplyForJobModal = 'applyForJobModal',
 }
 export enum CookiesType {
   accessToken = 'accessToken',

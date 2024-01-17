@@ -9,6 +9,7 @@ interface Props {
   children?: ReactElement | ReactElement[]
   className?: string
   size?: 'small' | 'normal' | 'large'
+  mobileFullScreen?:boolean
 }
 
 export default function ModalLayout(props: Props) {
@@ -18,7 +19,10 @@ export default function ModalLayout(props: Props) {
     <div className={classNames(styles.root, {
       [styles.fixed]: props.fixed || context.isMobile,
       [styles[props.size ?? 'normal']]: true
-    }, props.className)}>
+    }, 
+    props.className,
+    props.mobileFullScreen&&styles.fullScreen
+    )}>
       {props.children}
     </div>
   )
