@@ -21,6 +21,7 @@ import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import useTranslation from 'next-translate/useTranslation'
 import BottomSheetFooter from '@/components/layout/BottomSheet/BottomSheetFooter'
+import showToast from '@/utils/showToast'
 
 interface Props {
   isBottomSheet?: boolean
@@ -48,6 +49,7 @@ const ApplicationCreateModalInner = (props: Props) => {
         vacancyId: args?.vacancyId,
         cvId: selectedCv.id
       })
+      showToast({title: t('toast_apply_created_title'), text: t('toast_apply_created_desc')})
       appContext.hideModal()
 
     } catch (err) {
