@@ -13,6 +13,7 @@ import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
 import useTranslation from 'next-translate/useTranslation'
+import {RequestError} from '@/types/types'
 
 interface Props {
   job: IVacancy
@@ -60,10 +61,22 @@ export default JobPage
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> => {
   const id = parseInt(context.query.id as string, 10)
   const token = context.req.cookies[CookiesType.accessToken]
-  const job = await VacancyOwnerRepository.fetchById(id, token)
-  return {
-    props: {
-      job
+  try {
+    const job = await VacancyOwnerRepository.fetchById(id, token)
+    return {
+      props: {
+        job
+      }
     }
+  }catch (e) {
+    if(e instanceof RequestError){
+      if(e.isNotFoundError){
+        return {
+          notFound: true
+        }
+      }
+    }
+    throw e
   }
+
 }

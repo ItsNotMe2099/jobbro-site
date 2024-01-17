@@ -94,6 +94,7 @@ export default function CvForm(props: Props) {
       countryId: data.country?.geonameid,
       cityId: data.city?.geonameid,
       skillsTitles: data.skills,
+      coursesInfo: data.coursesInfo?.filter(i => !!i.name),
       experienceInfo: data.experienceInfo.map(i => {
         const fromDate = i.fromMonthYear ? parse(i.fromMonthYear, 'dd.MM.yyyy', new Date()) : null
         const toDate = i.toMonthYear ? parse(i.toMonthYear, 'dd.MM.yyyy', new Date()) : null
@@ -140,7 +141,7 @@ export default function CvForm(props: Props) {
     about: cv?.about ?? {description: null, visible: false},
     skillsDescription: cv?.skillsDescription ?? {description: null, visible: false},
     educationInfo: cv?.educationInfo ?? [],
-    coursesInfo: cv?.coursesInfo ?? [],
+    coursesInfo: (cv?.coursesInfo ?? [])!.filter(i => !!i.name),
     experienceInfo: cv?.experienceInfo?.map(i => {
       const monthDay = i.toMonth && !isNaN(i.toMonth) ? lastDayOfMonth(new Date(i.toYear || (new Date()).getFullYear(), i.toMonth, 1)) : lastDayOfMonth(new Date(i.toYear || (new Date()).getFullYear(), !i.toYear || i.toYear === (new Date()).getFullYear() ?  (new Date()).getMonth() : 11 , 1))
 
