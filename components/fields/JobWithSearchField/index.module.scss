@@ -9,6 +9,9 @@
   display: flex;
   flex-direction: column;
   @include list(24px);
+  &.selected{
+
+  }
 }
 .job{
   cursor: pointer;

@@ -4,23 +4,15 @@ import {ApplyStatus} from '@/data/enum/ApplyStatus'
 
 export default class ProposalRepository {
 
-  static async create(data: {vacancyId: number, cvId: number}): Promise<IProposal> {
+  static async createMulti(data: {cvId?: number, cvsIds?: number[], vacanciesIds: number[], allCandidateBase?: boolean, allAppliesToVacancy?: boolean, appliedVacancyId?: number, }): Promise<IProposal> {
     const res = await request<IProposal>({
       method: 'post',
-      url: '/api/proposal',
+      url: '/api/proposal/multipleCreate',
       data,
     })
     return res
   }
 
-  static async createMulti(data: {vacancyId: number, cvId: number}[]): Promise<IProposal> {
-    const res = await request<IProposal>({
-      method: 'post',
-      url: '/api/proposal/bulk',
-      data,
-    })
-    return res
-  }
 
   static async reject(id: number): Promise<IProposal> {
     const res = await request<IProposal>({

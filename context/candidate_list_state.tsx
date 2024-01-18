@@ -221,24 +221,8 @@ export function CandidateListWrapper(props: Props) {
       setIsActionLoading(false)
     },
     inviteToJobMulti: async () => {
-      let cvIds: number[] = []
       setIsActionLoading(true)
-      if (isSelectAll) {
-        if(data.total > data.data.length) {
-          const cvList =  await CandidateRepository.fetch({
-            ...filterRef.current,
-            limit: 1000,
-            page,
-            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
-          })
-          cvIds = cvList.data.map(i => i.id)
-        }else{
-          cvIds = data.data.map(i => i.id)
-        }
-      } else {
-        cvIds = selectedIds
-      }
-      appContext.showSidePanel(SidePanelType.InviteToJob, { total: cvIds.length, isMulti: true } as JobInviteSidePanelArguments)
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: data.total, isMulti: true, cvs: data.data.filter(i => selectedIds.includes(i.id)).map(i => i.cv).slice(0, 3), allCandidateBase: isSelectAll } as JobInviteSidePanelArguments)
 
       setIsActionLoading(false)
     },

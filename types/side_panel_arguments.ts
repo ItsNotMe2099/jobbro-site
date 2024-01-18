@@ -12,9 +12,13 @@ export interface JobReviewSidePanelArguments {
 }
 
 export interface JobInviteSidePanelArguments {
-  cv: ICV
+  cv?: ICV
+  cvs?: ICV[]
   total?: number
   isMulti?: boolean
+  allCandidateBase?: true
+  allAppliesToVacancy?: true
+  appliedVacancyId?: number
 }
 
 export interface CvFilterSidePanelArguments {

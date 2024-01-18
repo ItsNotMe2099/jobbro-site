@@ -57,6 +57,11 @@ const JobPageInner = (props: Props) => {
   })
 
   const handleClickChangeStatusItem = (hiringStageId: number | string | null | undefined) => {
+    if(hiringStageId === 'reject'){
+      applyCvListContext.rejectMulti()
+      return
+    }
+    applyCvListContext.moveToStageMulti(hiringStageId as number)
 
   }
   const handleMenuMultiClick = (value: MenuMultiKey) => {

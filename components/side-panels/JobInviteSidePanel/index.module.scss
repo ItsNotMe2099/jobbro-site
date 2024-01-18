@@ -11,6 +11,11 @@
   flex-direction: column;
   @include list(40px, false);
 }
+.cvList{
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+}
 
 
 .buttons {
@@ -29,21 +34,22 @@
     padding: 24px;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
     @include list(24px, true);
     background: #F0F0F0;
     border-radius: 24px;
 
   .avatar {
-    position: relative !important;
-    width: 48px !important;
-    height: 48px !important;
+
   }
 
   .info {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     @include list(4px, false);
+
   }
 
   .name {
@@ -56,6 +62,7 @@
   }
 
   .salary {
+    flex: 1;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
