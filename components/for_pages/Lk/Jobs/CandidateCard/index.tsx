@@ -22,9 +22,11 @@ import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {HirerRole} from '@/data/enum/HirerRole'
 import {runtimeConfig} from '@/config/runtimeConfig'
 import Checkbox from '@/components/ui/Checkbox'
+import ImageHelper from '@/utils/ImageHelper'
 
 enum MenuKey {
   DownloadPdf = 'downloadPdf',
+  DownloadOriginalPdf = 'downloadOriginalPdf',
   RemoveFromBase = 'removeFromBase',
   InviteToOtherJob = 'inviteToOtherJob',
   Select = 'select',
@@ -55,6 +57,7 @@ export default function CandidateCard(props: Props) {
   }
   const menuOptions: IOption<MenuKey>[] = [
     {label: t('candidates_base_card_menu_download'), value: MenuKey.DownloadPdf},
+  ...(cv.file ? [{label: t('candidates_base_card_menu_download_original'), value: MenuKey.DownloadOriginalPdf}] : []),
     ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [{
       label: t('candidates_base_card_menu_remove'),
       value: MenuKey.RemoveFromBase
@@ -69,7 +72,9 @@ export default function CandidateCard(props: Props) {
       case MenuKey.DownloadPdf:
         Analytics.goal(Goal.CvDownloadPdf)
         window.open(`${runtimeConfig.HOST}/api/cv/${cv!.id}/exportToPdf`, '_blank')
-
+        break
+      case MenuKey.DownloadOriginalPdf:
+        window.open(`${ImageHelper.urlFromFile(cv.file)}`, '_blank')
         break
       case MenuKey.RemoveFromBase:
         appContext.showModal(ModalType.Confirm, {
