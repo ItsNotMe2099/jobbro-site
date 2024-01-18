@@ -51,4 +51,22 @@ export default class HiringBoardRepository {
     return res
   }
 
+  static async multipleMoveToStage(data: {vacancyId: number, cvsIds: number[], hiringStageId: number, all: boolean}): Promise<null> {
+    const res = await request<null>({
+      method: 'post',
+      url: '/api/hiring-board/multipleMoveToStage',
+      data,
+    })
+    return res
+  }
+
+  static async multipleReject(data: {vacancyId: number, cvsIds: number[], all: boolean}): Promise<null> {
+    const res = await request<null>({
+      method: 'post',
+      url: '/api/hiring-board/multipleReject',
+      data,
+    })
+    return res
+  }
+
 }

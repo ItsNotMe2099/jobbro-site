@@ -93,6 +93,7 @@ export interface ICV {
   hash: string;
   createdAt: string;
   updatedAt: string;
+  file: IFile
 }
 export interface ICVWithApply extends ICV {
   proposals: IProposal[]

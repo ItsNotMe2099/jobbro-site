@@ -5,12 +5,13 @@ import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {IAppliesListRequest} from '@/data/interfaces/IAppliesListRequest'
 import AppliesRepository from '@/data/repositories/AppliesRepository'
 import {ICVWithApply} from '@/data/interfaces/ICV'
-import {Nullable} from '@/types/types'
+import {Nullable, RequestError} from '@/types/types'
 import {CvListSortType} from '@/data/enum/CvListSortType'
 import CandidateRepository from '@/data/repositories/CandidateRepository'
-import {SidePanelType} from '@/types/enums'
+import {SidePanelType, SnackbarType} from '@/types/enums'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {useCandidateAddedContext} from '@/context/candidate_added_state'
+import HiringBoardRepository from '@/data/repositories/HiriginBoardRepository'
 
 export interface IApplyCvFilter extends IAppliesListRequest {
 }
@@ -36,6 +37,8 @@ interface IState {
   setSortType: (sortType: Nullable<CvListSortType>) => void
   reFetch: () => Promise<IPagination<ICVWithApply>>
   fetchMore: () => void
+  moveToStageMulti: (hiringStageId: number) => void,
+  rejectMulti: () => void
 }
 
 const defaultValue: IState = {
@@ -59,6 +62,8 @@ const defaultValue: IState = {
   setSortType: (sortType: Nullable<CvListSortType>) => null,
   reFetch: async () => ({data: [], total: 0}),
   fetchMore: () => null,
+  moveToStageMulti: (hiringStageId: number) => null,
+  rejectMulti: () => null
 }
 
 const ApplyCvListContext = createContext<IState>(defaultValue)
@@ -182,8 +187,10 @@ export function ApplyCvListWrapper(props: Props) {
       setSelectAll(false)
     },
     setSelectAll: (value: boolean) => {
-
       setSelectAll(value)
+      if(!value) {
+        setSelectedIds([])
+      }
     },
     filter,
     setFilter: async (data) => {
@@ -228,25 +235,43 @@ export function ApplyCvListWrapper(props: Props) {
     inviteToJobMulti: async () => {
       let cvIds: number[] = []
       setIsActionLoading(true)
-      if (isSelectAll) {
-        if(data.total > data.data.length) {
-          const cvList = await AppliesRepository.fetchForHirer(props.vacancyId, {
-            ...filterRef.current,
-            limit: 1000,
-            page: 1,
-            ...(sortTypeRef.current ? {sort: getSortParam(sortTypeRef.current!)} : {}),
-          })
-          cvIds = cvList.data.map(i => i.id)
-        }else{
-          cvIds = data.data.map(i => i.id)
-        }
-      } else {
-        cvIds = selectedIds
-      }
-      appContext.showSidePanel(SidePanelType.InviteToJob, { total: cvIds.length, isMulti: true } as JobInviteSidePanelArguments)
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: isSelectAll ? data.total : selectedIds.length, isMulti: true, cvs:  data.data.filter(i => selectedIds.includes(i.id)), allAppliesToVacancy: isSelectAll, appliedVacancyId: props.vacancyId } as JobInviteSidePanelArguments)
 
       setIsActionLoading(false)
     },
+    moveToStageMulti: async (hiringStageId: number)=> {
+      setIsActionLoading(true)
+      try {
+        const res = await HiringBoardRepository.multipleMoveToStage({
+          all: isSelectAll,
+          cvsIds: selectedIds,
+          hiringStageId,
+          vacancyId: props.vacancyId
+        })
+        await reFetch()
+      }catch (err) {
+        if(err instanceof  RequestError){
+          appContext.showSnackbar(err.message, SnackbarType.error)
+        }
+      }
+      setIsActionLoading(false)
+    },
+    rejectMulti: async ()=> {
+      setIsActionLoading(true)
+      try {
+        const res = await HiringBoardRepository.multipleReject({
+          all: isSelectAll,
+          cvsIds: selectedIds,
+          vacancyId: props.vacancyId
+        })
+        await reFetch()
+      }catch (err) {
+        if(err instanceof  RequestError){
+          appContext.showSnackbar(err.message, SnackbarType.error)
+        }
+      }
+      setIsActionLoading(false)
+    }
   }
 
 

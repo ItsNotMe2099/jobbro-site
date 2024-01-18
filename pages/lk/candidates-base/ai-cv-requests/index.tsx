@@ -50,7 +50,7 @@ const AiCvRequestsPageInner = () => {
           <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
             <PageTitle title={t('candidates_base_title')} />
             <Tabs<TabKey> options={tabs} value={tab} onClick={handleChangeTab}/>
-            <FilterToolbar left={[...(aiCvRequestListContext.selectedIds?.length > 0 && !aiCvRequestListContext.isActionLoading ? [
+            { aiCvRequestListContext.selectedIds?.length > 0 ? <FilterToolbar left={[...(aiCvRequestListContext.selectedIds?.length > 0 && !aiCvRequestListContext.isActionLoading ? [
                 <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => {aiCvRequestListContext.setSelectAllCompleted(!aiCvRequestListContext.isSelectAllCompleted)}}>{t('candidates_base_tab_upload_cv_action_select_all')}</FilterButton>,
               // eslint-disable-next-line react/no-unescaped-entities
                 <FilterButton disabled={aiCvRequestListContext.isActionLoading} onClick={() => aiCvRequestListContext.moveSelected()}>{t('candidates_base_tab_upload_cv_action_move')}</FilterButton>,
@@ -58,7 +58,7 @@ const AiCvRequestsPageInner = () => {
               ] : []),
               ...(aiCvRequestListContext.isActionLoading ? [
                 <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>
-              ] : [])]} />
+              ] : [])]} /> : <></>}
           </PageStickyHeader>
 
            <AiCvRequests/>

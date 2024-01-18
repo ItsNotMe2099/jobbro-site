@@ -35,8 +35,10 @@
 }
 
 .card {
-    margin-bottom: 32px;
     position: relative;
+}
+.selectedMode{
+  padding: 0px 4px;
 }
 .selected{
   display: flex;

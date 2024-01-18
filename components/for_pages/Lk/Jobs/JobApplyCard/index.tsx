@@ -106,6 +106,8 @@ const JobApplyCardInner = (props: Props) => {
   }
   return (
     <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
+      <div className={classNames(styles.selected, {[styles.selectedActive]: props.isSelected})}/>
+
       <CvFavoriteBtn id={cv.id}  className={styles.bookmark}/>
       <Link href={Routes.lkJobCv(applyCvContext.apply!.vacancyId!, cv.id)} className={styles.container}>
         <div className={styles.top}>

@@ -150,7 +150,7 @@ export function VacancyOwnerWrapper(props: Props) {
     try {
       setEditStatusLoading(true)
       const res = await VacancyOwnerRepository.update(props.vacancyId!, {status})
-      handleUpdate(res)
+      handleUpdate({...vacancy, status} as IVacancy)
       setEditStatusLoading(false)
     } catch (err) {
       if (err instanceof RequestError) {
