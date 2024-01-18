@@ -57,8 +57,8 @@ export default function JobInviteSidePanel(props: Props) {
         await ProposalRepository.createMulti({
           vacanciesIds: data.vacancies.map(i => i.id),
           ...(args.appliedVacancyId ? {appliedVacancyId: args.appliedVacancyId} : {}),
-          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cv ? {cvIds: [args.cv.id]} : {}),
-          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cvs ? {cvIds: args.cvs.map(i => i.id)} : {}),
+          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cv ? {cvsIds: [args.cv.id]} : {}),
+          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cvs ? {cvsIds: args.cvs.map(i => i.id)} : {}),
           allCandidateBase: args.allCandidateBase ?? false,
           allAppliesToVacancy: args.allAppliesToVacancy ?? false })
 
@@ -95,8 +95,8 @@ export default function JobInviteSidePanel(props: Props) {
             <div className={styles.fields}>
               <div className={styles.cvList}>
               {args.cv && <CvCard cv={args.cv}/>}
-              {args.cvs && args.cvs.map(i => <CvCard cv={i}/>)}
-                {args.isMulti && (args.allAppliesToVacancy || args.allAppliesToVacancy) && args.total! > 3 && <div className={styles.multiLabel}> and {args.total! - 3} more candidates</div>}
+              {args.cvs && args.cvs.slice(0, 3).map(i => <CvCard cv={i}/>)}
+                {args.isMulti && args.total! > 3 && <div className={styles.multiLabel}> and {args.total! - 3} more candidates</div>}
               </div>
              <div className={styles.field}>
                 <JobWithSearchField name={'vacancies'} validate={Validator.required}/>

@@ -233,7 +233,7 @@ export function ApplyCvListWrapper(props: Props) {
     inviteToJobMulti: async () => {
       let cvIds: number[] = []
       setIsActionLoading(true)
-      appContext.showSidePanel(SidePanelType.InviteToJob, { total: data.total, isMulti: true, cvs:  data.data.filter(i => selectedIds.includes(i.id)).slice(0, 3), allAppliesToVacancy: isSelectAll, appliedVacancyId: props.vacancyId } as JobInviteSidePanelArguments)
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: isSelectAll ? data.total : selectedIds.length, isMulti: true, cvs:  data.data.filter(i => selectedIds.includes(i.id)), allAppliesToVacancy: isSelectAll, appliedVacancyId: props.vacancyId } as JobInviteSidePanelArguments)
 
       setIsActionLoading(false)
     },

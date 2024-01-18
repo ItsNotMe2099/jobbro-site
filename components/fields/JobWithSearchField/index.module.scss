@@ -10,7 +10,8 @@
   flex-direction: column;
   @include list(24px);
   &.selected{
-
+    border-top: 1px solid $grey;
+    padding-top: 20px;
   }
 }
 .job{

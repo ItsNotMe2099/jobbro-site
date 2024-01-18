@@ -222,7 +222,7 @@ export function CandidateListWrapper(props: Props) {
     },
     inviteToJobMulti: async () => {
       setIsActionLoading(true)
-      appContext.showSidePanel(SidePanelType.InviteToJob, { total: data.total, isMulti: true, cvs: data.data.filter(i => selectedIds.includes(i.id)).map(i => i.cv).slice(0, 3), allCandidateBase: isSelectAll } as JobInviteSidePanelArguments)
+      appContext.showSidePanel(SidePanelType.InviteToJob, { total: isSelectAll ? data.total : selectedIds.length, isMulti: true, cvs: data.data.filter(i => selectedIds.includes(i.id)).map(i => i.cv), allCandidateBase: isSelectAll } as JobInviteSidePanelArguments)
 
       setIsActionLoading(false)
     },

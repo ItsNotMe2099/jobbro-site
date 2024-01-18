@@ -108,6 +108,8 @@ export default function CandidateCard(props: Props) {
   }
   return (
     <div className={classNames(styles.root, props.className, {[styles.row]: props.view === CardViewType.Row})}>
+
+      <div className={classNames(styles.selected, {[styles.selectedActive]: props.isSelected})}/>
       <Link href={Routes.lkCandidate(props.candidate.id)} className={styles.container}>
         <BookmarkSvg color={colors.green} className={classNames({
           [styles.bookmark]: true,

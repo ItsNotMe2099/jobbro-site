@@ -29,6 +29,7 @@ import CloseSvg from '@/components/svg/CloseSvg'
 import {colors} from '@/styles/variables'
 import Spinner from '@/components/ui/Spinner'
 import MenuButton from '@/components/ui/MenuButton'
+import classNames from 'classnames'
 enum MenuMultiKey{
   RemoveFromBase = 'removeFromBase',
   InviteToOtherJob = 'inviteToOtherJob',
@@ -113,7 +114,7 @@ const CandidatesPageInner = () => {
         {!candidateListContext.isLoaded && candidateListContext.isLoading &&
           <ContentLoader style={'page'} isOpen={true}/>}
         {candidateListContext.isLoaded && candidateListContext.data.total > 0 &&
-          <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'}>
+          <CardsLayout type={view === CardViewType.Card ? 'cards' : 'list'} className={classNames({[styles.selectedMode]: candidateListContext.selectedIds.length > 0})}>
             {candidateListContext.data.data.map(i =>
               <CandidateCard view={view} className={styles.card} candidate={i} key={i.id}  onSelect={() => candidateListContext.addToSelectedId(i.id)} isSelected={candidateListContext.selectedIds.includes(i.id) || candidateListContext.isSelectAll} isSelectMode={candidateListContext.selectedIds?.length > 0}/>
             )}

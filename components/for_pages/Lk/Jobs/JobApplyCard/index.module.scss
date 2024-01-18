@@ -11,6 +11,22 @@
 }
 
 
+.selected{
+  background-color: $green;
+  position: absolute;
+  border-radius: 26px;
+  z-index: -5;
+  left: -2px;
+  right: -2px;
+  top: -2px;
+  bottom: -2px;
+  opacity: 0;
+
+  transition: opacity 0.3s;
+  &.selectedActive{
+    opacity: 1;
+  }
+}
 .row {
     flex-direction: row;
     width: 100%;

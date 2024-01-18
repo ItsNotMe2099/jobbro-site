@@ -33,6 +33,7 @@ import DropdownActionFilterButton from '@/components/for_pages/Common/FilterTool
 import CloseSvg from '@/components/svg/CloseSvg'
 import IconButton from '@/components/ui/IconButton'
 import MenuButton from '@/components/ui/MenuButton'
+import classNames from 'classnames'
 enum MenuMultiKey{
   AddToBase = 'addToBase',
   InviteToOtherJob = 'inviteToOtherJob',
@@ -112,7 +113,7 @@ const JobPageInner = (props: Props) => {
           {!applyCvListContext.isLoaded && applyCvListContext.isLoading &&
             <ContentLoader style={'page'} isOpen={true}/>}
           {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 &&
-          <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'}>
+          <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'} className={classNames({[styles.selectedMode]: candidateListContext.selectedIds.length > 0})}>
             {applyCvListContext.data.data.map((i, index) =>
               <JobApplyCard view={view} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
             )}
