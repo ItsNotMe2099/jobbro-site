@@ -23,6 +23,7 @@ export default function ApplyForJobFirstStep(props: Props) {
         accept={[FileUploadAcceptType.Pdf]}
         description={<p>Drag & drop pdf file to upload</p>}
         disableUpload={true}
+        validate={Validator.required}
       />
       <FileField
         isImage
@@ -32,6 +33,7 @@ export default function ApplyForJobFirstStep(props: Props) {
         dropZoneClassName={styles.dropZone}
         accept={[FileUploadAcceptType.Image]}
         disableUpload={true}
+        validate={Validator.required}
       />
       <InputField name='name' label={'Name'}
                   validate={Validator.required} />

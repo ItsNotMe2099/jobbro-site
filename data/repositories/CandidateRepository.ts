@@ -71,10 +71,10 @@ export default class CandidateRepository {
 
   static async deleteMulti(ids: number[]): Promise<ICandidate> {
     const res = await request<ICandidate>({
-      method: 'delete',
+      method: 'post',
       url: '/api/owner/candidate/deleteByCv/bulk',
       data: {
-        cv: ids
+        ids,
       }
     })
     return res

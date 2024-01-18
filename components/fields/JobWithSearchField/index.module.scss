@@ -29,3 +29,13 @@
   font-size: 16px;
   color: $text-primary;
 }
+.subTitle{
+  font-weight: 500;
+  font-size: 16px;
+}
+.selectedWrapper{
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  @include list(16px);
+}

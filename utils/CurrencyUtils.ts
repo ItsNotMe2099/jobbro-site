@@ -169,8 +169,6 @@ const currencyList = {
   ZMW: ['Zambian', 'Kwacha', 'Kwacha', 967, 'ZK', 'ZK', 'Ngwee', 'Ngwee', 2, 2, 100],
   ZWB: ['RTGS', 'Dollar', 'Dollars', null, '', '', '', '', 0, 0, null],
   ZWL: ['Zimbabwean', 'Dollar', 'Dollars', 932, 'Z$', '$', 'Cent', 'Cents', 2, 2, 100],
-  Abkhazia: ['Abkhazian', 'Apsar', 'Apsark', null, '', '', '', '', 0, 0, null],
-  Artsakh: ['Artsakh', 'Dram', 'Dram', null, 'դր.', 'դր.', 'Luma', 'Luma', 2, 2, 100],
 }
 
 export default class CurrencyUtils {

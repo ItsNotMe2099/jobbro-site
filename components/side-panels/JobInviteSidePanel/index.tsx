@@ -4,7 +4,7 @@ import {useRef, useState} from 'react'
 import {useAppContext} from '@/context/state'
 import Button from '@/components/ui/Button'
 import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
-import { RequestError} from '@/types/types'
+import {RequestError} from '@/types/types'
 import SidePanelFooter from '@/components/layout/SidePanel/SidePanelFooter'
 import SidePanelBody from '@/components/layout/SidePanel/SidePanelBody'
 import SidePanelHeader from '@/components/layout/SidePanel/SidePanelHeader'
@@ -21,6 +21,7 @@ import Validator from '@/utils/validator'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
 import {IVacancy} from '@/data/interfaces/IVacancy'
+import FieldLabel from '@/components/fields/FieldLabel'
 
 interface Props {
 
@@ -29,16 +30,18 @@ interface Props {
 export interface IFormData {
   vacancies: IVacancy[]
 }
-const CvCard = ({cv}: {cv: ICV}) => {
+
+const CvCard = ({cv}: { cv: ICV }) => {
 
   return (<div className={styles.candidate}>
-    <AvatarCircular size={48}  className={styles.avatar} initials={cv?.name?.charAt(0)} file={cv?.image ?? cv?.profile?.image ?? null} />
+    <AvatarCircular size={48} className={styles.avatar} initials={cv?.name?.charAt(0)}
+                    file={cv?.image ?? cv?.profile?.image ?? null}/>
 
     <div className={styles.info}>
       <div className={styles.name}>
         {UserUtils.getName(cv)}
       </div>
-      {cv && (cv.salaryMin !== '0'|| cv.salaryMax !== '0') && <div className={styles.salary}>
+      {cv && (cv.salaryMin !== '0' || cv.salaryMax !== '0') && <div className={styles.salary}>
         {VacancyUtils.formatSalary(cv)}
       </div>}
     </div>
@@ -46,7 +49,7 @@ const CvCard = ({cv}: {cv: ICV}) => {
 }
 export default function JobInviteSidePanel(props: Props) {
   const appContext = useAppContext()
-  const { t } = useTranslation()
+  const {t} = useTranslation()
   const args = appContext.panelArguments as JobInviteSidePanelArguments
   const cv = args.cv
   const [loading, setLoading] = useState<boolean>(false)
@@ -54,13 +57,14 @@ export default function JobInviteSidePanel(props: Props) {
   const handleSubmit = async (data: IFormData) => {
     setLoading(true)
     try {
-        await ProposalRepository.createMulti({
-          vacanciesIds: data.vacancies.map(i => i.id),
-          ...(args.appliedVacancyId ? {appliedVacancyId: args.appliedVacancyId} : {}),
-          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cv ? {cvsIds: [args.cv.id]} : {}),
-          ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cvs ? {cvsIds: args.cvs.map(i => i.id)} : {}),
-          allCandidateBase: args.allCandidateBase ?? false,
-          allAppliesToVacancy: args.allAppliesToVacancy ?? false })
+      await ProposalRepository.createMulti({
+        vacanciesIds: data.vacancies.map(i => i.id),
+        ...(args.appliedVacancyId ? {appliedVacancyId: args.appliedVacancyId} : {}),
+        ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cv ? {cvsIds: [args.cv.id]} : {}),
+        ...(!args.allCandidateBase && !args.allAppliesToVacancy && args.cvs ? {cvsIds: args.cvs.map(i => i.id)} : {}),
+        allCandidateBase: args.allCandidateBase ?? false,
+        allAppliesToVacancy: args.allAppliesToVacancy ?? false
+      })
 
       Analytics.goal(Goal.JobInviteCv)
       showToast({title: t('toast_invited_to_vacancy_title'), text: t('toast_invited_to_vacancy_desc')})
@@ -93,12 +97,20 @@ export default function JobInviteSidePanel(props: Props) {
           <SidePanelHeader title={t('job_invite_title')}/>
           <SidePanelBody fixed>
             <div className={styles.fields}>
-              <div className={styles.cvList}>
-              {args.cv && <CvCard cv={args.cv}/>}
-              {args.cvs && args.cvs.slice(0, 3).map(i => <CvCard cv={i}/>)}
-                {args.isMulti && args.total! > 3 && <div className={styles.multiLabel}> and {args.total! - 3} more candidates</div>}
+              <div className={styles.field}>
+                <FieldLabel
+                  label={(args.cvs?.length ?? 1) > 1 ? t('job_invite_field_candidates') : t('job_invite_field_candidate')}
+                  styleType={'large'}/>
+                <div className={styles.cvList}>
+                  {args.cv && <CvCard cv={args.cv}/>}
+                  {args.cvs && args.cvs.slice(0, 3).map(i => <CvCard cv={i}/>)}
+                  {args.isMulti && args.total! > 3 &&
+                    <div className={styles.multiLabel}> and {args.total! - 3} more candidates</div>}
+                </div>
               </div>
-             <div className={styles.field}>
+
+              <div className={styles.field}>
+                <FieldLabel label={t('job_invite_field_jobs')} styleType={'large'}/>
                 <JobWithSearchField name={'vacancies'} validate={Validator.required}/>
               </div>
             </div>

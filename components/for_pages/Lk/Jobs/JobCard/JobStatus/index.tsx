@@ -45,6 +45,9 @@ export default function JobStatus(props: Props) {
     ] : [])
   ]
   const handleClick: MouseEventHandler = (e) => {
+    if(vacancy.status === PublishStatus.Closed ){
+      return
+    }
     e.preventDefault()
     e.stopPropagation()
     setIsActive(!isActive)
@@ -84,8 +87,8 @@ export default function JobStatus(props: Props) {
     <div className={styles.root} ref={setRootRef}>
       <div className={classNames(styles.status)} style={{ color: getColorStatus(vacancy.status) }}
            onClick={handleClick}> {Dictionary.getVacancyStatusName(vacancy.status, t)}
-        <ChevronDownMiniSvg className={classNames(styles.chevron)}
-                            color={getColorStatus(vacancy.status)}/></div>
+        {vacancy.status !== PublishStatus.Closed &&  <ChevronDownMiniSvg className={classNames(styles.chevron)}
+                            color={getColorStatus(vacancy.status)}/>}</div>
       <MenuDropdown ref={setPopperElement}
                     isOpen={isActive as boolean}
                     onClick={handleMenuItemClick}

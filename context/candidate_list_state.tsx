@@ -196,8 +196,10 @@ export function CandidateListWrapper(props: Props) {
       setSelectAll(false)
     },
     setSelectAll: (value: boolean) => {
-
       setSelectAll(value)
+      if(!value) {
+        setSelectedIds([])
+      }
     },
     removeFromBaseMulti: async () => {
       let cvIds: number[] = []
@@ -218,6 +220,9 @@ export function CandidateListWrapper(props: Props) {
         cvIds = selectedIds
       }
       await CandidateRepository.deleteMulti(cvIds)
+      setData(data => ({data: data.data.filter(i => !cvIds.includes(i.id)), total: data.total - 1}))
+      setSelectAll(false)
+      setSelectedIds([])
       setIsActionLoading(false)
     },
     inviteToJobMulti: async () => {

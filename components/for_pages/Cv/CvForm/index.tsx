@@ -210,7 +210,7 @@ export default function CvForm(props: Props) {
                   className={styles.select}
                   label={t('cv_form_field_relocate')} name={'relocation'}
                   resettable={true}
-                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.no}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.yes}]}/>
+                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.yes}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.no}]}/>
               </div>
             </div>
           </Card>
