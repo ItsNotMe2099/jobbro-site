@@ -1,0 +1,55 @@
+@import 'styles/index';
+
+.root {
+  border-radius: 16px;
+  background-color: $white;
+  padding: 16px;
+  padding-right: 4px;
+  max-width: 325px;
+  position: sticky;
+  top: 40px;
+}
+
+.formWrapper {
+  height: calc(100vh - 180px);
+  overflow: auto;
+  padding-bottom: 80px;
+}
+
+.form {
+  padding-right: 12px;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.input {
+  line-height: unset;
+  height: 50px;
+}
+
+.inputWrapper {
+  height: 50px;
+}
+
+.title {
+  @include fieldLabel;
+  font-weight: 500;
+}
+
+.radio {
+  padding-inline: unset !important;
+}
+
+
+.submitButton {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  height: 40px;
+}
+

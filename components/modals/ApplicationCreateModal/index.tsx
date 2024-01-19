@@ -34,7 +34,7 @@ const ApplicationCreateModalInner = (props: Props) => {
   const isLoading = cvListContext.isLoading
   const [sending, setSending] = useState(false)
   const [selectedCv, setSelectedCv] = useState<Nullable<ICV>>(null)
-  const args = appContext.modalArguments as ApplicationCreateModalArguments
+  const args: ApplicationCreateModalArguments = appContext.modalArguments
 
   useEffectOnce(() => {
     cvListContext.reFetch()
@@ -58,7 +58,6 @@ const ApplicationCreateModalInner = (props: Props) => {
       }
     }
     setSending(false)
-
   }
 
 

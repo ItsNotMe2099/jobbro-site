@@ -5,7 +5,8 @@ import {IVacancy} from '@/data/interfaces/IVacancy'
 export interface TimeStamp {
   createdAt?: string,
   updatedAt?: string,
-  deletedAt?: string|null
+  deletedAt?: string|null,
+  publishedAt?: string
 }
 
 export interface TimeLine {

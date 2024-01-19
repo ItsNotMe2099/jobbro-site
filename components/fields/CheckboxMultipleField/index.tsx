@@ -27,10 +27,10 @@ export default function CheckboxMultipleField<T>(props: Props<T>) {
       return
     }
     let newValue = field.value
-    if(field.value.includes(value)){
-      newValue = field.value.filter((i: any) => i as any !== value as any)
+    if(field?.value?.includes(value)){
+      newValue = field?.value.filter((i: any) => i as any !== value as any)
     }else{
-      newValue = [...field.value, value]
+      newValue = field?.value?[...field?.value, value]:null
     }
     helpers.setTouched(true)
     helpers.setValue(newValue)
@@ -47,7 +47,7 @@ export default function CheckboxMultipleField<T>(props: Props<T>) {
       }
       <div className={styles.list}>
         {options.map(item => (
-          <CheckboxWithLabel label={item.label} checked={field.value.includes(item.value)} onClick={() => handleCheckboxChanged(item.value)} />
+          <CheckboxWithLabel label={item.label} checked={field.value?.includes(item.value)} onClick={() => handleCheckboxChanged(item.value)} />
         ))}
       </div>
       <FieldError className={classNames(props.errorClassName, styles.error)} showError={showError}>{meta.error}</FieldError>

@@ -3,7 +3,7 @@ import {IVacancy} from '@/data/interfaces/IVacancy'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {ModalType, SidePanelType, SnackbarType} from '@/types/enums'
-import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
+import VacancyRepository from '@/data/repositories/VacancyRepository'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {JobReviewSidePanelArguments} from '@/types/side_panel_arguments'
@@ -67,7 +67,7 @@ export function VacancyOwnerWrapper(props: Props) {
 
   }, [props.vacancy])
   const fetch = async (): Promise<Nullable<IVacancy>> => {
-    const res = await VacancyOwnerRepository.fetchById(props.vacancyId!)
+    const res = await VacancyRepository.fetchById(props.vacancyId!)
     setVacancy(res)
     return res
   }
@@ -91,7 +91,7 @@ export function VacancyOwnerWrapper(props: Props) {
   const create = async (data: DeepPartial<IVacancy>): Promise<Nullable<IVacancy>> => {
     try {
       setEditLoading(true)
-      const res = await VacancyOwnerRepository.create(data)
+      const res = await VacancyRepository.create(data)
       setVacancy(res)
       handleCreate(res)
       setEditLoading(false)
@@ -108,7 +108,7 @@ export function VacancyOwnerWrapper(props: Props) {
   const update = async (data: DeepPartial<IVacancy>): Promise<Nullable<IVacancy>> => {
     try {
       setEditLoading(true)
-      const res = await VacancyOwnerRepository.update(props.vacancyId!, data)
+      const res = await VacancyRepository.update(props.vacancyId!, data)
       handleUpdate(res)
       setVacancy(i => ({...i, ...res}))
       setEditLoading(false)
@@ -129,7 +129,7 @@ export function VacancyOwnerWrapper(props: Props) {
           try {
             appContext.hideModal()
             setDeleteLoading(true)
-            const res = await VacancyOwnerRepository.delete(props.vacancyId!)
+            const res = await VacancyRepository.delete(props.vacancyId!)
             handleDelete(vacancy!)
             resolve(vacancy)
             showToast({title: t('toast_vacancy_deleted_title'), text: t('toast_vacancy_deleted_desc')})
@@ -149,7 +149,7 @@ export function VacancyOwnerWrapper(props: Props) {
   const updateStatusRequest = async (status: PublishStatus): Promise<Nullable<IVacancy>> => {
     try {
       setEditStatusLoading(true)
-      const res = await VacancyOwnerRepository.update(props.vacancyId!, {status})
+      const res = await VacancyRepository.update(props.vacancyId!, {status})
       handleUpdate({...vacancy, status} as IVacancy)
       setEditStatusLoading(false)
     } catch (err) {

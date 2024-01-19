@@ -4,6 +4,9 @@ import Button from '@/components/ui/Button'
 import Card from '@/components/for_pages/Common/Card'
 import InputSearch from '@/components/ui/InputSearch'
 import { useAppContext } from '@/context/state'
+import { useState } from 'react'
+import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
+import MainFilters from '../MainFilters'
 
 interface Props {
 
@@ -12,8 +15,12 @@ interface Props {
 export default function Header(props: Props) {
   const appContext = useAppContext()
   const {isTabletWidth} = appContext.size
+  const [filters, setFilters] = useState<IVacancyFilterParams>({})
 
 
+  const onSearchEnter = (s: string) => {
+    
+  }
 
   return (
     <div className={styles.root}>
@@ -21,9 +28,12 @@ export default function Header(props: Props) {
         <Card className={styles.card}>
           <InputSearch
             searchRequest={() => null}
+            onEnterClick={onSearchEnter}
             placeholder={isTabletWidth? 'Search':'Profession, position or company'}
             searchIcon
           />
+          <MainFilters onChange={(data: IVacancyFilterParams) => setFilters(state=> ({...state, ...data}))} filters={filters}/>
+
         </Card>
         {!isTabletWidth &&
         <div className={styles.bottom}>

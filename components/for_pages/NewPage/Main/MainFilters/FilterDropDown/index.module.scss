@@ -1,0 +1,52 @@
+@import 'styles/index';
+
+.button {
+  display: flex;
+  column-gap: 16px;
+  align-items: center;
+  height: 40px;
+  padding-inline: 16px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 10px;
+  border: 2px transparent solid;
+
+  p {
+    margin: unset;
+  }
+
+  &:not(:last-of-type) {
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -10px;
+      height: 100%;
+      width: 2px;
+      background-color: $grey;
+    }
+  }
+}
+
+.buttonActive {
+  border: 2px $green solid;
+  background-color: $grey;
+}
+
+.title {
+  color: $text-secondary;
+  font-size: 16px;
+}
+
+.drop {
+  position: absolute;
+}
+
+.chevron {
+  @include transitionDefault;
+  rotate: 90deg;
+}
+
+.chevronActive {
+  rotate: -90deg;
+}

@@ -18,7 +18,7 @@ import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
 import {Employment} from '@/data/enum/Employment'
 import {IOffice} from '@/data/interfaces/IOffice'
 import {Workplace} from '@/data/enum/Workplace'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {omit} from '@/utils/omit'
@@ -64,6 +64,7 @@ export interface IVacancyFormData {
   salaryMax: Nullable<string|number>
   salaryType: Nullable<SalaryType>
   experience: Nullable<Experience>
+  experienceDuration?: Nullable<ExperienceDuration>
   benefitsDescription: { description: Nullable<string>, visible: boolean }
   requirements: Nullable<string>
   tasks: Nullable<string>

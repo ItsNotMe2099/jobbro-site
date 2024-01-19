@@ -5,8 +5,9 @@ import {DeepPartial} from '@/types/types'
 import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListRequest'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {format, parse} from 'date-fns'
+import { IVacancyFilterParams } from '../interfaces/IVacancySearchParams'
 
-export default class VacancyOwnerRepository {
+export default class VacancyRepository {
   static async fetch(data: IVacancyOwnerListRequest, config?: AxiosRequestConfig): Promise<IPagination<IVacancy>> {
     const res = await request<IPagination<IVacancy>>({
       method: 'get',
@@ -66,4 +67,32 @@ export default class VacancyOwnerRepository {
     })
     return res
   }
+
+  static async findVacancies(data: Partial<IVacancyFilterParams>): Promise<IPagination<IVacancy>|null> {
+    const res = await request({
+      method: 'get',
+      url: '/api/vacancy',
+      data: {
+        sort: 'createdAt,DESC',
+        ...data
+      }
+    })
+    if(res.err) {
+      return null
+    }
+    return res
+  }
+
+  static async addVacancyToSaved(id: number): Promise<IPagination<IVacancy>|null> {
+    const res = await request({
+      method: 'get',
+      url: `/api/vacancy/${id}/save`,      
+    })
+    if(res.err) {
+      return null
+    }
+    return res
+  }
+
+  
 }

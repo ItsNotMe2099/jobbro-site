@@ -13,6 +13,13 @@ interface Props {
   className?: string
 }
 
+/**
+ * @title : string
+ * @right ?: ReactElement
+ * @link ?: string
+ * @onBack ?: (() => void) | undefined
+ * @className ?: string
+ */
 export default function PageTitle(props: Props) {
 
   return (

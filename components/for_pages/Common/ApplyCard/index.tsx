@@ -51,7 +51,7 @@ const ApplyCardInner = (props: Props) => {
           {vacancy.skills.map(i => <Chip>{i.title}</Chip>)}
         </ChipList>}
         </div>
-        <div className={styles.createdAt}>{Formatter.formatDate(vacancy.createdAt)}</div>
+        <div className={styles.createdAt}>{vacancy.createdAt&&Formatter.formatDate(vacancy.createdAt)}</div>
       </div>
       {/*<div className={styles.bottom}>
         <Button icon={<HideSvg/>} color={'transparent'}>Hide</Button>

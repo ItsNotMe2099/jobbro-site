@@ -46,7 +46,7 @@ export default function HotMarkers(props: Props) {
                 </div>
                 <AccSmallSvg color='#939393' />
               </div>
-              <div className={styles.market}>{DateUtils.formatDate(i.createdAt)}</div>
+              <div className={styles.market}>{i.createdAt&&DateUtils.formatDate(i.createdAt)}</div>
             </div>
           </div>
         )}

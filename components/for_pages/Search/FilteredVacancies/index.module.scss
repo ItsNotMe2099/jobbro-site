@@ -1,0 +1,21 @@
+@import 'styles/index';
+
+.root {
+  width: 100%;
+}
+
+.showOnMap {
+  color: $green;
+  @include itemWithText;
+}
+
+.vcWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.card {
+  margin-top: 32px;
+}
+

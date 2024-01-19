@@ -26,6 +26,10 @@ export class Routes {
     return '/find-jobs'
   }
 
+  static get search() {
+    return '/find-jobs/search'
+  }
+
   static get account() {
     return '/lk/account'
   }

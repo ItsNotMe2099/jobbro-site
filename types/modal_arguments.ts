@@ -12,6 +12,7 @@ export interface ConfirmModalArguments {
 
 export interface ApplicationCreateModalArguments{
   vacancyId: number
+  onConfirm?: () => void
 }
 export interface ChatFileUploadModalArguments {
   message?: string | null

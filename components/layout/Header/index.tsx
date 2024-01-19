@@ -46,7 +46,7 @@ export default function Header(props: Props) {
     { label: t('header_menu_applies'), link: Routes.lkApplies },
     { label: t('header_menu_marks'), link: Routes.marks },
   ] : [
-    { label: t('header_menu_search_jobs'), link: Routes.index },
+    { label: t('header_menu_search_jobs'), link: Routes.search },
     { label: t('header_menu_create_resume'), link: '/' },
     { label: t('header_menu_login'), link: Routes.login() },
   ])

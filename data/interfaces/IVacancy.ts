@@ -17,6 +17,7 @@ import {IApplication} from '@/data/interfaces/IApplication'
 import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import {IProject} from '@/data/interfaces/IProject'
+import { TimeStamp } from './Common'
 
 export interface IHiringStageDescription {
   title: string;
@@ -40,7 +41,8 @@ export interface IVacancyContactPerson {
   visible: boolean;
 }
 
-export interface IVacancy {
+export interface IVacancy extends TimeStamp {
+  applicationByCurrentUser: IApplication;
   id: number;
   profileId: number;
   name: string;
@@ -90,7 +92,6 @@ export interface IVacancy {
   applicationFormLanguage: string
   applyAutoMessage: IAutoMessage
   declineAutoMessage: IAutoMessage
-  createdAt: Date;
   creationType: VacancyCreationType
   project: IProject | null
 }

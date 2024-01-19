@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {useRouter} from 'next/router'
-import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
+import VacancyRepository from '@/data/repositories/VacancyRepository'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
 import {GetServerSidePropsContext, GetServerSidePropsResult} from 'next/types'
@@ -62,7 +62,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
   const id = parseInt(context.query.id as string, 10)
   const token = context.req.cookies[CookiesType.accessToken]
   try {
-    const job = await VacancyOwnerRepository.fetchById(id, token)
+    const job = await VacancyRepository.fetchById(id, token)
     return {
       props: {
         job

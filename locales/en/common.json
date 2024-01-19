@@ -547,6 +547,7 @@
 
   "apply_create_no_cv": "No resume",
   "apply_create_button_apply": "Apply",
+  "apply_look_button_apply": "Look apply",
   "apply_create_button_cancel": "Cancel",
 
   "confirm_modal_button_cancel": "No",
