@@ -10,6 +10,10 @@
   position: relative;
   border-radius: 10px;
   border: 2px transparent solid;
+  @include mq($TabletWidth, max) {
+    justify-content: space-between;
+    padding-inline: 16px 10px;
+  }
 
   p {
     margin: unset;
@@ -24,6 +28,9 @@
       height: 100%;
       width: 2px;
       background-color: $grey;
+      @include mq($TabletWidth, max) {
+        display: none;
+      }
     }
   }
 }

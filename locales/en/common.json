@@ -100,6 +100,7 @@
   "cv_form_field_relocate_ready": "Ready",
   "cv_form_field_relocate_not_ready": "Not ready",
   "cv_form_section_salary": "Salary",
+  "cv_form_section_salary_type": "Salary Type",
   "cv_form_field_currency": "Currency",
   "cv_form_field_salary_max": "Salary Maximum",
   "cv_form_field_salary_min": "Salary minimum",
@@ -171,6 +172,8 @@
 
   "job_preview_company_go_website": "Go to website",
   "job_preview_employment_type": "Employment Type",
+  "job_preview_employment_country": "Country",
+  "job_preview_employment_location": "Location",
   "job_preview_requirements_experience": "Requirements experience",
   "job_preview_workplace": "Workplace",
   "job_preview_tasks": "Tasks",
@@ -293,6 +296,10 @@
   "dictionary_experience_middle": "Middle",
   "dictionary_experience_senior": "Senior",
   "dictionary_experience_none": "None",
+  "dictionary_experience_duration_1to3": "1 to 3 years",
+  "dictionary_experience_duration_3to6": "3 to 6 years",
+  "dictionary_experience_duration_to6": "More 6 years",
+  "dictionary_experience_duration_none": "No experience",
   "dictionary_salary_type_per_year": "Per year",
   "dictionary_salary_type_per_month": "Per Month",
   "dictionary_salary_type_per_hour": "Per hour",
@@ -671,5 +678,7 @@
   "form_field_validation_required_password": "Password required",
   "form_field_validation_email": "Email",
   "form_field_validation_password_match": "Passwords must match",
-  "form_field_validation_password": "Min length 8 symbols"
+  "form_field_validation_password": "Min length 8 symbols",
+
+  "search_jobs_show_on_map": "Show on map"
 }

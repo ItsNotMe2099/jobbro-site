@@ -40,13 +40,13 @@ export default function CountryField(props: Props) {
     }
   }
   return (
-    <SelectField<IGeoName> {...(props as any)} async={true}
-              onChange={(val) => {
-              }}
-                           defaultOption={field.value ? {label: field.value?.name, value: field.value} : null}
-                           loadOptions={loadOptions} options={[]}
-
-                                initialAsyncData={{page: 1}}/>
+    <SelectField<IGeoName> {...(props as any)} 
+    async={true}
+    onChange={(val) => {}}
+    defaultOption={field.value ? {label: field.value?.name, value: field.value} : null}
+    loadOptions={loadOptions} options={[]}
+    initialAsyncData={{page: 1}}
+    />
   )
 }
 

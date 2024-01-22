@@ -5,6 +5,9 @@ import SearchSvg from '@/components/svg/SearchSvg'
 import { colors } from '@/styles/variables'
 import classNames from 'classnames'
 import Button from '../Button'
+import { useAppContext } from '@/context/state'
+import IconButton from '../IconButton'
+import FilterSvg from '@/components/svg/FilterSvg'
 
 interface Props {
   placeholder?: string
@@ -15,10 +18,14 @@ interface Props {
   searchIcon?: boolean
   label?: string
   onEnterClick?: (value: string) => void
+  showFilterButton?: boolean
+  onFilterClick?: () => void
 }
 
 export default function InputSearch(props: Props) {
 
+  const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const [value, setValue] = useState('')
 
   useEffect(() => {
@@ -69,9 +76,18 @@ export default function InputSearch(props: Props) {
           }}
           placeholder={props.placeholder}
         />
-        {props.searchIcon && <SearchSvg className={styles.btn} color={colors.textSecondary} />}
+        {props.searchIcon && 
+        <IconButton onClick={() => props.onEnterClick?.(value)} className={styles.btn}>
+          <SearchSvg color={colors.textSecondary} />
+        </IconButton>
+        }
+        {isTabletWidth && props.showFilterButton &&
+          <IconButton type='button' className={styles.filterButton} onClick={props.onFilterClick} >
+            <FilterSvg/>            
+          </IconButton>
+        }
       </form>
-      {!props.searchIcon && value && <Button onClick={() => props.onEnterClick ? props.onEnterClick(value) : null}
+      {!props.searchIcon && value && <Button onClick={() => props.onEnterClick?.(value)}
         className={styles.enter}
         styleType='small' color='transparent'>Press Enter</Button>}
     </div>

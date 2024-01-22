@@ -1,5 +1,6 @@
 import { IVacancyFormData } from '@/components/for_pages/Lk/Jobs/Form'
 import { IPaginationRequest } from './IPaginationRequest'
+import { IGeoName } from './ILocation'
 
 export interface IVacancyFilterParamsInner extends 
 Pick<IVacancyFormData, 
@@ -24,6 +25,10 @@ IPaginationRequest
   currentDay: boolean
   nearMeByIp: boolean
   ip: string
+  fullCountries: IGeoName[],
+  country: IGeoName,
+  fullCities: IGeoName[]
+  city: IGeoName
 }
 
 export interface IVacancyFilterParams extends Partial<IVacancyFilterParamsInner> {

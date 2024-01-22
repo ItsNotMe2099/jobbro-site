@@ -9,6 +9,10 @@ import JobCard from '@/components/ui/JobCard'
 import Card from '@/components/for_pages/Common/Card'
 import Spinner from '@/components/ui/Spinner'
 import Spacer from '@/components/ui/Spacer'
+import useTranslation from 'next-translate/useTranslation'
+import { useAppContext } from '@/context/state'
+import { ModalType } from '@/types/enums'
+import { IVacancySearchModalProps } from '@/components/modals/SearchFiltersModal'
 
 
 interface Props {
@@ -17,6 +21,9 @@ interface Props {
 export default function FilteredVacancies(props: Props) {
   const router = useRouter()
   const vacancySearchContext = useVacancySearchContext()
+  const appContest = useAppContext()
+  const {isTabletWidth} = appContest.size
+  const {t} = useTranslation()
  
 
   const onSearch = (search: string) => {
@@ -32,30 +39,53 @@ export default function FilteredVacancies(props: Props) {
   }
 
   const showOnMapElement = (
-    <p className={styles.showOnMap}>Show on map</p>
+    <p className={styles.showOnMap}>{t('search_jobs_show_on_map')}</p>
   )
 
+  const onFilterClick = () => {
+    appContest.showModal<IVacancySearchModalProps>(ModalType.SearchFiltersModal, {context: vacancySearchContext})
+  }
+
   return (<div className={styles.root}> 
-    <PageTitle title={'Search'} onBack={router.back}/>
-    <Card className={styles.card}>
-      <InputSearch onEnterClick={onSearch} searchRequest={()=>null} searchIcon placeholder='Search'/>
-    </Card>
+    <div className={styles.titleWrapper}>
+    <PageTitle title={t('form_field_search')} invertColors={isTabletWidth} onBack={router.back}/>
+    <Spacer basis={16}/>
+    {isTabletWidth && 
+      <InputSearch searchValue={vacancySearchContext.filters?.current?.search} 
+      onEnterClick={onSearch} searchRequest={()=>null} 
+      searchIcon           
+      placeholder={t('form_field_search')}
+      onFilterClick={onFilterClick}
+      showFilterButton
+      />      
+    }
+    </div>
+    {!isTabletWidth &&
+      <Card className={styles.card}>
+        <InputSearch searchValue={vacancySearchContext.filters?.current?.search} 
+        onEnterClick={onSearch} searchRequest={()=>null} 
+        searchIcon           
+        placeholder={t('form_field_search')}
+        />
+      </Card>
+    }
 
-    <PageTitle title={'Results'} right={showOnMapElement}/>
+    <div className={styles.content}>
 
-    <Spacer basis={20}/>
+      <PageTitle title={t('job_invite_field_job_results')} right={showOnMapElement}/>
 
-    {/*@ts-ignore*/}
-    <InfiniteScroll next={onNext} hasMore={vacancySearchContext?.vacancies?.size < vacancySearchContext?.total} 
-    loader={<Spinner size={16}/>} 
-    /*@ts-ignore*/
-    dataLength={vacancySearchContext?.vacancies?.size}>
-      <div className={styles.vcWrapper}>
-        { /*@ts-ignore*/}
-        {[...vacancySearchContext.vacancies?.values()].map(el=>{
-          return (<JobCard vacancy={el} />)
-        })}
-      </div>
-    </InfiniteScroll>
+      <Spacer basis={20}/>
+
+      <InfiniteScroll next={onNext} hasMore={vacancySearchContext?.vacancies?.size < vacancySearchContext?.total} 
+      loader={<Spinner size={16}/>} 
+      dataLength={vacancySearchContext?.vacancies?.size}>
+        {vacancySearchContext.total === 0 && !vacancySearchContext.loading && <p>No results</p>}
+        <div className={styles.vcWrapper}>
+          {[...vacancySearchContext.vacancies?.values()].map(el=>{
+            return (<JobCard vacancy={el}  onSave={(el)=> vacancySearchContext.saveHandler(el)}/>)
+          })}
+        </div>
+      </InfiniteScroll>
+    </div>
   </div>)
 }

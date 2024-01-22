@@ -5,6 +5,7 @@ export enum ModalType {
   Gallery = 'gallery',
   CropAvatarModal = 'cropAvatarModal',
   ApplyForJobModal = 'applyForJobModal',
+  SearchFiltersModal = 'searchFiltersModal',
 }
 export enum CookiesType {
   accessToken = 'accessToken',

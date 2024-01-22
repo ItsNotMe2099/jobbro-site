@@ -6,10 +6,13 @@ import useTranslation from 'next-translate/useTranslation'
 import { Nullable } from '@/types/types'
 import { Employment } from '@/data/enum/Employment'
 import { colors } from '@/styles/variables'
-import { useEffect } from 'react'
 import CheckSvg from '@/components/svg/CheckSvg'
 import { SalaryType } from '@/data/enum/SalaryType'
 import { Experience } from '@/data/enum/Experience'
+import CountryField from '@/components/fields/CountryField'
+import { Form, FormikProvider, useFormik } from 'formik'
+import { useEffect } from 'react'
+import { IGeoName } from '@/data/interfaces/ILocation'
 
 interface Props {
   onChange: (data: IVacancyFilterParams) => void
@@ -23,15 +26,28 @@ interface Props {
 export default function MainFilters(props: Props) {
   const {t} = useTranslation()
 
+  const formik = useFormik<{country: IGeoName|null}>({
+    initialValues: {
+      country: null
+    },
+    onSubmit: ()=> {}
+  })
+
   useEffect(()=>{
-    console.log(props.filters)
-  
-  }, [props.filters])
+    props.onChange({countries: [formik.values.country?.geonameid as number] })
+  }, [formik.values])
 
   return (<div className={styles.root}> 
-    <FilterDropDown title='Country'>
+    {/* <FilterDropDown title='Country'> */}
+      <FormikProvider value={formik}>
+        <Form className={styles.form}>
+          <CountryField name={'country'} 
+          placeholder='Country' 
+          className={styles.country}/>
+        </Form>
+      </FormikProvider>
       
-    </FilterDropDown>    
+    {/* </FilterDropDown>     */}
     <FilterDropDown title='Experience'>
       <div className={styles.items}>
         {Dictionary.getExperienceOptions(t).map(el=> {

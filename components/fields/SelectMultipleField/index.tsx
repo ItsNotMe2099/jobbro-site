@@ -28,6 +28,7 @@ export interface SelectMultipleFieldProps<T> extends IField<T[]> {
   findValue?: (i: T) => boolean
   onDeleteValue?: (i: T) => void
   formatLabel?: (value:  IOption<T> | T) => string
+  selectClassName?: string
 }
 // @ts-ignore
 export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T>) {
@@ -86,6 +87,7 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
         resettable={props.resettable ?? false}
         placeholder={props.placeholder ?? ''}
         selectProps={props.selectProps}
+        className={props.selectClassName}
         onCreateOption={handleCreateOption}
         // @ts-ignore
         onChange={handleOnSelect}
@@ -96,6 +98,7 @@ export default function SelectMultipleField<T>(props: SelectMultipleFieldProps<T
         key={uniqueKey} // Add a unique key to trigger re-render
         options={props.options}
         //  value={field.value}
+        className={props.selectClassName}
         isLoading={isAddingLoading}
         hasError={showError}
         formatLabel={props.formatLabel}

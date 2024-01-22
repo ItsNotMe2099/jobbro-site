@@ -74,7 +74,9 @@ export default class VacancyRepository {
       url: '/api/vacancy',
       data: {
         sort: 'createdAt,DESC',
-        ...data
+        ...data,
+        countries: data.countries?.join(','),
+        cities: data.cities?.join(','),
       }
     })
     if(res.err) {
@@ -87,6 +89,18 @@ export default class VacancyRepository {
     const res = await request({
       method: 'get',
       url: `/api/vacancy/${id}/save`,      
+    })
+    if(res.err) {
+      return null
+    }
+    return res
+  }
+
+
+  static async removeVacancyFromSaved(id: number): Promise<IPagination<IVacancy>|null> {
+    const res = await request({
+      method: 'get',
+      url: `/api/vacancy/${id}/removeFromSaved`,      
     })
     if(res.err) {
       return null

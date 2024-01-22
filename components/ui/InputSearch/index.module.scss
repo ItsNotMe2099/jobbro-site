@@ -34,6 +34,10 @@
       @include mainText;
       color: $text-secondary;
     }
+
+    @include mq($TabletWidth, max) {
+      padding-left: 36px;
+    }
   }
 }
 
@@ -44,6 +48,16 @@
   height: 44px;
   border-radius: 0;
   cursor: pointer;
+  border: unset;
+  background-color: unset;
+  @include mq($TabletWidth, max) {
+    right: unset;
+    left: 0;
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
 }
 
 .innerLabel {
@@ -70,4 +84,11 @@
   position: absolute;
   right: 20px;
   padding: 10px;
+}
+
+.filterButton {
+  position: absolute;
+  top: -8px;
+  right: 10px;
+    
 }

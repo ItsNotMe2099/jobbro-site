@@ -7,6 +7,7 @@ import { useAppContext } from '@/context/state'
 import { useState } from 'react'
 import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
 import MainFilters from '../MainFilters'
+import { useRouter } from 'next/router'
 
 interface Props {
 
@@ -16,10 +17,14 @@ export default function Header(props: Props) {
   const appContext = useAppContext()
   const {isTabletWidth} = appContext.size
   const [filters, setFilters] = useState<IVacancyFilterParams>({})
+  const router = useRouter()
+  const [activeFilters, setActiveFilters] = useState<boolean>(false)
 
 
   const onSearchEnter = (s: string) => {
-    
+    const dataToSend = {...filters}
+    dataToSend.countries?.filter(Boolean)?.length === 0 && delete dataToSend.countries
+    router.push({pathname: '/find-jobs/search', query: {search: s, filter: JSON.stringify(dataToSend)}})
   }
 
   return (
@@ -31,9 +36,14 @@ export default function Header(props: Props) {
             onEnterClick={onSearchEnter}
             placeholder={isTabletWidth? 'Search':'Profession, position or company'}
             searchIcon
+            onFilterClick={()=> setActiveFilters(!activeFilters)}
+            showFilterButton={isTabletWidth}
           />
-          <MainFilters onChange={(data: IVacancyFilterParams) => setFilters(state=> ({...state, ...data}))} filters={filters}/>
-
+          <>
+          {((isTabletWidth && activeFilters)||(!isTabletWidth)) && 
+            <MainFilters onChange={(data: IVacancyFilterParams) => setFilters(state=> ({...state, ...data}))} filters={filters}/>
+          }
+          </>
         </Card>
         {!isTabletWidth &&
         <div className={styles.bottom}>

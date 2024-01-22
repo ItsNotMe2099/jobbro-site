@@ -8,6 +8,8 @@ import {useField} from 'formik'
 interface Props extends IField<string[]> {
   resettable?: boolean
   onChange?: (value: Nullable<number>) => void
+  className?: string
+  selectClassName?: string
 }
 
 export default function KeywordField(props: Props) {
@@ -43,14 +45,18 @@ export default function KeywordField(props: Props) {
   }
 
   return (
-    <SelectMultipleField<string> {...(props as any)} async={true}
-                                   values={field.value?.map(i => i)}
-                                   onDeleteValue={(value) => helpers.setValue(field.value.filter(i => i !== value))}
-                                   findValue={(value) => field.value.includes(value)}
-
-                                   placeholder={props.placeholder ?? 'Enter keywords'}
-                                   onCreateOption={handleCreate} creatable={true} loadOptions={loadOptions} options={[]}
-                                initialAsyncData={{page: 1}}/>
+    <SelectMultipleField<string> {...(props as any)} 
+    async={true}
+    values={field.value?.map(i => i)}
+    onDeleteValue={(value) => helpers.setValue(field.value.filter(i => i !== value))}
+    findValue={(value) => field.value.includes(value)}
+    placeholder={props.placeholder ?? 'Enter keywords'}
+    onCreateOption={handleCreate} 
+    creatable={true} 
+    className={props.className}
+    selectClassName={props.selectClassName}
+    loadOptions={loadOptions} options={[]}
+    initialAsyncData={{page: 1}}/>
   )
 }
 

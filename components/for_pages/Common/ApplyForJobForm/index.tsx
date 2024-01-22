@@ -74,12 +74,12 @@ const ApplyForJobFormInner = (props: Props) => {
           }
 
           {applyJobAnonymously.request?.status === AiRequestStatus.Finished && 
-            <Button type='button' href={Routes.profileResumeEdit(applyJobAnonymously.request.cv!.id!)} className={styles.btn} fluid styleType='large' color='green'>
+            <Button type='button' href={Routes.profileResumeEdit(applyJobAnonymously.request.cv!.id!)} onClick={appContext.hideModal} className={styles.btn} fluid styleType='large' color='green'>
                 Show now
             </Button>
           }
         </Form>
-      </FormikProvider>
+      </FormikProvider> 
   )
 }
 

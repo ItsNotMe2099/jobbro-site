@@ -19,16 +19,16 @@
     transform-origin: left top;
     position: absolute;
     left: 0px;
-    top: 0px;
+    top: 50%;
     transition: font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     z-index: 1;
     pointer-events: none;
     max-width: calc(100% - 24px);
-    transform: translate(16px, 24px);
+    transform: translate(16px, -50%);
 
     &.focused {
       font-size: 14px;
-      transform: translate(16px, 12px);
+      transform: translate(16px, calc(-50% - 12px));
     }
   }
 

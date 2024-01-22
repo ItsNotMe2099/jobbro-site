@@ -1,5 +1,6 @@
-import { IVacancy } from '@/data/interfaces/IVacancy'
 import styles from './index.module.scss'
+
+import { IVacancy } from '@/data/interfaces/IVacancy'
 import Image from 'next/image'
 import Formatter from '@/utils/formatter'
 import Button from '../Button'
@@ -10,14 +11,19 @@ import { useAppContext } from '@/context/state'
 import { ModalType } from '@/types/enums'
 import { ApplicationCreateModalArguments } from '@/types/modal_arguments'
 import useTranslation from 'next-translate/useTranslation'
+import { colors } from '@/styles/variables'
+import BookmarkSvg from '@/components/svg/BookmarkSvg'
+import BookmarkOutlinedSvg from '@/components/svg/BookmarkOutlinedSvg'
 
 interface Props {
-  vacancy: IVacancy
+  vacancy: IVacancy,
+  onSave: (vacancy: IVacancy) => void
 }
 
-export default function JobCard({vacancy}: Props) {
+export default function JobCard({vacancy, onSave}: Props) {
   const appContext = useAppContext()
-  const [showAllSkills, setShowAllSkills] = useState(false)
+
+ const [showAllSkills, setShowAllSkills] = useState(false)
   const {t} = useTranslation()
 
   const skillsShortList = vacancy?.skills?.slice(0, 3)
@@ -34,6 +40,17 @@ export default function JobCard({vacancy}: Props) {
   
 
   return (<div className={styles.root}> 
+      <button onClick={() => onSave(vacancy)} className={styles.bookmark}>
+        {vacancy.isSavedByCurrentProfile &&
+        <BookmarkSvg 
+        color={colors.green} 
+        />
+        ||
+        <BookmarkOutlinedSvg color={colors.green} />
+        }
+      </button>
+    
+
     <div className={styles.top}>
       {vacancy.company.logo &&
         <div className={styles.imageWrapper}>
