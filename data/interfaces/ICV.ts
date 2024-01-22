@@ -94,6 +94,7 @@ export interface ICV {
   createdAt: string;
   updatedAt: string;
   file: IFile
+  isChecked: boolean
 }
 export interface ICVWithApply extends ICV {
   proposals: IProposal[]

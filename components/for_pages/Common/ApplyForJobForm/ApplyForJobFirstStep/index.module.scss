@@ -16,3 +16,19 @@
     }
   }
 }
+
+.title{
+  font-weight: 600;
+  font-size: 24px;
+  @include mq($TabletWidth, max) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.btn {
+  @include mq($TabletWidth, max) {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+}

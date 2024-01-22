@@ -24,6 +24,7 @@ import {FavoriteWrapper} from '@/context/favorite_state'
 import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
 import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
+import {EmployeeAiCvRequestsWrapper} from '@/context/employee_cv_request_state'
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -50,6 +51,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
           <CandidateAddedWrapper>
             <CvEvaluationWrapper>
               <EventListWrapper>
+                <EmployeeAiCvRequestsWrapper>
                 <Head>
                   <link rel="preconnect" href="https://fonts.googleapis.com"/>
                   <link rel="preconnect" href="https://fonts.gstatic.com"/>
@@ -76,16 +78,17 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                 <BottomSheetContainer/>
                 <AppOverlay/>
                 <Snackbar/>
-                <ToastContainer
-                  closeButton={false}
-                  hideProgressBar={true}
-                  autoClose={3000}
-                  icon={<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.50453 10.6L1.95059 6.4L0.432617 7.8L6.50453 13.4L19.5158 1.4L17.9978 0L6.50453 10.6Z"
-                          fill="#27AE60"/>
-                  </svg>
-                  }
-                />
+                  <ToastContainer
+                    closeButton={false}
+                    hideProgressBar={true}
+                    autoClose={3000}
+                    icon={<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.50453 10.6L1.95059 6.4L0.432617 7.8L6.50453 13.4L19.5158 1.4L17.9978 0L6.50453 10.6Z"
+                            fill="#27AE60"/>
+                    </svg>
+                    }
+                  />
+                </EmployeeAiCvRequestsWrapper>
               </EventListWrapper>
             </CvEvaluationWrapper>
           </CandidateAddedWrapper>

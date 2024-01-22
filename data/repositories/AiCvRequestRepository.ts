@@ -61,6 +61,14 @@ export default class AiCvRequestRepository {
     return res
   }
 
+  static async setReadLastStatus(id: string): Promise<IAiCvRequest> {
+    const res = await request<IAiCvRequest>({
+      method: 'post',
+      url: `/api/ai-cv-request/${id}/set-read-last-status`,
+     })
+    return res
+  }
+
   static async delete(data: {all: boolean, ids: string[]}): Promise<IAiCvRequest> {
     const res = await request<IAiCvRequest>({
       method: 'delete',

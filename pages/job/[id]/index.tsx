@@ -46,7 +46,7 @@ const JobPageInner = (props: Props) => {
           </FormStickyFooter>}
         </div>
         {!isSmDesktopWidth &&
-        <ApplyForJobCard vacancyId={props.job.id}/>
+         <ApplyForJobCard vacancyId={props.job.id}/>
         }
       </div>
     </Layout>

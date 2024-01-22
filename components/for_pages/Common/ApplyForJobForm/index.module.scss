@@ -10,13 +10,11 @@
   }
 }
 .title{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-weight: 600;
   font-size: 24px;
-  @include mq($TabletWidth, max) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
 .btn {

@@ -8,7 +8,7 @@ interface Props {
 
 }
 
-export default function ApplyForJobRequestStep(props: Props) {
+export default function ApplyForJobProcessingStep(props: Props) {
   const applyJobAnonymously = useApplyJobAnonymize()
 
   return (

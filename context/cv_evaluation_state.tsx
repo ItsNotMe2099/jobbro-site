@@ -79,7 +79,6 @@ export function CvEvaluationWrapper(props: Props) {
   }, 5000)
 
   const debouncedSave = useDebouncedCallback(
-    // function
     async () => {
       if (abortFetchControllerRef.current) {
         abortFetchControllerRef.current?.abort()
