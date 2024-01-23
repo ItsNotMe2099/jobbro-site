@@ -14,7 +14,6 @@ import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import {useEmployeeAiCvRequestsContext} from '@/context/employee_cv_request_state'
 import {useMemo} from 'react'
 import {Nullable} from '@/types/types'
-import CloseModalBtn from '@/components/ui/CloseModalBtn'
 import ApplyForJobReadyStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobReadyStep'
 import ApplyForJobProcessingStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobProcessingStep'
 import Spinner from '@/components/ui/Spinner'
@@ -110,12 +109,12 @@ const ApplyForJobFormInner = (props: Props) => {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.root}>
-        {canShowContent && title  && <div className={styles.title}>
+        {canShowContent && title && <div className={styles.title}>
           {title}
           {formToShow === FormToShow.Processing && <Spinner size={24}/>}
-          {isTabletWidth &&
+          {/* {isTabletWidth &&
             <CloseModalBtn onClick={appContext.hideModal}/>
-          }
+          } */}
         </div>}
         {((appContext.allLoaded && appContext.isLogged) && !employeeAiCvRequests.initialLoaded) && <ContentLoader isOpen={true}/>}
         {canShowContent ?

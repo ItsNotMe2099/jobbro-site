@@ -106,7 +106,8 @@ export default class Formatter {
 
   static formatNumber(num: number | string, separator?: string) {
     const str = typeof  num === 'string' ? num : num?.toString()
-    return str.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+    const result = str.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+    return result
   }
 
 

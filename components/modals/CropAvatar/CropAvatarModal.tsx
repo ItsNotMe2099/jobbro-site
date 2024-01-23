@@ -39,6 +39,11 @@ export default function CropAvatarModal(props: Props) {
     })
   }
 
+  const close = () => {
+    props.onClose?.()
+    appContext.hideBottomSheet()
+  }
+
   const body = (
     <div className={styles.root}>
       <p className={styles.title}>Crop photo</p>
@@ -65,7 +70,7 @@ export default function CropAvatarModal(props: Props) {
         <input type='range' min={50} max={200} value={cropRadius} onChange={(e) => setCropRadius(parseInt(e.target.value))} />
       </div>
       <Button className={styles.button} styleType={'large'} color={'green'}  onClick={() => {sendImage()}}>{t('crop_modal_button_save')}</Button>
-      <Button className={classNames(styles.button, styles.buttonBordered)} styleType={'large'} color={'green'}  onClick={props.onClose}>{t('crop_modal_button_cancel')}</Button>
+      <Button className={classNames(styles.button, styles.buttonBordered)} styleType={'large'} color={'green'}  onClick={close}>{t('crop_modal_button_cancel')}</Button>
     </div>
   )
 

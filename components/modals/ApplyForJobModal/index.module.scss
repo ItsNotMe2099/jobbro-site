@@ -1,0 +1,7 @@
+@import 'styles/index';
+
+.modalBody {
+  @include mq($TabletWidth, max) {
+    padding: unset !important;
+  }
+}

@@ -11,12 +11,21 @@ export default class VacancyUtils {
     currency: string
     salaryMin?: Nullable<string | number>
     salaryMax?: Nullable<string | number>
-    salaryType?: Nullable<SalaryType>}): string | null {
+    salaryType?: Nullable<SalaryType>}): JSX.Element | null {
     const values = [data.salaryMin, data.salaryMax].filter(i => !!i && i != '0').map(i => Formatter.formatNumber(i!))
     if(values?.length === 0){
       return null
     }
-    return `${values.join(' - ')}${data.currency ? `${CurrencyUtils.getCurrentSymbol(data.currency!)}` : ''}${data.salaryType ? `/${Dictionary.getSalaryTypeShortName(data.salaryType!)}` : ''}`
+    const result = `${values.join(' - ')} ${data.currency ? `${CurrencyUtils.getCurrentSymbol(data.currency!)}` : ''}${data.salaryType ? `/${Dictionary.getSalaryTypeShortName(data.salaryType!)}` : ''}`
+    const currency = data.currency ? `${CurrencyUtils.getCurrentSymbol(data.currency!)}` : ''
+    const salaryType = data.salaryType ? `/${Dictionary.getSalaryTypeShortName(data.salaryType!)}` : ''
+    
+    const elements = (<>
+      {values.map((v, i) => <><span key={i}>{v} {i+1 === values.length && currency}{i+1 === values.length && salaryType}</span>{i+1 !== values.length && ' - '}</>)}
+      {/* {data.currency ? <span>{CurrencyUtils.getCurrentSymbol(data.currency!)}</span> : null}
+      {data.salaryType ? <span>{Dictionary.getSalaryTypeShortName(data.salaryType!)}</span> : null} */}
+    </>)
+    return elements
   }
 
   static formatRangeMonthYearToDuration({fromMonth, fromYear, toMonth, toYear}: {fromMonth: number, fromYear: number, toMonth: number, toYear: number}){
