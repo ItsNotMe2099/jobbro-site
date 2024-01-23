@@ -3,7 +3,7 @@ import {AxiosRequestConfig} from 'axios/index'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
 import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListRequest'
-import {IVacancy} from '@/data/interfaces/IVacancy'
+import {IVacancy, IVacancyWithCurrentUserApply} from '@/data/interfaces/IVacancy'
 import {format, parse} from 'date-fns'
 import { IVacancyFilterParams } from '../interfaces/IVacancySearchParams'
 
@@ -33,8 +33,8 @@ export default class VacancyRepository {
     return res
   }
 
-  static async fetchById(id: number, token?: string): Promise<IVacancy> {
-    const res = await request<IVacancy>({
+  static async fetchById(id: number, token?: string): Promise<IVacancyWithCurrentUserApply> {
+    const res = await request<IVacancyWithCurrentUserApply>({
       method: 'get',
       url: `/api/vacancy/${id}`,
       token
@@ -88,7 +88,7 @@ export default class VacancyRepository {
   static async addVacancyToSaved(id: number): Promise<IPagination<IVacancy>|null> {
     const res = await request({
       method: 'get',
-      url: `/api/vacancy/${id}/save`,      
+      url: `/api/vacancy/${id}/save`,
     })
     if(res.err) {
       return null
@@ -100,7 +100,7 @@ export default class VacancyRepository {
   static async removeVacancyFromSaved(id: number): Promise<IPagination<IVacancy>|null> {
     const res = await request({
       method: 'get',
-      url: `/api/vacancy/${id}/removeFromSaved`,      
+      url: `/api/vacancy/${id}/removeFromSaved`,
     })
     if(res.err) {
       return null
@@ -108,5 +108,5 @@ export default class VacancyRepository {
     return res
   }
 
-  
+
 }

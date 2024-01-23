@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import {useRouter} from 'next/router'
 import VacancyRepository from '@/data/repositories/VacancyRepository'
-import {IVacancy} from '@/data/interfaces/IVacancy'
+import { IVacancyWithCurrentUserApply} from '@/data/interfaces/IVacancy'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
 import {GetServerSidePropsContext, GetServerSidePropsResult} from 'next/types'
 import {CookiesType, ModalType} from '@/types/enums'
@@ -14,9 +14,10 @@ import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
 import useTranslation from 'next-translate/useTranslation'
 import {RequestError} from '@/types/types'
+import ChatOnPage from '@/components/for_pages/Common/ChatOnPage'
 
 interface Props {
-  job: IVacancy
+  job: IVacancyWithCurrentUserApply
 }
 
 const JobPageInner = (props: Props) => {
@@ -45,9 +46,10 @@ const JobPageInner = (props: Props) => {
             </Button>
           </FormStickyFooter>}
         </div>
-        {!isSmDesktopWidth &&
+        {!isSmDesktopWidth && (!props.job.applicationByCurrentUser && !props.job.proposalToCurrentUser) &&
          <ApplyForJobCard vacancyId={props.job.id}/>
         }
+        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) && <ChatOnPage vacancyId={props.job.id} cvId={props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
       </div>
     </Layout>
   )

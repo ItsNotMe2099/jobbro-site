@@ -73,6 +73,7 @@ interface Props {
   chatId?: number | null
   children: React.ReactNode
   vacancyId?: Nullable<number | undefined>
+  cvId?: Nullable<number | undefined>
 }
 
 export function ChatDialogWrapper(props: Props) {
@@ -99,6 +100,7 @@ export function ChatDialogWrapper(props: Props) {
   const windowFocusInit = useRef(false)
   const chatIdRef = useRef<number | null>(null)
   const vacancyIdRef = useRef<number | null | undefined>(props.vacancyId)
+  const cvIdRef = useRef<number | null | undefined>(props.cvId)
   const chatRef = useRef<Nullable<IChat>>(null)
   const limit = 30
 
@@ -114,6 +116,9 @@ export function ChatDialogWrapper(props: Props) {
   useEffect(() => {
     vacancyIdRef.current = props.vacancyId ?? null
   }, [props.vacancyId])
+  useEffect(() => {
+    cvIdRef.current = props.cvId ?? null
+  }, [props.cvId])
   useEffect(() => {
     chatRef.current = chat
   }, [chat])
@@ -132,11 +137,12 @@ export function ChatDialogWrapper(props: Props) {
       if (appContext.aboutMe && props.vacancyId && (chat?.vacancyId !== props.vacancyId)) {
 
         setLoading(true)
-        const _chat = await ChatRepository.fetchChatBySellerIdAndReceivingPointId({
+        const _chat = await ChatRepository.fetchChatByVacancyAndCv({
           vacancyId: props.vacancyId!,
-          profileId: appContext.aboutMe.id!
+          cvId: props.cvId!
         })
         setChat(_chat)
+        chatRef.current = _chat
         if(_chat) {
           chatContext.setCurrentChatId(_chat.id)
         }
@@ -161,6 +167,7 @@ export function ChatDialogWrapper(props: Props) {
     if (!chat || chat.id !== props.chatId) {
       _chat = props.chatId ? await ChatRepository.fetchChatById(props.chatId) : null
       setChat(_chat)
+      chatRef.current = _chat
     }
 
     setMessages([])
@@ -196,13 +203,10 @@ export function ChatDialogWrapper(props: Props) {
     setMessages(i => fromInit ? data : [...i, ...data])
   }
   const loadMessages = async (lastCreatedAt?: string) => {
-    const data = await ChatMessageRepository.fetchAll(props.chatId!, lastCreatedAt, limit)
+    const data = await ChatMessageRepository.fetchAll( chatRef.current!.id, lastCreatedAt, limit)
     processLoadedMessages(data.data, data.total)
   }
   const fetchMore = async () => {
-    if (!props.chatId) {
-      return
-    }
     await loadMessages(messages[messages.length - 1]?.createdAt)
     setPage(page + 1)
   }

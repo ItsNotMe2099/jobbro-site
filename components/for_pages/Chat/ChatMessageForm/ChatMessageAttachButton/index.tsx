@@ -6,7 +6,10 @@ import AttachSvg from '@/components/svg/AttachSvg'
 import {colors} from '@/styles/variables'
 import FileSvg from '@/components/svg/FileSvg'
 import CalendarSvg from '@/components/svg/CalendarSvg'
-import { useDropDown } from '@/components/hooks/useDropDown'
+import {useDropDown} from '@/components/hooks/useDropDown'
+import {useAppContext} from '@/context/state'
+import {ProfileType} from '@/data/enum/ProfileType'
+
 interface MenuItemProps{
   title: string
   description: string
@@ -29,6 +32,7 @@ interface Props<T> {
 }
 
 export default function ChatMessageAttachButton<T>(props: Props<T>) {
+  const appContext = useAppContext()
   const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({offset: [-8, 12], placement: 'top-start'})
 
   const handleClick = () => {
@@ -55,7 +59,7 @@ export default function ChatMessageAttachButton<T>(props: Props<T>) {
                        {...attributes.popper} >
         <div className={styles.list}>
           <MenuItem icon={<FileSvg color={colors.green}/>} title={'File'} description={'Select file on your computer'} onClick={handleFileClick}/>
-          <MenuItem icon={<CalendarSvg color={colors.green}/>} title={'Calendar'} description={'Select available time'} onClick={handleCalendarClick}/>
+          {appContext.aboutMe?.profileType === ProfileType.Hirer && <MenuItem icon={<CalendarSvg color={colors.green}/>} title={'Calendar'} description={'Select available time'} onClick={handleCalendarClick}/>}
         </div>
       </MenuDropdown>
     </IconButton>

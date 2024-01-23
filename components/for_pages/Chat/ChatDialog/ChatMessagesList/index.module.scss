@@ -1,0 +1,15 @@
+@import "styles/index";
+
+.root {
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 15px;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column-reverse;
+}

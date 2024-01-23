@@ -100,6 +100,11 @@ export interface IVacancyWithApply extends IVacancy{
   applications: IApplication[]
 }
 
+export interface IVacancyWithCurrentUserApply extends IVacancy{
+  applicationByCurrentUser: IApplication
+  proposalToCurrentUser: IProposal
+}
+
 export interface IVacancyWithHiringStages extends IVacancy{
   hiringStages: IHiringStageWithApply[]
   conversionRate: number

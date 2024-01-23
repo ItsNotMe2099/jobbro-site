@@ -6,13 +6,13 @@ import {ReactElement} from 'react'
 import classNames from 'classnames'
 import ChatMessageForm from '@/components/for_pages/Chat/ChatMessageForm'
 import ChatSuggestionLogin from '@/components/for_pages/Chat/ChatDialog/ChatSuggestionLogin'
-import ChatHeader from '@/components/for_pages/Chat/ChatDialog/ChatHeader'
 import {ChatSocketWrapper} from '@/context/chat_socket_state'
-import PageTitle from '@/components/for_pages/Common/PageTitle'
 import EventOwnerForm from '@/components/for_pages/Calendar/EventOwnerForm'
 import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlotForm'
 import {Nullable} from '@/types/types'
 import ChatMessagesList from '@/components/for_pages/Chat/ChatDialog/ChatMessagesList'
+import ChatSvg from '@/components/svg/ChatSvg'
+import {colors} from '@/styles/variables'
 
 interface Props {
   className?: string
@@ -26,7 +26,7 @@ interface Props {
   showBothChatNames?: boolean | undefined
 }
 
-const ChatDialogInner = (props: Props) => {
+const ChatDialogWidgetInner = (props: Props) => {
   const appContext = useAppContext()
   const chatContext = useChatDialogContext()
   const loading = chatContext.loading || !appContext.aboutMeLoaded
@@ -39,13 +39,13 @@ const ChatDialogInner = (props: Props) => {
 
   }
   return (<div className={classNames(styles.root, props.className)}>
-      {chatContext.chat?.cv &&
-        <PageTitle className={styles.title} title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
-                   onBack={props.onBackClick}/>}
-      {<ChatHeader hasBack={props.hasBack ?? false} showBothChatNames={props.showBothChatNames}
-                   chat={chatContext.chat}
-                   title={props.title ?? null}/>}
-     <ChatMessagesList/>
+      <div className={styles.chatWrapper}>
+        <div className={styles.header}>
+          <div className={styles.chatIcon}><ChatSvg color={colors.white}/></div>
+          <div className={styles.title}>Chat</div>
+        </div>
+        <ChatMessagesList/>
+      </div>
       <div className={styles.bottom}>
         <ChatMessageForm/>
       </div>
@@ -53,7 +53,7 @@ const ChatDialogInner = (props: Props) => {
   )
 }
 
-const ChatDialogRouteWrapper = (props: Props) => {
+const ChatDialogWidgetRouteWrapper = (props: Props) => {
 
   const chatContext = useChatDialogContext()
   const args = chatContext.routeArguments
@@ -67,15 +67,15 @@ const ChatDialogRouteWrapper = (props: Props) => {
       return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
     case ChatDialogRoute.Dialog:
     default:
-      return <ChatDialogInner {...props}/>
+      return <ChatDialogWidgetInner {...props}/>
   }
 }
 
 
-export default function ChatDialog(props: Props) {
+export default function ChatDialogWidget(props: Props) {
   return <ChatSocketWrapper>
     <ChatDialogWrapper chatId={props.chatId} vacancyId={props.vacancyId} cvId={props.cvId}>
-      <ChatDialogRouteWrapper {...props}/>
+      <ChatDialogWidgetRouteWrapper {...props}/>
     </ChatDialogWrapper>
   </ChatSocketWrapper>
 }

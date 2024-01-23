@@ -20,10 +20,10 @@ export default class ChatRepository {
     })
   }
 
-  static async fetchChatBySellerIdAndReceivingPointId(data: {vacancyId: number, profileId: string}): Promise<IChat | null> {
+  static async fetchChatByVacancyAndCv(data: {vacancyId: number, cvId: number}): Promise<IChat | null> {
     return request({
-        url: '/api/chat/check',
-        method: 'post',
+        url: '/api/chat/byVacancyAndCv',
+        method: 'get',
         data,
       }
     )

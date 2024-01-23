@@ -18,6 +18,7 @@ import CloseModalBtn from '@/components/ui/CloseModalBtn'
 import ApplyForJobReadyStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobReadyStep'
 import ApplyForJobProcessingStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobProcessingStep'
 import Spinner from '@/components/ui/Spinner'
+import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
 
 enum FormToShow {
   Apply = 'apply',
@@ -123,6 +124,7 @@ const ApplyForJobFormInner = (props: Props) => {
             {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
             {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
             {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
+            {!formToShow  &&  <MyEvents />}
           </>
           : null}
       </Form>

@@ -3,7 +3,7 @@
 
 .root {
   display: flex;
-
+    position: relative;
   align-items: flex-start;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -21,6 +21,6 @@
     width: unset;
   }
   @include mq($TabletWidth, max) {
-    margin-inline: 16px;    
+    margin-inline: 16px;
   }
 }
