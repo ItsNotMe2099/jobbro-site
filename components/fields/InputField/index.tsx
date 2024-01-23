@@ -276,8 +276,8 @@ export default function InputField<T extends string | number>(props: InputFieldP
           )}
         </div>
         {props.lendingInput && <div className={classNames(styles.line, {[styles.lineError]: showError})} />}
-        <FieldError showError={showError}>{meta.error}</FieldError>
       </div>
+      <FieldError showError={showError}>{meta.error}</FieldError>
     </div>
   )
 }

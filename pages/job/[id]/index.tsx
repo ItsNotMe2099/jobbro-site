@@ -8,7 +8,7 @@ import {CookiesType, ModalType} from '@/types/enums'
 import Layout from '@/components/layout/Layout'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
-import {useRef} from 'react'
+import { useRef} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
@@ -35,11 +35,14 @@ const JobPageInner = (props: Props) => {
     appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
   }
 
-  return (<Layout>
+
+
+  return (<Layout hideTabbar>
       <div className={styles.root}>
-        <div ref={ref} className={styles.container}>
+        <div ref={ref} className={styles.container} id='idVacancyContainer'>
           <JobPreview job={props.job} company={props.job.company}/>
-          {appContext.isLogged && <FormStickyFooter boundaryElement={`.${styles.container}`} formRef={ref} className={styles.footer}>
+          {appContext.isLogged && !isSmDesktopWidth &&
+          <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => openApplicationModal()}>
               {t('job_preview_button_apply')}
@@ -49,7 +52,8 @@ const JobPageInner = (props: Props) => {
         {!isSmDesktopWidth && (!props.job.applicationByCurrentUser && !props.job.proposalToCurrentUser) &&
          <ApplyForJobCard vacancyId={props.job.id}/>
         }
-        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) && <ChatOnPage vacancyId={props.job.id} cvId={props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
+        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) && 
+        <ChatOnPage vacancyId={props.job.id} cvId={props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
       </div>
     </Layout>
   )

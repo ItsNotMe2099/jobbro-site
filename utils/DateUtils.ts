@@ -1,6 +1,10 @@
 import {format, formatRelative, isSameYear} from 'date-fns'
 import {ru} from 'date-fns/locale'
+import enUS from 'date-fns/locale/en-US'
 import {utcToZonedTime} from 'date-fns-tz'
+
+
+
 
 
 function padStart(num: number, val = 2) {
@@ -180,15 +184,24 @@ export default class DateUtils {
       today: 'HH:mm',
       other:  isSameYear(new Date(), new Date(date)) ? 'dd.MM' : 'dd.MM.yy',
     }
+    //  при Yesterday выдает ошибку, костыль, но работает
+    const isYesterday = formatRelative(new Date(date), new Date(), { locale: enUS }).includes('yesterday')
+    if(isYesterday){
+      return 'Yesterday'
+    }
+
     const locale = {
       ...ru,
-      formatRelative: (token: string) => formatRelativeLocale[token] || formatRelativeLocale['other'],
+      formatRelative: (token: string) => {
+        return formatRelativeLocale[token] || formatRelativeLocale['other']
+      },
     }
     if (!date) {
       return ''
     }
+    const result = formatRelative(new Date(date), new Date(), { locale })
 
-    return formatRelative(new Date(date), new Date(), { locale })
+    return result
   }
 }
 
