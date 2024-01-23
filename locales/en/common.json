@@ -679,6 +679,7 @@
   "form_field_validation_required_name": "Name required",
   "form_field_validation_required_email": "Email required",
   "form_field_validation_required_password": "Password required",
+  "form_field_validation_required_checkbox_one": "Select more then one values",
   "form_field_validation_email": "Email",
   "form_field_validation_password_match": "Passwords must match",
   "form_field_validation_password": "Min length 8 symbols",

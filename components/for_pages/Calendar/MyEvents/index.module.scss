@@ -1,6 +1,7 @@
 @import "styles/index";
 
 .root {
+  align-self: flex-start;
   width: 325px;
   @include mq($TabletWidth, max) {
     width: 100%;

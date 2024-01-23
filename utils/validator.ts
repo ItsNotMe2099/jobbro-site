@@ -20,6 +20,10 @@ export default class Validator {
     return value || typeof value === 'number' ? undefined : 'form_field_validation_required'
   }
 
+  static requiredArray(value: any[]): string | undefined {
+    return !value || value.length > 0? undefined : 'form_field_validation_required_checkbox_one'
+  }
+
   static requiredName(value: string | number): string | undefined {
     return value || typeof value === 'number' ? undefined : 'form_field_validation_required_name'
   }

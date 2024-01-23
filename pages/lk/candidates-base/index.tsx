@@ -58,6 +58,7 @@ const CandidatesPageInner = () => {
         router.push(Routes.lkCandidatesBase)
         break
       case TabKey.UploadCv:
+        candidateListContext.setSelectAll(false)
         router.push(Routes.lkCandidateAiCvRequests)
         break
     }
