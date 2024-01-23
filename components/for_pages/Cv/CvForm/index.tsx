@@ -20,7 +20,6 @@ import SelectField from '@/components/fields/SelectField'
 import Dictionary from '@/utils/Dictionary'
 import SkillField from '@/components/fields/SkillField'
 import CurrencyField from '@/components/fields/CurrencyField'
-import LanguageField from '@/components/fields/LanguageField'
 import CloseSvg from '@/components/svg/CloseSvg'
 import CountryField from '@/components/fields/CountryField'
 import IFile from '@/data/interfaces/IFile'
@@ -37,6 +36,7 @@ import {format, lastDayOfMonth, parse} from 'date-fns'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import FileField from '@/components/fields/Files/FileField'
 import useTranslation from 'next-translate/useTranslation'
+import LanguagesField from '@/components/fields/LanguagesField'
 
 interface Props {
   onPreview?: () => void
@@ -341,45 +341,7 @@ export default function CvForm(props: Props) {
             <SkillField className={styles.select} placeholder={t('cv_form_field_skills_tags_ph')} name='skills'/>
           </Card>
           <Card title={t('cv_form_section_languages')}>
-            <FieldArray name={'languageKnowledges'}>
-              {arrayHelpers => (
-                <div className={styles.root} data-field={'languageKnowledges'}>
-                  <div className={styles.fields}>
-                    {(formik.values.languageKnowledges ?? []).map((i, index) => <div className={styles.line}>
-                        <div key={`language_${index}`} className={classNames(styles.fieldListLine, styles.line)}>
-                          <LanguageField className={styles.column} name={`languageKnowledges[${index}].language`}
-                                         label={t('cv_form_field_languages_language')}/>
-                          <SelectField<string> className={styles.column} name={`languageKnowledges[${index}].level`}
-                                               label={t('cv_form_field_languages_level')}
-                                               options={[
-                                                 {label: 'A1', value: 'A1'},
-                                                 {
-                                                   label: 'A2',
-                                                   value: 'A2'
-                                                 },
-                                                 {label: 'B1', value: 'B1'},
-                                                 {label: 'B2', value: 'B2'},
-                                                 {
-                                                   label: 'C1',
-                                                   value: 'C1'
-                                                 },
-                                                 {label: 'C2', value: 'C2'}
-                                               ]}/>
-                        </div>
-                        <IconButton
-                          onClick={() => arrayHelpers.remove(index)}>
-                          <CloseSvg color={colors.textSecondary}/>
-                        </IconButton>
-                      </div>
-                    )}
-                  </div>
-                  <div onClick={() => arrayHelpers.push({language: null, level: null})} className={styles.add}>
-                    {t('cv_form_languages_add')}
-                  </div>
-                </div>
-              )}
-            </FieldArray>
-
+            <LanguagesField name='languageKnowledges'/>
           </Card>
           <Card title={t('cv_form_section_experience')}>
             <FieldArray name={'experienceInfo'}>
