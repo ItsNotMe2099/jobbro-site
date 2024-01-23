@@ -507,8 +507,8 @@
   "confirm_cv_delete_desc": "Are you sure that you want to delete «{{name}}» ?",
   "confirm_cv_publish_title": "Publish resume",
   "confirm_cv_publish_desc": "Are you sure that you want to publish «{{name}}» ?",
-  "confirm_cv_pause_title": "Pause resume",
-  "confirm_cv_pause_desc": "Are you sure that you want to pause «{{name}}» ?",
+  "confirm_cv_hide_for_hiring_title": "Hide for hiring",
+  "confirm_cv_hide_for_hiring_desc": "Are you sure that you want to hide for hiring «{{name}}» ?",
   "confirm_candidate_remove": "Are you sure that you want to delete «{{name}}» from base?",
   "confirm_account_delete_title": "Deleting Account",
   "confirm_account_delete_desc": "Are you sure what you want to delete your account?",
@@ -552,8 +552,11 @@
   "job_review_button_sent": "Send Invite",
   "job_review_button_cancel": "Cancel",
 
+  "apply_create_title": "Select resume for apply",
+  "apply_create_no_resume_desc": "To respond to job openings, you must create a resume",
   "apply_create_no_cv": "No resume",
   "apply_create_button_apply": "Apply",
+  "apply_create_button_create_resume": "Create resume",
   "apply_look_button_apply": "Look apply",
   "apply_create_button_cancel": "Cancel",
 

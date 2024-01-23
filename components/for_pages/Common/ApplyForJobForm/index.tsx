@@ -106,6 +106,9 @@ const ApplyForJobFormInner = (props: Props) => {
     onSubmit: handleSubmit
   })
   console.log('FormShow', formToShow, (appContext.allLoaded && !appContext.isLogged) , employeeAiCvRequests.initialLoaded ,hasRequest)
+  if(canShowContent && !formToShow){
+    return <MyEvents/>
+  }
   return (
     <FormikProvider value={formik}>
       <Form className={styles.root}>
@@ -123,9 +126,9 @@ const ApplyForJobFormInner = (props: Props) => {
             {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
             {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
             {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
-            {!formToShow  &&  <MyEvents />}
           </>
           : null}
+
       </Form>
     </FormikProvider>
   )

@@ -11,10 +11,10 @@ import Button from '@/components/ui/Button'
 import { useRef} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
-import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
 import useTranslation from 'next-translate/useTranslation'
 import {RequestError} from '@/types/types'
 import ChatOnPage from '@/components/for_pages/Common/ChatOnPage'
+import ApplyForJobForm from '@/components/for_pages/Common/ApplyForJobForm'
 
 interface Props {
   job: IVacancyWithCurrentUserApply
@@ -41,7 +41,7 @@ const JobPageInner = (props: Props) => {
       <div className={styles.root}>
         <div ref={ref} className={styles.container} id='idVacancyContainer'>
           <JobPreview job={props.job} company={props.job.company}/>
-          {appContext.isLogged && !isSmDesktopWidth &&
+          {!isSmDesktopWidth &&
           <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => openApplicationModal()}>
@@ -50,9 +50,9 @@ const JobPageInner = (props: Props) => {
           </FormStickyFooter>}
         </div>
         {!isSmDesktopWidth && (!props.job.applicationByCurrentUser && !props.job.proposalToCurrentUser) &&
-         <ApplyForJobCard vacancyId={props.job.id}/>
+          <ApplyForJobForm vacancyId={props.job.id}/>
         }
-        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) && 
+        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) &&
         <ChatOnPage vacancyId={props.job.id} cvId={props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
       </div>
     </Layout>

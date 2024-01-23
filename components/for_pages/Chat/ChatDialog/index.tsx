@@ -45,7 +45,7 @@ const ChatDialogInner = (props: Props) => {
       {<ChatHeader hasBack={props.hasBack ?? false} showBothChatNames={props.showBothChatNames}
                    chat={chatContext.chat}
                    title={props.title ?? null}/>}
-     <ChatMessagesList/>
+      <ChatMessagesList/>
       <div className={styles.bottom}>
         <ChatMessageForm/>
       </div>
@@ -57,14 +57,17 @@ const ChatDialogRouteWrapper = (props: Props) => {
 
   const chatContext = useChatDialogContext()
   const args = chatContext.routeArguments
-  if(chatContext.loading){
+  if (chatContext.loading) {
     return <ContentLoader isOpen={true} style={'page'}/>
   }
   switch (chatContext.route) {
     case ChatDialogRoute.CreateEvent:
-      return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId}
+                             onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+                             onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
     case ChatDialogRoute.SelectEventSlot:
-      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+                                  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
     case ChatDialogRoute.Dialog:
     default:
       return <ChatDialogInner {...props}/>

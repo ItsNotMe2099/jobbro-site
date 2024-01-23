@@ -5,6 +5,7 @@
 .wrapper {}
 
 .title {
+    flex: 1;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -59,5 +60,7 @@
 
 .top {
     display: flex;
-    justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  @include list(24px, true);
 }
