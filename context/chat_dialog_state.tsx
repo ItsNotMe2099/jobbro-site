@@ -102,6 +102,7 @@ export function ChatDialogWrapper(props: Props) {
   const vacancyIdRef = useRef<number | null | undefined>(props.vacancyId)
   const cvIdRef = useRef<number | null | undefined>(props.cvId)
   const chatRef = useRef<Nullable<IChat>>(null)
+  const initInProgressRef = useRef<boolean>(false)
   const limit = 30
 
   useEffect(() => {
@@ -132,7 +133,10 @@ export function ChatDialogWrapper(props: Props) {
   }, [chat, appContext.aboutMe])
   const init = async () => {
    let _chat: IChat | null = null
-
+    if(initInProgressRef.current){
+      return
+    }
+    initInProgressRef.current = true
     if (!props.chatId) {
       if (appContext.aboutMe && props.vacancyId && (chat?.vacancyId !== props.vacancyId)) {
 
@@ -160,7 +164,7 @@ export function ChatDialogWrapper(props: Props) {
         setMessages([])
         setTotalMessages(0)
       }
-
+      initInProgressRef.current = false
       return
     }
     setLoading(true)
@@ -177,6 +181,7 @@ export function ChatDialogWrapper(props: Props) {
     } else {
       await loadMessages()
     }
+    initInProgressRef.current = false
     setLoading(false)
   }
   const markRead = (messageId: number) => {
@@ -261,10 +266,12 @@ export function ChatDialogWrapper(props: Props) {
     })
   }, 500)
   const debouncedReconnect = debounce(async () => {
+
     if (!reconnectRef.current) {
       return
     }
 
+    console.log('TryDisconnect5')
     if(chatIdRef.current){
       chatSocket.join(chatIdRef.current!)
     }

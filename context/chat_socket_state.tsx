@@ -59,8 +59,13 @@ export function ChatSocketWrapper(props: Props) {
     })
     setSocket(s)
     return () => {
+      console.log('TryDisconnect')
       if (socket && socket.connected) {
+
+        console.log('TryDisconnect3')
         socket.disconnect()
+
+        console.log('TryDisconnect3')
       }
     }
   }, [appContext.isLogged])
