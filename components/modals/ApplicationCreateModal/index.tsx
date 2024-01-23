@@ -111,7 +111,7 @@ const ApplicationCreateModalInner = (props: Props) => {
         {/* {appContext.isMobile && <ModalHeader>{header}</ModalHeader>} */}
         <ModalHeader title={t('apply_create_title')}
                      description={isEmpty ? t('apply_create_no_resume_desc') : undefined}/>
-        <ModalBody fixed className={classNames({[styles.stubBody]: isEmpty})}>
+        <ModalBody fixed className={classNames(styles.modalBody)}>
 
           {body}
         </ModalBody>

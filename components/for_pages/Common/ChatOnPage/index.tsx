@@ -4,7 +4,6 @@ import {useRef, useState} from 'react'
 import {usePosition} from '@ernestorb/useposition'
 import {useWindowWidth} from '@react-hook/window-size'
 import {useAppContext} from '@/context/state'
-import {ChatSocketWrapper} from '@/context/chat_socket_state'
 import {Nullable} from '@/types/types'
 import ChatDialogWidget from '@/components/for_pages/Chat/ChatDialogWidget'
 import classNames from 'classnames'
@@ -15,7 +14,7 @@ interface Props {
   title?: string | undefined
 }
 
-const ChatOnPageInner = (props: Props) => {
+export default function ChatOnPage(props: Props) {
   const appContext = useAppContext()
   let ref = useRef<HTMLDivElement | null>(null)
   let position = usePosition(ref, {callOnResize: true})
@@ -67,8 +66,3 @@ const ChatOnPageInner = (props: Props) => {
   )
 }
 
-export default function ChatOnPage(props: Props) {
-  return <ChatSocketWrapper>
-    <ChatOnPageInner {...props}/>
-  </ChatSocketWrapper>
-}

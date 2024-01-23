@@ -316,12 +316,14 @@ export function ChatDialogWrapper(props: Props) {
   useEffect(() => {
 
     const subscription = chatSocket.messageState$.subscribe((message) => {
+      console.log('NewMessage1',message.message,message.chatId, chat?.id, !messages.find(i => i.id === message.id))
       if (chat && message.chatId === chat.id && !messages.find(i => i.id === message.id)) {
         markRead(message.id!)
 
         if (message.sid && messages.find(i => i.sid === message.sid)) {
           setMessages(i => i.map(i => i.sid === message.sid ? {...i, ...message} : i))
         } else {
+          console.log('AddMessages', message)
           setMessages(i => [message, ...i])
           setTotalMessages(i => i + 1)
         }
