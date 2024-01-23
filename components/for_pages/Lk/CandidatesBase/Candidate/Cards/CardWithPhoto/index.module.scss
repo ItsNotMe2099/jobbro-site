@@ -13,6 +13,11 @@
   @include list(24px, true);
 }
 
+.salary {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .positionAndSalary {
   display: flex;
   @include list(16px, true);

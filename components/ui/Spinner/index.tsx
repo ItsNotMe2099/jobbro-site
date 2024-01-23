@@ -23,7 +23,7 @@ export default function Spinner(props: Props) {
         size={props.size}
         color={props.color ?? colors.green}
         secondaryColor={props.secondaryColor ?? colors.textSecondary}
-        thickness={150}
+        thickness={200}
       />
     </div>
   )

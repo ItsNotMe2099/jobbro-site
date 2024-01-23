@@ -1,13 +1,9 @@
-import {createContext, useContext, useEffect, useRef, useState} from 'react'
+import {createContext, useContext, useEffect, useState} from 'react'
 import {Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {Goal, SnackbarType} from '@/types/enums'
 import AuthRepository from '@/data/repositories/AuthRepository'
 import AiCvRequestRepository from '@/data/repositories/AiCvRequestRepository'
-import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
-import {IPagination} from '@/data/interfaces/IPaginationRequest'
-import useInterval from 'use-interval'
-import {AiRequestStatusFinished} from '@/data/enum/AiRequestStatus'
 import Analytics from '@/utils/goals'
 
 export enum ApplyJobAnonymouslyStepKey {
@@ -26,7 +22,6 @@ export interface IApplyJobAnonymouslyFormData {
 
 interface IState {
   formData: Nullable<IApplyJobAnonymouslyFormData>
-  request: Nullable<IAiCvRequest>
   sending: boolean
   loading: boolean
   stepKey: ApplyJobAnonymouslyStepKey,
@@ -36,7 +31,6 @@ interface IState {
 
 const defaultValue: IState = {
   formData: null,
-  request: null,
   sending: false,
   loading: false,
   stepKey: ApplyJobAnonymouslyStepKey.First,
@@ -59,44 +53,7 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
   const [sending, setSending] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [stepKey, setStepKey] = useState<ApplyJobAnonymouslyStepKey>(ApplyJobAnonymouslyStepKey.First)
-  const [request, setRequest] = useState<Nullable<IAiCvRequest>>(null)
-  const requestRef = useRef<Nullable<IAiCvRequest>>(null)
-  const updateAbortController = useRef<AbortController | null>(null)
-  useEffect(() => {
-    requestRef.current = request
-  }, [request])
-  useInterval(() => {
-    updateAbortController.current = new AbortController()
-    if(!requestRef.current || AiRequestStatusFinished.includes(requestRef.current!.status)){
-    return
-    }
-    const ids = requestRef.current ? [requestRef.current!.id] : []
-    if (!ids.length) {
-      return
-    }
-    AiCvRequestRepository.fetch({ids}).then((requests) => {
-      if((requests as IAiCvRequest[]).length > 0) {
-        requestRef.current = (requests as IAiCvRequest[])[0]
-        setRequest((requests as IAiCvRequest[])[0])
-      }
 
-    })
-  }, 5000)
-
-  const init = async () => {
-    if(!appContext.isLogged){
-      return
-    }
-    const res = await AiCvRequestRepository.fetch({
-      page: 1,
-      limit: 1,
-    }) as IPagination<IAiCvRequest>
-    setRequest(res.data?.length > 0 ? res.data[0] : null)
-    setLoading(false)
-  }
-  useEffect(() => {
-   init()
-  }, [])
   useEffect(() => {
     if(appContext.isLogged){
       setStepKey(ApplyJobAnonymouslyStepKey.Apply)
@@ -124,9 +81,10 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
       setSending(true)
       const res = await AuthRepository.emailConfirmation({email: formData!.email!, code})
       await appContext.setToken(res.accessToken)
+      await appContext.updateAboutMe()
       if(formData!.cv) {
         const request = await AiCvRequestRepository.create(formData!.cv!, {vacancyId: props.vacancyId})
-        setRequest(request)
+        appContext.aiRequestCreateState$.next(request)
       }
       Analytics.goal(Goal.RegistrationEmployee)
       setStepKey(ApplyJobAnonymouslyStepKey.Confirm)
@@ -140,7 +98,6 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
   const value: IState = {
     ...defaultValue,
     formData,
-    request,
     sending,
     loading,
     stepKey,

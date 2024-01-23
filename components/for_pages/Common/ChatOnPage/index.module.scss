@@ -1,0 +1,49 @@
+@import "styles/index";
+
+.root{
+  min-height: 100%;
+  flex: 0 0 340px;
+  // padding-bottom: 20px;
+  height: calc(100vh - 75px);
+  height: calc(100dvh - 75px);
+  position: sticky;
+  transform: translateY(0px);
+  transition: .6s ease-in-out;
+  top: 32px;
+  @media (min-width: $md-min) and (max-width: $md-max) {
+    flex: 0 0 350px;
+  }
+  @media (min-width: $md-min) and (max-width: $md-medium) {
+    flex: 0 0 320px;
+  }
+  @media (max-width: $xs-max) {
+    flex: auto;
+  }
+
+}
+
+.up {
+  top: 120px;
+
+  height: calc(100vh - 150px);
+  height: calc(100dvh - 150px);
+
+}
+
+.modalRoot {
+  padding-top: 64px;
+}
+
+.chatMobile {
+  width: 100%;
+  flex: 1 1 auto;
+  height: calc(100% - 72px);
+}
+
+.holder {
+  // transform: translateY(0px);
+  top: 120px;
+  transition: .7s ease-in-out;
+  position: fixed;
+}
+

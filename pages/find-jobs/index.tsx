@@ -19,7 +19,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 export default function NewPage() {
   const appContext = useAppContext()
-  const {isTabletWidth, isSmDesktopWidth} = appContext.size
+  const {isSmDesktopWidth} = appContext.size
 
   const [banner, setBanner] = useState<boolean>(true)
 

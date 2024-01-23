@@ -1,24 +1,27 @@
 import Toast from '@/components/ui/Toast'
 import CloseToast from '@/components/ui/Toast/CloseToast'
-import { toast } from 'react-toastify'
+import { toast, ToastOptions } from 'react-toastify'
+import {MouseEventHandler} from 'react'
 
 export interface showToastProps {
   title?: string
   text?: string
   link?: string
   linkName?: string
+  linkOnClick?: MouseEventHandler
   icon?: JSX.Element
   progress?: number
 }
 
-export default function showToast (options: showToastProps) {
-  toast(<Toast 
-    title={options.title} 
-    text={options.text} 
+export default function showToast<T>(options: showToastProps, toastProps?: ToastOptions) {
+  return toast<T>(<Toast
+    title={options.title}
+    text={options.text}
     link={options.link}
-    linkName={options.linkName} 
+    linkName={options.linkName}
+    linkOnClick={options.linkOnClick}
     icon={options.icon}
-    />, 
+    />,
     {
     position: 'top-right',
     hideProgressBar: true,
@@ -29,7 +32,8 @@ export default function showToast (options: showToastProps) {
     icon: false,
     progress: undefined,
     closeButton: <CloseToast/>,
-    className: 'customToast'
-  })  
+    className: 'customToast',
+      ...(toastProps ? toastProps : {}),
+  })
 }
 

@@ -1,8 +1,8 @@
 import ModalLayout from '@/components/layout/Modal/ModalLayout'
-// import styles from './index.module.scss'
+import styles from './index.module.scss'
 import ModalBody from '@/components/layout/Modal/ModalBody'
-import ApplyForJobCard from '@/components/for_pages/Common/ApplyForJobCard'
-import { useAppContext } from '@/context/state'
+import {useAppContext} from '@/context/state'
+import ApplyForJobForm from '@/components/for_pages/Common/ApplyForJobForm'
 
 interface Props {
   onClose: () => void
@@ -18,8 +18,10 @@ export default function ApplyForJobModal(props: Props) {
   const args: IApplyForJobModal = appContext.modalArguments
 
   return (<ModalLayout mobileFullScreen>
-    <ModalBody>
-      <ApplyForJobCard vacancyId={args.vacancyId}/>
+    <ModalBody className={styles.modalBody}>
+      <div className={styles.root}>
+        <ApplyForJobForm vacancyId={args.vacancyId} />
+      </div>
     </ModalBody>
   </ModalLayout>)
 }

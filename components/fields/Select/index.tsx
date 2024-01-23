@@ -98,7 +98,7 @@ interface AsyncProps<T> {
   menuPosition?: 'fixed' | 'absolute'
   defaultOption?: Nullable<IOption<T>>
 }
-export function SelectAsync<T>(props: AsyncProps<T>) {
+export function SelectAsync<T>(props: AsyncProps<T>) {  
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)

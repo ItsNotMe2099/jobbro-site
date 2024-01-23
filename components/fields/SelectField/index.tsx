@@ -29,9 +29,11 @@ export interface SelectFieldProps<T> extends IField<T> {
   defaultOption?: Nullable<IOption<T>>
   isLoading?: boolean | undefined
   fluid?: boolean
+  selectInputClassName?: string
 }
 
 export default function SelectField<T>(props: SelectFieldProps<T>) {
+  
 
   const [field, meta, helpers] = useField(props as any)
   const [isAddingLoading, setIsAddingLoading] = useState(false)
@@ -86,8 +88,8 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
           props.onChange?.(value)
         }}
         resettable={props.resettable ?? false}
+        className={props.className}
         loadOptions={props.loadOptions!}
-
         initialAsyncData={props.initialAsyncData}
       /> : <Select<T>
         label={props.label as string}
@@ -101,6 +103,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         placeholder={props.placeholder ?? ''}
         selectProps={props.selectProps}
         isLoading={props.isLoading}
+        className={props.className}
         onChange={(value) => {
           helpers.setValue(value)
           props.onChange?.(value)

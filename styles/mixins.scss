@@ -387,3 +387,15 @@
   color: $text-secondary;
 }
 
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin transitionDefault {
+  transition: all 0.2s ease;
+}
+

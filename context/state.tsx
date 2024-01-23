@@ -1,5 +1,5 @@
 import {CookiesType, ModalType, SidePanelType, SnackbarType} from '@/types/enums'
-import {RequestError, SnackbarData} from '@/types/types'
+import {Nullable, RequestError, SnackbarData} from '@/types/types'
 import {Dispatch, SetStateAction, createContext, useContext, useEffect, useState} from 'react'
 import IAboutMe from '@/data/interfaces/IAboutMe'
 import {Subject} from 'rxjs'
@@ -49,6 +49,7 @@ interface IState {
   setToken: (token: string) => void
   updateAboutMe: (newUser?: IAboutMe) => Promise<IAboutMe | null>
   loginState$: Subject<boolean>
+  aboutMeState$: Subject<Nullable<IAboutMe>>
   isOverlayShown?: boolean
   showOverlay: () => void
   hideOverlay: () => void
@@ -69,6 +70,7 @@ interface IState {
   cvApplyUpdateState$: Subject<ICVWithApply>,
   cvApplyDeleteState$: Subject<ICVWithApply>,
 
+  aiRequestCreateState$: Subject<IAiCvRequest>,
   aiRequestUpdateState$: Subject<IAiCvRequest>,
   aiRequestDeleteState$: Subject<IAiCvRequest>,
 
@@ -97,6 +99,7 @@ interface IState {
 
 const fileUploadingState$ = new Subject<boolean>()
 const loginState$ = new Subject<boolean>()
+const aboutMeState$ = new Subject<Nullable<IAboutMe>>()
 
 const vacancyCreateState$ = new Subject<IVacancy>()
 const vacancyUpdateState$ = new Subject<IVacancy>()
@@ -109,6 +112,7 @@ const cvDeleteState$ = new Subject<ICV>()
 const cvApplyUpdateState$ = new Subject<ICVWithApply>()
 const cvApplyDeleteState$ = new Subject<ICVWithApply>()
 
+const aiRequestCreateState$ = new Subject<IAiCvRequest>()
 const aiRequestUpdateState$ = new Subject<IAiCvRequest>()
 const aiRequestDeleteState$ = new Subject<IAiCvRequest>()
 
@@ -162,6 +166,7 @@ const defaultValue: IState = {
   setToken: (token: string) => null,
   updateAboutMe: async () => null,
   loginState$: loginState$,
+  aboutMeState$,
   isOverlayShown: false,
   showOverlay: () => null,
   hideOverlay: () => null,
@@ -184,6 +189,7 @@ const defaultValue: IState = {
   cvApplyUpdateState$,
   cvApplyDeleteState$,
 
+  aiRequestCreateState$,
   aiRequestUpdateState$,
   aiRequestDeleteState$,
 
@@ -296,6 +302,7 @@ export function AppWrapper(props: Props) {
         newUser = await AuthRepository.fetchAboutMe()
         if (newUser) {
           setAboutMe(newUser)
+          aboutMeState$.next(newUser)
         }
 
       } catch (err) {
@@ -401,6 +408,7 @@ export function AppWrapper(props: Props) {
       setAboutMe(null)
 
       loginState$.next(false)
+      aboutMeState$.next(null)
     },
   }
 

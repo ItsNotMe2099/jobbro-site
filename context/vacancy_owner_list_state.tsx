@@ -4,7 +4,7 @@ import {useAppContext} from '@/context/state'
 import {CanceledError} from 'axios'
 import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListRequest'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
-import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
+import VacancyRepository from '@/data/repositories/VacancyRepository'
 import {Nullable} from '@/types/types'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {omit} from '@/utils/omit'
@@ -112,7 +112,7 @@ export function VacancyListOwnerWrapper(props: Props) {
     abortControllerRef.current = new AbortController()
 
     try {
-       res = await VacancyOwnerRepository.fetch({
+       res = await VacancyRepository.fetch({
           ...omit(filterRef.current, ['statuses', 'projects','showClosed']),
          ...((filterRef.current.projects?.length ?? 0) > 0 ? {
            projects: filterRef.current.projects

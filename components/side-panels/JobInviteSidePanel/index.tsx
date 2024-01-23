@@ -87,9 +87,6 @@ export default function JobInviteSidePanel(props: Props) {
     onSubmit: handleSubmit
   })
 
-  console.log('CVs111', args.cvs)
-
-
   return (
     <SidePanelLayout>
       <FormikProvider value={formik}>
@@ -111,7 +108,7 @@ export default function JobInviteSidePanel(props: Props) {
 
               <div className={styles.field}>
                 <FieldLabel label={t('job_invite_field_jobs')} styleType={'large'}/>
-                <JobWithSearchField name={'vacancies'} validate={Validator.required}/>
+                <JobWithSearchField name={'vacancies'} validate={Validator.requiredArray}/>
               </div>
             </div>
           </SidePanelBody>

@@ -15,6 +15,7 @@ interface Props<T> extends IField<T> {
   onChange?: (value: T | undefined) => void
   listClassName?: string
   className?: string
+  itemClassName?: string
 }
 
 export default function RadioField<T>(props: Props<T>) {
@@ -50,6 +51,7 @@ export default function RadioField<T>(props: Props<T>) {
             label={item.label}
             description={item.description}
             styleType={props.styleType}
+            className={props.itemClassName}
             onChange={() => handleCheckboxChanged(item.value)}
           />
         ))}

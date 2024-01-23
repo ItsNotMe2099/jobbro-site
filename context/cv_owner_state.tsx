@@ -83,7 +83,7 @@ export function CVOwnerWrapper(props: Props) {
   }
 
   const create = async (data: DeepPartial<ICV>): Promise<Nullable<ICV>> => {
-    debugger
+
     try {
       setEditLoading(true)
       const res = await CvOwnerRepository.create(data)
@@ -171,8 +171,8 @@ export function CVOwnerWrapper(props: Props) {
   const pause = async (): Promise<Nullable<ICV>> => {
     return new Promise<Nullable<ICV>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        title: t('confirm_cv_publish_title', {name: cv?.title}),
-        text: t('confirm_cv_publish_desc', {name: cv?.title}),
+        title: t('confirm_cv_hide_for_hiring_title', {name: cv?.title}),
+        text: t('confirm_cv_hide_for_hiring_desc', {name: cv?.title}),
         onConfirm: async () => {
           await updateStatusRequest(PublishStatus.Paused)
           appContext.hideModal()

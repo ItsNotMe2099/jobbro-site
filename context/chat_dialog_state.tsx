@@ -73,6 +73,7 @@ interface Props {
   chatId?: number | null
   children: React.ReactNode
   vacancyId?: Nullable<number | undefined>
+  cvId?: Nullable<number | undefined>
 }
 
 export function ChatDialogWrapper(props: Props) {
@@ -99,7 +100,9 @@ export function ChatDialogWrapper(props: Props) {
   const windowFocusInit = useRef(false)
   const chatIdRef = useRef<number | null>(null)
   const vacancyIdRef = useRef<number | null | undefined>(props.vacancyId)
+  const cvIdRef = useRef<number | null | undefined>(props.cvId)
   const chatRef = useRef<Nullable<IChat>>(null)
+  const initInProgressRef = useRef<boolean>(false)
   const limit = 30
 
   useEffect(() => {
@@ -115,6 +118,9 @@ export function ChatDialogWrapper(props: Props) {
     vacancyIdRef.current = props.vacancyId ?? null
   }, [props.vacancyId])
   useEffect(() => {
+    cvIdRef.current = props.cvId ?? null
+  }, [props.cvId])
+  useEffect(() => {
     chatRef.current = chat
   }, [chat])
   useEffect(() => {
@@ -127,16 +133,20 @@ export function ChatDialogWrapper(props: Props) {
   }, [chat, appContext.aboutMe])
   const init = async () => {
    let _chat: IChat | null = null
-
+    if(initInProgressRef.current){
+      return
+    }
+    initInProgressRef.current = true
     if (!props.chatId) {
       if (appContext.aboutMe && props.vacancyId && (chat?.vacancyId !== props.vacancyId)) {
 
         setLoading(true)
-        const _chat = await ChatRepository.fetchChatBySellerIdAndReceivingPointId({
+        const _chat = await ChatRepository.fetchChatByVacancyAndCv({
           vacancyId: props.vacancyId!,
-          profileId: appContext.aboutMe.id!
+          cvId: props.cvId!
         })
         setChat(_chat)
+        chatRef.current = _chat
         if(_chat) {
           chatContext.setCurrentChatId(_chat.id)
         }
@@ -154,13 +164,14 @@ export function ChatDialogWrapper(props: Props) {
         setMessages([])
         setTotalMessages(0)
       }
-
+      initInProgressRef.current = false
       return
     }
     setLoading(true)
     if (!chat || chat.id !== props.chatId) {
       _chat = props.chatId ? await ChatRepository.fetchChatById(props.chatId) : null
       setChat(_chat)
+      chatRef.current = _chat
     }
 
     setMessages([])
@@ -170,6 +181,7 @@ export function ChatDialogWrapper(props: Props) {
     } else {
       await loadMessages()
     }
+    initInProgressRef.current = false
     setLoading(false)
   }
   const markRead = (messageId: number) => {
@@ -196,13 +208,10 @@ export function ChatDialogWrapper(props: Props) {
     setMessages(i => fromInit ? data : [...i, ...data])
   }
   const loadMessages = async (lastCreatedAt?: string) => {
-    const data = await ChatMessageRepository.fetchAll(props.chatId!, lastCreatedAt, limit)
+    const data = await ChatMessageRepository.fetchAll( chatRef.current!.id, lastCreatedAt, limit)
     processLoadedMessages(data.data, data.total)
   }
   const fetchMore = async () => {
-    if (!props.chatId) {
-      return
-    }
     await loadMessages(messages[messages.length - 1]?.createdAt)
     setPage(page + 1)
   }
@@ -257,10 +266,12 @@ export function ChatDialogWrapper(props: Props) {
     })
   }, 500)
   const debouncedReconnect = debounce(async () => {
+
     if (!reconnectRef.current) {
       return
     }
 
+    console.log('TryDisconnect5')
     if(chatIdRef.current){
       chatSocket.join(chatIdRef.current!)
     }
@@ -312,12 +323,14 @@ export function ChatDialogWrapper(props: Props) {
   useEffect(() => {
 
     const subscription = chatSocket.messageState$.subscribe((message) => {
+      console.log('NewMessage1',message.message,message.chatId, chat?.id, !messages.find(i => i.id === message.id))
       if (chat && message.chatId === chat.id && !messages.find(i => i.id === message.id)) {
         markRead(message.id!)
 
         if (message.sid && messages.find(i => i.sid === message.sid)) {
           setMessages(i => i.map(i => i.sid === message.sid ? {...i, ...message} : i))
         } else {
+          console.log('AddMessages', message)
           setMessages(i => [message, ...i])
           setTotalMessages(i => i + 1)
         }

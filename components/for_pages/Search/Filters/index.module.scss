@@ -1,0 +1,99 @@
+@import 'styles/index';
+
+.root {
+  border-radius: 16px;
+  background-color: $white;
+  // padding-block: 16px;
+  padding-inline: 16px 4px;
+  // padding-right: 4px;
+  max-width: 325px;
+  position: sticky;
+  top: 40px;
+  transition: .7s ease-in-out;
+
+  &_up {
+    top: 140px;
+  }
+
+  @include mq($TabletWidth, max) {
+    padding: unset;
+    max-width: unset;
+    position: static;
+  }
+}
+
+.formWrapper {
+  height: calc(100vh - 190px);
+  overflow: auto;
+  padding-bottom: 120px;
+  transition: .7s ease-in-out;
+
+  &_down {
+    height: calc(100vh - 120px);
+  }
+
+  @include mq($TabletWidth, max) {
+    height: unset;
+  }
+}
+
+.form {
+  padding-right: 12px;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.input {
+  line-height: unset;
+  height: 50px !important;
+}
+
+.inputWrapper {
+  height: 50px !important;
+}
+
+.title {
+  @include fieldLabel;
+  font-weight: 500;
+}
+
+.radio {
+  padding-inline: unset !important;
+}
+
+.buttons {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  button {
+    position: relative;
+    z-index: 1;
+  }
+  
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   width: calc(100% + 32px);
+  //   height: calc(100% + 32px);
+  //   top: -16px;
+  //   left: -16px;
+  //   backdrop-filter: blur(2px);
+  //   background-color: rgba(0, 0, 0, 0.178);
+  //   filter: blur(10px)
+  // }
+}
+
+.submitButton {
+  height: 40px;
+}
+
+

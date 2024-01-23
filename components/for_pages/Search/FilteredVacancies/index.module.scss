@@ -1,0 +1,38 @@
+@import 'styles/index';
+
+.root {
+  width: 100%;
+}
+
+.showOnMap {
+  color: $green;
+  @include itemWithText;
+}
+
+.vcWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.card {
+  margin-top: 32px;
+}
+
+.titleWrapper {
+  @include mq($TabletWidth, max) {
+    padding-top: 100px;
+    margin-top: -100px;
+    background-color: $green;
+    padding-bottom: 30px;
+    padding-inline: 16px;
+    border-radius: 16px;
+  }
+}
+
+.content {
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+    padding-bottom: 24px;
+  }
+}

@@ -3,8 +3,7 @@
 
 .root {
   display: flex;
-
-  align-items: flex-start;
+    position: relative;
   -webkit-box-flex: 1;
   flex-grow: 1;
   transition: margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -12,15 +11,20 @@
 }
 .container{
   flex: 1;
+  max-width: calc(100vw - 444px);
+  @include mq($SmDesktopWidth, max) {
+    max-width: unset;
+    width: unset;
+  }
 }
 
 .footer {
-  max-width: calc(100vw - 420px);
+  max-width: calc(100vw - 444px);
   @include mq($SmDesktopWidth, max) {
     max-width: unset;
     width: unset;
   }
   @include mq($TabletWidth, max) {
-    margin-inline: 16px;    
+    margin-inline: 16px;
   }
 }

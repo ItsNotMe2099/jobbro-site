@@ -26,7 +26,11 @@
   display: flex;
   align-items: center;
 }
-
+.header{
+  display: flex;
+  flex-direction: column;
+  @include list(6px);
+}
 .back{
   display: flex;
   margin-right: 12px;
@@ -43,5 +47,11 @@
   @include h2;
   line-height: 24px;
   color: $text-primary;
+}
+
+.description{
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: 6px;
 }
 

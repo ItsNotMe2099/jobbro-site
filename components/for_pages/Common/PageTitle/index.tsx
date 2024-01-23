@@ -11,8 +11,16 @@ interface Props {
   link?: string
   onBack?: (() => void) | undefined
   className?: string
+  invertColors?: boolean
 }
 
+/**
+ * @title : string
+ * @right ?: ReactElement
+ * @link ?: string
+ * @onBack ?: (() => void) | undefined
+ * @className ?: string
+ */
 export default function PageTitle(props: Props) {
 
   return (
@@ -21,8 +29,8 @@ export default function PageTitle(props: Props) {
         {props.link &&
           <Button href={props.link} className={styles.btn} icon={<ArrowSvg direction={'left'} color={colors.green} />} styleType='circle' />}
         {props.onBack &&
-          <Button onClick={props.onBack} className={styles.btn} icon={<ArrowSvg direction={'left'} color={colors.green} />} styleType='circle' />}
-        <div className={styles.title}>
+          <Button onClick={props.onBack} className={styles.btn } icon={<ArrowSvg direction={'left'} color={colors.green} />} styleType='circle' />}
+        <div className={classNames(styles.title, props.invertColors&&styles.title_invert)}>
           {props.title}
         </div>
       </div>

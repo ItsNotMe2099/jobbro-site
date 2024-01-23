@@ -100,6 +100,7 @@
   "cv_form_field_relocate_ready": "Ready",
   "cv_form_field_relocate_not_ready": "Not ready",
   "cv_form_section_salary": "Salary",
+  "cv_form_section_salary_type": "Salary Type",
   "cv_form_field_currency": "Currency",
   "cv_form_field_salary_max": "Salary Maximum",
   "cv_form_field_salary_min": "Salary minimum",
@@ -171,6 +172,8 @@
 
   "job_preview_company_go_website": "Go to website",
   "job_preview_employment_type": "Employment Type",
+  "job_preview_employment_country": "Country",
+  "job_preview_employment_location": "Location",
   "job_preview_requirements_experience": "Requirements experience",
   "job_preview_workplace": "Workplace",
   "job_preview_tasks": "Tasks",
@@ -293,6 +296,10 @@
   "dictionary_experience_middle": "Middle",
   "dictionary_experience_senior": "Senior",
   "dictionary_experience_none": "None",
+  "dictionary_experience_duration_1to3": "1 to 3 years",
+  "dictionary_experience_duration_3to6": "3 to 6 years",
+  "dictionary_experience_duration_to6": "More 6 years",
+  "dictionary_experience_duration_none": "No experience",
   "dictionary_salary_type_per_year": "Per year",
   "dictionary_salary_type_per_month": "Per Month",
   "dictionary_salary_type_per_hour": "Per hour",
@@ -500,8 +507,8 @@
   "confirm_cv_delete_desc": "Are you sure that you want to delete «{{name}}» ?",
   "confirm_cv_publish_title": "Publish resume",
   "confirm_cv_publish_desc": "Are you sure that you want to publish «{{name}}» ?",
-  "confirm_cv_pause_title": "Pause resume",
-  "confirm_cv_pause_desc": "Are you sure that you want to pause «{{name}}» ?",
+  "confirm_cv_hide_for_hiring_title": "Hide for hiring",
+  "confirm_cv_hide_for_hiring_desc": "Are you sure that you want to hide for hiring «{{name}}» ?",
   "confirm_candidate_remove": "Are you sure that you want to delete «{{name}}» from base?",
   "confirm_account_delete_title": "Deleting Account",
   "confirm_account_delete_desc": "Are you sure what you want to delete your account?",
@@ -545,8 +552,12 @@
   "job_review_button_sent": "Send Invite",
   "job_review_button_cancel": "Cancel",
 
+  "apply_create_title": "Select resume for apply",
+  "apply_create_no_resume_desc": "To respond to job openings, you must create a resume",
   "apply_create_no_cv": "No resume",
   "apply_create_button_apply": "Apply",
+  "apply_create_button_create_resume": "Create resume",
+  "apply_look_button_apply": "Look apply",
   "apply_create_button_cancel": "Cancel",
 
   "confirm_modal_button_cancel": "No",
@@ -668,7 +679,10 @@
   "form_field_validation_required_name": "Name required",
   "form_field_validation_required_email": "Email required",
   "form_field_validation_required_password": "Password required",
+  "form_field_validation_required_checkbox_one": "Select more then one values",
   "form_field_validation_email": "Email",
   "form_field_validation_password_match": "Passwords must match",
-  "form_field_validation_password": "Min length 8 symbols"
+  "form_field_validation_password": "Min length 8 symbols",
+
+  "search_jobs_show_on_map": "Show on map"
 }

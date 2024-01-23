@@ -5,7 +5,7 @@ import {useAppContext} from '@/context/state'
 import {Goal, ModalType, SnackbarType} from '@/types/enums'
 import {ConfirmModalArguments} from '@/types/modal_arguments'
 import HiringBoardRepository from '@/data/repositories/HiriginBoardRepository'
-import VacancyOwnerRepository from '@/data/repositories/VacancyOwnerRepository'
+import VacancyRepository from '@/data/repositories/VacancyRepository'
 import IHiringStage, {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 import {ICVWithApply} from '@/data/interfaces/ICV'
 import {omit} from '@/utils/omit'
@@ -109,7 +109,7 @@ export function HiringBoardWrapper(props: Props) {
     try {
       setEditLoading(true)
       const toUpdate = [...(vacancy!.hiringStages!.filter((i) => i.key !==  'offer') ?? []), data, vacancy!.hiringStages!.find((i) => i.key ===  'offer')]
-      const res = await VacancyOwnerRepository.update(props.vacancyId, {hiringStages:toUpdate})
+      const res = await VacancyRepository.update(props.vacancyId, {hiringStages:toUpdate})
       const newVacancy = await fetch()
       setEditLoading(false)
       return newVacancy
@@ -124,7 +124,7 @@ export function HiringBoardWrapper(props: Props) {
   const updateHiringStages = async (data: DeepPartial<IHiringStage>[]): Promise<Nullable<IVacancyWithHiringStages>> => {
     try {
       setEditLoading(true)
-      const res = await VacancyOwnerRepository.update(props.vacancyId, {hiringStages: data})
+      const res = await VacancyRepository.update(props.vacancyId, {hiringStages: data})
       const newVacancy = await fetch()
       setEditLoading(false)
       return newVacancy
@@ -154,7 +154,7 @@ export function HiringBoardWrapper(props: Props) {
           try {
             appContext.hideModal()
             setDeleteLoading(true)
-            const res = await VacancyOwnerRepository.update(props.vacancyId, {hiringStages: vacancy!.hiringStages.filter(i => i.id !== hiringStage.id)})
+            const res = await VacancyRepository.update(props.vacancyId, {hiringStages: vacancy!.hiringStages.filter(i => i.id !== hiringStage.id)})
             const newVacancy = await fetch()
             resolve(newVacancy)
           } catch (err) {
@@ -222,7 +222,7 @@ export function HiringBoardWrapper(props: Props) {
      setHiringStages(toUpdate)
     try {
       setEditLoading(true)
-      const res = await VacancyOwnerRepository.update(props.vacancyId, {hiringStages: toUpdate})
+      const res = await VacancyRepository.update(props.vacancyId, {hiringStages: toUpdate})
       const newVacancy = await fetch()
       setEditLoading(false)
     } catch (err) {

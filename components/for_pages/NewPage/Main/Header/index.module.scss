@@ -37,6 +37,7 @@
   width: 100%;
   @include mq($TabletWidth, max) {
     padding: unset !important;
+    border-radius: 8px !important;
   }
 }
 

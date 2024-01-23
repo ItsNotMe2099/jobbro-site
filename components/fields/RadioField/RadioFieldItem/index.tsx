@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import classNames from 'classnames'
 import { RadioStyleType } from 'types/types'
 import { ReactElement } from 'react'
-import CheckBoxSvg from '@/components/svg/CheckBoxSvg'
+import CheckBoxGreenSvg from '@/components/svg/CheckBoxGreenSvg'
 
 interface Props<T> {
   value: T,
@@ -31,7 +31,7 @@ export default function RadioItem<T>(props: Props<T>) {
       [styles.disabled]: props.disabled,
     }, props.className)} onClick={handleClick}>
       <div className={classNames(styles.radio, { [styles.active]: props.isActive })}>
-        {props.isActive && <CheckBoxSvg className={styles.checkbox} />}
+        {props.isActive && <CheckBoxGreenSvg className={styles.checkbox} />}
       </div>
       <div className={styles.infoWrapper}>
         {props.children ? props.children : <div className={styles.label}>{props.label}</div>}

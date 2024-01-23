@@ -1,7 +1,7 @@
 import {Employment} from '@/data/enum/Employment'
 import {IOption} from '@/types/types'
 import {Workplace} from '@/data/enum/Workplace'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {PublishStatus} from '@/data/enum/PublishStatus'
@@ -56,6 +56,7 @@ export default class Dictionary {
     return t(Dictionary.getWorkplaceNames()[value])
   }
 
+  //============= Experience 
   static getExperienceNames(): {[key in Experience]: string}{
     return {
       [Experience.Junior]: 'dictionary_experience_junior',
@@ -71,6 +72,24 @@ export default class Dictionary {
 
   static getExperienceName(value: Experience, t: Translate) : string {
     return t(Dictionary.getExperienceNames()[value])
+  }
+
+  //============= Experience Duration
+   static getExperienceDurationName(value: ExperienceDuration, t: Translate) : string {
+    return t(Dictionary.getExperienceDurationNames()[value])
+  }
+
+  static getExperienceDurationNames(): {[key in ExperienceDuration]: string}{
+    return {
+      [ExperienceDuration.NoExp]: 'dictionary_experience_duration_none',
+      [ExperienceDuration.From1to3]: 'dictionary_experience_duration_1to3',
+      [ExperienceDuration.From3to6]: 'dictionary_experience_duration_3to6',
+      [ExperienceDuration.From6]: 'dictionary_experience_duration_to6',
+    }
+  }
+
+  static getExperienceDurationOptions(t: Translate): IOption<ExperienceDuration>[]{
+    return Object.keys(Dictionary.getExperienceDurationNames()).map(i => ({label: Dictionary.getExperienceDurationName(i as ExperienceDuration, t), value: i as ExperienceDuration}))
   }
 
 

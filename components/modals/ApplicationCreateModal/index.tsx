@@ -7,7 +7,6 @@ import {useAppContext} from 'context/state'
 import ModalBody from 'components/layout/Modal/ModalBody'
 import ModalFooter from 'components/layout/Modal/ModalFooter'
 import {CVListOwnerWrapper, useCVListOwnerContext} from '@/context/cv_owner_list_state'
-import StubEmpty from '@/components/ui/StubEmpty'
 import ContentLoader from '@/components/ui/ContentLoader'
 import Button from '@/components/ui/Button'
 import {CvOwnerSmallCard} from '@/components/for_pages/Common/CvOwnerSmallCard'
@@ -18,10 +17,13 @@ import {SnackbarType} from '@/types/enums'
 import ApplicationRepository from '@/data/repositories/ApplicationRepository'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
-import {PublishStatus} from '@/data/enum/PublishStatus'
 import useTranslation from 'next-translate/useTranslation'
 import BottomSheetFooter from '@/components/layout/BottomSheet/BottomSheetFooter'
 import showToast from '@/utils/showToast'
+import ModalHeader from '@/components/layout/Modal/ModalHeader'
+import classNames from 'classnames'
+import {useRouter} from 'next/router'
+import {Routes} from '@/types/routes'
 
 interface Props {
   isBottomSheet?: boolean
@@ -30,21 +32,22 @@ interface Props {
 const ApplicationCreateModalInner = (props: Props) => {
   const appContext = useAppContext()
   const cvListContext = useCVListOwnerContext()
-  const { t } = useTranslation()
+  const router = useRouter()
+  const {t} = useTranslation()
   const isLoading = cvListContext.isLoading
   const [sending, setSending] = useState(false)
   const [selectedCv, setSelectedCv] = useState<Nullable<ICV>>(null)
-  const args = appContext.modalArguments as ApplicationCreateModalArguments
-
+  const args: ApplicationCreateModalArguments = appContext.modalArguments
+  const isEmpty = cvListContext.isLoaded && cvListContext.data.length === 0
   useEffectOnce(() => {
     cvListContext.reFetch()
   })
   const handleApply = async () => {
     setSending(true)
-    if(!selectedCv){
+    if (!selectedCv) {
       return
     }
-    try{
+    try {
       await ApplicationRepository.create({
         vacancyId: args?.vacancyId,
         cvId: selectedCv.id
@@ -58,29 +61,35 @@ const ApplicationCreateModalInner = (props: Props) => {
       }
     }
     setSending(false)
-
+  }
+  const handleCreateResume = () => {
+    appContext.hideModal()
+    router.push(Routes.profileResumeCreate)
   }
 
-
-  const header = (
-    <div className={styles.header}>
-      </div>
-  )
-
-  const body = ( cvListContext.isLoaded && cvListContext.data.length === 0
-      ? <StubEmpty>{t('apply_create_no_cv')}</StubEmpty>
-    : (!cvListContext.isLoaded ? (<ContentLoader isOpen={true}/>) : (<>
+  const body = (isEmpty
+      ? <div className={styles.stub}><img src={'/img/no-resume.svg'}/></div>
+      : (!cvListContext.isLoaded ? (<ContentLoader isOpen={true}/>) : (<>
         <div className={styles.list}>
-          {cvListContext.data.filter(i => i.status === PublishStatus.Published).map(i => <CvOwnerSmallCard key={i.id} cv={i} checked={selectedCv?.id === i.id} onClick={() => selectedCv?.id === i.id ? setSelectedCv(null) : setSelectedCv(i)}/>)}
+          {cvListContext.data.map(i => <CvOwnerSmallCard key={i.id}
+                                                         cv={i}
+                                                         checked={selectedCv?.id === i.id}
+                                                         onClick={() => selectedCv?.id === i.id ? setSelectedCv(null) : setSelectedCv(i)}/>)}
         </div>
       </>))
   )
 
   const footer = <div className={styles.buttons}>
-    <Button spinner={sending} type='submit' disabled={!selectedCv} onClick={handleApply} styleType='large' color='green'>
-      {t('apply_create_button_apply')}
-    </Button>
-    <Button onClick={() => appContext.hideModal()} styleType='large' color='white'>
+    {!isEmpty &&
+      <Button spinner={sending} type='submit' fluid disabled={!selectedCv} onClick={handleApply} styleType='large'
+              color='green'>
+        {t('apply_create_button_apply')}
+      </Button>}
+    {isEmpty && <Button spinner={sending} type='submit' fluid onClick={handleCreateResume}
+                        styleType='large' color='green'>
+      {t('apply_create_button_create_resume')}
+    </Button>}
+    <Button onClick={() => appContext.hideModal()} fluid styleType='large' color='white'>
       {t('apply_create_button_cancel')}
     </Button>
   </div>
@@ -97,16 +106,18 @@ const ApplicationCreateModalInner = (props: Props) => {
     )
   }
   return (
-  <>
+    <>
       <ModalLayout fixed className={styles.modalLayout}>
         {/* {appContext.isMobile && <ModalHeader>{header}</ModalHeader>} */}
-        <ModalBody fixed>
-          {header}
+        <ModalHeader title={t('apply_create_title')}
+                     description={isEmpty ? t('apply_create_no_resume_desc') : undefined}/>
+        <ModalBody fixed className={classNames(styles.modalBody)}>
+
           {body}
-          </ModalBody>
-        <ModalFooter fixed className={styles.footer}>{footer}</ModalFooter>
+        </ModalBody>
+        {cvListContext.isLoaded ? <ModalFooter fixed>{footer}</ModalFooter> : <></>}
       </ModalLayout>
-  </>
+    </>
   )
 }
 

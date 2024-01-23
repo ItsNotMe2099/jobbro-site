@@ -9,7 +9,6 @@
     "lint": "next lint",
     "plop": "plop",
     "ts": "tsc --noEmit"
-
   },
   "dependencies": {
     "@cospired/i18n-iso-languages": "^4.1.0",
@@ -110,6 +109,7 @@
     "@types/react-scroll": "^1.8.8",
     "@types/uuid": "^9.0.4",
     "@types/webscopeio__react-textarea-autocomplete": "^4.7.5",
-    "next-translate-plugin": "^2.6.2"
+    "next-translate-plugin": "^2.6.2",
+    "plop": "^4.0.1"
   }
 }

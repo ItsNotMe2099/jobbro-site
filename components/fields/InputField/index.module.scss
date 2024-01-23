@@ -57,6 +57,7 @@
   flex-direction: column;
   @include list(8px);
   height: 100%;
+  position: relative;
 }
 
 .suffix {
