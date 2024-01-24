@@ -79,7 +79,7 @@ export default function JobInviteSidePanel(props: Props) {
   }
 
   const initialValues = {
-    vacancies: []
+    vacancies: args.vacancy ? [args.vacancy] : []
   }
 
   const formik = useFormik<IFormData>({
@@ -108,7 +108,7 @@ export default function JobInviteSidePanel(props: Props) {
 
               <div className={styles.field}>
                 <FieldLabel label={t('job_invite_field_jobs')} styleType={'large'}/>
-                <JobWithSearchField name={'vacancies'} validate={Validator.requiredArray}/>
+                <JobWithSearchField name={'vacancies'} validate={Validator.requiredArray} cvTitle={!args.isMulti ? args.cv?.title : undefined}/>
               </div>
             </div>
           </SidePanelBody>

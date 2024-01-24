@@ -11,12 +11,49 @@ import RadioCheckbox from '@/components/ui/RadioCheckbox'
 import FieldError from '@/components/fields/FieldError'
 import ContentLoader from '@/components/ui/ContentLoader'
 import useTranslation from 'next-translate/useTranslation'
+import {CvEvaluationSimpleWrapper, useCvEvaluationSimpleContext} from '@/context/cv_simple_evaluation_state'
+import CvEvaluationForCard from '@/components/ui/CvEvaluationForCard'
+interface VacancySelectedItemProps{
+  onClick: () => void
+  name: string
+}
+const VacancySelectedItem = (props: VacancySelectedItemProps) => {
+  const simpleEvaluation = useCvEvaluationSimpleContext()
+  const evaluation = simpleEvaluation.store[props.name]?.evaluation
+  useEffect(() => {
+    simpleEvaluation.addRecord(props.name)
+  }, [])
+  return (<div className={classNames(styles.job)} onClick={props.onClick}>
+    <RadioCheckbox checked={true}/>
+    <div className={styles.name}>{props.name}</div>
+    <CvEvaluationForCard evaluation={evaluation?.percentEvaluation}/>
+  </div>)
+}
 
-
+interface VacancyRadioItemProps{
+  onClick: () => void
+  name: string
+  checked: boolean
+}
+const VacancyRadioItem = (props: VacancyRadioItemProps) => {
+  const simpleEvaluation = useCvEvaluationSimpleContext()
+  const evaluation = simpleEvaluation.store[props.name]?.evaluation
+  useEffect(() => {
+    simpleEvaluation.addRecord(props.name)
+  }, [])
+  return (<div
+    className={classNames(styles.job)}
+    onClick={props.onClick}>
+    <RadioCheckbox checked={props.checked}/>
+    <div className={styles.name}>{props.name}</div>
+    <CvEvaluationForCard evaluation={evaluation?.percentEvaluation}/>
+  </div>)
+}
 interface Props extends IField<IVacancy[]> {
   resettable?: boolean
   onChange?: (value: IVacancy[]) => void
   className?: string
+  cvTitle?: string | undefined
 }
 
 const JobWithSearchFieldInner = (props: Props) => {
@@ -52,31 +89,25 @@ const JobWithSearchFieldInner = (props: Props) => {
      <div className={styles.subTitle}> {vacancyListOwnerContext.filter.search ? !vacancyListOwnerContext.isLoading ? t('job_invite_field_job_results') : t('job_invite_field_job_results_amount', {amount: vacancyListOwnerContext.data.total}) : t('job_invite_field_job_all_jobs')}</div>
       <div className={styles.list}>
         {vacancyListOwnerContext.isLoading && <ContentLoader style={'infiniteScroll'} isOpen={true}/>}
-        {!vacancyListOwnerContext.isLoading && vacancyListOwnerContext.data.data.map((vacancy) => <div
-            className={classNames(styles.job)}
-            onClick={() => handleSelect(vacancy)}>
-            <RadioCheckbox checked={valueIds.includes(vacancy.id)}/>
-
-            <div className={styles.name}>{vacancy.name}</div>
-          </div>
-        )}
+        {!vacancyListOwnerContext.isLoading && vacancyListOwnerContext.data.data.map((vacancy) => <VacancyRadioItem key={vacancy.id} checked={valueIds.includes(vacancy.id)} name={vacancy.name} onClick={() => handleSelect(vacancy)}/>)}
       </div>
 
       {field.value.length > 0 && <div className={styles.selectedWrapper}>
         <div className={styles.subTitle}>{t('job_invite_field_job_selected', {amount: field.value?.length})}</div>
         <div className={classNames(styles.list, {[styles.selected]: true})}>
-        {field.value.map((vacancy) => <div key={vacancy.id}
-                                           className={classNames(styles.job)} onClick={() => handleRemove(vacancy)}>
-          <RadioCheckbox checked={true}/>
-          <div className={styles.name}>{vacancy.name}</div>
-        </div>)}
+        {field.value.map((vacancy) => <VacancySelectedItem key={vacancy.id} name={vacancy.name} onClick={() => handleRemove(vacancy)}/>)}
       </div></div>}
     </div>
   )
 }
 
 export default function JobWithSearchField(props: Props) {
-  return <VacancyListOwnerWrapper limit={100}>
+  const body = (<VacancyListOwnerWrapper limit={100}>
     <JobWithSearchFieldInner {...props}/>
-  </VacancyListOwnerWrapper>
-}
+  </VacancyListOwnerWrapper>)
+  if(props.cvTitle){
+    return <CvEvaluationSimpleWrapper cvTitle={props.cvTitle}>{body}</CvEvaluationSimpleWrapper>
+  }else{
+    return body
+  }
+ }

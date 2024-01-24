@@ -19,6 +19,7 @@ interface Props{
   cv: ICV
   evaluation?: Nullable<ICVEvaluation> | undefined
   backLink: string
+  hasEvaluation?: boolean
 }
 const CvForHirerPage = (props: Props) => {
   const appContext = useAppContext()
@@ -28,18 +29,16 @@ const CvForHirerPage = (props: Props) => {
   let ref = useRef<HTMLDivElement | null>(null)
 
   return (
-
-
      <div ref={ref} className={styles.container}>
         <PageTitle title={cv.title} link={props.backLink} />
         <div className={styles.wrapper}>
           <div className={styles.top}>
             <CardWithPhoto cv={cv} />
-            {props.evaluation && <CardAiSummary className={styles.aiSum} evaluation={props.evaluation}/>}
+            {props.hasEvaluation && <CardAiSummary className={styles.aiSum} evaluation={props.evaluation}/>}
           </div>
           <CardCandidateSummary cv={cv} />
           <CardProfExp cv={cv} />
-          <CardMatching  />
+          <CardMatching  cv={cv}/>
         </div>
         <ControlsStickyFooter btns={[
           <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>

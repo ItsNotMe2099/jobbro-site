@@ -44,10 +44,10 @@ const JobsPageInner = () => {
       <div ref={ref} className={styles.container}>
         <PageStickyHeader boundaryElement={styles.container} formRef={ref}>
         <PageTitle title={t('jobs_title')}/>
-        <FilterToolbar 
-        key={'sort'} 
+        <FilterToolbar
+        key={'sort'}
         left={[
-          <FilterButton key={'filter'} 
+          <FilterButton key={'filter'}
           counter={vacancyListContext.filtersCount}
           onClick={() => appContext.showSidePanel(SidePanelType.JobsFilter, {
             filter: vacancyListContext.filter,
@@ -56,17 +56,17 @@ const JobsPageInner = () => {
             {t('filter_toolbar_filter')}
           </FilterButton>,
 
-          <SortFilterButton<VacancyOwnerListSortType> 
-          value={vacancyListContext.sortType} 
+          <SortFilterButton<VacancyOwnerListSortType>
+          value={vacancyListContext.sortType}
           options={[
             {label: t('jobs_filter_sort_from_new_to_old'), value: VacancyOwnerListSortType.FromNewToOld},
             {label: t('jobs_filter_sort_from_old_to_new'), value: VacancyOwnerListSortType.FromOldToNew},
             {label: t('jobs_filter_sort_from_low_to_high'), value: VacancyOwnerListSortType.FromLowToHighSalary},
             {label: t('jobs_filter_sort_from_high_to_low'), value: VacancyOwnerListSortType.FromHighToLowSalary}
-          ]} 
+          ]}
           onChange={(sort) => vacancyListContext.setSortType(sort ?? null)}
           />,
-        ]} 
+        ]}
         right={<ViewToggleFilterButton onChange={setView} view={view}/>}/>
         </PageStickyHeader>
 
@@ -95,7 +95,7 @@ const JobsPageInner = () => {
   )
 }
 const JobsPage = () => {
-  return <VacancyListOwnerWrapper>
+  return <VacancyListOwnerWrapper limit={50}>
     <JobsPageInner/>
   </VacancyListOwnerWrapper>
 }

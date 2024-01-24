@@ -1,7 +1,9 @@
 @import "styles/index";
 
 .root {}
-
+.noEvaluation{
+  flex: 1;
+}
 .avatar {
   position: relative !important;
   width: 120px !important;

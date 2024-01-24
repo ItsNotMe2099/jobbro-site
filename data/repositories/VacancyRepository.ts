@@ -13,6 +13,8 @@ export default class VacancyRepository {
       method: 'get',
       url: '/api/vacancy/currentUser',
       data: {
+        ...(data.limit ? {limit: data.limit} : {}),
+        ...(data.page ? {page: data.page} : {}),
         ...(data.sort ? {sort: data.sort} : {}),
         ...(data.search ? {search: data.search} : {}),
         ...(data.publishedAt ? {

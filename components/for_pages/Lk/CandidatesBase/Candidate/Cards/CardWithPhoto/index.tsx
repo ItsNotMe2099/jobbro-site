@@ -13,13 +13,14 @@ import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   cv: ICV
+  hasEvaluation?: boolean
 }
 
 export default function CardWithPhoto(props: Props) {
   const { t } = useTranslation()
   const {cv} = props
   return (
-    <Card>
+    <Card className={classNames({[styles.noEvaluation]: !props.hasEvaluation})}>
       <div className={styles.container}>
         <AvatarCircular size={120} file={cv.image ?? cv.profile?.image}/>
         <div className={styles.right}>
