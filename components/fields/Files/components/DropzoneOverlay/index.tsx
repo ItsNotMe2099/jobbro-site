@@ -17,7 +17,7 @@ export default function DropzoneOverlay(props: Props) {
     if(props.isImage){
       return props.isMulti ? t('form_field_file_image_drag_drop_multi') : t('form_field_file_image_drag_drop')
     }else{
-      return props.isMulti ? t('form_field_file_file_drag_drop_multi') : t('form_field_file_file_drag_drop_multi')
+      return props.isMulti ? t('form_field_file_file_drag_drop_multi') : t('form_field_file_file_drag_drop')
     }
   }, [props.isImage, props.isMulti])
   return (
