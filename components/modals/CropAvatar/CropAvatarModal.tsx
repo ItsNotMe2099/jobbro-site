@@ -10,6 +10,7 @@ import AvatarEditor from 'react-avatar-editor'
 import useTranslation from 'next-translate/useTranslation'
 import BottomSheetLayout from '@/components/layout/BottomSheet/BottomSheetLayout'
 import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
+import BottomSheetHeader from '@/components/layout/BottomSheet/BottomSheetHeader'
 
 export interface Props {
   isBottomSheet?: boolean
@@ -24,7 +25,7 @@ export interface ICropAvatarModalProps {
 
 export default function CropAvatarModal(props: Props) {
   const appContext = useAppContext()
-  const args = appContext.modalArguments as ICropAvatarModalProps
+  const args = appContext.bottomSheetOnTopArguments as ICropAvatarModalProps
   const editorRef = useRef<AvatarEditor>(null!)
   const [cropRadius, setCropRadius] = useState(100)
   const { t } = useTranslation()
@@ -35,18 +36,18 @@ export default function CropAvatarModal(props: Props) {
       const file = new File([blob as Blob], 'avatar.png')
       args.onEdit(file)
       props.onClose&&props.onClose()
-      appContext.hideBottomSheet()
+      appContext.hideBottomSheetOnTop()
     })
   }
 
   const close = () => {
     props.onClose?.()
-    appContext.hideBottomSheet()
+    appContext.hideBottomSheetOnTop()
   }
 
   const body = (
     <div className={styles.root}>
-      <p className={styles.title}>Crop photo</p>
+      {!props.isBottomSheet && <p className={styles.title}>Crop photo</p>}
       <div className={styles.avatar} id='avatar'>
       {args?.image &&
         <AvatarEditor
@@ -77,12 +78,13 @@ export default function CropAvatarModal(props: Props) {
   if(props.isBottomSheet) {
     return (
       <BottomSheetLayout>
+        <BottomSheetHeader title={'Crop photo'}/>
         <BottomSheetBody>
           {body}
         </BottomSheetBody>
       </BottomSheetLayout>
     )
-    
+
   }
 
   return (

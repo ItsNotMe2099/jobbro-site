@@ -17,6 +17,7 @@ import {ICandidate} from '@/data/interfaces/ICandidate'
 import IEvent from '@/data/interfaces/IEvent'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import { IResizeValues, useResize } from '@/components/hooks/useResize'
+import {IApplication} from '@/data/interfaces/IApplication'
 
 interface IState {
   isMobile: boolean
@@ -34,6 +35,10 @@ interface IState {
   bottomSheet: ModalType | null
   showModal: <T extends unknown>(type: ModalType, args?: T) => void
   hideModal: () => void
+  showBottomSheetOnTop: <T extends unknown>(type: ModalType, args?: T) => void
+  hideBottomSheetOnTop: () => void
+  bottomSheetOnTop: ModalType | null
+  bottomSheetOnTopArguments: any
   showBottomSheet: <T extends unknown>(type: ModalType, args?: T) => void,
   hideBottomSheet: () => void
   sidePanel: SidePanelType | null
@@ -67,6 +72,7 @@ interface IState {
   cvUpdateState$: Subject<ICV>,
   cvDeleteState$: Subject<ICV>,
 
+  applicationCreateState$: Subject<IApplication>,
   cvApplyUpdateState$: Subject<ICVWithApply>,
   cvApplyDeleteState$: Subject<ICVWithApply>,
 
@@ -109,6 +115,7 @@ const cvCreateState$ = new Subject<ICV>()
 const cvUpdateState$ = new Subject<ICV>()
 const cvDeleteState$ = new Subject<ICV>()
 
+const applicationCreateState$ = new Subject<IApplication>()
 const cvApplyUpdateState$ = new Subject<ICVWithApply>()
 const cvApplyDeleteState$ = new Subject<ICVWithApply>()
 
@@ -153,6 +160,10 @@ const defaultValue: IState = {
   showBottomSheet: (type) => null,
   hideModal: () => null,
   hideBottomSheet: () => null,
+  bottomSheetOnTop: null,
+  bottomSheetOnTopArguments: null,
+  showBottomSheetOnTop: (type) => null,
+  hideBottomSheetOnTop: () => null,
   sidePanel: null,
   panelArguments: null,
   showSidePanel: (type, args) => null,
@@ -186,6 +197,7 @@ const defaultValue: IState = {
   cvUpdateState$,
   cvDeleteState$,
 
+  applicationCreateState$,
   cvApplyUpdateState$,
   cvApplyDeleteState$,
 
@@ -245,6 +257,9 @@ export function AppWrapper(props: Props) {
   const [isOverlayShown, setIsOverlayShown] = useState<boolean>(false)
   const [bottomSheet, setBottomSheet] = useState<ModalType | null>(null)
   const [modalNonSkippable, setModalNonSkippable] = useState<boolean>(false)
+  const [bottomSheetOnTop, setBottomSheetOnTop] = useState<ModalType | null>(null)
+  const [bottomSheetOnTopArguments, setBottomSheetOnTopArguments] = useState<any>(null)
+
   const [headerDirection, setDirection] = useState<'up'|'down'>('up')
   const size = useResize()
 
@@ -352,6 +367,18 @@ export function AppWrapper(props: Props) {
     setBottomSheet(null)
   }
 
+
+  const showBottomSheetOnTop = (type: ModalType, args?: any) => {
+    ReactModal.setAppElement('body')
+    setBottomSheetOnTopArguments(args)
+    setBottomSheetOnTop(type)
+  }
+
+  const hideBottomSheetOnTop = () => {
+    setBottomSheetOnTop(null)
+    setBottomSheetOnTopArguments(null)
+  }
+
   const value: IState = {
     ...defaultValue,
     modalNonSkippable,
@@ -383,6 +410,10 @@ export function AppWrapper(props: Props) {
     headerDirection,
     setDirection,
     size,
+    showBottomSheetOnTop,
+    bottomSheetOnTop,
+    bottomSheetOnTopArguments,
+    hideBottomSheetOnTop,
      showOverlay: () => {
       setIsOverlayShown(true)
     },

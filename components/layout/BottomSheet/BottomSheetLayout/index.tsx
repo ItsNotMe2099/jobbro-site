@@ -2,7 +2,6 @@ import styles from './index.module.scss'
 import Sheet from 'react-modal-sheet'
 import { useAppContext } from 'context/state'
 import { colors } from 'styles/variables'
-import CloseModalBtn from 'components/ui/CloseModalBtn'
 
 
 interface Props {
@@ -24,11 +23,6 @@ export default function BottomSheetLayout(props: Props) {
             <div className={styles.content}>
               {props.children}
             </div>
-            {!appContext.modalNonSkippable && <CloseModalBtn
-            onClick={() => { appContext.hideBottomSheet() }}
-            defaultPosition
-            color={props.closeIconColor ?? colors.black}
-          />}
           </div>
         </Sheet.Content>
       </Sheet.Container>

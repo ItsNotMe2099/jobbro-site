@@ -2,28 +2,27 @@ import ModalLayout from '@/components/layout/Modal/ModalLayout'
 import styles from './index.module.scss'
 import ModalBody from '@/components/layout/Modal/ModalBody'
 import {useAppContext} from '@/context/state'
-import ApplyForJobForm from '@/components/for_pages/Common/ApplyForJobForm'
+import ChatDialogWidget from '@/components/for_pages/Chat/ChatDialogWidget'
+import {Nullable} from '@/types/types'
 
 interface Props {
   isBottomSheet: boolean
 }
 
-export interface IApplyForJobModal {
-  vacancyId: number
+export interface IJobChatModal {
+  vacancyId?: Nullable<number | undefined>
+  cvId?: Nullable<number | undefined>
+  title?: string | undefined
 }
 
-export default function ApplyForJobModal(props: Props) {
+export default function JobChatModal(props: Props) {
   const appContext = useAppContext()
-  const args: IApplyForJobModal = appContext.modalArguments
+  const args: IJobChatModal = appContext.modalArguments
 
-
-  if (props.isBottomSheet) {
-    return        (<ApplyForJobForm vacancyId={args.vacancyId} isBottomSheet={props.isBottomSheet} />)
-  }
   return (<ModalLayout mobileFullScreen>
     <ModalBody className={styles.modalBody}>
       <div className={styles.root}>
-        <ApplyForJobForm vacancyId={args.vacancyId} />
+        <ChatDialogWidget vacancyId={args.vacancyId} cvId={args.cvId} title={args.title}/>
       </div>
     </ModalBody>
   </ModalLayout>)

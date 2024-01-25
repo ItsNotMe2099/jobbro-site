@@ -5,7 +5,6 @@ import {FileUploadAcceptType} from '@/types/enums'
 import FileField from '@/components/fields/Files/FileField'
 import useTranslation from 'next-translate/useTranslation'
 import {useAppContext} from '@/context/state'
-import Button from '@/components/ui/Button'
 import {useApplyJobAnonymize} from '@/context/apply_job_anonymously'
 enum StepKey{
   First = 'first',
@@ -44,14 +43,6 @@ export default function ApplyForJobFirstStep(props: Props) {
                   validate={Validator.required} />
       <InputField name='email' label={'Email'}
                   validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
-
-      <div className={styles.privacy}>
-        By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
-      </div>
-      <Button spinner={applyJobAnonymize.sending} type='submit' className={styles.btn} fluid styleType='large'
-              color='green'>
-        Apply
-      </Button>
     </div>
   )
 }

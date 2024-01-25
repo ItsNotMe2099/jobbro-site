@@ -3,7 +3,6 @@ import Validator from '@/utils/validator'
 import InputField from '@/components/fields/InputField'
 import {useApplyJobAnonymize} from '@/context/apply_job_anonymously'
 import {useAppContext} from '@/context/state'
-import Button from '@/components/ui/Button'
 enum StepKey{
   First = 'first',
   Confirm = 'confirm'
@@ -36,10 +35,6 @@ export default function ApplyForJobConfirmStep(props: Props) {
         name='code'
         obscure
         validate={Validator.required} />
-      <Button spinner={applyJobAnonymize.sending} type='submit' className={styles.btn} fluid styleType='large'
-              color='green'>
-        Confirm
-      </Button>
     </div>
   )
 }

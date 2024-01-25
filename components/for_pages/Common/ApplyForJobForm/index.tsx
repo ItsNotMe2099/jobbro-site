@@ -5,7 +5,6 @@ import {
   IApplyJobAnonymouslyFormData,
   useApplyJobAnonymize
 } from '@/context/apply_job_anonymously'
-import ContentLoader from '@/components/ui/ContentLoader'
 import ApplyForJobFirstStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobFirstStep'
 import ApplyForJobConfirmStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobConfirmStep'
 import {Form, FormikProvider, useFormik} from 'formik'
@@ -17,7 +16,15 @@ import {Nullable} from '@/types/types'
 import ApplyForJobReadyStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobReadyStep'
 import ApplyForJobProcessingStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobProcessingStep'
 import Spinner from '@/components/ui/Spinner'
-import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
+import BottomSheetLayout from '@/components/layout/BottomSheet/BottomSheetLayout'
+import {colors} from '@/styles/variables'
+import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
+import BottomSheetFooter from '@/components/layout/BottomSheet/BottomSheetFooter'
+import BottomSheetHeader from '@/components/layout/BottomSheet/BottomSheetHeader'
+import Button from '@/components/ui/Button'
+import {Routes} from '@/types/routes'
+import useTranslation from 'next-translate/useTranslation'
+import {toast} from 'react-toastify'
 
 enum FormToShow {
   Apply = 'apply',
@@ -28,6 +35,7 @@ enum FormToShow {
 
 interface Props {
   vacancyId: number
+  isBottomSheet?: boolean | undefined
 }
 
 const ApplyForJobFormInner = (props: Props) => {
@@ -35,8 +43,9 @@ const ApplyForJobFormInner = (props: Props) => {
   const {isTabletWidth} = appContext.size
   const applyJobAnonymously = useApplyJobAnonymize()
   const employeeAiCvRequests = useEmployeeAiCvRequestsContext()
+  const applyJobAnonymize = useApplyJobAnonymize()
+  const {t, lang} = useTranslation()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
-  const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
   const hasRequest = !!request
   const handleSubmit = (data: IApplyJobAnonymouslyFormData) => {
     switch (applyJobAnonymously.stepKey) {
@@ -58,7 +67,7 @@ const ApplyForJobFormInner = (props: Props) => {
     code: null,
   }
   const formToShow = useMemo<Nullable<FormToShow>>(() => {
-    if(!appContext.allLoaded){
+    if (!appContext.allLoaded) {
       return null
     }
     if (hasRequest) {
@@ -74,7 +83,7 @@ const ApplyForJobFormInner = (props: Props) => {
           }
           return null
         default:
-          return  null
+          return null
       }
     } else {
       switch (applyJobAnonymously.stepKey) {
@@ -84,53 +93,79 @@ const ApplyForJobFormInner = (props: Props) => {
         case ApplyJobAnonymouslyStepKey.Confirm:
           return FormToShow.Confirm
         default:
-          return  null
+          return null
       }
     }
 
   }, [applyJobAnonymously.stepKey, hasRequest, request, appContext.allLoaded])
   const title = useMemo(() => {
-      switch (formToShow) {
-        case FormToShow.Apply:
-          return 'Apply for job'
-        case FormToShow.Confirm:
-          return 'Confirm Email'
-        case FormToShow.Processing:
-          return 'Processing'
-        case FormToShow.ShowCv:
-          return 'Resume is ready!'
-      }
+    switch (formToShow) {
+      case FormToShow.Apply:
+        return 'Apply for job'
+      case FormToShow.Confirm:
+        return 'Confirm Email'
+      case FormToShow.Processing:
+        return 'Processing'
+      case FormToShow.ShowCv:
+        return 'Resume is ready!'
+    }
   }, [formToShow])
   const formik = useFormik({
     initialValues,
     onSubmit: handleSubmit
   })
-  console.log('FormShow', formToShow, (appContext.allLoaded && !appContext.isLogged) , employeeAiCvRequests.initialLoaded ,hasRequest)
-  if(canShowContent && !formToShow){
-    return <MyEvents/>
+  const footer = useMemo(()=> {
+    switch (formToShow){
+      case FormToShow.Apply:
+        return (<div>
+          <div className={styles.privacy}>
+            By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
+          </div>
+          <Button spinner={applyJobAnonymize.sending} type='submit' onClick={() => formik.submitForm()} className={styles.btn} fluid styleType='large'
+                  color='green'>
+            Apply
+          </Button>
+        </div>)
+      case FormToShow.Confirm:
+        return ( <Button spinner={applyJobAnonymize.sending} type='submit'  onClick={() => formik.submitForm()} className={styles.btn} fluid styleType='large'
+                         color='green'>
+          Confirm
+        </Button>)
+      case FormToShow.ShowCv:
+        return (     <Button type='button' href={Routes.profileResumeEdit(request!.cv!.id!)} onClick={() => {
+          const toastId = `ai-cv-request-${request!.id}-${request!.status}`
+          toast.dismiss(toastId)
+          appContext.hideBottomSheet()
+        }} className={styles.btn} fluid
+                             styleType='large' color='green'>
+          Show now
+        </Button>)
+    }
+  }, [formToShow])
+  const body = (<FormikProvider value={formik}>
+    <Form className={styles.form}>
+      {formToShow === FormToShow.Apply && <ApplyForJobFirstStep/>}
+      {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
+      {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
+      {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
+    </Form>
+  </FormikProvider>)
+  if (props.isBottomSheet) {
+    return (<BottomSheetLayout closeIconColor={colors.black}>
+      <BottomSheetHeader title={title} suffix={formToShow === FormToShow.Processing ? <Spinner size={24}/> : null}/>
+      <BottomSheetBody> {body}</BottomSheetBody>
+      <BottomSheetFooter>
+        {footer}
+      </BottomSheetFooter>
+    </BottomSheetLayout>)
   }
-  return (
-    <FormikProvider value={formik}>
-      <Form className={styles.root}>
-        {canShowContent && title && <div className={styles.title}>
-          {title}
-          {formToShow === FormToShow.Processing && <Spinner size={24}/>}
-          {/* {isTabletWidth &&
-            <CloseModalBtn onClick={appContext.hideModal}/>
-          } */}
-        </div>}
-        {((appContext.allLoaded && appContext.isLogged) && !employeeAiCvRequests.initialLoaded) && <ContentLoader isOpen={true}/>}
-        {canShowContent ?
-          <>
-            {formToShow === FormToShow.Apply && <ApplyForJobFirstStep/>}
-            {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
-            {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
-            {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
-          </>
-          : null}
-
-      </Form>
-    </FormikProvider>
+  return (<div className={styles.root}>
+      {title && <div className={styles.title}>
+        {title}
+        {formToShow === FormToShow.Processing && <Spinner size={24}/>}
+      </div>}
+      {body}
+    </div>
   )
 }
 

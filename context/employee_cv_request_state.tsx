@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useRef, useState} from 'react'
+import {createContext, useContext, useEffect, useMemo, useRef, useState} from 'react'
 import {useAppContext} from 'context/state'
 import {ProfileType} from '@/data/enum/ProfileType'
 import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
@@ -11,17 +11,26 @@ import showToast from '@/utils/showToast'
 import Spinner from '@/components/ui/Spinner'
 import {Routes} from '@/types/routes'
 import CloseToast from '@/components/ui/Toast/CloseToast'
+import {toast} from 'react-toastify'
+
+enum JobApplyFormToShow {
+  FirstApply = 'firstApply',
+  Chat = 'chat',
+  Calendar = 'calendar'
+}
 
 
 interface IState {
   requests: IAiCvRequest[]
   initialLoaded: boolean
-
+  isShowApplyForm: boolean
 }
 
 const defaultValue: IState = {
   requests: [],
-  initialLoaded: false
+  initialLoaded: false,
+  isShowApplyForm: false
+
 }
 
 const EmployeeAiCvRequestsContext = createContext<IState>(defaultValue)
@@ -52,9 +61,13 @@ export function EmployeeAiCvRequestsWrapper(props: Props) {
       setRequests(i => i.map(i => i.id == req.id ? ({...i, ...req}) : i))
     })
 
+    const subscriptionCvUpdate = appContext.cvUpdateState$.subscribe((cv) => {
+      setRequests(i =>  i.map(i => i.cv?.id == cv.id ? ({...i, cv: {...i.cv, ...cv}}) : i))
+    })
     return () => {
       createSubscription.unsubscribe()
       updateSubscription.unsubscribe()
+      subscriptionCvUpdate.unsubscribe()
     }
   }, [requests])
   useEffect(() => {
@@ -143,7 +156,10 @@ export function EmployeeAiCvRequestsWrapper(props: Props) {
             text: 'The resume is ready. You can view it right now.',
              linkName: 'Show now',
              link: Routes.profileResumeEdit(request.cv!.id!),
-             linkOnClick: (e) => sendRequestSetRead(request)
+             linkOnClick: (e) => {
+               sendRequestSetRead(request)
+               toast.dismiss(toastId)
+             }
           }, {
             data: request,
             toastId,
@@ -166,10 +182,35 @@ export function EmployeeAiCvRequestsWrapper(props: Props) {
   }
 
 
+  const isShowApplyForm = useMemo<boolean>(() => {
+    const request = requests.length > 0 ? requests[0] : null
+    if(!appContext.allLoaded){
+      return false
+    }
+    if(!appContext.isLogged){
+      return true
+    }
+
+    if(!initialLoaded){
+      return false
+    }
+    if(request){
+      console.log('request.cv', request.cv)
+        if(!([AiRequestStatus.Error] as AiRequestStatus[]).includes(request.status) && !request.cv?.isChecked){
+          return true
+        }
+      return false
+    }else{
+      return false
+    }
+
+  }, [appContext.isLogged, appContext.allLoaded, requests, initialLoaded])
+
   const value: IState = {
     ...defaultValue,
     requests,
-    initialLoaded
+    initialLoaded,
+    isShowApplyForm,
   }
 
   return (
