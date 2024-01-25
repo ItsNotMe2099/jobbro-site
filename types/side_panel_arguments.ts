@@ -1,6 +1,7 @@
 import {ICV} from '@/data/interfaces/ICV'
 import {ICandidateFilter} from '@/context/candidate_list_state'
 import {IVacancyFilter} from '@/context/vacancy_owner_list_state'
+import {IVacancy} from '@/data/interfaces/IVacancy'
 
 export interface JobFilterSidePanelArguments {
   filter: IVacancyFilter
@@ -19,6 +20,7 @@ export interface JobInviteSidePanelArguments {
   allCandidateBase?: true
   allAppliesToVacancy?: true
   appliedVacancyId?: number
+  vacancy?: IVacancy
 }
 
 export interface CvFilterSidePanelArguments {

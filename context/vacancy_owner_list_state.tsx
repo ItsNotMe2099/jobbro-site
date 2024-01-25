@@ -93,14 +93,15 @@ export function VacancyListOwnerWrapper(props: Props) {
   }, [data])
   const getSortParam = (sortType: VacancyOwnerListSortType) => {
     switch (sortType){
-      case VacancyOwnerListSortType.FromNewToOld:
-        return 'createdAt,DESC'
       case VacancyOwnerListSortType.FromOldToNew:
         return 'createdAt,ASC'
       case VacancyOwnerListSortType.FromLowToHighSalary:
         return 'salaryMin,ASC'
       case VacancyOwnerListSortType.FromHighToLowSalary:
         return 'salaryMin,DESC'
+      case VacancyOwnerListSortType.FromNewToOld:
+      default:
+        return 'createdAt,DESC'
     }
   }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<IVacancy>> => {
@@ -145,7 +146,7 @@ export function VacancyListOwnerWrapper(props: Props) {
     setIsLoaded(false)
     return fetch({page: 1})
   }
-  const checkIsFilterEmpty = () => {    
+  const checkIsFilterEmpty = () => {
     const filter = filterRef.current
     const num:number = Object.values(filter).filter(Boolean).filter(Array.isArray).reduce((a, b) => a + b.length, 0)
     return num

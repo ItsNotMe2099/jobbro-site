@@ -1,39 +1,64 @@
 import Card from '@/components/for_pages/Common/Card'
 import styles from './index.module.scss'
-import classNames from 'classnames'
+import {useVacancyListOwnerContext, VacancyListOwnerWrapper} from '@/context/vacancy_owner_list_state'
+import React, {useEffect} from 'react'
+import {ICV} from '@/data/interfaces/ICV'
+import {CvEvaluationSimpleWrapper, useCvEvaluationSimpleContext} from '@/context/cv_simple_evaluation_state'
+import ContentLoader from '@/components/ui/ContentLoader'
+import CvEvaluationForCard from '@/components/ui/CvEvaluationForCard'
+import {IVacancy} from '@/data/interfaces/IVacancy'
+import {useAppContext} from '@/context/state'
+import {SidePanelType} from '@/types/enums'
+import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
+interface IVacancyItemProps{
+  vacancy: IVacancy
+  onInvite: () => void
+}
+const VacancyItem = (props: IVacancyItemProps) => {
+  const simpleEvaluation = useCvEvaluationSimpleContext()
+  const evaluation = simpleEvaluation.store[props.vacancy.name]?.evaluation
+  useEffect(() => {
+    simpleEvaluation.addRecord(props.vacancy.name)
+  }, [])
 
+  return (<div className={styles.item}>
+    <CvEvaluationForCard evaluation={evaluation?.percentEvaluation}/>
+    <div className={styles.text}>
+      {props.vacancy.name}
+    </div>
+    <div className={styles.send} onClick={props.onInvite}>
+      Send Invite
+    </div>
+  </div>)
+}
 interface Props {
   className?: string
+  cv: ICV
 }
 
-export default function CardMatching(props: Props) {
-
+const CardMatchingInner = (props: Props) => {
+  const appContext = useAppContext()
+  const vacancyListOwnerContext = useVacancyListOwnerContext()
+  useEffect(() => {
+    vacancyListOwnerContext.setFilter({showClosed: false})
+  }, [])
+  const handleInvite = (vacancy: IVacancy) => {
+    appContext.showSidePanel(SidePanelType.InviteToJob, {cv: props.cv, isMulti: false, vacancy} as JobInviteSidePanelArguments)
+  }
   return (
     <Card className={props.className} title={'Matching'}>
       <div className={styles.container}>
-        <div className={styles.item}>
-          <div className={styles.percent}>
-            80%
-          </div>
-          <div className={styles.text}>
-            Senior Manager of Software Development and Engineering
-          </div>
-          <div className={styles.send}>
-            Send Invite
-          </div>
-        </div>
-        <div className={styles.item}>
-          <div className={classNames(styles.percent, styles.orange)}>
-            40%
-          </div>
-          <div className={styles.text}>
-            Senior Back-end Development with Python Skills
-          </div>
-          <div className={styles.send}>
-            Send Invite
-          </div>
-        </div>
+        {vacancyListOwnerContext.isLoading && <ContentLoader style={'infiniteScroll'} isOpen={true}/>}
+        {!vacancyListOwnerContext.isLoading && vacancyListOwnerContext.data.data.map((vacancy) => <VacancyItem key={vacancy.id}  vacancy={vacancy } onInvite={() => handleInvite(vacancy)}/>)}
       </div>
     </Card>
   )
+}
+
+export default function CardMatching(props: Props) {
+  return (<CvEvaluationSimpleWrapper cvTitle={props.cv.title}>
+    <VacancyListOwnerWrapper limit={5}>
+      <CardMatchingInner {...props}/>
+    </VacancyListOwnerWrapper>
+  </CvEvaluationSimpleWrapper>)
 }
