@@ -35,8 +35,11 @@ interface Props extends IField<IFile[] | null> {
   maxSize?: number
   labelLoading?: string
   dropzoneTitle?: string | ReactElement
+  dropZoneStyle?:  'row' | 'column' | undefined
   className?: string
   fileListClassName?: string
+  width?: number
+  height?: number
 }
 
 export default function FileListField(props: Props) {
@@ -65,7 +68,7 @@ export default function FileListField(props: Props) {
   }, [files])
 
   const handleDelete = async (file: IFileListItem) => {
-    
+
     if (field.value) {
       try {
         setFiles(files => files.filter(f => f.id !== file.id))
@@ -146,9 +149,12 @@ export default function FileListField(props: Props) {
         isImage={props.isImage}
         onDrop={onDrop}
         maxFiles={props.maxFiles}
-        maxSize={props.maxSize ?? 1024*1024*5}
+        maxSize={props.maxSize ?? 1024*1024*3.5}
         title={props.dropzoneTitle ?? props.label as string}
         accept={dropzoneAccept}
+        style={props.dropZoneStyle}
+        width={props.width}
+        height={props.height}
         />
       <div className={classNames(styles.files, props.fileListClassName)}>
         {files.map(file => <FileListItem

@@ -75,8 +75,7 @@ export default function AccountProfileForm(props: Props) {
                 isImage
                 name='image'
                 withCrop
-                description={<p>Drag & drop image upload. <br /> You can use image smaller than 3.5MB and at least 752px by 480px.</p>}
-                dropZoneClassName={styles.dropZone}
+                dropZoneStyle={'row'}
                 accept={[FileUploadAcceptType.Image]}
               />
               <InputField

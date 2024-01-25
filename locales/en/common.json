@@ -317,7 +317,7 @@
   "company_tab_offices": "Offices",
   "company_tab_team": "Team",
 
-
+  "company_details_form_field_logo": "The company logo helps to distinguish your\n profile from many others.",
   "company_details_form_field_name": "Company name",
   "company_details_form_field_website": "Website",
   "company_details_form_field_employees-num": "Number of employees",
@@ -353,10 +353,6 @@
   "team_title": "Team members",
   "team_form_title": "Invite Team Members",
   "team_form_field_email": "Email",
-  "form_button_save": "Save",
-  "form_button_cancel": "Cancel",
-
-  "form_field_search": "Search",
 
   "login_title": "Login to the Jobbro",
   "login_field_email": "Email",
@@ -692,5 +688,27 @@
   "employee_settings_account_delete_title": "Account deletion",
 
   "employee_settings_account_delete_desc": " This section allows you to permanently remove your account from our platform. If you no longer wish to use our services, you can initiate the account deletion process here. Please note that this action is irreversible and will result in the deletion of all your personal data associated with the\n            account.",
-  "employee_settings_account_delete_show_more": "Show more"
+  "employee_settings_account_delete_show_more": "Show more",
+
+  "form_button_save": "Save",
+  "form_button_cancel": "Cancel",
+
+  "form_field_search": "Search",
+  "form_field_file_image": "Drag & drop image upload.",
+  "form_field_file_image_only_size": "Drag & drop image upload.\n You can use image smaller than {{size}}.",
+  "form_field_file_image_size_width": "Drag & drop image upload.\n You can use image smaller than {{size}} and at least {{width}} by {{height}}.",
+
+  "form_field_file_image_multi": "Drag & drop images upload. You can use {{count}} images.",
+  "form_field_file_image_multi_only_size": "Drag & drop images upload.\n You can use {{count}} images smaller than {{size}}.",
+  "form_field_file_image_multi_size_width": "Drag & drop images upload.\n You can use {{count}} images smaller than {{size}} and at least {{width}} by {{height}}.",
+
+  "form_field_file_file": "Drag & drop file upload.",
+  "form_field_file_file_only_size": "Drag & drop file upload.\n You can use file smaller than {{size}}.",
+
+  "form_field_file_file_multi": "Drag & drop file upload.\n You can use {{count}} files.",
+  "form_field_file_file_multi_only_size": "Drag & drop file upload.\n You can use {{count}} files smaller than {{size}}.",
+  "form_field_file_file_drag_drop": "Drop file to upload them",
+  "form_field_file_file_drag_drop_multi": "Drop files to upload them",
+  "form_field_file_image_drag_drop": "Drop image to upload them",
+  "form_field_file_image_drag_drop_multi": "Drop images to upload them"
 }

@@ -81,12 +81,15 @@ export default function CompanyCareerForm(props: Props) {
         </Card>
         <Card title={t('company_career_form_section_gallery')}>
           <div className={styles.wrapper}>
+
             <FileListField
               isImage
               name='images'
               accept={[FileUploadAcceptType.Image]}
+              dropZoneStyle={'column'}
               className={styles.dropZone}
               fileListClassName={styles.fileList}
+              maxFiles={5}
               dropzoneTitle=
                 {
                   <div className={styles.text}>

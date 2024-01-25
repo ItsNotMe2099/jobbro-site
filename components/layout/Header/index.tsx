@@ -83,7 +83,7 @@ export default function Header(props: Props) {
       case MenuProfileKey.Logout:
         appContext.logout()
         setTimeout(() => {
-          window.location.href = ''
+          router.push(Routes.login())
         }, 100)
         break
     }

@@ -22,11 +22,16 @@ interface Props extends IField<IFile | File | null> {
   labelNew?: string
   accept?: FileUploadAcceptType[]
   text?: ReactElement | string
+  title?: string
   label?: string
   maxSize?: number
   disableUpload?: boolean
   withCrop?: boolean
   dropZoneClassName?: string
+  dropZoneStyle?: 'row' | 'column' | undefined
+  icon?: ReactElement
+  width?: number
+  height?: number
 }
 
 export default function FileField(props: Props) {
@@ -153,9 +158,13 @@ export default function FileField(props: Props) {
           description={props.description}
           className={props.dropZoneClassName}
           maxFiles={1}
-          maxSize={props.maxSize ?? 1024*1024*5}
-          title={props.text ?? props.label as string}
+          icon={props.icon}
+          maxSize={props.maxSize ?? 1024*1024*3.5}
+          title={props.title ?? props.label as string}
           accept={dropzoneAccept}
+          style={props.dropZoneStyle}
+          width={props.width}
+          height={props.height}
         />
 
         {(field.value || previewPath) && <FileListItem
