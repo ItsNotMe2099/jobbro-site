@@ -29,6 +29,7 @@ export interface IProfile extends TimeStamp {
   statsShowNewCVsCount: boolean,
   ownerId: null,
   image: IFile | null,
+  professionalLink: string | null
   country: IGeoName,
   city: IGeoName,
 }

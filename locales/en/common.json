@@ -684,5 +684,13 @@
   "form_field_validation_password_match": "Passwords must match",
   "form_field_validation_password": "Min length 8 symbols",
 
-  "search_jobs_show_on_map": "Show on map"
+  "search_jobs_show_on_map": "Show on map",
+
+
+  "employee_settings_profession_link": "Professional link",
+  "employee_settings_field_profession_link": "LinkedIn",
+  "employee_settings_account_delete_title": "Account deletion",
+
+  "employee_settings_account_delete_desc": " This section allows you to permanently remove your account from our platform. If you no longer wish to use our services, you can initiate the account deletion process here. Please note that this action is irreversible and will result in the deletion of all your personal data associated with the\n            account.",
+  "employee_settings_account_delete_show_more": "Show more"
 }

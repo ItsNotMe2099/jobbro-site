@@ -74,12 +74,14 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
   const token = context.req.cookies[CookiesType.accessToken]
   try {
     const job = await VacancyRepository.fetchById(id, token)
+    console.log('job1', job)
     return {
       props: {
         job
       }
     }
   }catch (e) {
+    console.error(e)
     if(e instanceof RequestError){
       if(e.isNotFoundError){
         return {

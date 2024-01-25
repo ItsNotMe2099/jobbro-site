@@ -12,13 +12,15 @@
   width: 100%;
   top: -180px;
   opacity: 0;
+  visibility: hidden;
   transition: .2s ease-in-out;
 }
 
 .active {
   opacity: 1;
+  visibility: visible;
 }
-  
+
 .option {
   display: flex;
   @include list(8px, true);
@@ -29,19 +31,18 @@
     height: 40px;
   }
 }
-  
+
 .desc {
   display: flex;
   flex-direction: column;
   @include list(4px, false);
 }
-  
+
 .main {
   @include mainText;
 }
-  
+
 .text {
   @include smallText;
   color: $text-secondary;
 }
-  

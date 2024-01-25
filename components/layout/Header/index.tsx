@@ -48,7 +48,7 @@ export default function Header(props: Props) {
   ] : [
     { label: t('header_menu_search_jobs'), link: Routes.search },
     { label: t('header_menu_create_resume'), link: '/' },
-    { label: t('header_menu_login'), link: Routes.login() },
+    { label: t('header_menu_login'), link: Routes.login(router.asPath) },
   ])
     const accountOptions = [
 
@@ -101,7 +101,7 @@ export default function Header(props: Props) {
         )}
         {isTabletWidth && <Link href={menu[0].link} className={styles.item}>{menu[0].label}</Link>}
       </div>
-      
+
       {appContext.isLogged &&  <div className={styles.controls}>
         <LanguageSelector/>
         <HeaderButton<string>  dropdownClassName={styles.dropDownNotifications} badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])} icon={<ChatSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
