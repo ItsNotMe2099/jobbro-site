@@ -25,18 +25,19 @@ export default function ApplyForJobFirstStep(props: Props) {
       <FileField
         name='cv'
         accept={[FileUploadAcceptType.Pdf]}
-        description={<p>Drag & drop pdf file to upload</p>}
+        description={<div>Drag & drop pdf file to upload</div>}
         disableUpload={true}
         validate={Validator.required}
+        dropZoneClassName={styles.dropZone}
       />
       <FileField
         isImage
         name='image'
         withCrop
-        description={<p>Drag & drop image upload. <br /> You can use image smaller than 3.5MB and at least 752px by 480px.</p>}
-        dropZoneClassName={styles.dropZone}
         accept={[FileUploadAcceptType.Image]}
+        description={'Select your photo to upload. Use 1 image smaller than 3.5MB and at least 752px by 480px.'}
         disableUpload={true}
+        dropZoneClassName={styles.dropZone}
         validate={Validator.required}
       />
       <InputField name='name' label={'Name'}

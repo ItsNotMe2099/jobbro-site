@@ -6,4 +6,5 @@ export interface ICurrentUserUpdateRequest {
   patronymic?: string | null
   position?: string | null,
   image: IFile | null,
+  professionalLink?: string | null
 }

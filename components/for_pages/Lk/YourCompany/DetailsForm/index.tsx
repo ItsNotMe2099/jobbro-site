@@ -4,7 +4,7 @@ import InputField from '@/components/fields/InputField'
 import SelectField from '@/components/fields/SelectField'
 import RichTextField from '@/components/fields/RichTextField'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
-import {SnackbarType} from '@/types/enums'
+import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
 import { Form, FormikProvider, useFormik } from 'formik'
 import {IBenefit} from '@/data/interfaces/IBenefit'
 import IFile from '@/data/interfaces/IFile'
@@ -23,8 +23,12 @@ import ServiceCategoryField from '@/components/fields/ServiceCategoryField'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
+import FileField from '@/components/fields/Files/FileField'
+import Validator from '@/utils/validator'
+import AddImageHorSvg from '@/components/svg/AddImageHorSvg'
 
 interface IFormData {
+  logo: Nullable<IFile>
   name: Nullable<string>
   url: Nullable<string>
   employeesCount: Nullable<number>
@@ -76,6 +80,7 @@ export default function CompanyDetailsForm(props: Props) {
   }
 
   const initialValues: IFormData = {
+    logo: companyOwnerContext?.company?.logo ?? null,
     name: companyOwnerContext.company?.name ?? '',
     url: companyOwnerContext.company?.url ?? '',
     employeesCount: companyOwnerContext.company?.employeesCount ?? null,
@@ -98,8 +103,24 @@ export default function CompanyDetailsForm(props: Props) {
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <FormErrorScroll formik={formik} />
+        <Card className={styles.logoCard}>
+          <FileField
+            isImage
+            name='logo'
+            icon={<div className={styles.logoIcon}>
+              <AddImageHorSvg className={styles.icon} />
+              <div className={styles.logoIconLabel}>Add logo</div>
+            </div>}
+            dropZoneClassName={styles.logoDropZone}
+            dropZoneStyle={'row'}
+            description={t('company_details_form_field_logo')}
+            accept={[FileUploadAcceptType.Image]}
+            validate={Validator.required}
+          />
+        </Card>
         <Card title={t('company_details_form_section_details')}>
             <div className={styles.wrapper}>
+
               <InputField
                 className={styles.select}
                 label={t('company_details_form_field_name')} name='name'

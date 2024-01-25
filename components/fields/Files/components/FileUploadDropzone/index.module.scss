@@ -1,14 +1,29 @@
 @import "styles/index";
 
 .root {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 16px;
   border: 2px solid $green;
-  padding: 27px 39px 39px 32px;
-
+  padding: 27px 32px 27px 32px;
+  &.row{
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 24px;
+    .description{
+      margin-top: -16px;
+    }
+  }
+  &.column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    column-gap: 24px;
+  }
   svg {
     flex-shrink: 0;
   }
@@ -31,7 +46,12 @@
 }
 
 .description {
-  font-size: 14px;
+  font-size: 16px;
+  white-space: pre-line;
+  color: $text-secondary;
+  font-weight: 400;
+  line-height: 120%;
+
 }
 
 .icon {}

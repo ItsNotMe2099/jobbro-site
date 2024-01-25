@@ -135,7 +135,7 @@ export default class Formatter {
 
 
   static formatSize(bytes: number | undefined) {
-    const sufixes = ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'EB', 'ZB', 'YB']
+    const sufixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
     const i = Math.floor(Math.log(bytes ?? 0) / Math.log(1024))
     return !bytes && '' || ((bytes ?? 0) / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
   };

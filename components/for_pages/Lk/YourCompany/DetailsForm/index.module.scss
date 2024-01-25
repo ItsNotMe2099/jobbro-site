@@ -43,3 +43,22 @@
     margin: 0;
     margin-right: 16px;
 }
+.logoDropZone{
+  border: none;
+  padding: 24px;
+}
+.logoCard{
+  padding: 0px;
+}
+.logoIcon{
+  border-radius: 16px;
+  border: 2px solid $green;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
+  font-weight: 400;
+}

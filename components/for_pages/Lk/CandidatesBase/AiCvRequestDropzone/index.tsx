@@ -36,7 +36,7 @@ export default function AiCvRequestDropzone(props: Props) {
       </StickyFab>
 
       {error && <div className={styles.error}>{error}</div>}
-      {isDragActive && <DropzoneOverlay show={isDragActive} title={'Загрузить фото'} />}
+      {isDragActive && <DropzoneOverlay show={isDragActive} isMulti={true}/>}
     </div>
   )
 }

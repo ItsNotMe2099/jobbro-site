@@ -80,6 +80,7 @@ export function ChatFileUploadModal(props: Props) {
             <ModalBody className={styles.modalBody} fixed>
             <FileListField
               name='assets'
+              dropZoneStyle={'column'}
               accept={[FileUploadAcceptType.Image, FileUploadAcceptType.Document, FileUploadAcceptType.Archives]}
             />
             </ModalBody>
