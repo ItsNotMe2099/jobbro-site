@@ -128,7 +128,7 @@ export default function FileField(props: Props) {
   const onDrop = async (acceptedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => {
     if (acceptedFiles.length && props.withCrop) {
       if(isTabletWidth) {
-        appContext.showBottomSheet<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: acceptedFiles[0], onEdit: (image: File) => {
+        appContext.showBottomSheetOnTop<ICropAvatarModalProps>(ModalType.CropAvatarModal, {image: acceptedFiles[0], onEdit: (image: File) => {
           downloadFile(image)
         }})
         return

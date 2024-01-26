@@ -8,45 +8,86 @@ import {CookiesType, ModalType} from '@/types/enums'
 import Layout from '@/components/layout/Layout'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Button from '@/components/ui/Button'
-import {useRef} from 'react'
+import {useEffect, useMemo, useRef, useState} from 'react'
 import {useAppContext} from '@/context/state'
 import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import useTranslation from 'next-translate/useTranslation'
-import {RequestError} from '@/types/types'
+import {Nullable, RequestError} from '@/types/types'
 import ChatOnPage from '@/components/for_pages/Common/ChatOnPage'
 import ApplyForJobForm from '@/components/for_pages/Common/ApplyForJobForm'
 import {useEmployeeAiCvRequestsContext} from '@/context/employee_cv_request_state'
-import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
+import {IApplyForJobModal} from '@/components/modals/ApplyForJobModal'
+import {IJobChatModal} from '@/components/modals/JobChatModal'
+import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
+import ContentLoader from '@/components/ui/ContentLoader'
+import {IApplication} from '@/data/interfaces/IApplication'
 
+enum SideBarType{
+  Apply = 'apply',
+  Calendar = 'calendar',
+  Chat = 'chat'
+}
 interface Props {
   job: IVacancyWithCurrentUserApply
 }
 
 const JobPageInner = (props: Props) => {
   const appContext = useAppContext()
+  const [newApplication, setNewApplication] = useState<Nullable<IApplication>>(null)
   const {isTabletWidth} = appContext.size
   const {isSmDesktopWidth} = appContext.size
   const { t } = useTranslation()
   const ref = useRef<HTMLDivElement | null>(null)
-
+  const hasApplication = !!newApplication || (!!props.job.applicationByCurrentUser || !!props.job.proposalToCurrentUser)
   const employeeAiCvRequests = useEmployeeAiCvRequestsContext()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
+  const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
 
-  const openApplicationModal = () => {
-    if(isTabletWidth) {
-      appContext.showBottomSheet(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
-      return
+  useEffect(() => {
+    const subscriptionApplication = appContext.applicationCreateState$.subscribe((application) => {
+      setNewApplication(application)
+    })
+    return () => {
+      subscriptionApplication.unsubscribe()
     }
+  }, [])
+  const sideBarType = useMemo<SideBarType>(() => {
+    if(employeeAiCvRequests.isShowApplyForm ){
+      return SideBarType.Apply
+    }else if(!employeeAiCvRequests.isShowApplyForm && hasApplication){
+      return SideBarType.Chat
+    }else{
+      return SideBarType.Calendar
+    }
+  }, [employeeAiCvRequests.isShowApplyForm, hasApplication])
+  const openApplicationModal = () => {
     appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
   }
 
-
+  const openApplyModal = () => {
+    switch (sideBarType){
+      case SideBarType.Apply:
+        appContext.showBottomSheet<IApplyForJobModal>(ModalType.ApplyForJobModal, {vacancyId: props.job.id})
+        break
+      case SideBarType.Calendar:
+        if(!hasApplication){
+          appContext.showBottomSheet(ModalType.MyEventsModal)
+        }else{
+          appContext.showBottomSheet(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
+        }
+        break
+      case SideBarType.Chat:
+        appContext.showBottomSheet(ModalType.JobChatModal, {vacancyId: props.job.id, cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId} as IJobChatModal)
+        break
+    }
+ }
+console.log('canShowContent',  canShowContent, sideBarType)
 
   return (<Layout hideTabbar>
       <div className={styles.root}>
         <div ref={ref} className={styles.container} id='idVacancyContainer'>
           <JobPreview job={props.job} company={props.job.company}/>
-          {!isSmDesktopWidth && (request && (!([AiRequestStatus.InQueue, AiRequestStatus.InProgress] as AiRequestStatus[]).includes(request.status) && !(request?.status === AiRequestStatus.Finished && request.vacancyId === props.job.id && !request.cv?.isChecked))) &&
+          {!isSmDesktopWidth  && canShowContent &&  sideBarType !== SideBarType.Apply && !hasApplication && !(request && request.vacancyId === props.job.id) &&
           <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => openApplicationModal()}>
@@ -54,11 +95,16 @@ const JobPageInner = (props: Props) => {
             </Button>
           </FormStickyFooter>}
         </div>
-        {!isSmDesktopWidth && (!props.job.applicationByCurrentUser && !props.job.proposalToCurrentUser) &&
+        {isSmDesktopWidth && !canShowContent && <ContentLoader isOpen={true} style={'block'}/>}
+        {canShowContent && isTabletWidth &&
+          <Button color='green' onClick={openApplyModal} font='normal16' styleType='large' className={styles.applyButton}>Apply</Button>
+        }
+        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Apply &&
           <ApplyForJobForm vacancyId={props.job.id}/>
         }
-        {!isSmDesktopWidth && (props.job.applicationByCurrentUser || props.job.proposalToCurrentUser) &&
-        <ChatOnPage vacancyId={props.job.id} cvId={props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
+        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
+        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
+        <ChatOnPage vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
       </div>
     </Layout>
   )

@@ -48,13 +48,13 @@ const ApplicationCreateModalInner = (props: Props) => {
       return
     }
     try {
-      await ApplicationRepository.create({
+     const application = await ApplicationRepository.create({
         vacancyId: args?.vacancyId,
         cvId: selectedCv.id
       })
       showToast({title: t('toast_apply_created_title'), text: t('toast_apply_created_desc')})
       appContext.hideModal()
-
+      appContext.applicationCreateState$.next(application)
     } catch (err) {
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
