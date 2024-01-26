@@ -25,7 +25,7 @@ export interface ICropAvatarModalProps {
 
 export default function CropAvatarModal(props: Props) {
   const appContext = useAppContext()
-  const args = appContext.bottomSheetOnTopArguments as ICropAvatarModalProps
+  const args = appContext.bottomSheetOnTopArguments as ICropAvatarModalProps ?? appContext.modalArguments as ICropAvatarModalProps
   const editorRef = useRef<AvatarEditor>(null!)
   const [cropRadius, setCropRadius] = useState(100)
   const { t } = useTranslation()
@@ -36,13 +36,21 @@ export default function CropAvatarModal(props: Props) {
       const file = new File([blob as Blob], 'avatar.png')
       args.onEdit(file)
       props.onClose&&props.onClose()
-      appContext.hideBottomSheetOnTop()
+      if(appContext.bottomSheetOnTop) {
+        appContext.hideBottomSheetOnTop()
+      }else{
+        appContext.hideModal()
+      }
     })
   }
 
   const close = () => {
     props.onClose?.()
-    appContext.hideBottomSheetOnTop()
+    if(appContext.bottomSheetOnTop) {
+      appContext.hideBottomSheetOnTop()
+    }else{
+      appContext.hideModal()
+    }
   }
 
   const body = (

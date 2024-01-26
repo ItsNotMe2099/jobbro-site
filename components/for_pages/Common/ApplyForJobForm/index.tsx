@@ -165,6 +165,9 @@ const ApplyForJobFormInner = (props: Props) => {
         {formToShow === FormToShow.Processing && <Spinner size={24}/>}
       </div>}
       {body}
+      <div className={styles.footer}>
+        {footer}
+      </div>
     </div>
   )
 }
