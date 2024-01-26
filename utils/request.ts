@@ -73,9 +73,9 @@ async function request<T = any>(options: string | Options): Promise<T> {
   })
 
   if (res.status === 401) {
-    Cookies.remove(CookiesType.accessToken)
+   // Cookies.remove(CookiesType.accessToken)
     if (isClient) {
-      window.location.replace('/')
+      //window.location.replace('/')
     }
   }
 

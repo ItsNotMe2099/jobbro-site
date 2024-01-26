@@ -18,6 +18,7 @@ import ChevronDownSvg from '@/components/svg/ChevronDownSvg'
 import { colors } from '@/styles/variables'
 import SearchSvg from '@/components/svg/SearchSvg'
 import FieldLabel from '@/components/fields/FieldLabel'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props<T> {
   selectProps?: Nullable<SelectProps>,
@@ -39,6 +40,7 @@ export default function Select<T>(props: Props<T>) {
   const selected = props.options.find(item => item.value == props.value)
   const [focused, setFocus] = useState(false)
   const [ref, press, hover] = usePressAndHover()
+  const {t} = useTranslation()
 
   return (
     <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
@@ -48,7 +50,7 @@ export default function Select<T>(props: Props<T>) {
       <ReactSelect<IOption<T>, false, GroupBase<IOption<T>>>
         value={selected as any}
         isClearable={props.resettable}
-        noOptionsMessage={(v) => props.noOptionsMessage ?? 'Нет результатов'}
+        noOptionsMessage={(v) => props.noOptionsMessage ?? t('form_field_select_no_results')}
         menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
         menuPlacement={'bottom'}
         className={classNames({
@@ -98,7 +100,7 @@ interface AsyncProps<T> {
   menuPosition?: 'fixed' | 'absolute'
   defaultOption?: Nullable<IOption<T>>
 }
-export function SelectAsync<T>(props: AsyncProps<T>) {  
+export function SelectAsync<T>(props: AsyncProps<T>) {
   const [ref, press, hover] = usePressAndHover()
   const selectRef = useRef<SelectInstance<IOption<T>, false, GroupBase<IOption<T>>> | null>(null)
   const mainRef = useRef<any | null>(null)
