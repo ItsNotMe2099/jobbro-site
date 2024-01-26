@@ -28,6 +28,7 @@ export default function BottomSheetContainer(props: Props) {
           onClose={handleClose}
           snapPoints={[400]}
           disableDrag={appContext.modalNonSkippable}
+          disableScrollLocking
         >
           <ApplicationCreateModal isBottomSheet={true} />
         </Sheet>
@@ -37,6 +38,7 @@ export default function BottomSheetContainer(props: Props) {
           onClose={handleClose}
           snapPoints={[650]}
           disableDrag={appContext.modalNonSkippable}
+          disableScrollLocking
         >
           <ApplyForJobModal isBottomSheet={true} />
         </Sheet>
@@ -45,6 +47,7 @@ export default function BottomSheetContainer(props: Props) {
           isOpen={appContext.bottomSheetOnTop == ModalType.CropAvatarModal}
           onClose={handleClose}
           snapPoints={[700]}
+          disableScrollLocking
         >
           <CropAvatarModal isBottomSheet={true} />
         </Sheet>
@@ -53,6 +56,7 @@ export default function BottomSheetContainer(props: Props) {
           isOpen={appContext.bottomSheet == ModalType.JobChatModal}
           onClose={handleClose}
           snapPoints={[700]}
+          disableScrollLocking
         >
           <JobChatModal isBottomSheet={true} />
         </Sheet>
@@ -60,6 +64,7 @@ export default function BottomSheetContainer(props: Props) {
           isOpen={appContext.bottomSheet == ModalType.MyEventsModal}
           onClose={handleClose}
           snapPoints={[700]}
+          disableScrollLocking
         >
           <MyEventsModal isBottomSheet={true} />
         </Sheet>
