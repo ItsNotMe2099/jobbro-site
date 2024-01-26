@@ -710,5 +710,7 @@
   "form_field_file_file_drag_drop": "Drop file to upload them",
   "form_field_file_file_drag_drop_multi": "Drop files to upload them",
   "form_field_file_image_drag_drop": "Drop image to upload them",
-  "form_field_file_image_drag_drop_multi": "Drop images to upload them"
+  "form_field_file_image_drag_drop_multi": "Drop images to upload them",
+
+  "hour": "hour"
 }

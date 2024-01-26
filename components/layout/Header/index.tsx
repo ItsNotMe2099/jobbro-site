@@ -103,7 +103,7 @@ export default function Header(props: Props) {
       </div>
 
       {appContext.isLogged &&  <div className={styles.controls}>
-        <LanguageSelector/>
+        {!isTabletWidth && <LanguageSelector/>}
         <HeaderButton<string>  dropdownClassName={styles.dropDownNotifications} badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])} icon={<ChatSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
         <HeaderButton<string> dropdownClassName={styles.dropDownChats} badge={notificationContext.getTotalByTypes([
           NotificationType.newApplication ,
