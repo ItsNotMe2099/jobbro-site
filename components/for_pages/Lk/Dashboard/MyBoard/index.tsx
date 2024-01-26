@@ -79,7 +79,7 @@ const LkDashboardMyBoard = (props: Props) => {
                 <div className={styles.label}>{t('dashboard_saved_time_ai')}</div>
               </div>
               <div className={styles.right}>
-                {dashStatistic?.savedTimeWithAi > 0 ? (dashStatistic?.savedTimeWithAi  > 0 ? Math.ceil(dashStatistic!.savedTimeWithAi) : dashStatistic?.savedTimeWithAi ) :  ''}{(dashStatistic?.savedTimeWithAi ?? 0) > 0 && ` ${t('hour')}`}
+                {(dashStatistic?.savedTimeWithAi ?? 0) > 0 ? ((dashStatistic?.savedTimeWithAi ?? 0) > 0 ? Math.ceil(dashStatistic!.savedTimeWithAi) : dashStatistic?.savedTimeWithAi ) :  ''}{(dashStatistic?.savedTimeWithAi ?? 0) > 0 && ` ${t('hour')}`}
               </div>
             </div>
             <div className={styles.item}>
