@@ -11,6 +11,14 @@ module.exports = nextTranslate({
     DADATA_KEY:  process.env.DADATA_KEY,
     YA_METRIKA_ID: Number.parseInt(process.env.YA_METRIKA_ID ?? '0'),
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.jobbro.dev.firelabs.ru',
+      },
+    ],
+  },
   serverRuntimeConfig: {
     HOST_INNER: process.env.HOST_INNER,
     ROBOTS_FILE: process.env.ROBOTS_FILE,

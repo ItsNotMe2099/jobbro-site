@@ -42,7 +42,7 @@ export default function AvatarCircular(props: Props) {
     <div className={classNames([styles.root,props.className], {[styles.withIcon]: !props.file})} style={inlineStyle}>
       {props.file && <img src={ImageHelper.urlFromFile(props.file, Preset.xsCrop)} alt={props.alt} className={styles.image} />}
       {!props.file && !props.initials && icon}
-      {props.initials ? props.initials : null}
+      {props.initials}
     </div>
   )
 }

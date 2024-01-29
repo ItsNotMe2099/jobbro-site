@@ -4,6 +4,8 @@
     display: flex;
     padding-top: 14px;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .left {

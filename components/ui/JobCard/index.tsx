@@ -14,6 +14,7 @@ import useTranslation from 'next-translate/useTranslation'
 import { colors } from '@/styles/variables'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import BookmarkOutlinedSvg from '@/components/svg/BookmarkOutlinedSvg'
+import { FILES } from '@/types/constants'
 
 interface Props {
   vacancy: IVacancy,
@@ -37,7 +38,6 @@ export default function JobCard({vacancy, onSave}: Props) {
       appContext.showModal<ApplicationCreateModalArguments>(ModalType.ApplicationCreate, {vacancyId: vacancy.id})
     }
   }
-  
 
   return (<div className={styles.root}> 
       <button onClick={() => onSave(vacancy)} className={styles.bookmark}>
@@ -54,7 +54,7 @@ export default function JobCard({vacancy, onSave}: Props) {
     <div className={styles.top}>
       {vacancy.company.logo &&
         <div className={styles.imageWrapper}>
-          <Image src={vacancy.company.logo.source} alt={vacancy.company.name||''} width={68} height={68}/>
+          <Image src={FILES + vacancy.company.logo.source} alt={vacancy.company.name||''} width={68} height={68}/>
         </div>
       }
       <p className={styles.title}>{vacancy.name}</p>

@@ -1,7 +1,7 @@
-import styles from 'components/for_pages/Cv/CvForm/index.module.scss'
+import styles from './index.module.scss'
 import {FieldArray, Form, FormikProvider, useFormik} from 'formik'
 import {FileUploadAcceptType, SnackbarType} from '@/types/enums'
-import {useRef} from 'react'
+import { useRef} from 'react'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
@@ -85,6 +85,7 @@ export default function CvForm(props: Props) {
   const cv = props.cv
   let ref = useRef<HTMLFormElement | null>(null)
 
+
   const handleSubmit = async (data: ICvFormData) => {
     const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
     const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
@@ -117,11 +118,9 @@ export default function CvForm(props: Props) {
     try {
       props.onSubmit(newData as DeepPartial<ICV>)
     } catch (err) {
-      console.error(err)
       if (err instanceof RequestError) {
         appContext.showSnackbar(err.message, SnackbarType.error)
       }
-
     }
   }
 
@@ -179,38 +178,60 @@ export default function CvForm(props: Props) {
         <div className={styles.root}>
           <Card title={t('cv_form_section_specialization')}>
             <div className={styles.wrapper}>
-              <InputField name={'title'} label={t('cv_form_field_title')}
-                          validate={Validator.required}
+              <InputField 
+              name={'title'} 
+              label={t('cv_form_field_title')}                          
+              validate={Validator.required}
               />
               <div className={styles.line}>
-                <ServiceCategoryField label={t('cv_form_field_category')} className={styles.select} name='categoryId'/>
-                <ServiceCategoryField label={t('cv_form_field_sub_category')} categoryId={formik.values.categoryId}
-                                      className={styles.select} name='subCategoryId'/>
+                <ServiceCategoryField 
+                name='categoryId'
+                label={t('cv_form_field_category')} 
+                className={styles.select} 
+                />
+                <ServiceCategoryField 
+                name='subCategoryId'
+                label={t('cv_form_field_sub_category')} 
+                categoryId={formik.values.categoryId}
+                className={styles.select} 
+                />
               </div>
             </div>
           </Card>
           <Card title={t('cv_form_section_details')}>
             <div className={styles.wrapper}>
               <FileField
-                isImage
-                withCrop
-                name='image'
-                accept={[FileUploadAcceptType.Image]}
+              isImage
+              withCrop
+              name='image'
+              accept={[FileUploadAcceptType.Image]}
               />
-              <InputField name='name' label={t('cv_form_field_name')}
-                          validate={Validator.required}
+              <InputField 
+              name='name' 
+              label={t('cv_form_field_name')}
+              validate={Validator.required}
               />
               <div className={styles.line}>
                 <div className={styles.location}>
-                  <CountryField className={styles.select} name={'country'} label={t('cv_form_field_country')} onChange={handleChangeCountry}/>
-                  <CityField className={styles.select}  name={'city'} label={t('cv_form_field_city')}
-                             country={formik.values.country?.country}/>
-                </div>
-                <SelectField<Relocation>
+                  <CountryField 
+                  className={styles.select} 
+                  name={'country'} 
+                  label={t('cv_form_field_country')} 
+                  onChange={handleChangeCountry}
+                  />
+                  <CityField 
+                  className={styles.select}  
+                  name={'city'} 
+                  label={t('cv_form_field_city')}
+                  country={formik.values.country?.country}
+                  />
+                  <SelectField<Relocation>
                   className={styles.select}
                   label={t('cv_form_field_relocate')} name={'relocation'}
                   resettable={true}
-                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.yes}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.no}]}/>
+                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.yes}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.no}]}
+                  />
+                </div>
               </div>
             </div>
           </Card>
@@ -280,7 +301,7 @@ export default function CvForm(props: Props) {
               {arrayHelpers => (
                 <div className={styles.root} data-field={'educationInfo'}>
                   <div className={styles.fields}>
-                    {(formik.values.educationInfo ?? []).map((i, index) => <div className={styles.line}>
+                    {(formik.values.educationInfo ?? []).map((i, index) => <div className={styles.column}>
                         <div key={`education_${index}`}
                              className={classNames(styles.fieldListLine, styles.fields)}>
                           <InputField name={`educationInfo[${index}].institution`} label={t('cv_form_field_education_institution')}/>
@@ -348,18 +369,16 @@ export default function CvForm(props: Props) {
               {arrayHelpers => (
                 <div className={styles.root} data-field={'experienceInfo'}>
                   <div className={styles.fields}>
-                    {(formik.values.experienceInfo ?? []).map((i, index) => <div className={styles.line}>
+                    {(formik.values.experienceInfo ?? []).map((i, index) => <div className={styles.column}>
                       <div key={`experience_${index}`}
                            className={classNames(styles.fieldListLine, styles.fields)}>
 
-                        <InputField label={t('cv_form_field_experience_employer_name')} className={styles.select}
+                        <InputField  resettable label={t('cv_form_field_experience_employer_name')} className={styles.select}
                                     name={`experienceInfo[${index}].company`} validate={Validator.required}/>
-                        <CountryField label={t('cv_form_field_experience_country')} className={styles.select}
+                        <CountryField label={t('cv_form_field_experience_country')} resettable className={styles.select}
                                       name={`experienceInfo[${index}].country`}/>
-                        <div className={styles.line}>
-                          <DateYearMonthField name={`experienceInfo[${index}].fromMonthYear`} label={t('cv_form_field_experience_from')}/>
-                          <DateYearMonthField name={`experienceInfo[${index}].toMonthYear`} label={t('cv_form_field_experience_to')}/>
-                        </div>
+                        <DateYearMonthField name={`experienceInfo[${index}].fromMonthYear`} label={t('cv_form_field_experience_from')}/>
+                        <DateYearMonthField name={`experienceInfo[${index}].toMonthYear`} label={t('cv_form_field_experience_to')}/>
                         <InputField name={`experienceInfo[${index}].position`} label={t('cv_form_field_experience_position')}
                                     validate={Validator.required}/>
                         <RichTextField name={`experienceInfo[${index}].description`}/>

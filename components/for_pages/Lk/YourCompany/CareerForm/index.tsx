@@ -90,6 +90,8 @@ export default function CompanyCareerForm(props: Props) {
               className={styles.dropZone}
               fileListClassName={styles.fileList}
               maxFiles={5}
+              width={752}
+              height={480}
               dropzoneTitle=
                 {
                   <div className={styles.text}>

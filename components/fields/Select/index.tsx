@@ -51,7 +51,7 @@ export default function Select<T>(props: Props<T>) {
         value={selected as any}
         isClearable={props.resettable}
         noOptionsMessage={(v) => props.noOptionsMessage ?? t('form_field_select_no_results')}
-        menuPosition={!props.menuPosition ? 'fixed' : props.menuPosition}
+        menuPosition={!props.menuPosition ? 'absolute' : props.menuPosition}
         menuPlacement={'bottom'}
         className={classNames({
           [styles.input]: true,

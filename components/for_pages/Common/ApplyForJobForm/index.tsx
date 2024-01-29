@@ -11,7 +11,7 @@ import {Form, FormikProvider, useFormik} from 'formik'
 import {useAppContext} from '@/context/state'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import {useEmployeeAiCvRequestsContext} from '@/context/employee_cv_request_state'
-import {useMemo} from 'react'
+import { useMemo} from 'react'
 import {Nullable} from '@/types/types'
 import ApplyForJobReadyStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobReadyStep'
 import ApplyForJobProcessingStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobProcessingStep'
@@ -47,6 +47,7 @@ const ApplyForJobFormInner = (props: Props) => {
   const {t, lang} = useTranslation()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const hasRequest = !!request
+
   const handleSubmit = (data: IApplyJobAnonymouslyFormData) => {
     switch (applyJobAnonymously.stepKey) {
       case ApplyJobAnonymouslyStepKey.First:
@@ -55,7 +56,6 @@ const ApplyForJobFormInner = (props: Props) => {
       case ApplyJobAnonymouslyStepKey.Confirm:
         applyJobAnonymously.confirm(data.code!)
         break
-
     }
   }
 
@@ -66,6 +66,7 @@ const ApplyForJobFormInner = (props: Props) => {
     email: null,
     code: null,
   }
+  
   const formToShow = useMemo<Nullable<FormToShow>>(() => {
     if (!appContext.allLoaded) {
       return null
@@ -98,6 +99,7 @@ const ApplyForJobFormInner = (props: Props) => {
     }
 
   }, [applyJobAnonymously.stepKey, hasRequest, request, appContext.allLoaded])
+
   const title = useMemo(() => {
     switch (formToShow) {
       case FormToShow.Apply:
@@ -110,10 +112,12 @@ const ApplyForJobFormInner = (props: Props) => {
         return 'Resume is ready!'
     }
   }, [formToShow])
+
   const formik = useFormik({
     initialValues,
     onSubmit: handleSubmit
   })
+
   const footer = useMemo(()=> {
     switch (formToShow){
       case FormToShow.Apply:

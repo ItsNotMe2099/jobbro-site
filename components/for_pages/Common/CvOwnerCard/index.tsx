@@ -14,6 +14,7 @@ import Analytics from '@/utils/goals'
 import {Goal} from '@/types/enums'
 import {runtimeConfig} from '@/config/runtimeConfig'
 import {colors} from '@/styles/variables'
+import { useAppContext } from '@/context/state'
 
 enum MenuKey{
   Publish = 'publish',
@@ -29,6 +30,8 @@ interface Props {
 
 const CvOwnerCardInner = (props: Props) => {
   const cvContext = useCVOwnerContext()
+  const appContext  = useAppContext()
+  const {isTabletWidth} = appContext.size
   const cv = cvContext.cv!
   const router = useRouter()
 
@@ -76,7 +79,7 @@ const CvOwnerCardInner = (props: Props) => {
           <div className={styles.top}>
             <div className={styles.title}>{cv.title}</div>
             <CvOwnerCardStatus cv={cv}/>
-            <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuItemClick}/>
+            <MenuButton<MenuKey> options={menuOptions} placement={'bottom-end'} className={styles.menuButton}  onClick={handleMenuItemClick}/>
           </div>
           <div className={styles.updated}>
             Update: {Formatter.formatDateTime(cv.updatedAt)}
