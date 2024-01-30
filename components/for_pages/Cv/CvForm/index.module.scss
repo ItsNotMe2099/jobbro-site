@@ -42,6 +42,9 @@
   @include list(32px, false);
   position: relative;
   z-index: 2;
+  @include mq ($TabletWidth, max) {
+    max-width: calc(100vw - 32px);
+  }
 }
 
 .clear {
@@ -57,15 +60,10 @@
   align-items: center;
 }
 
-.column {
+.blockLine {
   @extend .line;
-  flex-direction: column;
-  width: 100%;
+  flex-wrap: nowrap;
   align-items: flex-start;
-  .fieldListLine {
-    width: 100%;
-    flex: unset;
-  }
 }
 
 .column{
@@ -125,15 +123,14 @@
   display: flex;
   flex-direction: column;
   @include list(16px, false);
+  width: 100%;
 }
 
 .remove {
   cursor: pointer;
 }
 
-.fieldListLine{
-  flex: 1;
-}
+
 
 .text {
   font-size: 16px;
@@ -151,4 +148,21 @@
   justify-content: flex-start !important;
   @include list(24px, true);
   align-items: center !important;
+}
+
+.footer {
+  max-width: calc(100vw - 420px);
+  @include mq($TabletWidth, max) {
+    max-width: unset;
+  }
+}
+
+.datesWrapper {
+  @extend .blockLine;
+  row-gap: 16px;
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+
+
 }

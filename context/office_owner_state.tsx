@@ -112,8 +112,8 @@ export function OfficeOwnerWrapper(props: Props) {
 
     return new Promise<Nullable<IOffice>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        title: t('confirm_office_title', {name: office?.name}),
-        text: t('confirm_office_delete', {name: office?.name}),
+        title: t('confirm_office_delete_title', {name: office?.name}),
+        text: t('confirm_office_delete_desc', {name: office?.name}),
          onConfirm: async () => {
           try {
             appContext.hideModal()

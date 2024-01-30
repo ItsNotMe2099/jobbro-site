@@ -159,6 +159,7 @@ export function EmployeeAiCvRequestsWrapper(props: Props) {
              linkOnClick: (e) => {
                 sendRequestSetRead(request)
                 toast.dismiss(toastId)
+                appContext.hideBottomSheet()
              }
           }, {
             data: request,

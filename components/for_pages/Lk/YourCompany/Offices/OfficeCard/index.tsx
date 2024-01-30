@@ -1,6 +1,4 @@
-import PersonSvg from '@/components/svg/PersonSvg'
 import styles from './index.module.scss'
-import { colors } from '@/styles/variables'
 import classNames from 'classnames'
 import {IOffice} from '@/data/interfaces/IOffice'
 import MenuButton from '@/components/ui/MenuButton'
@@ -44,12 +42,12 @@ const OfficeCardInner = (props: Props) => {
           <div className={styles.jobs}>
             0 {t('office_card_job')}
           </div>
-          <div className={styles.employees}>
+          {/* <div className={styles.employees}>
             <PersonSvg color={colors.textSecondary} />
             <div className={styles.quantity}>
              0
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={styles.middle}>
           <div className={styles.country}>
