@@ -66,7 +66,7 @@ const ApplyForJobFormInner = (props: Props) => {
     email: null,
     code: null,
   }
-  
+
   const formToShow = useMemo<Nullable<FormToShow>>(() => {
     if (!appContext.allLoaded) {
       return null
@@ -126,53 +126,53 @@ const ApplyForJobFormInner = (props: Props) => {
             <div className={styles.privacy}>
               By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
             </div>
-            <Button 
-            fluid 
-            type='submit' 
+            <Button
+            fluid
+            type='submit'
             color='green'
             styleType='large'
-            className={styles.btn} 
-            spinner={applyJobAnonymize.sending} 
-            onClick={() => formik.submitForm()} 
+            className={styles.btn}
+            spinner={applyJobAnonymize.sending}
+            onClick={() => formik.submitForm()}
             >
               Apply
             </Button>
           </div>
         )
       case FormToShow.Confirm:
-        return ( 
-          <Button 
-          fluid 
-          type='submit'  
+        return (
+          <Button
+          fluid
+          type='submit'
           color='green'
           styleType='large'
-          spinner={applyJobAnonymize.sending} 
-          onClick={() => formik.submitForm()} className={styles.btn} 
+          spinner={applyJobAnonymize.sending}
+          onClick={() => formik.submitForm()} className={styles.btn}
           >
             Confirm
           </Button>
         )
       case FormToShow.ShowCv:
-        return (     
-          <Button 
+        return (
+          <Button
           fluid
-          type='button' 
+          type='button'
           color='green'
-          styleType='large' 
-          className={styles.btn} 
-          href={Routes.profileResumeEdit(request!.cv!.id!)} 
+          styleType='large'
+          className={styles.btn}
+          href={Routes.profileResumeEdit(request!.cv!.id!)}
           onClick={() => {
             const toastId = `ai-cv-request-${request!.id}-${request!.status}`
             toast.dismiss(toastId)
             appContext.hideBottomSheet()
-          }} 
+          }}
           >
             Show now
           </Button>
         )
     }
   }, [formToShow])
-
+  console.log('formToShow', formToShow)
   const body = (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
