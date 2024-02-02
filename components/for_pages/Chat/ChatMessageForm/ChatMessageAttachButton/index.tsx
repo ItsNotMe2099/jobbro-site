@@ -33,6 +33,7 @@ interface Props<T> {
 
 export default function ChatMessageAttachButton<T>(props: Props<T>) {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({offset: [-8, 12], placement: 'top-start'})
 
   const handleClick = () => {
@@ -50,7 +51,7 @@ export default function ChatMessageAttachButton<T>(props: Props<T>) {
     props.onEventClick()
   }
   return (
-    <IconButton disabled={props.disabled} bgColor='grey' onClick={handleClick} ref={setRootRef}>
+    <IconButton disabled={props.disabled} bgColor={isTabletWidth?'transparent':'grey'} onClick={handleClick} ref={setRootRef}>
       <AttachSvg color={colors.textSecondary}/>
       <MenuDropdown ref={setPopperElement}
                        isOpen={isActive as boolean}

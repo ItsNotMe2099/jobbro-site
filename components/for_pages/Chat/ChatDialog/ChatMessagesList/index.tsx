@@ -24,10 +24,15 @@ export default function ChatMessagesList(props: Props) {
     return null
 
   }
-  return (<div className={styles.root} id={'chat-messages'}
-               ref={chatContext.scrollableTarget as RefObject<HTMLDivElement>}>
+  return (
+    <div 
+    className={styles.root} 
+    id={'chat-messages'}
+    ref={chatContext.scrollableTarget as RefObject<HTMLDivElement>}
+    >
       {loading && <ContentLoader style={'block'} isOpen={true}/>}
-      {!loading && !chatContext.disabled && <InfiniteScroll
+      {!loading && !chatContext.disabled && 
+        <InfiniteScroll
         dataLength={chatContext.messages.length}
         next={chatContext.fetchMore}
         scrollableTarget={'chat-messages'}
@@ -36,13 +41,18 @@ export default function ChatMessagesList(props: Props) {
         className={styles.list}
         loader={chatContext.totalMessages > 0 ? <ContentLoader style={'infiniteScroll'} isOpen={true}/> : null}
         hasMore={chatContext.totalMessages > chatContext.messages.length}
-        scrollThreshold={0.6}>
+        scrollThreshold={0.6}
+        >
         {chatContext.messages.map((i, index) => {
           const previous = index > 0 ? chatContext.messages[index - 1] : null
-          return (<div key={i.id ?? i.sid}>
-            {previous && previous.profileId !== i.profileId && <Spacer basis={10}/>}
-            <ChatMessage side={appContext.aboutMe?.id === i.profileId ? 'my' : 'other'}
-                         message={i}/></div>)
+          return (
+            <div key={i.id ?? i.sid}>
+              {previous && previous.profileId !== i.profileId && <Spacer basis={10}/>}
+              <ChatMessage 
+              message={i}
+              side={appContext.aboutMe?.id === i.profileId ? 'my' : 'other'}
+              />
+            </div>)
         })}
       </InfiniteScroll>}
       {!loading && renderChatSuggestion()}

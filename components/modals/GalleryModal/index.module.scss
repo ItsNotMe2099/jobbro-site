@@ -1,0 +1,42 @@
+@import 'styles/index';
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.modalLayout {
+  width: 640px;
+  height: 590px;
+}
+
+.modalBody {
+  height: 100%;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.image {
+  border-radius: 16px;
+}
+
+.buttonsWrapper {
+  column-gap: 10px;
+  justify-self: flex-end;
+  display: flex;
+  margin-top: 16px;
+  @include mq($TabletWidth, max) {
+    
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
+}

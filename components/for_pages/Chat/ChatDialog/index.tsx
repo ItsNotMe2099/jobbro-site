@@ -13,6 +13,7 @@ import EventOwnerForm from '@/components/for_pages/Calendar/EventOwnerForm'
 import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlotForm'
 import {Nullable} from '@/types/types'
 import ChatMessagesList from '@/components/for_pages/Chat/ChatDialog/ChatMessagesList'
+import { MyEvents } from '../../Calendar/MyEvents'
 
 interface Props {
   className?: string
@@ -28,6 +29,7 @@ interface Props {
 
 const ChatDialogInner = (props: Props) => {
   const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
   const chatContext = useChatDialogContext()
   const loading = chatContext.loading || !appContext.aboutMeLoaded
   const renderChatSuggestion = () => {
@@ -38,17 +40,31 @@ const ChatDialogInner = (props: Props) => {
     return null
 
   }
-  return (<div className={classNames(styles.root, props.className)}>
-      {chatContext.chat?.cv &&
-        <PageTitle className={styles.title} title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
-                   onBack={props.onBackClick}/>}
-      {<ChatHeader hasBack={props.hasBack ?? false} showBothChatNames={props.showBothChatNames}
-                   chat={chatContext.chat}
-                   title={props.title ?? null}/>}
-      <ChatMessagesList/>
-      <div className={styles.bottom}>
-        <ChatMessageForm/>
+  return (
+    <div className={classNames(styles.root, props.className)}>
+      <div className={styles.container}>
+        {chatContext.chat?.cv &&
+          <PageTitle 
+          className={styles.title} 
+          title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
+          onBack={props.onBackClick}
+          invertColors={isTabletWidth}
+          />
+        }
+        <ChatHeader 
+        hasBack={props.hasBack ?? false} 
+        showBothChatNames={props.showBothChatNames}
+        chat={chatContext.chat||undefined}
+        title={props.title ?? null}
+        />
+        <ChatMessagesList/>
+        <div className={styles.bottom}>
+          <ChatMessageForm/>
+        </div>
       </div>
+      {!isTabletWidth &&
+        <MyEvents/>
+      }
     </div>
   )
 }
