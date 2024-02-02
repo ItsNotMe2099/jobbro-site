@@ -30,11 +30,10 @@ export interface SelectFieldProps<T> extends IField<T> {
   isLoading?: boolean | undefined
   fluid?: boolean
   selectInputClassName?: string
+  style?: React.CSSProperties
 }
 
 export default function SelectField<T>(props: SelectFieldProps<T>) {
-  
-
   const [field, meta, helpers] = useField(props as any)
   const [isAddingLoading, setIsAddingLoading] = useState(false)
 
@@ -54,7 +53,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
   const uniqueKey = props.selectKey ?? `${props.name}`
 
   return (
-    <div className={classNames(styles.root, props.className, {[styles.fluid]: props.fluid})} data-field={props.name}>
+    <div className={classNames(styles.root, props.className, {[styles.fluid]: props.fluid})} data-field={props.name}  data-styles={JSON.stringify(props.style)}>
       {props.creatable ? <CreateSelectAsync<T>
         label={props.label as string}
         key={uniqueKey}
@@ -92,6 +91,7 @@ export default function SelectField<T>(props: SelectFieldProps<T>) {
         loadOptions={props.loadOptions!}
         initialAsyncData={props.initialAsyncData}
       /> : <Select<T>
+        style={props.style}
         label={props.label as string}
         key={uniqueKey} // Add a unique key to trigger re-render
         options={props.options}

@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import { Form, FormikProvider, useFormik } from 'formik'
-import { Nullable } from '@/types/types'
+import { IOption, Nullable } from '@/types/types'
 import { useRef } from 'react'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import SwitchField from '@/components/fields/SwitchField'
@@ -10,19 +10,21 @@ import Button from '@/components/ui/Button'
 import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
 import NoEyeSvg from '@/components/svg/NoEyeSvg'
+import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 
 
-interface IFormData {
-  categoryFilter: boolean
-  locationFilter: boolean
-  employmentTypeFilter: boolean
-  language: { label: string }
-  jobsPerPage: { label: string }
-  logo: boolean
-  location: boolean
-  employmentType: boolean
-  category: boolean
-}
+interface IFormData extends 
+Pick<IJobWidget, 
+'categoryFilter' | 
+'locationFilter' | 
+'employmentFilter' | 
+'language' | 
+'jobsPerPage' | 
+'showItemLogo' | 
+'showItemLocation' | 
+'showItemEmploymentType' | 
+'showItemCategory'>
+{}
 
 interface Props {
   onPreview?: () => void
@@ -33,20 +35,26 @@ export default function WidgetSettingsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
 
   const handleSubmit = async (data: IFormData) => {
-
-
+    debugger
   }
+
+  const jobsPerPageVariants: IOption<string>[] = [
+    { label: '2', value: '2' },
+    { label: '4', value: '4' },
+    { label: '8', value: '8' },
+    { label: '10', value: '10' },
+  ]
 
   const initialValues: IFormData = {
     categoryFilter: true,
     locationFilter: true,
-    employmentTypeFilter: true,
+    employmentFilter: true,
     language: { label: 'EN' },
-    jobsPerPage: { label: '25' },
-    logo: true,
-    location: true,
-    employmentType: true,
-    category: true
+    jobsPerPage: undefined,
+    showItemLogo: true,
+    showItemLocation: true,
+    showItemEmploymentType: true,
+    showItemCategory: true
   }
 
   const formik = useFormik<IFormData>({
@@ -80,7 +88,7 @@ export default function WidgetSettingsForm(props: Props) {
                     Users can narrow the jobs listed down to a specific category
                   </div>
                 </div>} />
-            <SwitchField name='employmentTypeFilter'
+            <SwitchField name='employmentFilter'
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -99,7 +107,7 @@ export default function WidgetSettingsForm(props: Props) {
             </div>
             <div className={styles.select}>
               <SelectField placeholder='Jobs Per Page' name='jobsPerPage'
-                options={[]} />
+                options={jobsPerPageVariants} />
               <div className={styles.desc}>
                 Define the number of jobs to be listed per page
               </div>

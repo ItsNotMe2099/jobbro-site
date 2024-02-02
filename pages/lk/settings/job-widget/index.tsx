@@ -9,6 +9,7 @@ import { colors } from '@/styles/variables'
 import Link from 'next/link'
 import { Routes } from '@/types/routes'
 import {HirerRole} from '@/data/enum/HirerRole'
+import JobWidget from '@/components/ui/JobWidget'
 
 interface Props {
 
@@ -40,6 +41,7 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
           </div>
         </div>
       </Card>
+      <JobWidget/>
       <Card title={'Embed code'}>
         <pre className={styles.code}>&lt;div id=&apos;jobbro-widget&apos;&gt;&lt;script&gt;&lt;/script&gt;&lt;/div&gt;</pre>
         <div className={styles.controls}>
