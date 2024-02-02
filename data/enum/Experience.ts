@@ -7,7 +7,8 @@ export enum Experience {
 
 export enum ExperienceDuration {
   NoExp = 'noExperience',
-  From1to3 = 'from1to3',
-  From3to6 = 'from3to6',
-  From6 = 'from6',
+  From1to2 = 'from1to2',
+  From3to5 = 'from3to5',
+  From6to10 = 'from6to10',
+  From10 = 'from10',
 }

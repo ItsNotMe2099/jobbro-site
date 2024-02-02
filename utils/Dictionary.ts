@@ -56,7 +56,7 @@ export default class Dictionary {
     return t(Dictionary.getWorkplaceNames()[value])
   }
 
-  //============= Experience 
+  //============= Experience
   static getExperienceNames(): {[key in Experience]: string}{
     return {
       [Experience.Junior]: 'dictionary_experience_junior',
@@ -82,9 +82,10 @@ export default class Dictionary {
   static getExperienceDurationNames(): {[key in ExperienceDuration]: string}{
     return {
       [ExperienceDuration.NoExp]: 'dictionary_experience_duration_none',
-      [ExperienceDuration.From1to3]: 'dictionary_experience_duration_1to3',
-      [ExperienceDuration.From3to6]: 'dictionary_experience_duration_3to6',
-      [ExperienceDuration.From6]: 'dictionary_experience_duration_to6',
+      [ExperienceDuration.From1to2]: 'dictionary_experience_duration_1to2',
+      [ExperienceDuration.From3to5]: 'dictionary_experience_duration_3to5',
+      [ExperienceDuration.From6to10]: 'dictionary_experience_duration_6to10',
+      [ExperienceDuration.From10]: 'dictionary_experience_duration_from10',
     }
   }
 

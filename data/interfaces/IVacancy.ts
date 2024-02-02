@@ -3,7 +3,7 @@ import {ISkill} from '@/data/interfaces/ISkill'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {IBenefit} from '@/data/interfaces/IBenefit'
 import {IKeyword} from '@/data/interfaces/IKeyword'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {Workplace} from '@/data/enum/Workplace'
 import {Employment} from '@/data/enum/Employment'
 import {IOffice} from '@/data/interfaces/IOffice'
@@ -67,6 +67,7 @@ export interface IVacancy extends TimeStamp {
   projectTitle: string;
   benefitsDescription: IVacancyPageBlock;
   experience: Experience;
+  experienceDuration: ExperienceDuration,
   workplace: Workplace;
   employment: Employment;
   languageKnowledges: {language: string, level: string}[] ;

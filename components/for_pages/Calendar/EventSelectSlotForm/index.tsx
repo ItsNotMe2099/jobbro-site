@@ -56,6 +56,7 @@ const EventSelectSlotFormInner = (props: Props) => {
         start: data.slot.split('//')[0],
         end: data.slot.split('//')[1]
       })
+      appContext.eventUpdateState$.next(res)
       props.onSubmit?.()
     } catch (err) {
       if (err instanceof RequestError) {

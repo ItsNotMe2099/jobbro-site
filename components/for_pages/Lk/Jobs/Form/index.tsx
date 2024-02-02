@@ -70,7 +70,7 @@ export interface IVacancyFormData {
   tasks: Nullable<string>
   cvRequired: Nullable<ApplicationInfoRequirements>
   coverLetterRequired: Nullable<ApplicationInfoRequirements>
-  languageKnowledges: {language: string, level: string}[] 
+  languageKnowledges: {language: string, level: string}[]
   benefits: string[]
   skills: string[]
   keywords: string[]
@@ -140,6 +140,7 @@ export default function CreateJobManuallyForm(props: Props) {
     salaryMax: vacancyContext.vacancy?.salaryMax?? null,
     salaryType: vacancyContext.vacancy?.salaryType?? null,
     experience: props.initialValuesAi?.experience ? props.initialValuesAi.experience as Experience : (vacancyContext.vacancy?.experience ?? null),
+    experienceDuration: props.initialValuesAi?.experienceDuration ? props.initialValuesAi.experienceDuration as ExperienceDuration : (vacancyContext.vacancy?.experienceDuration ?? null),
     benefitsDescription:  props.initialValuesAi?.benefitsDescription ? { description: props.initialValuesAi.benefitsDescription, visible: true } :  vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
     requirements: props.initialValuesAi?.requirements ?? vacancyContext.vacancy?.requirements?? null,
     tasks: props.initialValuesAi?.tasks ?? vacancyContext.vacancy?.tasks?? null,
@@ -240,14 +241,12 @@ export default function CreateJobManuallyForm(props: Props) {
   }
   const form = (
     <FormikProvider value={formik}>
-
       <Form className={styles.form}>
         <FormErrorScroll formik={formik} />
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
         {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
         {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
         {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
-
       </Form>
     </FormikProvider>
   )

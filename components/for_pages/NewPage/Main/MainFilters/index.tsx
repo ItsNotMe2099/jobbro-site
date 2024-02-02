@@ -4,11 +4,10 @@ import FilterDropDown from './FilterDropDown'
 import Dictionary from '@/utils/Dictionary'
 import useTranslation from 'next-translate/useTranslation'
 import { Nullable } from '@/types/types'
-import { Employment } from '@/data/enum/Employment'
 import { colors } from '@/styles/variables'
 import CheckSvg from '@/components/svg/CheckSvg'
 import { SalaryType } from '@/data/enum/SalaryType'
-import { Experience } from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import CountryField from '@/components/fields/CountryField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useEffect } from 'react'
@@ -37,25 +36,25 @@ export default function MainFilters(props: Props) {
     props.onChange({countries: [formik.values.country?.geonameid as number] })
   }, [formik.values])
 
-  return (<div className={styles.root}> 
+  return (<div className={styles.root}>
     {/* <FilterDropDown title='Country'> */}
       <FormikProvider value={formik}>
         <Form className={styles.form}>
-          <CountryField name={'country'} 
-          placeholder='Country' 
+          <CountryField name={'country'}
+          placeholder='Country'
           className={styles.country}/>
         </Form>
       </FormikProvider>
-      
+
     {/* </FilterDropDown>     */}
     <FilterDropDown title='Experience'>
       <div className={styles.items}>
         {Dictionary.getExperienceOptions(t).map(el=> {
           return (
-            <p className={styles.item} 
+            <p className={styles.item}
             onClick={() => props.onChange({experience: el.value as Nullable<Experience> })}
             >
-              {el.label} 
+              {el.label}
               {props.filters.experience === el.value && <CheckSvg color={colors.green}/>}
             </p>
           )
@@ -66,10 +65,10 @@ export default function MainFilters(props: Props) {
       <div className={styles.items}>
         {Dictionary.getSalaryTypeOptions(t).map(el=> {
           return (
-            <p className={styles.item} 
+            <p className={styles.item}
             onClick={() => props.onChange({salaryType: [el.value as Nullable<SalaryType>]})}
             >
-              {el.label} 
+              {el.label}
               {props.filters.salaryType?.includes(el.value as Nullable<SalaryType>) && <CheckSvg color={colors.green}/>}
             </p>
           )
@@ -78,13 +77,13 @@ export default function MainFilters(props: Props) {
     </FilterDropDown>
     <FilterDropDown title='Employment Type'>
       <div className={styles.items}>
-        {Dictionary.getEmploymentOptions(t).map(el=> {
+        {Dictionary.getExperienceDurationOptions(t).map(el=> {
           return (
-            <p className={styles.item} 
-            onClick={() => props.onChange({employment: [el.value as Nullable<Employment>]})}
+            <p className={styles.item}
+            onClick={() => props.onChange({experienceDuration: [el.value as Nullable<ExperienceDuration>]})}
             >
-              {el.label} 
-              {props.filters.employment?.includes(el.value as Nullable<Employment>) && <CheckSvg color={colors.green}/>}
+              {el.label}
+              {props.filters.experienceDuration?.includes(el.value as Nullable<ExperienceDuration>) && <CheckSvg color={colors.green}/>}
             </p>
           )
         })}

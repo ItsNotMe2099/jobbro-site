@@ -2,15 +2,15 @@ import { IVacancyFormData } from '@/components/for_pages/Lk/Jobs/Form'
 import { IPaginationRequest } from './IPaginationRequest'
 import { IGeoName } from './ILocation'
 
-export interface IVacancyFilterParamsInner extends 
-Pick<IVacancyFormData, 
+export interface IVacancyFilterParamsInner extends
+Pick<IVacancyFormData,
 'experience'|
 'skills'|
 'salaryMin'|
 'salaryMax'|
 'keywords'|
-'languageKnowledges'>, 
-IPaginationRequest 
+'languageKnowledges'>,
+IPaginationRequest
 {
   categories: (number|string)[]
   subcategories: (number|string)[]
@@ -21,6 +21,7 @@ IPaginationRequest
   salaryType: IVacancyFormData['salaryType'][]
   currency: IVacancyFormData['currency'][]
   employment: IVacancyFormData['employment'][]
+  experienceDuration: IVacancyFormData['experienceDuration'][]
   workplace: IVacancyFormData['workplace'][]
   currentDay: boolean
   nearMeByIp: boolean
