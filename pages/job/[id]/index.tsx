@@ -42,7 +42,10 @@ const JobPageInner = (props: Props) => {
   const employeeAiCvRequests = useEmployeeAiCvRequestsContext()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
-
+  const [isClient, setIsClient]=  useState(false)
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   useEffect(() => {
     const subscriptionApplication = appContext.applicationCreateState$.subscribe((application) => {
       setNewApplication(application)
@@ -87,7 +90,7 @@ console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
       <div className={styles.root}>
         <div ref={ref} className={styles.container} id='idVacancyContainer'>
           <JobPreview job={props.job} company={props.job.company}/>
-          {!isSmDesktopWidth  && canShowContent &&  sideBarType !== SideBarType.Apply && !hasApplication && !(request && request.vacancyId === props.job.id) &&
+          {isClient && !isSmDesktopWidth  && canShowContent &&  sideBarType !== SideBarType.Apply && !hasApplication && !(request && request.vacancyId === props.job.id) &&
           <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
             <Button spinner={false} type='submit' styleType='large' color='green'
                     onClick={() => openApplicationModal()}>
@@ -95,15 +98,15 @@ console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
             </Button>
           </FormStickyFooter>}
         </div>
-        {isSmDesktopWidth && !canShowContent && <ContentLoader isOpen={true} style={'block'}/>}
+        {isClient && isSmDesktopWidth && !canShowContent && <ContentLoader isOpen={true} style={'block'}/>}
         {canShowContent && isTabletWidth &&
           <Button color='green' onClick={openApplyModal} font='normal16' styleType='large' className={styles.applyButton}>Apply</Button>
         }
-        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Apply &&
+        {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Apply &&
           <ApplyForJobForm vacancyId={props.job.id}/>
         }
-        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
-        {!isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
+        {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
+        {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
         <ChatOnPage vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
       </div>
     </Layout>
