@@ -50,6 +50,8 @@ export default function Header(props: Props) {
     { label: t('header_menu_create_resume'), link: '/' },
     { label: t('header_menu_login'), link: Routes.login(router.asPath) },
   ])
+  const menuLogin = { label: t('header_menu_login'), link: Routes.login(router.asPath) }
+  const menuSearchJobs = { label: t('header_menu_search_jobs'), link: Routes.search }
     const accountOptions = [
 
     ]
@@ -94,12 +96,13 @@ export default function Header(props: Props) {
         Jobbro
       </div>
       <div className={styles.menu}>
-        {!isTabletWidth &&menu.map((i, index) =>
+        {!isTabletWidth && menu.map((i, index) =>
           <Link href={i.link} key={index} className={styles.item}>
             {i.label}
           </Link>
         )}
-        {isTabletWidth && <Link href={menu[0].link} className={styles.item}>{menu[0].label}</Link>}
+        {isTabletWidth && appContext.isLogged && <Link href={menuSearchJobs.link} className={styles.item}>{menuSearchJobs.label}</Link>}
+        {isTabletWidth && !appContext.isLogged && <Link href={menuLogin.link} className={styles.item}>{menuLogin.label}</Link>}
       </div>
 
       {appContext.isLogged &&  <div className={styles.controls}>
