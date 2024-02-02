@@ -8,6 +8,7 @@ import { Routes } from '@/types/routes'
 import { ProfileCalendar } from '../ProfileCalendar'
 import { useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
+import { useAppContext } from '@/context/state'
 
 enum TabKey {
   Resume = 'resume',
@@ -23,6 +24,8 @@ interface Props {
 }
 const ProfilePageLayoutInner = (props: Props) => {
   const router = useRouter()
+  const appContext = useAppContext()
+  const {isTabletWidth} = appContext.size
 
   const { t } = useTranslation()
   const options: IOption<TabKey>[] = [
@@ -46,19 +49,19 @@ const ProfilePageLayoutInner = (props: Props) => {
   */
   const title = (() => {
     if(router.asPath.includes('edit')) {
-      return 'Editor resume'
+      return {name: 'Editor resume', invertColors: isTabletWidth}
     }
     else if(router.asPath.includes('chat')) {
-      return 'Chat'
+      return {name: 'Chat'}
     }
     else if(router.asPath.includes('profile')) {
-      return 'Profile'
+      return {name: 'Profile'}
     }
     else if(router.asPath.includes('applies')) {
-      return 'Applies'
+      return {name: 'Applies'}
     }
     else {
-      return ''
+      return {name:''}
     }
   })()
 
@@ -67,7 +70,8 @@ const ProfilePageLayoutInner = (props: Props) => {
   return (
     <div className={styles.root}>
       <PageTitle 
-      title={title}
+      invertColors={title.invertColors}
+      title={title.name}
       link={router.asPath.includes('edit') ? Routes.profile : ''} 
       />
 

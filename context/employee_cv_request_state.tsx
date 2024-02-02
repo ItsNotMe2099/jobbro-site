@@ -157,8 +157,9 @@ export function EmployeeAiCvRequestsWrapper(props: Props) {
              linkName: 'Show now',
              link: Routes.profileResumeEdit(request.cv!.id!),
              linkOnClick: (e) => {
-               sendRequestSetRead(request)
-               toast.dismiss(toastId)
+                sendRequestSetRead(request)
+                toast.dismiss(toastId)
+                appContext.hideBottomSheet()
              }
           }, {
             data: request,

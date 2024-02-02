@@ -1,4 +1,4 @@
-import styles from 'components/for_pages/Lk/YourCompany/DetailsForm/index.module.scss'
+import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import InputField from '@/components/fields/InputField'
 import SelectField from '@/components/fields/SelectField'
@@ -112,6 +112,7 @@ export default function CompanyDetailsForm(props: Props) {
               <div className={styles.logoIconLabel}>Add logo</div>
             </div>}
             dropZoneClassName={styles.logoDropZone}
+            className={styles.dropZone}
             dropZoneStyle={'row'}
             description={t('company_details_form_field_logo')}
             accept={[FileUploadAcceptType.Image]}

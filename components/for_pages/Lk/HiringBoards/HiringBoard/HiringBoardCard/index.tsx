@@ -1,4 +1,4 @@
-import styles from 'components/for_pages/Lk/HiringBoards/HiringBoard/HiringBoardCard/index.module.scss'
+import styles from './index.module.scss'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import {ICVWithApply} from '@/data/interfaces/ICV'
 import UserUtils from '@/utils/UserUtils'

@@ -712,5 +712,11 @@
   "form_field_file_image_drag_drop": "Drop image to upload them",
   "form_field_file_image_drag_drop_multi": "Drop images to upload them",
 
-  "hour": "hour"
+  "form_field_select_no_results": "No results",
+  "hour": "hour",
+  "404_page_title": "The page you are looking for can’t be found",
+  "404_page_button_home": "Go to home",
+
+  "error_page_title": "Error happened",
+  "error_page_button_home": "Go to Home"
 }

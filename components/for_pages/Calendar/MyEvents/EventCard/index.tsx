@@ -26,7 +26,9 @@ export const EventCard = (props: Props) => {
         </div>
         <div className={styles.right}>
           <div className={styles.title}>{name}</div>
-          <div className={styles.desc}>{desc}</div>
+          {desc && 
+            <div className={styles.desc}>{desc}</div>
+          }
           {props.event.start && props.event.end && <div className={styles.times}>
             <ClockSvg color={colors.green}/>
             <div >

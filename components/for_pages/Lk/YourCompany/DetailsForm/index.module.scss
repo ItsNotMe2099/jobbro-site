@@ -1,4 +1,4 @@
-@import "../../../../../styles/index";
+@import 'styles/index';
 
 .root {
     display: flex;
@@ -43,13 +43,20 @@
     margin: 0;
     margin-right: 16px;
 }
+
 .logoDropZone{
   border: none;
-  padding: 24px;
+  padding: unset;
 }
+
+.dropZone {
+    padding: 24px;
+}
+
 .logoCard{
   padding: 0px;
 }
+
 .logoIcon{
   border-radius: 16px;
   border: 2px solid $green;

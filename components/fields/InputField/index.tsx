@@ -14,6 +14,7 @@ import { colors } from '@/styles/variables'
 import Formatter from '@/utils/formatter'
 import SearchSvg from '@/components/svg/SearchSvg'
 import FieldLabel from '@/components/fields/FieldLabel'
+import CloseSvg from '@/components/svg/CloseSvg'
 
 export type InputValueType<T> = T | null | undefined
 type FormatType = 'phone' | 'phoneAndEmail' | 'cardExpiry' | 'cardPan' | 'cardCvv' | 'number' | 'price' | 'weight'
@@ -270,7 +271,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
 
             </div>
           )}
-          {props.resettable && !!field.value && <div className={classNames(styles.clear, { [styles.withSuffix]: !!props.suffix })} onClick={handleClear}>Clear</div>}
+          {props.resettable && !!field.value && <div className={classNames(styles.clear, { [styles.withSuffix]: !!props.suffix })} onClick={handleClear}><CloseSvg variant='small' color={colors.textSecondary}/></div>}
           {props.suffix && (
             renderSuffix()
           )}

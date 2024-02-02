@@ -79,6 +79,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                 <AppOverlay/>
                 <Snackbar/>
                   <ToastContainer
+                    className="toastContainer"
                     closeButton={false}
                     hideProgressBar={true}
                     autoClose={3000}

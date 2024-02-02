@@ -70,7 +70,7 @@ const JobPageInner = (props: Props) => {
         appContext.showBottomSheet<IApplyForJobModal>(ModalType.ApplyForJobModal, {vacancyId: props.job.id})
         break
       case SideBarType.Calendar:
-        if(!hasApplication){
+        if(hasApplication){
           appContext.showBottomSheet(ModalType.MyEventsModal)
         }else{
           appContext.showBottomSheet(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
@@ -81,7 +81,7 @@ const JobPageInner = (props: Props) => {
         break
     }
  }
-console.log('canShowContent',  canShowContent, sideBarType)
+console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
 
   return (<Layout hideTabbar>
       <div className={styles.root}>

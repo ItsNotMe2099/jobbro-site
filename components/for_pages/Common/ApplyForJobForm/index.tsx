@@ -11,7 +11,7 @@ import {Form, FormikProvider, useFormik} from 'formik'
 import {useAppContext} from '@/context/state'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import {useEmployeeAiCvRequestsContext} from '@/context/employee_cv_request_state'
-import {useMemo} from 'react'
+import { useMemo} from 'react'
 import {Nullable} from '@/types/types'
 import ApplyForJobReadyStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobReadyStep'
 import ApplyForJobProcessingStep from '@/components/for_pages/Common/ApplyForJobForm/ApplyForJobProcessingStep'
@@ -47,6 +47,7 @@ const ApplyForJobFormInner = (props: Props) => {
   const {t, lang} = useTranslation()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const hasRequest = !!request
+
   const handleSubmit = (data: IApplyJobAnonymouslyFormData) => {
     switch (applyJobAnonymously.stepKey) {
       case ApplyJobAnonymouslyStepKey.First:
@@ -55,7 +56,6 @@ const ApplyForJobFormInner = (props: Props) => {
       case ApplyJobAnonymouslyStepKey.Confirm:
         applyJobAnonymously.confirm(data.code!)
         break
-
     }
   }
 
@@ -66,6 +66,7 @@ const ApplyForJobFormInner = (props: Props) => {
     email: null,
     code: null,
   }
+
   const formToShow = useMemo<Nullable<FormToShow>>(() => {
     if (!appContext.allLoaded) {
       return null
@@ -98,6 +99,7 @@ const ApplyForJobFormInner = (props: Props) => {
     }
 
   }, [applyJobAnonymously.stepKey, hasRequest, request, appContext.allLoaded])
+
   const title = useMemo(() => {
     switch (formToShow) {
       case FormToShow.Apply:
@@ -110,56 +112,92 @@ const ApplyForJobFormInner = (props: Props) => {
         return 'Resume is ready!'
     }
   }, [formToShow])
+
   const formik = useFormik({
     initialValues,
     onSubmit: handleSubmit
   })
+
   const footer = useMemo(()=> {
     switch (formToShow){
       case FormToShow.Apply:
-        return (<div>
-          <div className={styles.privacy}>
-            By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
+        return (
+          <div>
+            <div className={styles.privacy}>
+              By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
+            </div>
+            <Button
+            fluid
+            type='submit'
+            color='green'
+            styleType='large'
+            className={styles.btn}
+            spinner={applyJobAnonymize.sending}
+            onClick={() => formik.submitForm()}
+            >
+              Apply
+            </Button>
           </div>
-          <Button spinner={applyJobAnonymize.sending} type='submit' onClick={() => formik.submitForm()} className={styles.btn} fluid styleType='large'
-                  color='green'>
-            Apply
-          </Button>
-        </div>)
+        )
       case FormToShow.Confirm:
-        return ( <Button spinner={applyJobAnonymize.sending} type='submit'  onClick={() => formik.submitForm()} className={styles.btn} fluid styleType='large'
-                         color='green'>
-          Confirm
-        </Button>)
+        return (
+          <Button
+          fluid
+          type='submit'
+          color='green'
+          styleType='large'
+          spinner={applyJobAnonymize.sending}
+          onClick={() => formik.submitForm()} className={styles.btn}
+          >
+            Confirm
+          </Button>
+        )
       case FormToShow.ShowCv:
-        return (     <Button type='button' href={Routes.profileResumeEdit(request!.cv!.id!)} onClick={() => {
-          const toastId = `ai-cv-request-${request!.id}-${request!.status}`
-          toast.dismiss(toastId)
-          appContext.hideBottomSheet()
-        }} className={styles.btn} fluid
-                             styleType='large' color='green'>
-          Show now
-        </Button>)
+        return (
+          <Button
+          fluid
+          type='button'
+          color='green'
+          styleType='large'
+          className={styles.btn}
+          href={Routes.profileResumeEdit(request!.cv!.id!)}
+          onClick={() => {
+            const toastId = `ai-cv-request-${request!.id}-${request!.status}`
+            toast.dismiss(toastId)
+            appContext.hideBottomSheet()
+          }}
+          >
+            Show now
+          </Button>
+        )
     }
   }, [formToShow])
-  const body = (<FormikProvider value={formik}>
-    <Form className={styles.form}>
-      {formToShow === FormToShow.Apply && <ApplyForJobFirstStep/>}
-      {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
-      {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
-      {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
-    </Form>
-  </FormikProvider>)
+  console.log('formToShow', formToShow)
+  const body = (
+    <FormikProvider value={formik}>
+      <Form className={styles.form}>
+        {formToShow === FormToShow.Apply && <ApplyForJobFirstStep/>}
+        {formToShow === FormToShow.Confirm && <ApplyForJobConfirmStep/>}
+        {formToShow === FormToShow.Processing && <ApplyForJobProcessingStep/>}
+        {formToShow === FormToShow.ShowCv && <ApplyForJobReadyStep request={request!}/>}
+      </Form>
+    </FormikProvider>
+  )
+
   if (props.isBottomSheet) {
-    return (<BottomSheetLayout closeIconColor={colors.black}>
-      <BottomSheetHeader title={title} suffix={formToShow === FormToShow.Processing ? <Spinner size={24}/> : null}/>
-      <BottomSheetBody> {body}</BottomSheetBody>
-      <BottomSheetFooter>
-        {footer}
-      </BottomSheetFooter>
-    </BottomSheetLayout>)
+    return (
+      <BottomSheetLayout closeIconColor={colors.black}>
+        <BottomSheetHeader title={title} suffix={formToShow === FormToShow.Processing ? <Spinner size={24}/> : null}/>
+        <BottomSheetBody> {body}</BottomSheetBody>
+        <BottomSheetFooter>
+          {footer}
+        </BottomSheetFooter>
+      </BottomSheetLayout>
+    )
   }
-  return (<div className={styles.root}>
+
+  return (
+    <div className={styles.root}>
       {title && <div className={styles.title}>
         {title}
         {formToShow === FormToShow.Processing && <Spinner size={24}/>}

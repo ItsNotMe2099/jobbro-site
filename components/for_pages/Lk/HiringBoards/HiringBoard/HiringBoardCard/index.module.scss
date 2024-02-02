@@ -40,4 +40,8 @@
   font-weight: 600;
   color: $text-primary;
   letter-spacing: -0.16px;
+
+  span {
+    white-space: nowrap;
+  }
 }

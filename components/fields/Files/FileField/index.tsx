@@ -13,6 +13,7 @@ import FileUploadDropzone from '@/components/fields/Files/components/FileUploadD
 import FileListItem from '@/components/fields/Files/FileListField/FileListItem'
 import FileRepository from '@/data/repositories/FileRepository'
 import { ICropAvatarModalProps } from '@/components/modals/CropAvatar/CropAvatarModal'
+import classNames from 'classnames'
 // import { ICropAvatarModalProps } from '@/components/modals/CropAvatarModal'
 
 interface Props extends IField<IFile | File | null> {
@@ -28,6 +29,7 @@ interface Props extends IField<IFile | File | null> {
   disableUpload?: boolean
   withCrop?: boolean
   dropZoneClassName?: string
+  className?: string
   dropZoneStyle?: 'row' | 'column' | undefined
   icon?: ReactElement
   width?: number
@@ -149,7 +151,7 @@ export default function FileField(props: Props) {
   } as any)
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, props.className)}>
       {props.label ? <div className={styles.label}>{props.label}</div> : null}
       <div className={styles.root}  data-field={props.name}>
         <FileUploadDropzone

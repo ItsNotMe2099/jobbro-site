@@ -18,6 +18,8 @@ import {ICurrentUserUpdateRequest} from '@/data/interfaces/ICurrentUserUpdateReq
 import useTranslation from 'next-translate/useTranslation'
 import Validator from '@/utils/validator'
 import showToast from '@/utils/showToast'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
 
 interface IFormData {
   image: Nullable<IFile>
@@ -35,6 +37,7 @@ interface Props {
 export default function AccountProfileForm(props: Props) {
   const appContext = useAppContext()
   const aboutMeContext = useAboutMeContext()
+  const router = useRouter()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const { t } = useTranslation()
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
@@ -120,7 +123,12 @@ export default function AccountProfileForm(props: Props) {
         </Card>
 
         <div>
-        <Button onClick={appContext.logout} type='submit' styleType='large' color='white'>
+        <Button onClick={() => {
+          appContext.logout()
+          setTimeout(() => {
+            router.push(Routes.login())
+          }, 100)
+        }} type='submit' styleType='large' color='white'>
           {t('account_profile_button_logout')}
         </Button>
         </div>

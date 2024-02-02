@@ -1,13 +1,23 @@
-@import "../../../../styles/index";
+@import 'styles/index';
 
 .form {
   display: flex;
   flex-direction: column;
   @include list(32px, false);
   position: relative;
+    @include mq ($TabletWidth, max) {
+    &:before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -16px;
+      width: 100vw;
+      height: 300px;
+      background-color: $green;
+      border-radius: 16px;
+    }
+  }
 }
-
-
 
 .preview {
   display: flex;
@@ -30,6 +40,11 @@
   display: flex;
   flex-direction: column;
   @include list(32px, false);
+  position: relative;
+  z-index: 2;
+  @include mq ($TabletWidth, max) {
+    max-width: calc(100vw - 32px);
+  }
 }
 
 .clear {
@@ -39,8 +54,16 @@
 
 .line {
   display: flex;
-  @include list(24px, true);
+  flex-wrap: wrap;
+  column-gap: 24px;
+  row-gap: 24px;
   align-items: center;
+}
+
+.blockLine {
+  @extend .line;
+  flex-wrap: nowrap;
+  align-items: flex-start;
 }
 
 .column{
@@ -49,14 +72,19 @@
 
 .select {
   flex: 1;
+  min-width: 250px; 
 }
+
 .location{
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  @include list(24px, true);
+  row-gap: 24px;
+  flex-wrap: wrap;
+  column-gap: 24px;
 }
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -95,14 +123,15 @@
   display: flex;
   flex-direction: column;
   @include list(16px, false);
+  width: 100%;
 }
 
 .remove {
   cursor: pointer;
 }
-.fieldListLine{
-  flex: 1;
-}
+
+
+
 .text {
   font-size: 16px;
   font-style: normal;
@@ -119,4 +148,21 @@
   justify-content: flex-start !important;
   @include list(24px, true);
   align-items: center !important;
+}
+
+.footer {
+  max-width: calc(100vw - 420px);
+  @include mq($TabletWidth, max) {
+    max-width: unset;
+  }
+}
+
+.datesWrapper {
+  @extend .blockLine;
+  row-gap: 16px;
+  @include mq($TabletWidth, max) {
+    flex-direction: column;
+  }
+
+
 }
