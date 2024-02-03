@@ -80,7 +80,7 @@ const JobPageInner = (props: Props) => {
         }
         break
       case SideBarType.Chat:
-        appContext.showBottomSheet(ModalType.JobChatModal, {vacancyId: props.job.id, cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId} as IJobChatModal)
+        appContext.showModal<IJobChatModal>(ModalType.JobChatModal, {vacancyId: props.job.id, cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId} as IJobChatModal)
         break
     }
  }
@@ -107,7 +107,8 @@ console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
         }
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
-        <ChatOnPage vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>}
+          <ChatOnPage vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>
+        }
       </div>
     </Layout>
   )

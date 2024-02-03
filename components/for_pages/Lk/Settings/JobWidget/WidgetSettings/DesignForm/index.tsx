@@ -40,7 +40,7 @@ export default function WidgetDesignForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
 
   const handleSubmit = async (data: IFormData) => {
-    debugger
+    
 
 
   }

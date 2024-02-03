@@ -5,6 +5,8 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
+  // TODO  при включенном column0reverse не работает прокрутка, надо поправить
+  // flex-direction: column;
   padding: 20px;
   flex: 1;
   background-color: $white;

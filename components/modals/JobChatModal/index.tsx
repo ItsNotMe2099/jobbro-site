@@ -7,6 +7,7 @@ import {Nullable} from '@/types/types'
 
 interface Props {
   isBottomSheet: boolean
+  onClose?: () => void
 }
 
 export interface IJobChatModal {
@@ -18,11 +19,13 @@ export interface IJobChatModal {
 export default function JobChatModal(props: Props) {
   const appContext = useAppContext()
   const args: IJobChatModal = appContext.modalArguments
+  
+  
 
   return (<ModalLayout mobileFullScreen>
     <ModalBody className={styles.modalBody}>
       <div className={styles.root}>
-        <ChatDialogWidget vacancyId={args.vacancyId} cvId={args.cvId} title={args.title}/>
+        <ChatDialogWidget vacancyId={args.vacancyId} cvId={args.cvId} title={args.title} onBackClick={props.onClose}/>
       </div>
     </ModalBody>
   </ModalLayout>)

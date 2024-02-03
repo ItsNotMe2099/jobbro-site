@@ -15,6 +15,7 @@ export interface IApplyForJobModal {
 export default function ApplyForJobModal(props: Props) {
   const appContext = useAppContext()
   const args: IApplyForJobModal = appContext.modalArguments
+  
 
 
   if (props.isBottomSheet) {

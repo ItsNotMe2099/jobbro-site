@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   @include list(32px, false);
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
   @include mq($TabletWidth, max) {
     padding-inline: 16px;
     margin-top: 16px;

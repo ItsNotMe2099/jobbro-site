@@ -35,7 +35,7 @@ export default function WidgetSettingsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
 
   const handleSubmit = async (data: IFormData) => {
-    debugger
+    
   }
 
   const jobsPerPageVariants: IOption<string>[] = [

@@ -11,8 +11,10 @@ import EventOwnerForm from '@/components/for_pages/Calendar/EventOwnerForm'
 import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlotForm'
 import {Nullable} from '@/types/types'
 import ChatMessagesList from '@/components/for_pages/Chat/ChatDialog/ChatMessagesList'
+import PageTitle from '../../Common/PageTitle'
+import ChatHeader from '../ChatDialog/ChatHeader'
 import ChatSvg from '@/components/svg/ChatSvg'
-import {colors} from '@/styles/variables'
+import { colors } from '@/styles/variables'
 
 interface Props {
   className?: string
@@ -29,6 +31,8 @@ interface Props {
 const ChatDialogWidgetInner = (props: Props) => {
   const appContext = useAppContext()
   const chatContext = useChatDialogContext()
+  const {isTabletWidth} = appContext.size
+
   const loading = chatContext.loading || !appContext.aboutMeLoaded
   const renderChatSuggestion = () => {
     switch (chatContext.disabledType) {
@@ -38,7 +42,38 @@ const ChatDialogWidgetInner = (props: Props) => {
     return null
 
   }
-  return (<div className={classNames(styles.root, props.className)}>
+
+  if(isTabletWidth) {
+
+  return(
+    <div className={classNames(styles.root, props.className)}>
+  <div className={styles.container}>
+    {chatContext.chat?.cv && isTabletWidth &&
+      <PageTitle 
+      className={styles.title} 
+      title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
+      onBack={()=>{isTabletWidth&&props.onBackClick?.()}}
+      invertColors={isTabletWidth}
+      />
+    }
+    <ChatHeader 
+    hasBack={isTabletWidth} 
+    showBothChatNames={props.showBothChatNames}
+    chat={chatContext.chat||undefined}
+    title={props.title ?? null}
+    />
+    <ChatMessagesList/>
+    <div className={styles.bottom}>
+      <ChatMessageForm/>
+    </div>
+  </div>
+</div>
+    )
+  }
+  else  if(!isTabletWidth) {
+
+    
+    return (<div className={classNames(styles.root, props.className)}>
       <div className={styles.chatWrapper}>
         <div className={styles.header}>
           <div className={styles.chatIcon}><ChatSvg color={colors.white}/></div>
@@ -50,7 +85,8 @@ const ChatDialogWidgetInner = (props: Props) => {
         <ChatMessageForm/>
       </div>
     </div>
-  )
+    )
+  }
 }
 
 const ChatDialogWidgetRouteWrapper = (props: Props) => {
