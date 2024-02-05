@@ -11,10 +11,10 @@
   transition: .6s ease-in-out;
   top: 32px;
   @media (min-width: $md-min) and (max-width: $md-max) {
-    flex: 0 0 350px;
+    flex: 0 0 400px;
   }
   @media (min-width: $md-min) and (max-width: $md-medium) {
-    flex: 0 0 320px;
+    flex: 0 0 400px;
   }
   @media (max-width: $xs-max) {
     flex: auto;

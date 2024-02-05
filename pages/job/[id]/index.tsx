@@ -43,9 +43,11 @@ const JobPageInner = (props: Props) => {
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
   const [isClient, setIsClient]=  useState(false)
+
   useEffect(() => {
     setIsClient(true)
   }, [])
+
   useEffect(() => {
     const subscriptionApplication = appContext.applicationCreateState$.subscribe((application) => {
       setNewApplication(application)
@@ -54,6 +56,7 @@ const JobPageInner = (props: Props) => {
       subscriptionApplication.unsubscribe()
     }
   }, [])
+
   const sideBarType = useMemo<SideBarType>(() => {
     if(employeeAiCvRequests.isShowApplyForm ){
       return SideBarType.Apply
@@ -63,6 +66,7 @@ const JobPageInner = (props: Props) => {
       return SideBarType.Calendar
     }
   }, [employeeAiCvRequests.isShowApplyForm, hasApplication])
+
   const openApplicationModal = () => {
     appContext.showModal(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
   }
@@ -83,8 +87,7 @@ const JobPageInner = (props: Props) => {
         appContext.showModal<IJobChatModal>(ModalType.JobChatModal, {vacancyId: props.job.id, cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId} as IJobChatModal)
         break
     }
- }
-console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
+  }
 
   return (<Layout hideTabbar>
       <div className={styles.root}>
@@ -107,7 +110,7 @@ console.log('canShowContent',  canShowContent, sideBarType, hasApplication)
         }
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
-          <ChatOnPage vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>
+          <ChatOnPage simpleType vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>
         }
       </div>
     </Layout>

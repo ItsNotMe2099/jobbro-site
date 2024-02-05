@@ -25,9 +25,6 @@
     padding-bottom: 20px;
   }
 
-  >div {
-    content-visibility: auto;
-  }
 }
 
 
@@ -36,7 +33,7 @@
   @include mq($TabletWidth, max) {    
     display: block;
     margin: 0;
-    height: 1px;
+    // height: px;
     opacity: 0;
   }
 }

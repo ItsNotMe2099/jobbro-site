@@ -8,6 +8,7 @@ import CropAvatarModal from '@/components/modals/CropAvatar/CropAvatarModal'
 import ApplyForJobModal from '@/components/modals/ApplyForJobModal'
 import JobChatModal from '@/components/modals/JobChatModal'
 import MyEventsModal from '@/components/modals/MyEventsModal'
+import ChooseSlotModal from '@/components/modals/ChooseSlotModal'
 
 interface Props { }
 
@@ -64,6 +65,14 @@ export default function BottomSheetContainer(props: Props) {
           snapPoints={[700]}
         >
           <MyEventsModal isBottomSheet={true} />
+        </Sheet>
+        <Sheet
+          isOpen={appContext.bottomSheetOnTop == ModalType.ChooseSlotModal}
+          onClose={handleClose}
+          snapPoints={[700]}
+          disableScrollLocking
+        >
+          <ChooseSlotModal isBottomSheet={true} onClose={handleClose}/>
         </Sheet>
       </div>
     </RemoveScroll>

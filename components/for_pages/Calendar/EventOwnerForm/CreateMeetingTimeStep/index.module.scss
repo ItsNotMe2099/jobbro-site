@@ -4,15 +4,29 @@
   display: flex;
   flex-direction: row;
   position: relative;
-
+  flex-wrap: wrap;
+  column-gap: 16px;
+  row-gap: 24px;
 }
+
 .left{
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 350px;
+  @include mq($TabletWidth, max) {
+    min-width: unset;
+    width: 100%;
+  }
+  
 }
+
 .right{
   flex-basis: 330px;
   max-height: 100%;
+  @include mq($TabletWidth, max) {
+    flex-basis: unset;
+    width: 100%;
+  }
 }

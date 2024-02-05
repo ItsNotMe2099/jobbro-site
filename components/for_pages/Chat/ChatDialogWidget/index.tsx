@@ -26,6 +26,7 @@ interface Props {
   onBackClick?: () => void | undefined
   sellerId?: string | undefined | null
   showBothChatNames?: boolean | undefined
+  simpleType?: boolean
 }
 
 const ChatDialogWidgetInner = (props: Props) => {
@@ -90,7 +91,6 @@ const ChatDialogWidgetInner = (props: Props) => {
 }
 
 const ChatDialogWidgetRouteWrapper = (props: Props) => {
-
   const chatContext = useChatDialogContext()
   const args = chatContext.routeArguments
   if(chatContext.loading){
@@ -100,7 +100,7 @@ const ChatDialogWidgetRouteWrapper = (props: Props) => {
     case ChatDialogRoute.CreateEvent:
       return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
     case ChatDialogRoute.SelectEventSlot:
-      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventSelectSlotForm simpleType={props.simpleType} eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
     case ChatDialogRoute.Dialog:
     default:
       return <ChatDialogWidgetInner {...props}/>

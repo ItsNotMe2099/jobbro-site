@@ -73,6 +73,7 @@ export default function EventOwnerForm(props: Props) {
   }
 
   const handleSubmit = async (data: IFormData) => {
+
     if (step !== FormStep.Time) {
       const curIndex = steps.findIndex(i => i.key === step)
       setStep(steps[curIndex + 1].key)
@@ -127,7 +128,7 @@ export default function EventOwnerForm(props: Props) {
 
   return (
     <div className={styles.root}  ref={formRef}>
-      <PageTitle title={t('event_form_title')} onBack={props.onBack} />
+      <PageTitle title={t('event_form_title')} className={styles.title} onBack={props.onBack} />
 
       <Card className={styles.card}>
         <FormikProvider value={formik}>

@@ -4,11 +4,12 @@ import CalendarToolbar from '@/components/for_pages/Common/Calendar/CalendarTool
 import EventCalendar from '@/components/ui/EventCalendar'
 import {useEventSlotListContext} from '@/context/event_slot_list_context'
 import classNames from 'classnames'
-import {endOfMonth, format} from 'date-fns'
+import {endOfMonth, format, startOfMonth} from 'date-fns'
 import {Nullable} from '@/types/types'
 
 interface Props {
   selectSlotDateStr: Nullable<string>
+  onClickDay?: () => void
 }
 
 export default function EventSelectSlotCalendar(props: Props) {
@@ -16,8 +17,9 @@ export default function EventSelectSlotCalendar(props: Props) {
   const {t} = useTranslation()
   return (
     <div className={styles.root}>
-      <CalendarToolbar onChangeDate={(date) => eventListContext.setRange(date, endOfMonth(date))} currentDate={eventListContext.rangeStartDate}/>
+      <CalendarToolbar onChangeDate={(date) => eventListContext.setRange(startOfMonth(date), endOfMonth(date))} currentDate={eventListContext.rangeStartDate}/>
       <EventCalendar
+        onClickDay={props.onClickDay}
         onChange={(value) => eventListContext.setCurrentDate(value! as Date)}
         {...(eventListContext.currentDate? {value: eventListContext.currentDate} : {})}
         activeStartDate={eventListContext.rangeStartDate}

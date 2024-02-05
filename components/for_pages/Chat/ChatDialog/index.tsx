@@ -78,12 +78,17 @@ const ChatDialogRouteWrapper = (props: Props) => {
   }
   switch (chatContext.route) {
     case ChatDialogRoute.CreateEvent:
-      return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId}
-                             onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
-                             onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventOwnerForm 
+      cvId={args.cvId} vacancyId={args.vacancyId}
+      onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      />
     case ChatDialogRoute.SelectEventSlot:
-      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
-                                  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventSelectSlotForm 
+      eventId={args.eventId} 
+      onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      />
     case ChatDialogRoute.Dialog:
     default:
       return <ChatDialogInner {...props}/>

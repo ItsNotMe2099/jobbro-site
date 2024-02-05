@@ -70,6 +70,7 @@ display: flex;
   color: $green;
   font-weight: 700;
   font-size: 16px;
+  cursor: pointer;
   &:hover{
     text-decoration: underline;
   }

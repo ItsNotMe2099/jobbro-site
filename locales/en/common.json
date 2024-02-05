@@ -58,6 +58,7 @@
   "event_select_events_stub_title": "No scheduled meets",
   "event_select_events_stub_desc": "Apply for any vacancy and receive\n invitation for an interview",
   "event_select_slot_timezone": "Time zone",
+  "event_select_available_slots_title": "Times available for you",
 
   "candidates_base_title": "Candidates base",
   "candidates_base_tab_all_profiles": "All Profiles",

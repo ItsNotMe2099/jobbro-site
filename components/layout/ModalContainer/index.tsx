@@ -8,6 +8,7 @@ import CropAvatarModal from '@/components/modals/CropAvatar/CropAvatarModal'
 import SearchFiltersModal from '@/components/modals/SearchFiltersModal'
 import GalleryModal from '@/components/modals/GalleryModal'
 import JobChatModal from '@/components/modals/JobChatModal'
+import ChooseSlotModal from '@/components/modals/ChooseSlotModal'
 
 interface Props { }
 
@@ -37,6 +38,9 @@ export default function ModalContainer(props: Props) {
         </Modal>
         <Modal isOpen={appContext.modal === ModalType.JobChatModal} {...commonSettings}>
           {appContext.modal === ModalType.JobChatModal && <JobChatModal onClose={appContext.hideModal} isBottomSheet={false}/>}
+        </Modal>
+        <Modal isOpen={appContext.modal === ModalType.ChooseSlotModal} {...commonSettings}>
+          {appContext.modal === ModalType.ChooseSlotModal && <ChooseSlotModal onClose={appContext.hideModal} isBottomSheet={false}/>}
         </Modal>
       </div>
     </RemoveScroll>
