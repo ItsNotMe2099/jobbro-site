@@ -15,6 +15,7 @@ import { colors } from '@/styles/variables'
 import BookmarkSvg from '@/components/svg/BookmarkSvg'
 import BookmarkOutlinedSvg from '@/components/svg/BookmarkOutlinedSvg'
 import { FILES } from '@/types/constants'
+import Link from 'next/link'
 
 interface Props {
   vacancy: IVacancy,
@@ -33,14 +34,20 @@ export default function JobCard({vacancy, onSave}: Props) {
     <div title={k.title} className={styles.keyword} key={k.id}>{k.title}</div>
   )
 
-  const showApply = () => {
+  const showApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
     if(appContext) {
       appContext.showModal<ApplicationCreateModalArguments>(ModalType.ApplicationCreate, {vacancyId: vacancy.id})
     }
   }
 
-  return (<div className={styles.root}> 
-      <button onClick={() => onSave(vacancy)} className={styles.bookmark}>
+  const onSaveClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, vacancy: IVacancy) => {
+    e.preventDefault()
+    onSave(vacancy)
+  }
+
+  return (<Link href={`/job/${vacancy.id}`} className={styles.root} > 
+      <button onClick={(e) => {e.preventDefault();onSaveClick(e, vacancy)}} className={styles.bookmark}>
         {vacancy.isSavedByCurrentProfile &&
         <BookmarkSvg 
         color={colors.green} 
@@ -77,7 +84,16 @@ export default function JobCard({vacancy, onSave}: Props) {
         <div className={styles.keywords}>
           {!showAllSkills && skillsShortList?.map((k) => skillItem(k))}
           {showAllSkills && vacancy.skills?.map((k) => skillItem(k))}
-          {vacancy.skills?.length > 3 && !showAllSkills && <div className={styles.more} onClick={() => setShowAllSkills(true)}>+{vacancy.skills.length - 3}</div>}
+          {vacancy.skills?.length > 3 && !showAllSkills && 
+            <div 
+            className={styles.more} 
+            onClick={(e) => {
+              e.preventDefault()
+              setShowAllSkills(true)
+            }}>
+              +{vacancy.skills.length - 3}
+            </div>
+          }
         </div>
       }
       <p className={styles.published}>
@@ -91,5 +107,5 @@ export default function JobCard({vacancy, onSave}: Props) {
       <Button styleType='small' color='green'>{t('apply_look_button_apply')}</Button>
       }
     </div>
-  </div>)
+  </Link>)
 }

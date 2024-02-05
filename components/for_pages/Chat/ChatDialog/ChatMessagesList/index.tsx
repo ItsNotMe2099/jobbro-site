@@ -36,13 +36,15 @@ export default function ChatMessagesList(props: Props) {
         dataLength={chatContext.messages.length}
         next={chatContext.fetchMore}
         scrollableTarget={'chat-messages'}
-        inverse
-        style={{overflow: 'inherit'}}
+        inverse={true}
+        style={{ overflow: 'inherit'}}
         className={styles.list}
         loader={chatContext.totalMessages > 0 ? <ContentLoader style={'infiniteScroll'} isOpen={true}/> : null}
         hasMore={chatContext.totalMessages > chatContext.messages.length}
         scrollThreshold={0.6}
         >
+        {/* если убрать этот р, то будет баг, при котором не скроллится в модальном окне... */}
+        <p className={styles.bugFix}>BugFix</p>
         {chatContext.messages.map((i, index) => {
           const previous = index > 0 ? chatContext.messages[index - 1] : null
           return (
