@@ -1,6 +1,6 @@
 @import 'styles/index';
 
-.form {
+.root {
   display: flex;
   flex-direction: column;
   @include list(32px, false);
@@ -19,6 +19,19 @@
   }
 }
 
+
+.form {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+  position: relative;
+  z-index: 2;
+  @include mq ($TabletWidth, max) {
+    max-width: calc(100vw - 32px);
+  }
+}
+
+
 .preview {
   display: flex;
   align-items: center;
@@ -36,15 +49,10 @@
   height: 24px;
 }
 
-.root {
+.root{
+  position: relative;
   display: flex;
   flex-direction: column;
-  @include list(32px, false);
-  position: relative;
-  z-index: 2;
-  @include mq ($TabletWidth, max) {
-    max-width: calc(100vw - 32px);
-  }
 }
 
 .clear {
@@ -72,7 +80,7 @@
 
 .select {
   flex: 1;
-  min-width: 250px; 
+  min-width: 250px;
 }
 
 .location{

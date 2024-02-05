@@ -15,6 +15,8 @@ interface Props {
 export default function CardCandidateSummary(props: Props) {
   const {cv} = props
   const { t } = useTranslation()
+  const skills: string[] =  cv.skills?.length > 0 ? (cv.skills?.map(i => i?.title ?? i) ?? []) : cv.skillsTitles ?? []
+
   return (
     <Card className={props.className} title={t('cv_preview_about_title')}>
       <div className={styles.container}>
@@ -27,16 +29,16 @@ export default function CardCandidateSummary(props: Props) {
 
           </div>
           <div className={styles.about}>
-            {cv.educationInfo.map((i) => <div>{[i.institution, i.speciality, Formatter.formatRangeYear(i.fromYear, i.toYear)].filter(i => !!i).join(', ')}</div>)}
+            {cv.educationInfo.map((i) => <div>{[i.institution, i.speciality, i.degree, Formatter.formatRangeYear(i.fromYear, i.toYear)].filter(i => !!i).join(', ')}</div>)}
           </div>
         </div>}
-        {cv.skills.length >0 && <div className={styles.section}>
+        {skills.length >0 && <div className={styles.section}>
           <div className={styles.title}>
             {t('cv_preview_about_skills')}
           </div>
           <ChipList>
-            {cv.skills.map((i) =>
-              <Chip>{i.title}</Chip>
+            {skills.map((i) =>
+              <Chip>{i}</Chip>
             )}
           </ChipList>
         </div>}

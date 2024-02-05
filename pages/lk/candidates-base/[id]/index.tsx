@@ -6,7 +6,7 @@ import {useRouter} from 'next/router'
 import useInterval from 'use-interval'
 import {CandidateWrapper, useCandidateContext} from '@/context/candidate_state'
 import {useAppContext} from '@/context/state'
-import CvForHirerPage from '@/components/for_pages/Lk/Jobs/CvForHirerPage'
+import CvForHirerPage from '@/components/for_pages/Cv/CvForHirerPage'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {Routes} from '@/types/routes'
 

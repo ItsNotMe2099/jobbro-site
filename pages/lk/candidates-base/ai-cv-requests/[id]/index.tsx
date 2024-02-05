@@ -30,6 +30,8 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [sending, setSending] = useState<boolean>(false)
   const [aiRequest, setAiRequest] = useState<IAiCvRequest | null>(null)
+  const [preview, setPreview] = useState<boolean>(false)
+
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   useEffectOnce(() => {
     AiCvRequestRepository.fetchById(router.query.id as string).then((i) => {
@@ -55,7 +57,7 @@ const CandidateBaseCvEditPageInner = (props: Props) => {
      <PageTitle title={t('request_cv_check_title')} link={Routes.lkCandidateAiCvRequests}/>
 
     {loading && !aiRequest ? <ContentLoader isOpen={true}/> :
-      <CvForm onSubmit={handleSubmit} loading={sending} cv={aiRequest!.cv} cancelLink={Routes.lkCandidateAiCvRequests}/>
+      <CvForm onSubmit={handleSubmit} loading={sending} cv={aiRequest!.cv} cancelLink={Routes.lkCandidateAiCvRequests} preview={preview} onPreview={() => setPreview(!preview)}/>
     }
       </div>)
 }
