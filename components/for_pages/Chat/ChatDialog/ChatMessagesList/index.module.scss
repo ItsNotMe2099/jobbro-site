@@ -11,12 +11,10 @@
   flex: 1;
   background-color: $white;
   border-radius: 0px 0px 24px 24px;
-  // margin-bottom: 32px;
-  // >div {
-  //   content-visibility: auto;
-  // }
-  @include mq($TabletWidth, max) {
+
+    @include mq($TabletWidth, max) {
     margin-bottom: unset;
+    padding-bottom: 90px;
   }
 }
 

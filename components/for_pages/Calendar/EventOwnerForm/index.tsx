@@ -57,18 +57,21 @@ export default function EventOwnerForm(props: Props) {
   const { t } = useTranslation()
   const [formLoading, setFormLoading] = useState(false)
   const formRef = useRef<HTMLDivElement | null>(null)
+
   const steps: IFormStep<FormStep>[] = [
     {key: FormStep.Participants, name: t('event_form_step_participants')},
     {key: FormStep.Details, name: t('event_form_step_details')},
     {key: FormStep.Time, name: t('event_form_step_time')},
   ]
   const [step, setStep] = useState<FormStep>(FormStep.Participants)
+
   const handlePrevious = () => {
     const curIndex = steps.findIndex(i => i.key === step)
     if(curIndex > 0) {
       setStep(steps[curIndex - 1].key)
     }
   }
+
   const handleSubmit = async (data: IFormData) => {
     if (step !== FormStep.Time) {
       const curIndex = steps.findIndex(i => i.key === step)
@@ -107,22 +110,23 @@ export default function EventOwnerForm(props: Props) {
       setFormLoading(false)
     }
   }
-    const initialValues: IFormData = {
-      theme: null,
-      place: null,
-      description: null,
-      duration: null,
-      participants: [],
-      slots: {}
-    }
 
-    const formik = useFormik({
-      initialValues,
-      onSubmit: handleSubmit
-    })
+  const initialValues: IFormData = {
+    theme: null,
+    place: null,
+    description: null,
+    duration: null,
+    participants: [],
+    slots: {}
+  }
 
+  const formik = useFormik({
+    initialValues,
+    onSubmit: handleSubmit
+  })
 
-    return (<div className={styles.root}  ref={formRef}>
+  return (
+    <div className={styles.root}  ref={formRef}>
       <PageTitle title={t('event_form_title')} onBack={props.onBack} />
 
       <Card className={styles.card}>
@@ -149,5 +153,6 @@ export default function EventOwnerForm(props: Props) {
         </Button>}
         </>
       </FormStickyFooter>
-    </div>)
-  }
+    </div>
+  )
+}
