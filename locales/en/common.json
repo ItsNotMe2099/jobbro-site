@@ -348,10 +348,11 @@
   "office_form_field_city": "City",
   "office_form_field_street": "Street name",
   "office_form_field_house": "House number",
+  "office_form_field_is_default": "Default office",
 
   "office_card_menu_edit": "Edit",
   "office_card_menu_delete": "Delete",
-  "office_card_job": "Delete",
+  "office_card_job": "Jobs",
 
   "team_title": "Team members",
   "team_form_title": "Invite Team Members",

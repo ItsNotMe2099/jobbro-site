@@ -35,6 +35,7 @@ import Analytics from '@/utils/goals'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
+import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
 
 
 enum TabKey {
@@ -91,6 +92,14 @@ export default function CreateJobManuallyForm(props: Props) {
   const router = useRouter()
   const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
+  const valuesRef = useRef<Nullable<IVacancyFormData>>(null)
+  useEffect(() => {
+    OfficeOwnerRepository.fetch({isDefault: true, page: 1, limit: 1}).then(i => {
+      if(!valuesRef.current?.office && !vacancyContext.vacancy?.office && i.data.length > 0) {
+        formik.setFieldValue('office', i.data[0])
+      }
+    })
+  }, [vacancyContext.vacancy?.office])
 
   const handleSubmit = async (data: IVacancyFormData) => {
     const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
@@ -161,7 +170,9 @@ export default function CreateJobManuallyForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
-
+  useEffect(() => {
+    valuesRef.current = formik.values
+  }, [formik.values])
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
