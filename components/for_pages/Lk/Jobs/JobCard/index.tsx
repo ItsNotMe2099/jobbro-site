@@ -61,6 +61,7 @@ const JobCardInner = (props: Props) => {
           router.push(Routes.lkJobEdit(vacancy.id))
         break
       case MenuKey.Duplicate:
+        router.push(Routes.lkJobClone(vacancy.id))
         break
       case MenuKey.Share:
         navigator.clipboard.writeText(Routes.getGlobal(Routes.job(vacancy.id)))

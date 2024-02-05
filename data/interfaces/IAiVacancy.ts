@@ -17,8 +17,8 @@ export interface IAiVacancy {
   tasks: string;
   salaryType: SalaryType | null;
   currency: string;
-  salaryMin: number;
-  salaryMax: number;
+  salaryMin: string;
+  salaryMax: string;
   benefitsDescription: string
 }
 

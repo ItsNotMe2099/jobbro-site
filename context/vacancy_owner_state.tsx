@@ -17,6 +17,7 @@ interface IState {
   loading: boolean
   editLoading: boolean,
   editStatusLoading: boolean,
+  isClone: boolean,
   fetch: () => Promise<Nullable<IVacancy>>
   delete: () => Promise<Nullable<IVacancy>>,
   edit: () => void,
@@ -35,6 +36,7 @@ const defaultValue: IState = {
   loading: false,
   editLoading: false,
   editStatusLoading: false,
+  isClone: false,
   fetch: async () => null,
   delete: async () => null,
   edit: () => null,
@@ -51,6 +53,7 @@ interface Props {
   children: React.ReactNode,
   vacancyId?: Nullable<number> | undefined,
   vacancy?: Nullable<IVacancy>,
+  isClone?: boolean
 }
 
 export function VacancyOwnerWrapper(props: Props) {
@@ -218,7 +221,8 @@ export function VacancyOwnerWrapper(props: Props) {
     create,
     publish,
     pause,
-    close
+    close,
+    isClone: props.isClone ?? false,
   }
   return (
     <VacancyOwnerContext.Provider value={value}>

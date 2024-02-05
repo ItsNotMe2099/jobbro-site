@@ -116,7 +116,7 @@ export default function CreateJobManuallyForm(props: Props) {
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {
-      if (vacancyContext.vacancy) {
+      if (vacancyContext.vacancy && !vacancyContext.isClone) {
         await vacancyContext.update(newData)
         showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
@@ -143,11 +143,11 @@ export default function CreateJobManuallyForm(props: Props) {
     employment: props.initialValuesAi?.employment ? props.initialValuesAi.employment as Employment : (vacancyContext.vacancy?.employment ?? null),
     workplace:  vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
-    currency: 'EUR',
+    currency: props.initialValuesAi?.currency ?? vacancyContext?.vacancy?.currency ?? 'USD',
     languageKnowledges: vacancyContext.vacancy?.languageKnowledges||[],
-    salaryMin:  vacancyContext.vacancy?.salaryMin?? null,
-    salaryMax: vacancyContext.vacancy?.salaryMax?? null,
-    salaryType: vacancyContext.vacancy?.salaryType?? null,
+    salaryMin: props.initialValuesAi?.salaryMin ?? vacancyContext.vacancy?.salaryMin?? null,
+    salaryMax: props.initialValuesAi?.salaryMax ?? vacancyContext.vacancy?.salaryMax ?? null,
+    salaryType: props.initialValuesAi?.salaryType ?? vacancyContext.vacancy?.salaryType?? null,
     experience: props.initialValuesAi?.experience ? props.initialValuesAi.experience as Experience : (vacancyContext.vacancy?.experience ?? null),
     experienceDuration: props.initialValuesAi?.experienceDuration ? props.initialValuesAi.experienceDuration as ExperienceDuration : (vacancyContext.vacancy?.experienceDuration ?? null),
     benefitsDescription:  props.initialValuesAi?.benefitsDescription ? { description: props.initialValuesAi.benefitsDescription, visible: true } :  vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
