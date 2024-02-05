@@ -46,7 +46,7 @@ export default function ChatHeader(props: Props) {
       {props.chat?.vacancy?.office?.country && 
         <div className={styles.office}>{props.chat?.vacancy?.office?.country?.name}</div>
       }
-      <Link href={'#'} className={styles.link}>Read more</Link>
+      <Link href={'/job/' + props.chat?.vacancy?.id} className={styles.link}>Read more</Link>
     </div>
   )
 }
