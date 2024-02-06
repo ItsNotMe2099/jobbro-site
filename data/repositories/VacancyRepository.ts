@@ -6,6 +6,7 @@ import {IVacancyOwnerListRequest} from '@/data/interfaces/IVacancyOwnerListReque
 import {IVacancy, IVacancyWithCurrentUserApply} from '@/data/interfaces/IVacancy'
 import {format, parse} from 'date-fns'
 import { IVacancyFilterParams } from '../interfaces/IVacancySearchParams'
+import {IVacanciesByLocation} from '@/data/interfaces/IVacanciesByLocation'
 
 export default class VacancyRepository {
   static async fetch(data: IVacancyOwnerListRequest, config?: AxiosRequestConfig): Promise<IPagination<IVacancy>> {
@@ -79,11 +80,38 @@ export default class VacancyRepository {
         ...data,
         countries: data.countries?.join(','),
         cities: data.cities?.join(','),
+        ...(data.nearMeByIp ? {nearMeByIp: 'true'} : {}),
       }
     })
     if(res.err) {
       return null
     }
+    return res
+  }
+  static async findVacanciesNearByIp(data: Partial<IVacancyFilterParams>): Promise<IVacanciesByLocation> {
+    const res = await request<IVacanciesByLocation>({
+      method: 'get',
+      url: '/api/vacancy',
+      data: {
+        ...data,
+        sort: 'createdAt,DESC',
+        nearMeByIp: 'true'
+      }
+    })
+    return res
+  }
+
+  static async findVacanciesCurrentDay(data: Partial<IVacancyFilterParams>): Promise<IPagination<IVacancy>> {
+    const res = await request<IPagination<IVacancy>>({
+      method: 'get',
+      url: '/api/vacancy',
+      data: {
+        ...data,
+        sort: 'createdAt,DESC',
+        currentDay: 'true'
+      }
+    })
+
     return res
   }
 

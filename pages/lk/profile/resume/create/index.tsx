@@ -26,7 +26,6 @@ const ProfileResumeEditPageInner = (props: Props) => {
       await cvOwnerContext.update(data as DeepPartial<ICV>)
     } else {
       await cvOwnerContext.create(data as DeepPartial<ICV>)
-
       showToast({title: t('toast_cv_edited_title'), text: t('toast_cv_edited_desc')})
     }
     router.push(Routes.profileResume)

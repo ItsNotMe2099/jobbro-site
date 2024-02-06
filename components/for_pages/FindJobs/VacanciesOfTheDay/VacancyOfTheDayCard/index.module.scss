@@ -1,0 +1,129 @@
+@import "../../../../../styles/index";
+
+.root {
+  display: flex;
+  padding: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: $white;
+  border-radius: 24px;
+}
+
+.container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  @include list(4px, false);
+}
+
+.salary {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.country {
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.14px;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  @include list(4px, false);
+}
+
+.market {
+  color: #838383;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.14px;
+}
+
+.position {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 125%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.left {
+  display: flex;
+  @include list(6px, true);
+  align-items: center;
+}
+
+.views {
+  color: $text-primary;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.14px;
+}
+
+.right {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date {
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: $text-secondary;
+  letter-spacing: -0.14px;
+}
+
+.published {
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  color: $text-primary;
+  letter-spacing: -0.16px;
+}
+
+.publish {
+  display: flex;
+  align-items: center;
+  @include list(16px, true);
+}
+
+.common {
+  display: flex;
+  @include list(8px, true);
+}

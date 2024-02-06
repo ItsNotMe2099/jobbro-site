@@ -1,0 +1,42 @@
+@import "../../../../styles/index";
+
+.root {
+  border-radius: 24px;
+  background: linear-gradient(96deg, #8423FF -201.92%, #2C9AFF 8.21%, #81FF86 193.62%);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  padding-top: clamp(16px, 4vw, 24px);
+  @include mq($TabletWidth, max) {
+    margin-inline: 16px;
+    padding-right: 26px;
+
+
+    .bannerSvg {
+      width: 25vw;
+      height: 25vw;
+    }
+  }
+}
+
+.text {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: clamp(16px, 5vw, 32px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.32px;
+  @include mq($TabletWidth, max) {
+    align-self: flex-start;
+  }
+
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}

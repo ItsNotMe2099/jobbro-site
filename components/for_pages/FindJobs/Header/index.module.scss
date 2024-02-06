@@ -1,0 +1,96 @@
+@import "../../../../styles/index";
+
+.root {
+  background-color: $green;
+  margin-top: -132px;
+  margin-right: -32px;
+  margin-left: -32px;
+  padding-top: 100px;
+  @include mq($TabletWidth, max) {
+    margin: unset;
+    margin-top: -100px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    overflow: hidden;
+  }
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+  background-color: $green;
+  display: flex;
+  flex-direction: column;
+  padding-top: 58px;
+  padding-bottom: 41px;
+  @include list(75px, false);
+  align-items: center;
+  @include mq($TabletWidth, max) {
+    width: 100%;
+    padding-inline: 16px;
+    padding-bottom: 80px;
+    padding-top: 23px;
+  }
+}
+
+.card {
+  width: 100%;
+  @include mq($TabletWidth, max) {
+    padding: unset !important;
+    border-radius: 8px !important;
+  }
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats {
+  display: flex;
+  @include list(32px, true);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  @include list(4px, false);
+}
+
+.number {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+}
+
+.name {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.14px;
+}
+
+.btns {
+  display: flex;
+  @include list(24px, true);
+  align-items: center;
+}
+
+.or {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+}
