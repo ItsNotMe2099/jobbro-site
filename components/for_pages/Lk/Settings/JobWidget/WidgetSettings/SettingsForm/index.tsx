@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { IOption, Nullable } from '@/types/types'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import SwitchField from '@/components/fields/SwitchField'
 import SelectField from '@/components/fields/SelectField'
@@ -11,6 +11,7 @@ import EyeSvg from '@/components/svg/EyeSvg'
 import { colors } from '@/styles/variables'
 import NoEyeSvg from '@/components/svg/NoEyeSvg'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
+import { useJobWidgetContext } from '@/context/job_widget_state'
 
 
 interface IFormData extends 
@@ -33,6 +34,7 @@ interface Props {
 
 export default function WidgetSettingsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
+  const jobWidgetContext = useJobWidgetContext()
 
   const handleSubmit = async (data: IFormData) => {
     
@@ -44,6 +46,12 @@ export default function WidgetSettingsForm(props: Props) {
     { label: '8', value: '8' },
     { label: '10', value: '10' },
   ]
+
+  const langs: IOption<string>[] = [
+    {label: 'English', value: 'en'},
+    {label: 'Bahasa Indonesia ', value: 'id'},
+  ]
+
 
   const initialValues: IFormData = {
     categoryFilter: true,
@@ -58,9 +66,23 @@ export default function WidgetSettingsForm(props: Props) {
   }
 
   const formik = useFormik<IFormData>({
-    initialValues,
+    initialValues: {
+      categoryFilter: jobWidgetContext.settings.categoryFilter??initialValues.categoryFilter,
+      locationFilter: jobWidgetContext.settings.locationFilter??initialValues.locationFilter,
+      employmentFilter: jobWidgetContext.settings.employmentFilter??initialValues.employmentFilter,
+      language: jobWidgetContext.settings.language||initialValues.language,
+      jobsPerPage: jobWidgetContext.settings.jobsPerPage||initialValues.jobsPerPage,
+      showItemLogo: jobWidgetContext.settings.showItemLogo??initialValues.showItemLogo,
+      showItemLocation: jobWidgetContext.settings.showItemLocation??initialValues.showItemLocation,
+      showItemEmploymentType: jobWidgetContext.settings.showItemEmploymentType??initialValues.showItemEmploymentType,
+      showItemCategory: jobWidgetContext.settings.showItemCategory??initialValues.showItemCategory
+    },
     onSubmit: handleSubmit
   })
+
+  useEffect(()=>{
+    jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+  }, [formik.values])
 
 
   return (
@@ -69,6 +91,7 @@ export default function WidgetSettingsForm(props: Props) {
         <Card>
           <div className={styles.wrapper}>
             <SwitchField name='categoryFilter'
+              onChange={(v)=> formik.setFieldValue('categoryFilter', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -79,6 +102,7 @@ export default function WidgetSettingsForm(props: Props) {
                   </div>
                 </div>} />
             <SwitchField name='locationFilter'
+              onChange={(v)=> formik.setFieldValue('locationFilter', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -89,6 +113,7 @@ export default function WidgetSettingsForm(props: Props) {
                   </div>
                 </div>} />
             <SwitchField name='employmentFilter'
+              onChange={(v)=> formik.setFieldValue('employmentFilter', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -100,19 +125,22 @@ export default function WidgetSettingsForm(props: Props) {
                 </div>} />
             <div className={styles.select}>
               <SelectField placeholder='Language' name='language'
-                options={[]} />
+                onChange={(val)=> formik.setFieldValue('language', val)}
+                options={langs} />
               <div className={styles.desc}>
                 Choose the language of the widget interface elements
               </div>
             </div>
             <div className={styles.select}>
               <SelectField placeholder='Jobs Per Page' name='jobsPerPage'
+                onChange={(val)=> formik.setFieldValue('jobsPerPage', val)}
                 options={jobsPerPageVariants} />
               <div className={styles.desc}>
                 Define the number of jobs to be listed per page
               </div>
             </div>
-            <SwitchField name='logo'
+            <SwitchField name='showItemLogo'
+              onChange={(v)=> formik.setFieldValue('showItemLogo', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -122,7 +150,8 @@ export default function WidgetSettingsForm(props: Props) {
                     Your company logo is displayed next to each job (on desktop only)
                   </div>
                 </div>} />
-            <SwitchField name='location'
+            <SwitchField name='showItemLocation'
+              onChange={(v)=> formik.setFieldValue('showItemLocation', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -132,7 +161,8 @@ export default function WidgetSettingsForm(props: Props) {
                     Location is displayed for each job
                   </div>
                 </div>} />
-            <SwitchField name='employmentType'
+            <SwitchField name='showItemEmploymentType'
+              onChange={(v)=> formik.setFieldValue('showItemEmploymentType', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
@@ -142,7 +172,8 @@ export default function WidgetSettingsForm(props: Props) {
                     Employment type is displayed for each job
                   </div>
                 </div>} />
-            <SwitchField name='category'
+            <SwitchField name='showItemCategory'
+              onChange={(v)=> formik.setFieldValue('showItemCategory', v)}
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>

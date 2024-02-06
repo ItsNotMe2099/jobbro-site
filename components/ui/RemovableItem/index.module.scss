@@ -1,0 +1,42 @@
+@import 'styles/index';
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 6px 16px;
+  border-radius: 30px;
+  column-gap: 10px;
+  border: 1px $green solid;
+  max-width: 100%;
+  background-color: $grey;
+  span {
+    word-wrap: break-word;
+    
+    max-width: calc(100% - 24px);
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.crossSvg {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  g{
+    path{
+      @include transitionDefault;
+    }
+  }
+  // @media (hover : hover ) {
+  //   &:hover {
+  //     g {
+  //       path{
+  //         fill: $blue;
+  //         stroke: $black;
+  //       }
+  //     }
+  //   }
+  // }
+}

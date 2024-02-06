@@ -165,15 +165,15 @@ export class Routes {
   }
 
   static get lkSettingsConfigWidgetSettings() {
-    return '/lk/settings/job-widget/configure-widget/settings'
+    return '/lk/settings/job-widget/configure-widget?page=settings'
   }
 
   static get lkSettingsConfigWidgetDesign() {
-    return '/lk/settings/job-widget/configure-widget/design'
+    return '/lk/settings/job-widget/configure-widget?page=design'
   }
 
   static get lkSettingsConfigWidgetIncludedJobs() {
-    return '/lk/settings/job-widget/configure-widget/included-jobs'
+    return '/lk/settings/job-widget/configure-widget?page=included-jobs'
   }
 
   static get lkSettingsConfigWidget() {
