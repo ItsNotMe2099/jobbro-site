@@ -3,7 +3,6 @@ import styles from './index.module.scss'
 import { IAvailableSlot } from '@/data/interfaces/IEvent'
 import { useAppContext } from '@/context/state'
 import BottomSheetLayout from '@/components/layout/BottomSheet/BottomSheetLayout'
-import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
 import RadioField from '@/components/fields/RadioField'
 import Validator from '@/utils/validator'
 import { format } from 'date-fns'
@@ -15,6 +14,9 @@ import { colors } from '@/styles/variables'
 import useTranslation from 'next-translate/useTranslation'
 import ModalLayout from '@/components/layout/Modal/ModalLayout'
 import ModalBody from '@/components/layout/Modal/ModalBody'
+import BottomSheetBody from '@/components/layout/BottomSheet/BottomSheetBody'
+
+
 
 interface Props {
   isBottomSheet?: boolean
@@ -28,7 +30,6 @@ export interface IChooseSlotModalArgs {
 }
 
 export default function ChooseSlotModal(props: Props) {
-  debugger
   const appContext = useAppContext()
   const args: IChooseSlotModalArgs = props.isBottomSheet?appContext.bottomSheetOnTopArguments:appContext.modalArguments
   const { t } = useTranslation()
@@ -59,6 +60,7 @@ export default function ChooseSlotModal(props: Props) {
       </p>
 
       <Form className={styles.form}>
+
         {args?.availableSlots &&
           <RadioField<string> 
           validate={Validator.required} 
@@ -81,7 +83,7 @@ export default function ChooseSlotModal(props: Props) {
       <BottomSheetLayout>
         <BottomSheetBody>
           {body}
-        </BottomSheetBody>
+        </BottomSheetBody> 
       </BottomSheetLayout>
     )
   }

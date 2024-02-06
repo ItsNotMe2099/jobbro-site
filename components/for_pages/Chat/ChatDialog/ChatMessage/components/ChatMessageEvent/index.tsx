@@ -32,11 +32,21 @@ export default function ChatMessageEvent(props: Props) {
           <div className={styles.day}>{format(new Date(event.start!), 'dd MMM EEEE')}</div>
           <div className={styles.time}>{format(new Date(event.start!), 'HH:mm')} - {format(new Date(event.end!), 'HH:mm')}</div>
         </div>}
-          {event.status !== EventStatus.Confirmed && event.slots.map((i) => <div className={styles.slot}>
+          {event.status !== EventStatus.Confirmed && event.slots.slice(0, 2).map((i) => <div className={styles.slot}>
           <div className={styles.day}>{format(new Date(i.start), 'dd MMM EEEE')}</div>
           <div className={styles.time}>{format(new Date(i.start), 'HH:mm')} - {format(new Date(i.end), 'HH:mm')}</div>
         </div>)}
-        {event.status !== EventStatus.Confirmed && <div className={styles.edit} onClick={() => chatDialogContext.setRoute(ChatDialogRoute.SelectEventSlot, {eventId: event.id})}>Edit</div>}
+        {event.status !== EventStatus.Confirmed && 
+          <div 
+          className={styles.edit} 
+          onClick={() => chatDialogContext.setRoute(ChatDialogRoute.SelectEventSlot, {eventId: event.id})}
+          >
+            {event.slots.length > 2 && 
+              <p className={styles.count}>{event.slots.length - 2} +</p>
+            }
+            Select a slot
+          </div>
+        }
         {event.status == EventStatus.Confirmed && !!event.place  &&  <div className={styles.startMeet}><Button  type='button' href={event.place} isExternalHref={true}  styleType='medium' color='green'>
           Start Meet
         </Button></div>}
