@@ -67,15 +67,15 @@ export default function WidgetSettingsForm(props: Props) {
 
   const formik = useFormik<IFormData>({
     initialValues: {
-      categoryFilter: jobWidgetContext.settings.categoryFilter??initialValues.categoryFilter,
-      locationFilter: jobWidgetContext.settings.locationFilter??initialValues.locationFilter,
-      employmentFilter: jobWidgetContext.settings.employmentFilter??initialValues.employmentFilter,
-      language: jobWidgetContext.settings.language||initialValues.language,
-      jobsPerPage: jobWidgetContext.settings.jobsPerPage||initialValues.jobsPerPage,
-      showItemLogo: jobWidgetContext.settings.showItemLogo??initialValues.showItemLogo,
-      showItemLocation: jobWidgetContext.settings.showItemLocation??initialValues.showItemLocation,
-      showItemEmploymentType: jobWidgetContext.settings.showItemEmploymentType??initialValues.showItemEmploymentType,
-      showItemCategory: jobWidgetContext.settings.showItemCategory??initialValues.showItemCategory
+      categoryFilter: jobWidgetContext.settings?.categoryFilter??initialValues.categoryFilter,
+      locationFilter: jobWidgetContext.settings?.locationFilter??initialValues.locationFilter,
+      employmentFilter: jobWidgetContext.settings?.employmentFilter??initialValues.employmentFilter,
+      language: jobWidgetContext.settings?.language||initialValues.language,
+      jobsPerPage: jobWidgetContext.settings?.jobsPerPage||initialValues.jobsPerPage,
+      showItemLogo: jobWidgetContext.settings?.showItemLogo??initialValues.showItemLogo,
+      showItemLocation: jobWidgetContext.settings?.showItemLocation??initialValues.showItemLocation,
+      showItemEmploymentType: jobWidgetContext.settings?.showItemEmploymentType??initialValues.showItemEmploymentType,
+      showItemCategory: jobWidgetContext.settings?.showItemCategory??initialValues.showItemCategory
     },
     onSubmit: handleSubmit
   })
