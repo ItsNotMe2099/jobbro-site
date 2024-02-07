@@ -14,7 +14,6 @@ import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 import JobWidget from '@/components/ui/JobWidget'
 import { useJobWidgetContext } from '@/context/job_widget_state'
 import { useVacancyListOwnerContext } from '@/context/vacancy_owner_list_state'
-import { useEffectOnce } from '@/components/hooks/useEffectOnce'
 
 
 interface IFormData extends 
@@ -46,11 +45,8 @@ export default function WidgetDesignForm(props: Props) {
   const jobWidgetContext = useJobWidgetContext()
   const vacancyListContext = useVacancyListOwnerContext()
 
-  useEffectOnce(() => {
-    vacancyListContext.reFetch()
-  })
-
   const handleSubmit = async (data: IFormData) => {
+    jobWidgetContext.saveSettings()
   }
 
   const initialValues: IFormData = {

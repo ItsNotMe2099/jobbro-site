@@ -9,6 +9,9 @@ import IncludedJobsForm from '@/components/for_pages/Lk/Settings/JobWidget/Widge
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useServiceCategoryListOwnerContext } from '@/context/service_category_list_state'
+import { useVacancyListOwnerContext } from '@/context/vacancy_owner_list_state'
+import { useEffectOnce } from '@/components/hooks/useEffectOnce'
+import { useJobWidgetContext } from '@/context/job_widget_state'
 
 type PageType = 'settings'|'design'|'included-jobs'
 interface Query {
@@ -28,11 +31,18 @@ const ConfigWidgetSettingsPage = (props: Props) => {
 
   const [currentPage, setCurrentPage] = useState<PageType>(props.page)
   const serviceCategoryListContext = useServiceCategoryListOwnerContext()
+  const jobWidgetContext = useJobWidgetContext()
+  const vacancyListContext = useVacancyListOwnerContext()
+
+  useEffectOnce(() => {
+    vacancyListContext.reFetch()
+  })
 
   const router = useRouter()
 
   useEffect(()=>{
     serviceCategoryListContext.reFetch()
+    jobWidgetContext.getWidget()
   }, [])
 
   useEffect(()=>{

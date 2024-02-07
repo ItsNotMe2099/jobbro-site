@@ -10,17 +10,33 @@ import Link from 'next/link'
 import { Routes } from '@/types/routes'
 import {HirerRole} from '@/data/enum/HirerRole'
 import JobWidget from '@/components/ui/JobWidget'
+import { useJobWidgetContext } from '@/context/job_widget_state'
+import { useEffect, useState } from 'react'
 
 interface Props {
 
 }
 
 const LkSettingsJobWidgetsPage = (props: Props) => {
+  const [currentLocation, setCurrentLocation] = useState<string>('')
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText('test')
     alert('Copied to clipboard')
   }
+
+  const jobWidgetContext = useJobWidgetContext()
+
+  useEffect(()=>{
+    jobWidgetContext.getWidget()  
+    setCurrentLocation(window.location.origin)
+  }, [])
+
+
+
+
+
 
   return (
     <div className={styles.root}>
@@ -41,9 +57,13 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
           </div>
         </div>
       </Card>
-      <JobWidget/>
+      <JobWidget {...jobWidgetContext.settings}/>
       <Card title={'Embed code'}>
-        <pre className={styles.code}>&lt;div id=&apos;jobbro-widget&apos;&gt;&lt;script&gt;&lt;/script&gt;&lt;/div&gt;</pre>
+        <pre className={styles.code}>
+          {`<iframe src="${currentLocation}/job-widget/${jobWidgetContext.token||''}"></iframe>`}
+          {/* &lt;div id=&apos;jobbro-widget&apos;&gt;&lt;script&gt;&lt;/script&gt;&lt;/div&gt; */}
+          
+        </pre>
         <div className={styles.controls}>
           <div className={styles.share} onClick={handleCopy}>
             <div className={styles.copy}>

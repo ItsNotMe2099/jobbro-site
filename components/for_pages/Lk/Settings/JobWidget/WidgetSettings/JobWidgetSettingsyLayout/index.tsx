@@ -9,6 +9,7 @@ import { Routes } from '@/types/routes'
 import { useRouter } from 'next/router'
 import { JobWidgetWrapper } from '@/context/job_widget_state'
 import { ServiceCategoryListOwnerWrapper } from '@/context/service_category_list_state'
+import { VacancyListOwnerWrapper } from '@/context/vacancy_owner_list_state'
 
 enum TabKey {
   Settings = 'settings',
@@ -59,7 +60,9 @@ export const JobWidgetSettingsPageLayout = nestLayout(LkPageHirerLayout, (page: 
   return <JobConfigureWidgetPageLayoutWrapper>
         <JobWidgetWrapper>
       <ServiceCategoryListOwnerWrapper>
-    {page}
+      <VacancyListOwnerWrapper>
+        {page}
+      </VacancyListOwnerWrapper>
       </ServiceCategoryListOwnerWrapper>
         </JobWidgetWrapper>
   </JobConfigureWidgetPageLayoutWrapper>

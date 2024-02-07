@@ -35,8 +35,7 @@ export default function IncludedJobsForm(props: Props) {
 
 
   const handleSubmit = async (data: IFormData) => {
-
-
+    jobWidgetContext.saveSettings()
   }
 
   const initialValues: IFormData = {

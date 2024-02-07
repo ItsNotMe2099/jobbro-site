@@ -37,7 +37,7 @@ export default function WidgetSettingsForm(props: Props) {
   const jobWidgetContext = useJobWidgetContext()
 
   const handleSubmit = async (data: IFormData) => {
-    
+    jobWidgetContext.saveSettings()
   }
 
   const jobsPerPageVariants: IOption<string>[] = [
@@ -57,7 +57,7 @@ export default function WidgetSettingsForm(props: Props) {
     categoryFilter: true,
     locationFilter: true,
     employmentFilter: true,
-    language: { label: 'EN' },
+    language: 'en',
     jobsPerPage: undefined,
     showItemLogo: true,
     showItemLocation: true,

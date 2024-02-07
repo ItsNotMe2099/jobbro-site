@@ -7,7 +7,7 @@ export interface IJobWidget {
   categoryFilter: boolean
   locationFilter: boolean
   employmentFilter: boolean
-  language: { label: string }
+  language: string
   jobsPerPage: number|undefined
   showItemLogo: boolean
   showItemLocation: boolean
@@ -26,6 +26,9 @@ export interface IJobWidget {
   secondaryText: string
   // data
   category: IServiceCategory[]
+  categoriesIds: number[]
   location: IGeoName[]
+  locationIds: number[]
   employment: Employment[]
+  token: string
 }

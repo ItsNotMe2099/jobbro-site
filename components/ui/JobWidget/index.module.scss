@@ -69,20 +69,34 @@
 .pagination {
   display: flex;
   align-items: center;
+  column-gap: 4px;
+  padding: unset;
+}
 
-  .item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $white;
+  border: 1px $grey solid;
+  margin: unset;
+  cursor: pointer;
+  @include secondaryText;
+  color: $black;
+  opacity: .8;
+
+  &_active {
+    opacity: 1;
     background: $green;
-    @include secondaryText;
     color: $white;
-    margin: unset;
+    color: var(--item-text-color);
+    background: var(--item-color);
   }
 }
+
 
 .link {
   font-size: 16px;

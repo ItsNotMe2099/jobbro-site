@@ -1,10 +1,14 @@
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
-import {Dispatch, SetStateAction, createContext, useContext, useEffect, useState} from 'react'
+import JobWidgetRepository from '@/data/repositories/JobWidgetRepository'
+import {Dispatch, SetStateAction, createContext, useContext, useState} from 'react'
 
 
 interface IState {
   settings: Partial<IJobWidget>
   setSettings: Dispatch<SetStateAction<Partial<IJobWidget>>>
+  saveSettings: (data?: Partial<IJobWidget>) => void
+  getWidget: () => void
+  token: string
 }
 
 const JobWidgetContext = createContext<IState>({} as IState)
@@ -15,19 +19,38 @@ interface Props {
 
 export function JobWidgetWrapper(props: Props) {
   const [settings, setSettings] = useState<Partial<IJobWidget>>({})
+  const [token, setToken] = useState<string>('')
+
+  const saveSettings = (data?: Partial<IJobWidget>) => {
+    const dataToSave:Partial<IJobWidget> = {
+      ...settings,
+      categoriesIds: settings?.category?.map(c=>c.id),
+      locationIds: settings?.location?.map(l=>l.geonameid),
+    }
+    JobWidgetRepository.updateWidget(dataToSave)
+    .then(res=> {
+      debugger
+    })
+  }
+
+  const getWidget = () => {
+    JobWidgetRepository.getWidgetSettings()
+    .then(res => {
+      if(res) {
+        setSettings(res)
+        setToken(res.token)
+      }
+    })
+  }
 
 
   const value: IState = {
     settings,
-    setSettings
+    setSettings,
+    saveSettings,
+    getWidget,
+    token
   }
-
-  useEffect(()=>{
-    console.log(settings)
-    
-  
-  }, [settings])
-
 
   return (
     <JobWidgetContext.Provider value={value as IState}>
