@@ -20,6 +20,7 @@ module.exports = nextTranslate({
     ],
   },
   serverRuntimeConfig: {
+    HOST: process.env.HOST,
     HOST_INNER: process.env.HOST_INNER,
     ROBOTS_FILE: process.env.ROBOTS_FILE,
   },

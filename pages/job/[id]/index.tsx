@@ -21,12 +21,14 @@ import {IJobChatModal} from '@/components/modals/JobChatModal'
 import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {IApplication} from '@/data/interfaces/IApplication'
+import {NextSeo} from 'next-seo'
 
-enum SideBarType{
+enum SideBarType {
   Apply = 'apply',
   Calendar = 'calendar',
   Chat = 'chat'
 }
+
 interface Props {
   job: IVacancyWithCurrentUserApply
 }
@@ -36,13 +38,13 @@ const JobPageInner = (props: Props) => {
   const [newApplication, setNewApplication] = useState<Nullable<IApplication>>(null)
   const {isTabletWidth} = appContext.size
   const {isSmDesktopWidth} = appContext.size
-  const { t } = useTranslation()
+  const {t} = useTranslation()
   const ref = useRef<HTMLDivElement | null>(null)
   const hasApplication = !!newApplication || (!!props.job.applicationByCurrentUser || !!props.job.proposalToCurrentUser)
   const employeeAiCvRequests = useEmployeeAiCvRequestsContext()
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
-  const [isClient, setIsClient]=  useState(false)
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
@@ -58,11 +60,11 @@ const JobPageInner = (props: Props) => {
   }, [])
 
   const sideBarType = useMemo<SideBarType>(() => {
-    if(employeeAiCvRequests.isShowApplyForm ){
+    if (employeeAiCvRequests.isShowApplyForm) {
       return SideBarType.Apply
-    }else if(!employeeAiCvRequests.isShowApplyForm && hasApplication){
+    } else if (!employeeAiCvRequests.isShowApplyForm && hasApplication) {
       return SideBarType.Chat
-    }else{
+    } else {
       return SideBarType.Calendar
     }
   }, [employeeAiCvRequests.isShowApplyForm, hasApplication])
@@ -72,45 +74,68 @@ const JobPageInner = (props: Props) => {
   }
 
   const openApplyModal = () => {
-    switch (sideBarType){
+    switch (sideBarType) {
       case SideBarType.Apply:
         appContext.showBottomSheet<IApplyForJobModal>(ModalType.ApplyForJobModal, {vacancyId: props.job.id})
         break
       case SideBarType.Calendar:
-        if(hasApplication){
+        if (hasApplication) {
           appContext.showBottomSheet(ModalType.MyEventsModal)
-        }else{
+        } else {
           appContext.showBottomSheet(ModalType.ApplicationCreate, {vacancyId: props.job?.id} as ApplicationCreateModalArguments)
         }
         break
       case SideBarType.Chat:
-        appContext.showModal<IJobChatModal>(ModalType.JobChatModal, {vacancyId: props.job.id, cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId} as IJobChatModal)
+        appContext.showModal<IJobChatModal>(ModalType.JobChatModal, {
+          vacancyId: props.job.id,
+          cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId
+        } as IJobChatModal)
         break
     }
   }
 
   return (<Layout hideTabbar>
+      <NextSeo
+        title={props.job.name}
+        description={props.job.intro.visible ? props.job.intro.description : ''}
+        openGraph={{
+          type: 'website',
+          url: `https://jobbro.dev.firelabs.ru/job/${props.job.id}`,
+          title: props.job.name,
+          description: props.job.intro.visible ? props.job.intro.description : '',
+          images: [
+            {
+              url: `https://jobbro.dev.firelabs.ru/job/${props.job.id}/share-image`,
+              width: 540,
+              height: 450,
+              alt: props.job.name,
+            },
+          ],
+        }}
+      />
       <div className={styles.root}>
         <div ref={ref} className={styles.container} id='idVacancyContainer'>
           <JobPreview job={props.job} company={props.job.company}/>
-          {isClient && !isSmDesktopWidth  && canShowContent &&  sideBarType !== SideBarType.Apply && !hasApplication && !(request && request.vacancyId === props.job.id) &&
-          <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
-            <Button spinner={false} type='submit' styleType='large' color='green'
-                    onClick={() => openApplicationModal()}>
-              {t('job_preview_button_apply')}
-            </Button>
-          </FormStickyFooter>}
+          {isClient && !isSmDesktopWidth && canShowContent && sideBarType !== SideBarType.Apply && !hasApplication && !(request && request.vacancyId === props.job.id) &&
+            <FormStickyFooter boundaryElement={'#idVacancyContainer'} formRef={ref} className={styles.footer}>
+              <Button spinner={false} type='submit' styleType='large' color='green'
+                      onClick={() => openApplicationModal()}>
+                {t('job_preview_button_apply')}
+              </Button>
+            </FormStickyFooter>}
         </div>
         {isClient && isSmDesktopWidth && !canShowContent && <ContentLoader isOpen={true} style={'block'}/>}
         {canShowContent && isTabletWidth &&
-          <Button color='green' onClick={openApplyModal} font='normal16' styleType='large' className={styles.applyButton}>Apply</Button>
+          <Button color='green' onClick={openApplyModal} font='normal16' styleType='large'
+                  className={styles.applyButton}>Apply</Button>
         }
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Apply &&
           <ApplyForJobForm vacancyId={props.job.id}/>
         }
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Calendar && <MyEvents/>}
         {isClient && !isSmDesktopWidth && canShowContent && sideBarType === SideBarType.Chat &&
-          <ChatOnPage simpleType vacancyId={props.job.id} cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>
+          <ChatOnPage simpleType vacancyId={props.job.id}
+                      cvId={newApplication?.cvId ?? props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId}/>
         }
       </div>
     </Layout>
@@ -132,10 +157,10 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
         job
       }
     }
-  }catch (e) {
+  } catch (e) {
     console.error(e)
-    if(e instanceof RequestError){
-      if(e.isNotFoundError){
+    if (e instanceof RequestError) {
+      if (e.isNotFoundError) {
         return {
           notFound: true
         }

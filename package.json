@@ -46,7 +46,7 @@
     "libphonenumber-js": "^1.10.44",
     "moment": "^2.29.4",
     "next": "13.4.19",
-    "next-seo": "^6.1.0",
+    "next-seo": "^6.4.0",
     "next-translate": "^2.6.2",
     "node-cache": "^5.1.2",
     "nookies": "^2.5.2",

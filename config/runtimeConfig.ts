@@ -13,6 +13,7 @@ interface IRuntimeConfig {
 }
 
 interface IServerRuntimeConfig {
+  HOST: string
   HOST_INNER?: string
   ROBOTS_FILE: string
   API_FRONTEND_TOKEN: string
