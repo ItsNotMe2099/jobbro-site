@@ -99,13 +99,14 @@ const JobPageInner = (props: Props) => {
         title={props.job.name}
         description={props.job.intro.visible ? props.job.intro.description : ''}
         openGraph={{
+
           type: 'website',
           url: `https://jobbro.dev.firelabs.ru/job/${props.job.id}`,
           title: props.job.name,
           description: props.job.intro.visible ? props.job.intro.description : '',
           images: [
             {
-              url: `https://jobbro.dev.firelabs.ru/job/${props.job.id}/share-image`,
+              url: `https://jobbro.dev.firelabs.ru/api/vacancy/${props.job.id}/share-image`,
               width: 540,
               height: 450,
               alt: props.job.name,
