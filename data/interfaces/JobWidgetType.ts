@@ -1,6 +1,6 @@
 import { Employment } from '../enum/Employment'
+import { ISpecializationCategory } from './Common'
 import { IGeoName } from './ILocation'
-import { IServiceCategory } from './IServiceCategory'
 
 export interface IJobWidget {
   // settings
@@ -25,10 +25,11 @@ export interface IJobWidget {
   primaryText: string
   secondaryText: string
   // data
-  category: IServiceCategory[]
+  categories: ISpecializationCategory[]
   categoriesIds: number[]
   location: IGeoName[]
   locationIds: number[]
-  employment: Employment[]
+  employments: Employment[]
   token: string
+  company: any
 }

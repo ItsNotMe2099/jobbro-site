@@ -19,6 +19,7 @@ interface Props {
 
 const LkSettingsJobWidgetsPage = (props: Props) => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
+  const [widgetHeight, setWidgetHeight] = useState<string>('')
 
 
   const handleCopy = () => {
@@ -30,17 +31,21 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
 
   useEffect(()=>{
     jobWidgetContext.getWidget()  
-    setCurrentLocation(window.location.origin)
+    const jobWidget: HTMLDivElement = document.getElementById('job-widget') as HTMLDivElement
+    setWidgetHeight(jobWidget.clientHeight.toString())
   }, [])
 
-
-
-
-
+  useEffect(()=>{
+    if(jobWidgetContext.settings && jobWidgetContext.vacancies.size > 0) {
+      setCurrentLocation(window.location.origin)
+      const jobWidget: HTMLDivElement = document.getElementById('job-widget') as HTMLDivElement
+      setWidgetHeight(jobWidget.clientHeight.toString())
+    }
+  }, [jobWidgetContext.settings, jobWidgetContext.vacancies])
 
   return (
     <div className={styles.root}>
-      <Card>
+        <Card>
         <div className={styles.title}>
           Display jobs on your website
         </div>
@@ -58,11 +63,10 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
         </div>
       </Card>
       <JobWidget {...jobWidgetContext.settings}/>
+      {jobWidgetContext.settings && jobWidgetContext.vacancies.size > 0 &&
       <Card title={'Embed code'}>
         <pre className={styles.code}>
-          {`<iframe src="${currentLocation}/job-widget/${jobWidgetContext.token||''}"></iframe>`}
-          {/* &lt;div id=&apos;jobbro-widget&apos;&gt;&lt;script&gt;&lt;/script&gt;&lt;/div&gt; */}
-          
+          {`<iframe src="${currentLocation}/job-widget/${jobWidgetContext.token||''}" height="${widgetHeight}" style="border: unset;"></iframe>`}          
         </pre>
         <div className={styles.controls}>
           <div className={styles.share} onClick={handleCopy}>
@@ -76,6 +80,7 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
           </Link>
         </div>
       </Card>
+      }
     </div>
   )
 }

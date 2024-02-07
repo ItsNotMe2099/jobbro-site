@@ -16,10 +16,11 @@ import SelectField from '@/components/fields/SelectField'
 import Dictionary from '@/utils/Dictionary'
 import RemovableItem from '@/components/ui/RemovableItem'
 import { useServiceCategoryListOwnerContext } from '@/context/service_category_list_state'
+import { ISpecializationCategory } from '@/data/interfaces/Common'
 
 
 interface IFormData  extends 
-Pick<IJobWidget, 'category'|'location'|'employment'>
+Pick<IJobWidget, 'categories'|'location'|'employments'>
 {}
 
 interface Props {
@@ -32,6 +33,7 @@ export default function IncludedJobsForm(props: Props) {
   const jobWidgetContext = useJobWidgetContext()
   const {t} = useTranslation()
   const serviceCategoryListContext = useServiceCategoryListOwnerContext()
+  const isFormSet = useRef<boolean>(false)
 
 
   const handleSubmit = async (data: IFormData) => {
@@ -39,9 +41,9 @@ export default function IncludedJobsForm(props: Props) {
   }
 
   const initialValues: IFormData = {
-    category: jobWidgetContext.settings.category||[],
-    location: jobWidgetContext.settings.location || [],
-    employment: jobWidgetContext.settings.employment || [],
+    categories: jobWidgetContext.settings?.categories||[],
+    location: jobWidgetContext.settings?.location || [],
+    employments: jobWidgetContext.settings?.employments || [],
   }
 
   const formik = useFormik<IFormData>({
@@ -50,8 +52,25 @@ export default function IncludedJobsForm(props: Props) {
   })
 
   useEffect(()=>{
-    jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    if(isFormSet.current) {
+      jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    }
   }, [formik.values])
+
+  useEffect(()=>{
+    if(jobWidgetContext.settings && !isFormSet.current) {
+      formik.setFieldValue('categories', jobWidgetContext.settings.categories||[])
+      formik.setFieldValue('location', jobWidgetContext.settings.location||[])
+      formik.setFieldValue('employments', jobWidgetContext.settings.employments||[])
+      isFormSet.current = true
+    }
+  }, [jobWidgetContext.settings])
+
+  useEffect(()=>{
+    if(!jobWidgetContext.settings) {
+      jobWidgetContext.getWidget()
+    }
+  }, [])
 
 
   return (
@@ -60,21 +79,18 @@ export default function IncludedJobsForm(props: Props) {
         <Card title={'Category'}>
           <p className={styles.description}>Limit the jobs displayed in this widget to one or more categories</p>
           <div className={styles.removableItems}>
-          {formik.values.category.length > 0 && formik.values.category.map(
-            (el, index) => <RemovableItem key={index} text={el.name} onClick={() => formik.setFieldValue('category', formik.values.category.filter((_, i) => i !== index))}/>
+          {jobWidgetContext.settings?.categories && jobWidgetContext.settings?.categories.length > 0 && jobWidgetContext.settings?.categories.map(
+            (el, index) => <RemovableItem key={index} text={el.name||el.translations[0].name} onClick={() => formik.setFieldValue('categories', formik.values.categories.filter((_, i) => i !== index))}/>
           )}            
           </div>
-
           <SelectField 
           placeholder='Search Employment Type' 
-          options={serviceCategoryListContext.data.filter(el=> !formik.values.category.includes(el)).map(c => {
+          options={serviceCategoryListContext.data.filter(el=> !formik.values.categories.includes(el as ISpecializationCategory)).map(c => {
             return {label: c.name, value: c}
           })}          
-          name={`category[${formik.values.category.length === 0?formik.values.category.length: formik.values.category.length-1}]`} 
-          onChange={(el)=>formik.setFieldValue('category', [...formik.values.category, el])}
+          name={`categories[${formik.values.categories.length === 0?formik.values.categories.length: formik.values.categories.length-1}]`} 
+          onChange={(el)=>formik.setFieldValue('categories', [...formik.values.categories, el])}
           />
-
-          
         </Card>
         <Card title={'Location'}>
           <p className={styles.description}>Limit the jobs displayed in this widget to one or more locations</p>
@@ -93,15 +109,15 @@ export default function IncludedJobsForm(props: Props) {
         <Card title={'Employment Type'}>
           <p className={styles.description}>Limit the jobs displayed in this widget to one or more employment types</p>
           <div className={styles.removableItems}>
-          {formik.values.employment.length > 0 && formik.values.employment.map(
-            (el, index) => <RemovableItem key={index} text={el} onClick={() => formik.setFieldValue('employment', formik.values.employment.filter((_, i) => i !== index))}/>
+          {formik.values.employments &&formik.values.employments.length > 0 && formik.values.employments.map(
+            (el, index) => <RemovableItem key={index} text={el} onClick={() => formik.setFieldValue('employments', formik.values.employments.filter((_, i) => i !== index))}/>
           )}            
           </div>
           <SelectField 
           placeholder='Search Employment Type' 
-          options={Dictionary.getEmploymentOptions(t).filter(el => formik.values.employment.findIndex(e=> el.value === e)===-1)} 
-          name={`employment[${formik.values.employment.length === 0?formik.values.employment.length: formik.values.employment.length-1}]`} 
-          onChange={(el)=>formik.setFieldValue('employment', [...formik.values.employment, el])}
+          options={Dictionary.getEmploymentOptions(t).filter(el => formik.values.employments.findIndex(e=> el.value === e)===-1)} 
+          name={`employments[${formik.values.employments.length === 0?formik.values.employments.length: formik.values.employments.length-1}]`} 
+          onChange={(el)=>formik.setFieldValue('employments', [...formik.values.employments, el])}
           />
         </Card>
         <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>

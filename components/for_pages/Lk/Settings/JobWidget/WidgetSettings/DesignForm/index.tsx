@@ -44,6 +44,8 @@ export default function WidgetDesignForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const jobWidgetContext = useJobWidgetContext()
   const vacancyListContext = useVacancyListOwnerContext()
+  const isFormSet = useRef<boolean>(false)
+
 
   const handleSubmit = async (data: IFormData) => {
     jobWidgetContext.saveSettings()
@@ -63,24 +65,37 @@ export default function WidgetDesignForm(props: Props) {
   }
 
   const formik = useFormik<IFormData>({
-    initialValues: {
-      backgroundWidget: jobWidgetContext.settings.backgroundWidget||initialValues.backgroundWidget,
-      filterBorders: jobWidgetContext.settings.filterBorders||initialValues.filterBorders,
-      pagination: jobWidgetContext.settings.pagination||initialValues.pagination,
-      backgroundJobCard: jobWidgetContext.settings.backgroundJobCard||initialValues.backgroundJobCard,
-      cardBorder: jobWidgetContext.settings.cardBorder||initialValues.cardBorder,
-      cardShadow: jobWidgetContext.settings.cardShadow||initialValues.cardShadow,
-      primaryText: jobWidgetContext.settings.primaryText||initialValues.primaryText,
-      secondaryText: jobWidgetContext.settings.secondaryText||initialValues.secondaryText,
-      showCardBorder: jobWidgetContext.settings.showCardBorder||initialValues.showCardBorder,
-      showCardShadow: jobWidgetContext.settings.showCardShadow||initialValues.showCardShadow
-    },
+    initialValues,
     onSubmit: handleSubmit
   })
 
   useEffect(()=>{
-    jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    if(isFormSet.current) {
+      jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    }
   }, [formik.values])
+
+  useEffect(()=>{
+    if(jobWidgetContext.settings && !isFormSet.current) {
+      formik.setFieldValue('backgroundWidget', jobWidgetContext.settings.backgroundWidget)
+      formik.setFieldValue('filterBorders', jobWidgetContext.settings.filterBorders)
+      formik.setFieldValue('pagination', jobWidgetContext.settings.pagination)
+      formik.setFieldValue('backgroundJobCard', jobWidgetContext.settings.backgroundJobCard)
+      formik.setFieldValue('cardBorder', jobWidgetContext.settings.cardBorder)
+      formik.setFieldValue('cardShadow', jobWidgetContext.settings.cardShadow)
+      formik.setFieldValue('primaryText', jobWidgetContext.settings.primaryText)
+      formik.setFieldValue('secondaryText', jobWidgetContext.settings.secondaryText)
+      formik.setFieldValue('showCardBorder', jobWidgetContext.settings.showCardBorder)
+      formik.setFieldValue('showCardShadow', jobWidgetContext.settings.showCardShadow)      
+      isFormSet.current = true
+    }
+  }, [jobWidgetContext.settings])
+
+  useEffect(()=>{
+    if(!jobWidgetContext.settings) {
+      jobWidgetContext.getWidget()
+    }
+  }, [])
 
 
   //Widget Styles

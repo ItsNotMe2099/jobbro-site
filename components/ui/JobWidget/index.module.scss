@@ -26,9 +26,16 @@
     border: 2px $grey solid;  
     padding: 24px;
     @include transitionDefault;
+    filter: blur(0px);
+
     @include hover {
       border: 2px transparent solid;
       box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 51%);    }
+  }
+
+  .loading {
+    filter: blur(3px);
+    animation: blinking infinite alternate .6s;
   }
 
   .name {
@@ -40,6 +47,16 @@
     margin-left: auto;
   }
 
+}
+
+
+@keyframes blinking {
+  0% {
+    opacity: .7;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .bottom {
@@ -54,6 +71,7 @@
   align-items: center;
   column-gap: 24px;
   margin-top: 8px;
+  height: 24px;
   .stat {
     display: flex;
     align-items: center;
@@ -114,3 +132,4 @@
     flex: 1 1;
   }
 }
+

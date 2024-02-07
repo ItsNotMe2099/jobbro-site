@@ -12,34 +12,18 @@ import LocationSvg from '@/components/svg/LocationSvg'
 import UserTabSvg from '@/components/svg/UserTabSvg'
 import Link from 'next/link'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
-import { useEffect, useState } from 'react'
 import { Form, FormikProvider, useFormik } from 'formik'
 import ReactPaginate from 'react-paginate'
+import { useJobWidgetContext } from '@/context/job_widget_state'
+import classNames from 'classnames'
 
 interface Props extends Partial<IJobWidget> {
   vacancies?: IVacancy[]
 }
 
 export default function JobWidget(props: Props) {
-  
+  const jobWidgetContext = useJobWidgetContext()
   const {t} = useTranslation()
-  const vacanciesLength = props.vacancies?.length||0
-  const jobsPerPage = props.jobsPerPage||2
-  const [page, setPage] = useState<number>(1)
-
-  const [activeVacancies, setActiveVacancies] = useState<IVacancy[]>(props.vacancies?.slice(0, jobsPerPage)||[])
-
-  useEffect(()=>{
-    if(props.vacancies &&props.vacancies?.length > 0) {
-      setActiveVacancies(props.vacancies?.slice(0, jobsPerPage))
-    }
-  }, [props.vacancies])
-
-  useEffect(()=>{
-    if(props.vacancies && props.vacancies?.length > 0) {
-      setActiveVacancies(props.vacancies?.slice(page*jobsPerPage, (page*jobsPerPage)+jobsPerPage))
-    }
-  }, [page])
 
   const formik = useFormik({
     initialValues: {
@@ -50,8 +34,7 @@ export default function JobWidget(props: Props) {
     onSubmit: () => {}
   })
 
-
-  return (<div className={styles.root} style={{background: props.backgroundWidget}}> 
+  return (<div className={styles.root} style={{background: props.backgroundWidget}} id="job-widget"> 
     <p className={styles.title} style={{color: props.primaryText}}>Widget preview</p>
     <FormikProvider value={formik}>
       <Form>
@@ -61,7 +44,7 @@ export default function JobWidget(props: Props) {
             className={styles.select}
             style={{border: props.filterBorders&&`2px solid ${props.filterBorders}`}}
             label={'All categories'}
-            options={props?.category&&props?.category?.length > 0 ? props?.category?.map(i => ({value: i.id, label: i.name})):[]} 
+            options={props?.categories&&props?.categories?.length > 0 ? props?.categories?.map(i => ({value: i.id, label: i.name})):[]} 
             name={'category'}/>
           }
           {props.locationFilter &&
@@ -77,7 +60,7 @@ export default function JobWidget(props: Props) {
             className={styles.select}
             style={{border: props.filterBorders&&`2px solid ${props.filterBorders}`}}
             label={'All employment types'}
-            options={ props?.employment&&props?.employment?.length > 0 ?props.employment.map(i => ({value: i, label: Dictionary.getEmploymentName(i, t)})):[]} 
+            options={ props?.employments&&props?.employments?.length > 0 ?props.employments.map(i => ({value: i, label: Dictionary.getEmploymentName(i, t)})):[]} 
             name={'employment'}/>
           }
         </div>
@@ -85,9 +68,10 @@ export default function JobWidget(props: Props) {
     </FormikProvider>
 
     <div className={styles.vacancies}>
-      {activeVacancies && activeVacancies.length > 0&& activeVacancies.map(v => {
+      {/* @ts-ignore */}
+      { jobWidgetContext.vacancies&& jobWidgetContext?.vacancies?.get(jobWidgetContext.page)?.length > 0 && jobWidgetContext?.vacancies?.get(jobWidgetContext.page).map(v => {
         return (
-          <div className={styles.vacancy} 
+          <div className={classNames(styles.vacancy, jobWidgetContext.loading&&styles.loading)} 
           style={{
             background: props.backgroundJobCard, 
             boxShadow: (props.cardShadow&& props.showCardShadow)?`0px 0px 10px 0px ${props.cardShadow}`:'',
@@ -95,20 +79,20 @@ export default function JobWidget(props: Props) {
           }} 
           >
             {props.showItemLogo &&
-              <AvatarCircular file={v.company.logo} initials={'Jobbro'} size={80}/>
+              <AvatarCircular file={jobWidgetContext.settings?.company.logo} initials={jobWidgetContext.settings?.company?.name[0]} size={80}/>
             }
             <div className={styles.info}>
-              <div className={styles.name}>{v.name}</div>
-              {(props.showItemCategory || props.showItemLocation || props.showItemEmploymentType) &&
+              <div className={styles.name} style={{color: jobWidgetContext.settings?.secondaryText}}>{v.name}</div>
+              {(jobWidgetContext.settings?.showItemCategory || jobWidgetContext.settings?.showItemLocation || jobWidgetContext.settings?.showItemEmploymentType) &&
                 <div className={styles.stats}>
                   {v.category?.name && props.showItemLogo &&
-                    <div className={styles.stat}><FileSvg color={colors.green}/> {v.category?.name}</div>
+                    <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><FileSvg color={colors.green}/> {v.category?.name}</div>
                   }
                   {v.office?.city?.locName && props.showItemLocation &&
-                    <div className={styles.stat}><LocationSvg color={colors.green}/> {v.office?.city?.locName}</div>
+                    <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><LocationSvg color={colors.green}/> {v.office?.city?.locName}</div>
                   }
                   {v.employment && props.showItemEmploymentType &&
-                    <div className={styles.stat}><UserTabSvg color={colors.green}/> {v?.employment}</div>
+                    <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><UserTabSvg color={colors.green}/> {Dictionary.getEmploymentName(v?.employment, t)}</div>
                   }
                 </div>
               }
@@ -117,30 +101,30 @@ export default function JobWidget(props: Props) {
           </div>
         )
       })}
-      {activeVacancies.length === 0 && [1,2].map(i => {
+      {false && !jobWidgetContext.loading && new Array(jobWidgetContext.settings?.jobsPerPage||2).fill('').map(i => {
         return (
-          <div className={styles.vacancy} key={'empty'}
+          <div className={classNames(styles.vacancy, styles.loading)} key={'empty'}
           style={{
-            background: props.backgroundJobCard, 
-            boxShadow: (props.cardShadow&& props.showCardShadow)?`0px 0px 10px 0px ${props.cardShadow}`:'',
-            border: (props.cardBorder &&props.showCardBorder)?'2px solid '+props.cardBorder:'',
+            background: jobWidgetContext?.settings?.backgroundJobCard, 
+            boxShadow: (jobWidgetContext?.settings?.cardShadow&& jobWidgetContext.settings?.showCardShadow)?`0px 0px 10px 0px ${jobWidgetContext.settings.cardShadow}`:'',
+            border: (jobWidgetContext.settings?.cardBorder &&jobWidgetContext?.settings?.showCardBorder)?'2px solid '+jobWidgetContext.settings.cardBorder:'',
           }} 
           >
             {props.showItemLogo &&
-              <AvatarCircular/>
+              <AvatarCircular size={80}/>
             }
             <div className={styles.info}>
               <div className={styles.name} style={{color: props.primaryText}}>Empty vacancy name</div>
-              {(props.showItemCategory || props.showItemLocation || props.showItemEmploymentType) &&
+              {(jobWidgetContext.settings?.showItemCategory || jobWidgetContext.settings?.showItemLocation || jobWidgetContext.settings?.showItemEmploymentType) &&
               <div className={styles.stats}>
-                {props.showItemCategory &&
-                  <div className={styles.stat} style={{color: props.secondaryText}}><FileSvg color={colors.green}/> Empty Category</div>
+                {jobWidgetContext.settings?.showItemCategory &&
+                  <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><FileSvg color={colors.green}/> Empty Category</div>
                 }
-                {props.showItemLocation &&
-                  <div className={styles.stat} style={{color: props.secondaryText}}><LocationSvg color={colors.green}/> Empty City</div>
+                {jobWidgetContext.settings?.showItemLocation &&
+                  <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><LocationSvg color={colors.green}/> Empty City</div>
                 }
-                {props.showItemEmploymentType &&
-                  <div className={styles.stat} style={{color: props.secondaryText}}><UserTabSvg color={colors.green}/> Full Time</div>
+                {jobWidgetContext.settings?.showItemEmploymentType &&
+                  <div className={styles.stat} style={{color: jobWidgetContext.settings.secondaryText}}><UserTabSvg color={colors.green}/> Full Time</div>
                 }
               </div>
               }
@@ -153,21 +137,26 @@ export default function JobWidget(props: Props) {
     </div>
 
     {/* @ts-ignore */}
-    <div className={styles.bottom} style={{'--item-color': props.pagination, '--item-text-color': props.secondaryText}}>
+    <div className={styles.bottom} style={{'--item-color': jobWidgetContext.settings?.pagination, '--item-text-color': jobWidgetContext.settings?.secondaryText}}>
+      {jobWidgetContext.total > 0 &&
       <ReactPaginate
-      breakLabel={<p className={styles.paginationLink} style={{background: props.pagination}}>...</p>}
+      breakLabel={<p className={styles.paginationLink} style={{background: jobWidgetContext.settings?.pagination}}>...</p>}
       breakClassName={styles.item}
       nextLabel={null}
       activeLinkClassName={styles.item_active}
       containerClassName={styles.pagination}
       pageLinkClassName={styles.item}
-      onPageChange={(el)=>{setPage(el.selected)}}
+      onClick={(el)=>{
+        //@ts-ignore
+        jobWidgetContext.setPage(el.nextSelectedPage + 1)
+      }}
       pageRangeDisplayed={3}
       marginPagesDisplayed={2}
-      pageCount={vacanciesLength/jobsPerPage}
+      pageCount={jobWidgetContext.total/(jobWidgetContext.settings?.jobsPerPage||2)}
       previousLabel={null}
       renderOnZeroPageCount={null}
       />
+     }
       <Link className={styles.link} href={'#'}>Show all jobs at Jobbro</Link>
     </div>  
   </div>)
