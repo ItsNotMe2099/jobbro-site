@@ -33,10 +33,22 @@ export default function CardCandidateSummary(props: Props) {
             {cv.educationInfo.map((i) => <div>{[i.institution, i.speciality, i.degree, Formatter.formatRangeYear(i.fromYear, i.toYear)].filter(i => !!i).join(', ')}</div>)}
           </div>
         </div>}
-        {skills.length >0 && <div className={styles.section}>
+        {cv.coursesInfo?.length > 0 && <div className={styles.section}>
+          <div className={styles.title}>
+            {t('cv_preview_about_courses')}
+
+          </div>
+          <div className={styles.about}>
+            {cv.coursesInfo.filter(i => !!i.name).map((i) => <div>{i.name}</div>)}
+          </div>
+        </div>}
+        {(skills.length > 0 || (cv.skillsDescription.visible && cv.skillsDescription.description)) && <div className={styles.section}>
           <div className={styles.title}>
             {t('cv_preview_about_skills')}
           </div>
+          {cv.skillsDescription.visible && <HtmlText>
+          {cv.skillsDescription.description}
+          </HtmlText>}
           <ChipList>
             {skills.map((i) =>
               <Chip>{i}</Chip>

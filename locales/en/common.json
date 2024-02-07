@@ -145,6 +145,7 @@
   "cv_preview_ai_summary_title": "AI Summary",
   "cv_preview_about_title": "About me",
   "cv_preview_about_education": "Education",
+  "cv_preview_about_courses": "Courses",
   "cv_preview_about_skills": "Skills",
   "cv_preview_about_languages": "Languages",
   "cv_preview_professional_exprience": "Professional Experience {{duration}}",
