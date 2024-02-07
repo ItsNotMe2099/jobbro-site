@@ -6,6 +6,7 @@ import Formatter from '@/utils/formatter'
 import ChipList from '@/components/ui/ChipList'
 import Chip from '@/components/ui/Chip'
 import useTranslation from 'next-translate/useTranslation'
+import LanguageUtils from '@/utils/LanguageUtils'
 
 interface Props {
   cv: ICV
@@ -48,7 +49,7 @@ export default function CardCandidateSummary(props: Props) {
           </div>
           <ChipList>
             {cv.languageKnowledges.map((i) =>
-              <Chip>{[i.language, i.level].filter(i => !!i).join(' - ')}</Chip>
+              <Chip>{[LanguageUtils.getLanguageName(i.language), i.level].filter(i => !!i).join(' - ')}</Chip>
             )}
           </ChipList>
 
