@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import {useAppContext} from 'context/state'
 import ContentLoader from 'components/ui/ContentLoader'
 import {ChatDialogRoute, ChatDialogWrapper, ChatDisabledType, useChatDialogContext} from 'context/chat_dialog_state'
-import {ReactElement} from 'react'
+import {ReactElement, useMemo} from 'react'
 import classNames from 'classnames'
 import ChatMessageForm from '@/components/for_pages/Chat/ChatMessageForm'
 import ChatSuggestionLogin from '@/components/for_pages/Chat/ChatDialog/ChatSuggestionLogin'
@@ -14,6 +14,7 @@ import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlot
 import {Nullable} from '@/types/types'
 import ChatMessagesList from '@/components/for_pages/Chat/ChatDialog/ChatMessagesList'
 import { MyEvents } from '../../Calendar/MyEvents'
+import { ProfileType } from '@/data/enum/ProfileType'
 
 interface Props {
   className?: string
@@ -30,23 +31,32 @@ interface Props {
 const ChatDialogInner = (props: Props) => {
   const appContext = useAppContext()
   const {isTabletWidth} = appContext.size
-  const chatContext = useChatDialogContext()
-  const loading = chatContext.loading || !appContext.aboutMeLoaded
+  const chatDialogContext = useChatDialogContext()
+  const loading = chatDialogContext.loading || !appContext.aboutMeLoaded
   const renderChatSuggestion = () => {
-    switch (chatContext.disabledType) {
+    switch (chatDialogContext.disabledType) {
       case ChatDisabledType.Auth:
         return <ChatSuggestionLogin/>
     }
     return null
-
   }
+
+  const name = useMemo(() => {
+    switch (appContext.aboutMe?.profileType){
+      case ProfileType.Employee:
+        return chatDialogContext.chat?.vacancy?.company?.name|| (chatDialogContext.chat?.vacancy.profile.firstName + ' ' + chatDialogContext.chat?.vacancy.profile.lastName)
+      case ProfileType.Hirer:
+        return chatDialogContext.chat?.cv?.name
+    }
+  }, [chatDialogContext.chat])
+
   return (
     <div className={classNames(styles.root, props.className)}>
       <div className={styles.container}>
-        {chatContext.chat?.cv &&
+        {chatDialogContext.chat?.cv &&
           <PageTitle 
           className={styles.title} 
-          title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
+          title={name||''}
           onBack={props.onBackClick}
           invertColors={isTabletWidth}
           />
@@ -54,7 +64,7 @@ const ChatDialogInner = (props: Props) => {
         <ChatHeader 
         hasBack={props.hasBack ?? false} 
         showBothChatNames={props.showBothChatNames}
-        chat={chatContext.chat||undefined}
+        chat={chatDialogContext.chat||undefined}
         title={props.title ?? null}
         />
         <ChatMessagesList/>

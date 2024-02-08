@@ -101,11 +101,18 @@
 
 .email {
   display: flex;
-  @include list(8px, true);
+  flex-direction: column;
+  row-gap: 8px;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: 24px;
   color: $green;
   letter-spacing: -0.18px;
+}
+
+.emailItem {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
 }

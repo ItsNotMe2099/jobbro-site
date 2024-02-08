@@ -17,7 +17,7 @@ export default function ChatOnPage(props: Props) {
   const appContext = useAppContext()
   let ref = useRef<HTMLDivElement | null>(null)
   return (<div ref={ref} className={classNames(styles.root, styles[appContext.headerDirection]) } >
-            <ChatDialogWidget vacancyId={props.vacancyId} cvId={props.cvId} title={props.title} simpleType={props.simpleType}/>
+            <ChatDialogWidget  vacancyId={props.vacancyId} cvId={props.cvId} title={props.title} simpleType={props.simpleType}/>
       </div>
   )
 }

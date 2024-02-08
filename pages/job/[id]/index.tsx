@@ -17,11 +17,11 @@ import ChatOnPage from '@/components/for_pages/Common/ChatOnPage'
 import ApplyForJobForm from '@/components/for_pages/Common/ApplyForJobForm'
 import {useEmployeeAiCvRequestsContext} from '@/context/employee_cv_request_state'
 import {IApplyForJobModal} from '@/components/modals/ApplyForJobModal'
-import {IJobChatModal} from '@/components/modals/JobChatModal'
 import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {NextSeo} from 'next-seo'
+import { IJobChatModal } from '@/components/modals/JobChatModal'
 
 enum SideBarType {
   Apply = 'apply',
@@ -34,6 +34,7 @@ interface Props {
 }
 
 const JobPageInner = (props: Props) => {
+  console.log(props.job)
   const appContext = useAppContext()
   const [newApplication, setNewApplication] = useState<Nullable<IApplication>>(null)
   const {isTabletWidth} = appContext.size
@@ -45,6 +46,7 @@ const JobPageInner = (props: Props) => {
   const request = employeeAiCvRequests.requests.length > 0 ? employeeAiCvRequests.requests[0] : null
   const canShowContent = (appContext.allLoaded && !appContext.isLogged) || employeeAiCvRequests.initialLoaded
   const [isClient, setIsClient] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     setIsClient(true)
@@ -88,7 +90,9 @@ const JobPageInner = (props: Props) => {
       case SideBarType.Chat:
         appContext.showModal<IJobChatModal>(ModalType.JobChatModal, {
           vacancyId: props.job.id,
-          cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId
+          cvId: props.job.applicationByCurrentUser?.cvId ?? props.job.proposalToCurrentUser?.cvId,
+          replace: true
+
         } as IJobChatModal)
         break
     }

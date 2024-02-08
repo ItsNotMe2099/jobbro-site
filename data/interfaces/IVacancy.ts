@@ -18,6 +18,7 @@ import {IHiringStageWithApply} from '@/data/interfaces/IHiringStage'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import {IProject} from '@/data/interfaces/IProject'
 import { TimeStamp } from './Common'
+import { IProfile } from './IProfile'
 
 export interface IHiringStageDescription {
   title: string;
@@ -45,6 +46,7 @@ export interface IVacancy extends TimeStamp {
   applicationByCurrentUser: IApplication;
   id: number;
   profileId: number;
+  profile: IProfile;
   name: string;
   company: ICompany
   intro: IVacancyPageBlock;

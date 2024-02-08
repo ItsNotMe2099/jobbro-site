@@ -14,19 +14,23 @@ export interface IJobChatModal {
   vacancyId?: Nullable<number | undefined>
   cvId?: Nullable<number | undefined>
   title?: string | undefined
+  replace?: boolean
 }
 
 export default function JobChatModal(props: Props) {
   const appContext = useAppContext()
   const args: IJobChatModal = appContext.modalArguments
-  
-  
 
-  return (<ModalLayout mobileFullScreen>
-    <ModalBody className={styles.modalBody}>
-      <div className={styles.root}>
-        <ChatDialogWidget vacancyId={args.vacancyId} cvId={args.cvId} title={args.title} onBackClick={props.onClose}/>
-      </div>
-    </ModalBody>
-  </ModalLayout>)
+  if(!args.replace) {
+    return (<ModalLayout mobileFullScreen>
+      <ModalBody className={styles.modalBody}>
+        <div className={styles.root}>
+          <ChatDialogWidget  vacancyId={args.vacancyId} cvId={args.cvId} title={args.title} onBackClick={props.onClose}/>
+        </div>
+      </ModalBody>
+    </ModalLayout>)
+  }
+  else {
+    return <ChatDialogWidget replace  vacancyId={args.vacancyId} cvId={args.cvId} title={args.title} onBackClick={props.onClose}/>
+  }
 }

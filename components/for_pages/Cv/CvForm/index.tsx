@@ -558,10 +558,10 @@ export default function CvForm(props: Props) {
       </Form>
     </FormikProvider>
   )
-  return (<div className={styles.root} ref={ref} >
+  return (<div className={classNames(styles.root, styles.main)} ref={ref} >
     {!props.preview && form}
     {props.preview && preview}
-    <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
+    <FormStickyFooter className={styles.footer} boundaryElement={`.${styles.root}`} formRef={ref}>
       {formFooter}
     </FormStickyFooter>
     </div>)

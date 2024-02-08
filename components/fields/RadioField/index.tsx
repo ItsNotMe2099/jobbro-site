@@ -16,6 +16,7 @@ interface Props<T> extends IField<T> {
   listClassName?: string
   className?: string
   itemClassName?: string
+  resettable?: boolean
 }
 
 export default function RadioField<T>(props: Props<T>) {
@@ -25,6 +26,10 @@ export default function RadioField<T>(props: Props<T>) {
   const showError = meta.touched && !!meta.error
   const handleCheckboxChanged = (value: T | undefined) => {
     if (disabled) {
+      return
+    }
+    if(value === field.value && props.resettable) {
+      helpers.setValue(undefined)
       return
     }
     helpers.setTouched(true)

@@ -4,21 +4,25 @@
   display: flex;
   flex-direction: column;
   @include list(32px, false);
+}
+
+.main {
   position: relative;
-    @include mq ($TabletWidth, max) {
-    &:before {
-      content: '';
-      position: absolute;
-      top: -200px;
-      right: -16px;
-      width: 100vw;
-      height: 300px;
-      background-color: $green;
-      border-radius: 16px;
-    }
+  @include mq ($TabletWidth, max) {
+  &:before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -16px;
+    width: 100vw;
+    height: 300px;
+    background-color: $green;
+    border-radius: 16px;
   }
 }
 
+
+}
 
 .form {
   display: flex;
@@ -26,11 +30,12 @@
   @include list(32px, false);
   position: relative;
   z-index: 2;
+  margin-bottom: 32px;
   @include mq ($TabletWidth, max) {
     max-width: calc(100vw - 32px);
+    margin-bottom: 16px;
   }
 }
-
 
 .preview {
   display: flex;
@@ -137,8 +142,6 @@
 .remove {
   cursor: pointer;
 }
-
-
 
 .text {
   font-size: 16px;

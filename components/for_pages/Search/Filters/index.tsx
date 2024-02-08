@@ -62,7 +62,8 @@ export default function Filters(props: Props) {
     countries: [],
     country: undefined,
     cities: [],
-    city: undefined
+    city: undefined, 
+    employment: []
   }
 
   const formik = useFormik<Partial<IVacancyFilterParams>>({
@@ -89,7 +90,7 @@ export default function Filters(props: Props) {
         state.set(formik.values.country.geonameid, formik.values.country)
         return new Map(state)
       })
-      formik.setFieldValue('country', undefined)
+      // formik.setFieldValue('country', undefined)
     }
     if(formik.values.city) {
       context.setFullCities(state=> {
@@ -103,11 +104,9 @@ export default function Filters(props: Props) {
         state.set(formik.values.city?.geonameid, formik.values.city)
         return new Map(state)
       })
-      formik.setFieldValue('city', undefined)
+      // formik.setFieldValue('city', undefined)
     }
   }, [formik.values])
-
-
 
   useEffect(()=>{
     formik.setValues({...initialValues, ...context.filters.current})
@@ -128,7 +127,7 @@ export default function Filters(props: Props) {
             return {label: c.name, value: c.id}
           })} name={'subcategories'}/>
 
-          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
+          <p className={styles.title}>{t('cv_form_section_salary_range')}</p>
           <div className={styles.range}>
             <InputField
             name={'salaryMin'}
@@ -136,7 +135,6 @@ export default function Filters(props: Props) {
             classNameInput={styles.input}
             label={t('cv_form_field_experience_from')}
             format='price'
-            // suffix={'$'}
             />
             <span>-</span>
             <InputField
@@ -145,13 +143,18 @@ export default function Filters(props: Props) {
             classNameInput={styles.input}
             label={t('cv_form_field_experience_to')}
             format='price'
-
-            // suffix={'$'}
             />
           </div>
 
+          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
+          <RadioField
+          resettable
+          name={'salaryType'} itemClassName={styles.radio}
+          options={Dictionary.getSalaryTypeOptions(t)}
+          />
+
           <p className={styles.title}>{t('job_preview_employment_country')}</p>
-          <CountryField name={'country'} className={styles.input}
+          <CountryField name={'country'} key={formik.values.country?.name} className={styles.input}
           placeholder={t('form_field_search')}
           resettable
           />
@@ -166,8 +169,10 @@ export default function Filters(props: Props) {
           }
 
           <p className={styles.title}>{t('job_preview_employment_location')}</p>
-          <CityField name={'city'} className={styles.input}
+          <CityField name={'city'} key={formik.values.city?.name} className={styles.input}
           placeholder={t('form_field_search')}
+          value={formik.values.city}
+          resettable
           />
           {context.fullCities.size > 0 &&
           <>
@@ -185,6 +190,7 @@ export default function Filters(props: Props) {
 
           <p className={styles.title}>Grade</p>
           <RadioField
+          resettable
           name={'experience'} itemClassName={styles.radio}
           options={Dictionary.getExperienceOptions(t)}
           />
@@ -192,12 +198,6 @@ export default function Filters(props: Props) {
           <p className={styles.title}>{t('job_form_tab_details_section_Experience')}</p>
           <CheckboxMultipleField name={'experienceDuration'}
           options={Dictionary.getExperienceDurationOptions(t)}
-          />
-
-          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
-          <RadioField
-          name={'salaryType'} itemClassName={styles.radio}
-          options={Dictionary.getSalaryTypeOptions(t)}
           />
 
           <p className={styles.title}>{t('job_form_tab_details_field_workplace')}</p>

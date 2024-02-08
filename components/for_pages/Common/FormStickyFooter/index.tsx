@@ -21,7 +21,7 @@ export default function FormStickyFooter(props: Props) {
   return (
     <RenderPropSticky disabled={appContext.isMobile} boundaryElement={props.boundaryElement}
       bottomOffset={0}
-      topOffset={-32}
+      topOffset={0}
       mode={'bottom'}
       isIOSFixEnabled={false}
       hideOnBoundaryHit={false}>
@@ -34,7 +34,6 @@ export default function FormStickyFooter(props: Props) {
               isFixed ?
                 {
                   ...wrapperStyles,
-                  transform: 'translateY(-32px)',
                   display: 'flex',
                   width: windowWidth - (position?.left ?? 0) - 32,
                   zIndex: 2,

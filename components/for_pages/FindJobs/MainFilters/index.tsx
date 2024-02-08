@@ -1,16 +1,11 @@
-import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
-import styles from 'components/for_pages/FindJobs/MainFilters/index.module.scss'
-import FilterDropDown from 'components/for_pages/FindJobs/MainFilters/FilterDropDown'
+import { IVacancyFilterParams, IVacancyFilterParamsInner } from '@/data/interfaces/IVacancySearchParams'
+import styles from './index.module.scss'
 import Dictionary from '@/utils/Dictionary'
 import useTranslation from 'next-translate/useTranslation'
-import { Nullable } from '@/types/types'
-import { colors } from '@/styles/variables'
-import CheckSvg from '@/components/svg/CheckSvg'
-import { SalaryType } from '@/data/enum/SalaryType'
-import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import CountryField from '@/components/fields/CountryField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useEffect } from 'react'
+import SelectField from '@/components/fields/SelectField'
 import { IGeoName } from '@/data/interfaces/ILocation'
 
 interface Props {
@@ -18,76 +13,61 @@ interface Props {
   filters: IVacancyFilterParams
 }
 
-
-
-
+interface FormikInitial extends 
+Pick<IVacancyFilterParamsInner, 
+'experienceDuration'|
+'salaryType'|
+'experience'> {
+  countries: IGeoName,
+  country: Partial<IGeoName>
+}
 
 export default function MainFilters(props: Props) {
   const {t} = useTranslation()
 
-  const formik = useFormik<{country: IGeoName|null}>({
+  const formik = useFormik<Partial<FormikInitial>>({
     initialValues: {
-      country: null
+      countries: undefined,
+      experienceDuration: undefined,
+      salaryType: undefined,
+      experience: undefined,
     },
     onSubmit: ()=> {}
   })
 
   useEffect(()=>{
-    props.onChange({countries: [formik.values.country?.geonameid as number] })
+    props.onChange({...formik.values, countries: [formik.values.countries?.geonameid as number], country: {geonameid: formik.values.countries?.geonameid as number, name: formik.values.countries?.name as string} as IGeoName})
   }, [formik.values])
 
-  return (<div className={styles.root}>
-    {/* <FilterDropDown title='Country'> */}
-      <FormikProvider value={formik}>
-        <Form className={styles.form}>
-          <CountryField name={'country'}
-          placeholder='Country'
-          className={styles.country}/>
-        </Form>
-      </FormikProvider>
-
-    {/* </FilterDropDown>     */}
-    <FilterDropDown title='Experience'>
-      <div className={styles.items}>
-        {Dictionary.getExperienceOptions(t).map(el=> {
-          return (
-            <p className={styles.item}
-            onClick={() => props.onChange({experience: el.value as Nullable<Experience> })}
-            >
-              {el.label}
-              {props.filters.experience === el.value && <CheckSvg color={colors.green}/>}
-            </p>
-          )
-        })}
-      </div>
-    </FilterDropDown>
-    <FilterDropDown title='Salary'>
-      <div className={styles.items}>
-        {Dictionary.getSalaryTypeOptions(t).map(el=> {
-          return (
-            <p className={styles.item}
-            onClick={() => props.onChange({salaryType: [el.value as Nullable<SalaryType>]})}
-            >
-              {el.label}
-              {props.filters.salaryType?.includes(el.value as Nullable<SalaryType>) && <CheckSvg color={colors.green}/>}
-            </p>
-          )
-        })}
-      </div>
-    </FilterDropDown>
-    <FilterDropDown title='Employment Type'>
-      <div className={styles.items}>
-        {Dictionary.getExperienceDurationOptions(t).map(el=> {
-          return (
-            <p className={styles.item}
-            onClick={() => props.onChange({experienceDuration: [el.value as Nullable<ExperienceDuration>]})}
-            >
-              {el.label}
-              {props.filters.experienceDuration?.includes(el.value as Nullable<ExperienceDuration>) && <CheckSvg color={colors.green}/>}
-            </p>
-          )
-        })}
-      </div>
-    </FilterDropDown>
+  return (<div>
+    <FormikProvider value={formik}>
+      <Form className={styles.root}>
+        <CountryField name={'countries'}
+        placeholder='Country'
+        className={styles.select}
+        />
+        <SelectField 
+        placeholder={t('job_form_tab_details_section_Experience')}
+        options={Dictionary.getExperienceOptions(t)} 
+        name={'experience'}
+        className={styles.select}
+        resettable
+        />
+        <SelectField 
+        placeholder={t('cv_form_section_salary_type')}
+        options={Dictionary.getSalaryTypeOptions(t)} 
+        name={'salaryType'}
+        className={styles.select}
+        resettable
+        />
+        <SelectField 
+        placeholder={t('job_preview_required_experience')}
+        options={Dictionary.getExperienceDurationOptions(t)} 
+        name={'experienceDuration'}
+        className={styles.select}
+        resettable
+        />
+      </Form>
+    </FormikProvider>
   </div>)
 }

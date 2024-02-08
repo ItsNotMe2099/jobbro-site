@@ -26,6 +26,9 @@
 
 .image {
   border-radius: 16px;
+  margin: auto;
+  max-width: 100%;
+  max-height: calc(100% - 48px);
 }
 
 .buttonsWrapper {

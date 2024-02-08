@@ -74,7 +74,6 @@ const FindJobsInner = () => {
               {banner  && <Banner onClose={() => setBanner(false)} />}
               <WorkIn />
               <VacanciesOfTheDay />
-              {/*<Popular />*/}
             </div>
           </div>
           {!isSmDesktopWidth && <WithTheBest />}

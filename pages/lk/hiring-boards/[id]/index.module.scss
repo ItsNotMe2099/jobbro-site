@@ -2,6 +2,12 @@
 
 .root {}
 
+.title {
+    @include mq($TabletWidth, max) {
+        padding-inline: 16px;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;

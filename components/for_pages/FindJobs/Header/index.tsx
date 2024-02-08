@@ -10,6 +10,7 @@ import MainFilters from 'components/for_pages/FindJobs/MainFilters'
 import { useRouter } from 'next/router'
 import {useFindJobsMainContext} from '@/context/find_jobs_main_state'
 import Formatter from '@/utils/formatter'
+import { useVacancySearchContext } from '@/context/vacancy_search_state'
 
 interface Props {
 
@@ -17,7 +18,7 @@ interface Props {
 
 export default function Header(props: Props) {
   const appContext = useAppContext()
-
+  const vacancySearchContext = useVacancySearchContext()
   const findJobsMainContext = useFindJobsMainContext()
   const stats = findJobsMainContext.stats
   const {isTabletWidth} = appContext.size
@@ -27,9 +28,8 @@ export default function Header(props: Props) {
 
 
   const onSearchEnter = (s: string) => {
-    const dataToSend = {...filters}
-    dataToSend.countries?.filter(Boolean)?.length === 0 && delete dataToSend.countries
-    router.push({pathname: '/find-jobs/search', query: {search: s, filter: JSON.stringify(dataToSend)}})
+    vacancySearchContext.filters.current = {...filters, search: s}
+    router.push('/find-jobs/search')
   }
 
   return (

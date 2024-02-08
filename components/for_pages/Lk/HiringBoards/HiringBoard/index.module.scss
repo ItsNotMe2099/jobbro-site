@@ -4,6 +4,16 @@
   background-color: white;
   overflow: scroll;
   width: calc(100vw - 420px);
+  border-radius: 32px;
+  @include mq($SmDesktopWidth, max) {
+    width: calc(100vw - 64px);
+    overflow: auto;
+
+  }
+  @include mq($TabletWidth, max) {
+    width: calc(100vw - 32px);
+    margin-left: 16px;
+  }
 
 }
 .wrapper{

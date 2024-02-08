@@ -9,7 +9,6 @@
     row-gap: 16px;
     padding-bottom: 10px;
   }
-
 }
 
 .item {
@@ -24,26 +23,28 @@
 }
 
 .form {
-  position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -10px;
-    height: 100%;
-    width: 2px;
-    background-color: #EBEBEB;
-    @include mq($TabletWidth, max) {
-      display: none;
-    }
-  }
+
 }
 
-.country {
+.select {
   height: 40px;
-  min-width: 180px;
+  min-width: 110px;
   background-color: unset;
-
+  position: relative;
+  &:not(:last-of-type) {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -10px;
+      height: 100%;
+      width: 2px;
+      background-color: #EBEBEB;
+      @include mq($TabletWidth, max) {
+        display: none;
+      }
+    }
+  }
 
 
   svg {
@@ -63,4 +64,6 @@
     }
   }
 }
+
+
 

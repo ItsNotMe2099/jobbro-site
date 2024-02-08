@@ -11,6 +11,7 @@ import { colors } from '@/styles/variables'
 import ArrowSvg from '@/components/svg/ArrowSvg'
 import DownloadSvg from '@/components/svg/DownloadSvg'
 import RotateSvg from '@/components/svg/RotateSvg'
+import Link from 'next/link'
 
 interface Props {
   onClose: () => void
@@ -62,7 +63,7 @@ export default function GalleryModal(props: Props) {
       <div className={styles.buttonsWrapper}>
         <IconButton bgColor={'grey'} onClick={prevImage}><ArrowSvg direction={'left'} color={colors.black}/></IconButton>
         <IconButton bgColor={'grey'} onClick={nextImage}><ArrowSvg direction={'right'} color={colors.black}/></IconButton>
-        <IconButton bgColor={'grey'} ><DownloadSvg/></IconButton>
+        <Link href={ImageHelper.urlFromSource(selectedImage.source)} target='blank' download={selectedImage.source} ><IconButton bgColor={'grey'} ><DownloadSvg/></IconButton></Link>
         <IconButton bgColor={'grey'} onClick={rotateImage}><RotateSvg/></IconButton>
       </div>
     </div>

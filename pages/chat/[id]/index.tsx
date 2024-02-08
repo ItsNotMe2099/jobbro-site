@@ -2,21 +2,20 @@ import { getAuthServerSideProps } from '@/utils/auth'
 import styles from './index.module.scss'
 import Layout from '@/components/layout/Layout'
 import ChatDialog from '@/components/for_pages/Chat/ChatDialog'
-import {useRouter} from 'next/router'
-import {Routes} from '@/types/routes'
 import { useAppContext } from '@/context/state'
+import { useRouter } from 'next/router'
 
 interface Props {
-
+  id?: number
 }
 
 const ChatPage = (props: Props) => {
-  const router = useRouter()
   const {isTabletWidth} = useAppContext().size
+  const router = useRouter()
   return (
     <Layout hideTabbar hideFooter={isTabletWidth} hideHeader={isTabletWidth}>
     <div className={styles.root}>
-      <ChatDialog chatId={parseInt(router.query.id as string)} onBackClick={() => {router.replace(Routes.chat)}}/>
+      <ChatDialog chatId={props.id} onBackClick={() => {router.back()}}/>
     </div>
     </Layout>
   )
@@ -24,4 +23,6 @@ const ChatPage = (props: Props) => {
 
 
 export default ChatPage
-export const getServerSideProps = getAuthServerSideProps()
+export const getServerSideProps = getAuthServerSideProps(null, async (context) => {
+  return {props: {id: context.query.id}}
+})

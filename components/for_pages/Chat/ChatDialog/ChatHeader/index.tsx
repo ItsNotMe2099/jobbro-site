@@ -46,7 +46,12 @@ export default function ChatHeader(props: Props) {
       {props.chat?.vacancy?.office?.country && 
         <div className={styles.office}>{props.chat?.vacancy?.office?.country?.name}</div>
       }
-      <Link href={'/job/' + props.chat?.vacancy?.id} className={styles.link}>Read more</Link>
+      <Link href={
+        {
+          pathname: '/job/' + props.chat?.vacancy?.id,
+          query: {},
+        }
+        /*'/job/' + props.chat?.vacancy?.id*/} onClick={()=> appContext.hideModal()} className={styles.link}>Read more</Link>
     </div>
   )
 }

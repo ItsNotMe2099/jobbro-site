@@ -31,7 +31,7 @@ export default function JobDetailsPreview(props: Props) {
         <div className={styles.fields}>
           <div className={styles.inputs}>
             <div className={styles.input}>
-              <div className={styles.inputLabel}>{t('job_preview_requirements_experience')}</div>
+              <div className={styles.inputLabel}>{t('job_preview_required_experience')}</div>
               <div className={styles.inputValue}>3 — 6 years</div>
             </div>
             {!!job.employment && <div className={styles.input}>
