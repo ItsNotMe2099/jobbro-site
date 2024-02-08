@@ -13,7 +13,7 @@ export default async function handler(request: Request) {
   const vacancy = await fetch(
     `https://jobbro.dev.firelabs.ru/api/vacancy/${id}`,
     { next: { revalidate: 0 } }
-  ).then((res) => res.json() as IVacancy)
+  ).then((res) => res.json() as Promise<IVacancy>)
   console.log('Vacancy', vacancy)
   const salary = VacancyUtils.formatSalary(vacancy)
   const location = [vacancy.office?.country?.name, vacancy.office?.city?.name]
