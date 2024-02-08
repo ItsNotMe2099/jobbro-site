@@ -5,7 +5,7 @@
     flex-direction: column;
     margin-top: 64px;
     @include mq($TabletWidth, min) {
-        @include list(64px, false);        
+        @include list(64px, false);
     }
     @include mq($TabletWidth, max) {
         margin-top: unset;
@@ -20,6 +20,7 @@
     line-height: 100%;
     color: $text-primary;
     letter-spacing: -0.24px;
+  margin-bottom: 32px;
 }
 
 .cards {
@@ -30,7 +31,7 @@
     column-gap: 16px;
     margin-top: 16px;
     // @include mq($TabletWidth, max) {
-    //     @include list(64px, false);        
+    //     @include list(64px, false);
     // }
     @include mq($TabletWidth, min) {
     }

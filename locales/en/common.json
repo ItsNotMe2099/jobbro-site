@@ -429,12 +429,31 @@
   "settings_title": "Settings",
   "settings_social_sharing": "Social sharing",
   "settings_job_widget": "Job Widget",
+
+
+  "integrations_title": "External Profiles",
+  "integration_form_section_details": "Details",
+  "integration_form_field_platform": "Platform",
+  "integration_form_field_client_id": "Client ID",
+  "integration_form_field_client_secret": "Client Secret",
+  "integration_form_field_details_company_id": "Company ID",
+
+
+  "integration_card_connected": "Connected",
+  "integration_card_connect": "Connect",
+  "integration_card_menu_edit": "Edit",
+  "integration_card_menu_delete": "Delete",
+
   "toast_office_created_title": "Office created",
   "toast_office_created_desc": "",
   "toast_office_edited_title": "Office updated",
   "toast_office_edited_desc": "",
   "toast_office_deleted_title": "Office deleted",
   "toast_office_deleted_desc": "",
+  "toast_integration_edited_title": "Integration «{{platform}}» updated",
+  "toast_integration_edited_desc": "",
+  "toast_integration_created_title": "Integration «{{platform}}» connected",
+  "toast_integration_created_desc": "",
   "toast_manager_added_title": "Manager created",
   "toast_manager_added_desc": "",
   "toast_manager_deleted_title": "Manager deleted",

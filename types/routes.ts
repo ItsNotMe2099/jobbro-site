@@ -1,3 +1,5 @@
+import {IntegrationPlatform} from '@/data/enum/IntegrationPlatform'
+
 export class Routes {
   static getGlobal(url: string) {
     return `${typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : ''}${url}`
@@ -154,6 +156,13 @@ export class Routes {
 
   static get lkSettingsIntegrations() {
     return '/lk/settings/integrations'
+  }
+
+  static  lkSettingsIntegrationCreate(platform?: IntegrationPlatform) {
+    return `/lk/settings/integrations/create${platform ? `?platform=${platform}` : ''}`
+  }
+  static  lkSettingsIntegrationEdit(id: number) {
+    return `/lk/settings/integrations/${id}`
   }
 
   static get lkSettingsSocialSharing() {

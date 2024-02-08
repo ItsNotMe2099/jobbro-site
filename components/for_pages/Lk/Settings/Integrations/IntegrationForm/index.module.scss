@@ -1,0 +1,22 @@
+@import "styles/index";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+  position: relative;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  @include list(24px, false);
+}
+.columns{
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+  > div{
+    flex: 1;
+  }
+}

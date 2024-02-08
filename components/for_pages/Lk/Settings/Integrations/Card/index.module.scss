@@ -61,9 +61,30 @@
   line-height: 100%;
   color: $green;
   letter-spacing: -0.14px;
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
+}
+
+.connected {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.14px;
+}
+.connect {
+  cursor: pointer;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  color: $green;
+  letter-spacing: -0.14px;
+  &:hover{
+    text-decoration: underline;
+  }
 }
