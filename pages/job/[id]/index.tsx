@@ -106,7 +106,7 @@ const JobPageInner = (props: Props) => {
           description: props.job.intro.visible ? props.job.intro.description : '',
           images: [
             {
-              url: `https://jobbro.dev.firelabs.ru/api/vacancy/${props.job.id}/share-image`,
+              url: `https://jobbro.dev.firelabs.ru/api/share-image/job/${props.job.id}`,
               width: 540,
               height: 450,
               alt: props.job.name,
