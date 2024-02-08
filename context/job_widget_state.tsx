@@ -57,11 +57,11 @@ export function JobWidgetWrapper(props: Props) {
     })
   }
 
-  const setPage = (p: number|undefined) => {
+  const setPage = (p: number|undefined, refresh?: boolean) => {
     if(!p) {
       return
     }
-    if(vacancies.has(p)) {
+    if(vacancies.has(p) && !refresh) {
       setPageState(p)
       return
     }
@@ -70,6 +70,7 @@ export function JobWidgetWrapper(props: Props) {
     .then(res => {
       if(res) {     
         setVacancies(state=> {
+          refresh && state.clear()
           state.set(p, res.data)
           return new Map(state)
         })
@@ -99,6 +100,12 @@ export function JobWidgetWrapper(props: Props) {
     }
   
   }, [token])
+
+  useEffect(()=>{
+    if(settings?.jobsPerPage) {
+      setPage(1, true)
+    }
+  }, [settings?.jobsPerPage])
 
 
   const value: IState = {

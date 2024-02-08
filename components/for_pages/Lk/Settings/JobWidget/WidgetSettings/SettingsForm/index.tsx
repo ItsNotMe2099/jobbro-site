@@ -35,6 +35,8 @@ interface Props {
 export default function WidgetSettingsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const jobWidgetContext = useJobWidgetContext()
+  const isFormSet = useRef<boolean>(false)
+
 
   const handleSubmit = async (data: IFormData) => {
     jobWidgetContext.saveSettings()
@@ -81,8 +83,25 @@ export default function WidgetSettingsForm(props: Props) {
   })
 
   useEffect(()=>{
-    jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    if(isFormSet.current) {
+      jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    }
   }, [formik.values])
+
+  useEffect(()=>{
+    if(jobWidgetContext.settings && !isFormSet.current) {
+      formik.setFieldValue('categoryFilter', jobWidgetContext.settings.categoryFilter)
+      formik.setFieldValue('locationFilter', jobWidgetContext.settings.locationFilter)
+      formik.setFieldValue('employmentFilter', jobWidgetContext.settings.employmentFilter)
+      formik.setFieldValue('language', jobWidgetContext.settings.language)
+      formik.setFieldValue('jobsPerPage', jobWidgetContext.settings.jobsPerPage)
+      formik.setFieldValue('showItemLogo', jobWidgetContext.settings.showItemLogo)
+      formik.setFieldValue('showItemLocation', jobWidgetContext.settings.showItemLocation)
+      formik.setFieldValue('showItemEmploymentType', jobWidgetContext.settings.showItemEmploymentType)
+      formik.setFieldValue('showItemCategory', jobWidgetContext.settings.showItemCategory)
+      isFormSet.current = true
+    }
+  }, [jobWidgetContext.settings])
 
 
   return (
