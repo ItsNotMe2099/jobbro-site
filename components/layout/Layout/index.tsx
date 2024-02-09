@@ -19,7 +19,7 @@ export default function Layout(props: Props) {
 
   const {isTabletWidth} = appContext.size
   const headerDirection = appContext.headerDirection
-  
+
 
   return (
     <div className={styles.root}>

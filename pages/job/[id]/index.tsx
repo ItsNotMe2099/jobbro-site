@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import {useRouter} from 'next/router'
 import VacancyRepository from '@/data/repositories/VacancyRepository'
-import {IVacancyWithCurrentUserApply} from '@/data/interfaces/IVacancy'
+import {IVacancy, IVacancyWithCurrentUserApply} from '@/data/interfaces/IVacancy'
 import JobPreview from '@/components/for_pages/Lk/Jobs/JobPreview'
 import {GetServerSidePropsContext, GetServerSidePropsResult} from 'next/types'
 import {CookiesType, ModalType} from '@/types/enums'
@@ -20,9 +20,41 @@ import {IApplyForJobModal} from '@/components/modals/ApplyForJobModal'
 import {MyEvents} from '@/components/for_pages/Calendar/MyEvents'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {IApplication} from '@/data/interfaces/IApplication'
-import {NextSeo} from 'next-seo'
-import { IJobChatModal } from '@/components/modals/JobChatModal'
+import {JobPostingJsonLd, NextSeo} from 'next-seo'
+import {IJobChatModal} from '@/components/modals/JobChatModal'
+import {format} from 'date-fns'
+import ImageHelper from '@/utils/ImageHelper'
+import {SalaryType} from '@/data/enum/SalaryType'
+import {Employment} from '@/data/enum/Employment'
 
+const getSalaryUnitJsonLd = (vacancy: IVacancy):      'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' => {
+  switch (vacancy.salaryType){
+    case SalaryType.perHour:
+      return 'HOUR'
+    case SalaryType.perYear:
+      return 'YEAR'
+    case SalaryType.perMonth:
+    default:
+      return 'MONTH'
+  }
+}
+const getEmploymentJsonLd = (vacancy: IVacancy):    'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'TEMPORARY' | 'INTERN' | 'VOLUNTEER' | 'PER_DIEM' | 'OTHER' => {
+  switch (vacancy.employment){
+    case Employment.Apprenticeship:
+    return 'OTHER'
+    case Employment.Casual:
+      return 'TEMPORARY'
+    case Employment.Traineeship:
+      return 'INTERN'
+    case Employment.Contract:
+      return 'CONTRACTOR'
+    case Employment.PartTime:
+      return 'PART_TIME'
+    case Employment.FullTime:
+    default:
+      return 'FULL_TIME'
+  }
+}
 enum SideBarType {
   Apply = 'apply',
   Calendar = 'calendar',
@@ -101,7 +133,7 @@ const JobPageInner = (props: Props) => {
   return (<Layout hideTabbar>
       <NextSeo
         title={props.job.name}
-        description={props.job.intro.visible ? props.job.intro.description : ''}
+        description={props.job.intro.visible ? props.job.intro.description?.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/g, '') : ''}
         openGraph={{
 
           type: 'website',
@@ -117,6 +149,26 @@ const JobPageInner = (props: Props) => {
             },
           ],
         }}
+      />
+      <JobPostingJsonLd datePosted={format(new Date(props.job.publishedAt ?? props.job.createdAt!), 'yyyy-MM-dd')}
+                        description={props.job.intro.visible ? props.job.intro.description : ''}
+                        hiringOrganization={{
+                          name: props.job.company?.name as string,
+                          sameAs: props.job.company?.name as string,
+                          ...(props.job.company.logo ? {logo: ImageHelper.urlFromSource(props.job.company.logo.source!)} : {})
+                        }}
+                        title={props.job.name}
+                        employmentType={getEmploymentJsonLd(props.job)}
+                        jobLocation={{
+                          addressLocality: props.job.office?.city?.fcode as string,
+                          postalCode: props.job.office?.postalCode  as string,
+                          streetAddress: [props.job.office?.house , props.job.office?.street].filter(i => !!i).join(' ') as string,
+                          addressCountry: props.job.office?.country?.fcode  as string
+                        }}
+                        baseSalary={{
+                          currency: props.job.currency,
+                          value: props.job.salaryMin && props.job.salaryMax ? [props.job.salaryMin!, props.job.salaryMax!] as [number, number] : (props.job.salaryMax || props.job.salaryMin || 0) as number,
+                          unitText:getSalaryUnitJsonLd(props.job) }}
       />
       <div className={styles.root}>
         <div ref={ref} className={styles.container} id='idVacancyContainer'>

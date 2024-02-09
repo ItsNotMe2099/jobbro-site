@@ -1,7 +1,10 @@
 import { ImageResponse } from 'next/server'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import VacancyUtils from '@/utils/VacancyUtils'
-
+import {IVacancyShareSettings} from '@/data/interfaces/IVacancyShareSettings'
+interface IVacancyWidthShareSettings extends  IVacancy{
+  shareSettings: IVacancyShareSettings
+}
 export const config = {
   runtime: 'edge',
 }
@@ -11,9 +14,9 @@ export default async function handler(request: Request) {
   const id = url.searchParams.get('id')
 
   const vacancy = await fetch(
-    `https://jobbro.dev.firelabs.ru/api/vacancy/${id}`,
+    `https://jobbro.dev.firelabs.ru/api/vacancy/${id}?forShareImage=true`,
     { next: { revalidate: 0 } }
-  ).then((res) => res.json() as Promise<IVacancy>)
+  ).then((res) => res.json() as Promise<IVacancyWidthShareSettings>)
   console.log('Vacancy', vacancy)
   const salary = VacancyUtils.formatSalary(vacancy)
   const location = [vacancy.office?.country?.name, vacancy.office?.city?.name]
@@ -28,7 +31,7 @@ export default async function handler(request: Request) {
           justifyContent: 'center',
           height: '100%',
           width: '100%',
-          backgroundColor: '#EBEBEB'
+          backgroundColor: vacancy.shareSettings?.backgroundColor ?? '#EBEBEB'
         }}
       >
         <div
