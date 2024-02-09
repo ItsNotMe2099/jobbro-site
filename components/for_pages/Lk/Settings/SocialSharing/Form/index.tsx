@@ -4,27 +4,28 @@ import Card from '@/components/for_pages/Common/Card'
 import HexColorPickerField from '@/components/fields/HexColorPickerField'
 import { useRef, useState } from 'react'
 import JobAd from '@/components/for_pages/Common/JobAd'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-import Button from '@/components/ui/Button'
 import { Nullable } from '@/types/types'
+import {useVacancyShareSettingsContext} from '@/context/vacancy_sharing_settings_state'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
+import Spacer from '@/components/ui/Spacer'
 
 interface Props {
-  color: string
-  onChange?: (val: string) => void
 }
 
 export interface FormData {
-  color: string
+  backgroundColor: string
 }
 
 export default function SocialSharingForm(props: Props) {
+  const vacancyShareSettingsContext = useVacancyShareSettingsContext()
+  const [visible, setVisible] = useState<boolean>(false)
 
   const handleSubmit = async (data: FormData) => {
-
+    vacancyShareSettingsContext.saveSettings(data)
   }
-
+  console.log('vacancyShareSettingsContext.settings', vacancyShareSettingsContext.settings)
   const initialValues: FormData = {
-    color: props.color
+    backgroundColor: vacancyShareSettingsContext.settings?.backgroundColor ?? '#EBEBEB'
   }
 
   const formik = useFormik<FormData>({
@@ -32,13 +33,6 @@ export default function SocialSharingForm(props: Props) {
     onSubmit: handleSubmit
   })
 
-
-  const [visible, setVisible] = useState<boolean>(false)
-
-  const handlePickColor = (val: string) => {
-    props.onChange && props.onChange(val)
-    setVisible(false)
-  }
 
   const ref = useRef<Nullable<HTMLFormElement>>(null)
 
@@ -58,9 +52,7 @@ export default function SocialSharingForm(props: Props) {
               </div>
               <HexColorPickerField
                 setVisible={() => setVisible(true)}
-                color={props.color}
-                name='color'
-                onChange={handlePickColor}
+                name='backgroundColor'
                 visible={visible}
               />
             </div>
@@ -72,17 +64,11 @@ export default function SocialSharingForm(props: Props) {
                 This is how your job ad image will look when you share it
               </div>
             </div>
-            <JobAd color={props.color} />
+            <JobAd color={formik.values.backgroundColor} />
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'>
-            Save
-          </Button>
-          <Button styleType='large' color='white'>
-            Cancel
-          </Button>
-        </FormStickyFooter>
+        <Spacer basis={32}/>
+        <FormSaveStickyFooter boundaryElement={`.${styles.form}`} formRef={ref}  loading={vacancyShareSettingsContext.editLoading}/>
       </Form>
     </FormikProvider>
   )

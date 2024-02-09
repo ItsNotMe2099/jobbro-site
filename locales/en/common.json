@@ -454,6 +454,8 @@
   "toast_integration_edited_desc": "",
   "toast_integration_created_title": "Integration «{{platform}}» connected",
   "toast_integration_created_desc": "",
+  "toast_integration_deleted_title": "Integration «{{platform}}» disconnected",
+  "toast_integration_deleted_desc": "",
   "toast_manager_added_title": "Manager created",
   "toast_manager_added_desc": "",
   "toast_manager_deleted_title": "Manager deleted",
@@ -551,6 +553,8 @@
   "confirm_job_pause_desc": "Are you sure that you want to pause job «{{name}}» ?",
   "confirm_job_close_title": "Closing job",
   "confirm_job_close_desc": "Are you sure that you want to close job «{{name}}» ?",
+  "confirm_integration_delete_title": "Disconnect Integration",
+  "confirm_integration_delete_desc": "Are you sure that you want to disconnect «{{platform}}»",
 
   "job_invite_title": "Inviting to job",
   "job_invite_button_sent": "Send Invite",

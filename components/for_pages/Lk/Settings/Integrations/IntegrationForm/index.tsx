@@ -20,6 +20,7 @@ import {useIntegrationOwnerContext} from '@/context/integration_owner_state'
 import SelectField from '@/components/fields/SelectField'
 import Dictionary from '@/utils/Dictionary'
 import {IIntegrationProfile} from '@/data/interfaces/IIntegrationProfile'
+import Spacer from '@/components/ui/Spacer'
 
 interface Props {
 
@@ -84,6 +85,7 @@ export default function IntegrationOfficeForm(props: Props) {
           {([IntegrationPlatform.LinkedIn, IntegrationPlatform.Indeed] as IntegrationPlatform[]).includes(formik.values.platform!) ?  <InputField name={'details.companyId'} label={t('integration_form_field_details_company_id')} validate={Validator.required}/> :<></>}
 
             </Card>
+        <Spacer basis={2}/>
         <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={handleCancel} loading={integrationContext.editLoading}/>
       </Form>
     </FormikProvider>

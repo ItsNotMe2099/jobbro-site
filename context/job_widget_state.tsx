@@ -68,7 +68,7 @@ export function JobWidgetWrapper(props: Props) {
     setLoading(true)
     JobWidgetRepository.getVacanciesForWidget(token, p, settings?.jobsPerPage||2)
     .then(res => {
-      if(res) {     
+      if(res) {
         setVacancies(state=> {
           refresh && state.clear()
           state.set(p, res.data)
@@ -88,8 +88,8 @@ export function JobWidgetWrapper(props: Props) {
       setLoading(true)
       JobWidgetRepository.getVacanciesForWidget(token, page, settings?.jobsPerPage||2)
       .then(res => {
-        if(res) {     
-          setTotal(res.total)     
+        if(res) {
+          setTotal(res.total)
           setVacancies(state=> {
             state.set(page, res.data)
             return new Map(state)
@@ -98,7 +98,7 @@ export function JobWidgetWrapper(props: Props) {
         setLoading(false)
       })
     }
-  
+
   }, [token])
 
   useEffect(()=>{

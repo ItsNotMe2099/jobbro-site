@@ -112,8 +112,8 @@ export function IntegrationOwnerWrapper(props: Props) {
 
     return new Promise<Nullable<IIntegrationProfile>>((resolve, reject) => {
       appContext.showModal(ModalType.Confirm, {
-        title: t('confirm_integration_delete_title', {name: integration?.platform}),
-        text: t('confirm_integration_delete_desc', {name: integration?.platform}),
+        title: t('confirm_integration_delete_title', {platform: integration?.platform}),
+        text: t('confirm_integration_delete_desc', {platform: integration?.platform}),
          onConfirm: async () => {
           try {
             appContext.hideModal()
@@ -121,7 +121,7 @@ export function IntegrationOwnerWrapper(props: Props) {
             const res = await IntegrationProfileOwnerRepository.delete(props.integrationId!)
             handleDelete(integration!)
             resolve(integration)
-            showToast({title: t('toast_integration_deleted_title'), text: t('toast_integration_deleted_desc')})
+            showToast({title: t('toast_integration_deleted_title', {platform: integration?.platform}), text: t('toast_integration_deleted_desc', {platform: integration?.platform})})
           } catch (err) {
             if (err instanceof RequestError) {
               appContext.showSnackbar(err.message, SnackbarType.error)

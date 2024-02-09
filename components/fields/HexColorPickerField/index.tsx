@@ -11,7 +11,6 @@ interface Props {
   className?: string
   visible?: boolean
   setVisible?: (v?: boolean) => void
-  color: string
   disabled?: boolean
 }
 
@@ -33,7 +32,7 @@ export default function HexColorPickerField(props: Props & FieldConfig) {
     >
       <div className={styles.color} style={{ backgroundColor: field.value }} />
       <InputColorField name={field.name} inputClassName={styles.hex}/>
-      {props.visible && !props.disabled && 
+      {props.visible && !props.disabled &&
       <div onMouseLeave={()=>props.setVisible?.(false)}>
         <HexColorPicker className={styles.colors} color={field.value}  onChange={(s)=>setFieldValue(field.name, s)} />
       </div>
