@@ -174,8 +174,8 @@ export default class Dictionary {
 
   static getIntegrationPlatformDescriptions(): {[key in IntegrationPlatform]: string}{
     return {
-      [IntegrationPlatform.Indeed]: 'Indeed is a social network that focuses on professional networking and career development.',
-      [IntegrationPlatform.LinkedIn]: 'LinkedIn is a social network that focuses on professional networking and career development.',
+      [IntegrationPlatform.Indeed]: 'integration_type_indeed_desc',
+      [IntegrationPlatform.LinkedIn]: 'integration_type_linkedin_desc',
     }
   }
   static getIntegrationPlatformDescription(value: IntegrationPlatform, t: Translate) : string {

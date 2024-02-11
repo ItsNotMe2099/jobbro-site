@@ -35,6 +35,11 @@
   "chats_tab_new_messages": "New Messages",
   "chats_nothing_found": "Nothing found",
   "chat_message_form_placeholder": "Enter message",
+  "chat_message_type_event_start_meet": "Start meet",
+  "chat_message_type_event_today": "Today",
+  "chat_message_type_event_edit": "Edit",
+  "chat_message_type_event_selected_slot": "Selected slot",
+  "chat_message_type_event_select_slot": "Select a slot",
 
   "event_form_title": "Calendar Widget",
   "event_form_step_participants": "Members to meetings",
@@ -59,7 +64,8 @@
   "event_select_events_stub_desc": "Apply for any vacancy and receive\n invitation for an interview",
   "event_select_slot_timezone": "Time zone",
   "event_select_available_slots_title": "Times available for you",
-
+  "events_my_view_all": "View all",
+  "events_my_meets": "{{count}} meets",
   "candidates_base_title": "Candidates base",
   "candidates_base_tab_all_profiles": "All Profiles",
   "candidates_base_tab_upload_cv": "Upload CV",
@@ -498,8 +504,8 @@
   "integration_form_field_client_id": "Client ID",
   "integration_form_field_client_secret": "Client Secret",
   "integration_form_field_details_company_id": "Company ID",
-
-
+  "integration_type_indeed_desc": "Indeed is a social network that focuses on professional networking and career development.",
+  "integration_type_linkedin_desc": "LinkedIn is a social network that focuses on professional networking and career development.",
   "integration_card_connected": "Connected",
   "integration_card_connect": "Connect",
   "integration_card_menu_edit": "Edit",

@@ -13,6 +13,14 @@ export default class EventRepository {
     return res
   }
 
+  static async fetchById(id: number): Promise<IEvent> {
+    const res = await request<IEvent>({
+      method: 'get',
+      url: `/api/event/${id}`,
+       })
+    return res
+  }
+
   static async fetchConfirmed(config?: AxiosRequestConfig): Promise<IEvent[]> {
     const res = await request<IEvent[]>({
       method: 'get',

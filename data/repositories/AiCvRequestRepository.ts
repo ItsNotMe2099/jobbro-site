@@ -42,15 +42,32 @@ export default class AiCvRequestRepository {
     return res
   }
 
-  static async create(file: File, data?: {vacancyId: number}, config?: AxiosRequestConfig): Promise<IAiCvRequest> {
+  static async createByHirer(file: File, config?: AxiosRequestConfig): Promise<IAiCvRequest> {
     const res = await request<IAiCvRequest>({
       method: 'post',
-      url: `/api/ai-cv-request?${data ? queryString.stringify(data) : ''}`,
+      url: '/api/ai-cv-request',
       file,
       config
     })
     return res
   }
+
+  static async createByEmployee(fileCv: File, fileAvatar: File | null, data?: {vacancyId: number}, config?: AxiosRequestConfig): Promise<IAiCvRequest> {
+    const formData = new FormData()
+    formData.append('cv', fileCv)
+    if(fileAvatar) {
+      formData.append('avatar', fileAvatar)
+    }
+    const res = await request<IAiCvRequest>({
+      method: 'post',
+      url: `/api/ai-cv-request/create-by-employee?${data ? queryString.stringify(data) : ''}`,
+      data: formData,
+      isMultiPart: true,
+      config
+    })
+    return res
+  }
+
 
   static async moveToBase(data: {all: boolean, ids: string[]}): Promise<IAiCvRequest> {
     const res = await request<IAiCvRequest>({

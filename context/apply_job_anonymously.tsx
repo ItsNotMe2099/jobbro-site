@@ -82,8 +82,9 @@ export function ApplyJobAnonymizeWrapper(props: Props) {
       const res = await AuthRepository.emailConfirmation({email: formData!.email!, code})
       await appContext.setToken(res.accessToken)
       await appContext.updateAboutMe()
+
       if(formData!.cv) {
-        const request = await AiCvRequestRepository.create(formData!.cv!, {vacancyId: props.vacancyId})
+        const request = await AiCvRequestRepository.createByEmployee(formData!.cv!, formData!.image, {vacancyId: props.vacancyId})
         appContext.aiRequestCreateState$.next(request)
       }
       Analytics.goal(Goal.RegistrationEmployee)

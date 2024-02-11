@@ -5,6 +5,6 @@ export interface ICurrentUserUpdateRequest {
   lastName?: string | null
   patronymic?: string | null
   position?: string | null,
-  image: IFile | null,
+  image?: IFile | null,
   professionalLink?: string | null
 }
