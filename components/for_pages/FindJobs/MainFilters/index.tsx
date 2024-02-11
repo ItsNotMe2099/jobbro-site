@@ -7,14 +7,16 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import { useEffect } from 'react'
 import SelectField from '@/components/fields/SelectField'
 import { IGeoName } from '@/data/interfaces/ILocation'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
+import {SalaryType} from '@/data/enum/SalaryType'
 
 interface Props {
   onChange: (data: IVacancyFilterParams) => void
   filters: IVacancyFilterParams
 }
 
-interface FormikInitial extends 
-Pick<IVacancyFilterParamsInner, 
+interface FormikInitial extends
+Pick<IVacancyFilterParamsInner,
 'experienceDuration'|
 'salaryType'|
 'experience'> {
@@ -43,26 +45,26 @@ export default function MainFilters(props: Props) {
     <FormikProvider value={formik}>
       <Form className={styles.root}>
         <CountryField name={'countries'}
-        placeholder='Country'
+        placeholder={t('find_jobs_header_filter_country')}
         className={styles.select}
         />
-        <SelectField 
-        placeholder={t('job_form_tab_details_section_Experience')}
-        options={Dictionary.getExperienceOptions(t)} 
+        <SelectField<Experience>
+        placeholder={t('find_jobs_header_filter_experience')}
+        options={Dictionary.getExperienceOptions(t)}
         name={'experience'}
         className={styles.select}
         resettable
         />
-        <SelectField 
-        placeholder={t('cv_form_section_salary_type')}
-        options={Dictionary.getSalaryTypeOptions(t)} 
+        <SelectField<SalaryType>
+        placeholder={t('find_jobs_header_filter_country_salary_type')}
+        options={Dictionary.getSalaryTypeOptions(t)}
         name={'salaryType'}
         className={styles.select}
         resettable
         />
-        <SelectField 
-        placeholder={t('job_preview_required_experience')}
-        options={Dictionary.getExperienceDurationOptions(t)} 
+        <SelectField<ExperienceDuration>
+        placeholder={t('find_jobs_header_filter_experience_duration')}
+        options={Dictionary.getExperienceDurationOptions(t)}
         name={'experienceDuration'}
         className={styles.select}
         resettable

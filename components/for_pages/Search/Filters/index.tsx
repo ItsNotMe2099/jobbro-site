@@ -62,7 +62,7 @@ export default function Filters(props: Props) {
     countries: [],
     country: undefined,
     cities: [],
-    city: undefined, 
+    city: undefined,
     employment: []
   }
 
@@ -117,23 +117,23 @@ export default function Filters(props: Props) {
       <div className={classNames(styles.formWrapper, styles['formWrapper_'+appContext.headerDirection])}>
         <Form className={styles.form}>
 
-          <p className={styles.title}>{t('cv_form_field_category')}</p>
+          <p className={styles.title}>{t('jobs_search_field_category')}</p>
           <CheckboxMultipleField options={serviceCategoryListContext.data.map(c => {
             return {label: c.name, value: c.id}
           })} name={'categories'}/>
 
-          <p className={styles.title}>{t('cv_form_field_sub_category')}</p>
+          <p className={styles.title}>{t('jobs_search_field_sub_category')}</p>
           <CheckboxMultipleField options={serviceCategoryListContext.data.map(c => {
             return {label: c.name, value: c.id}
           })} name={'subcategories'}/>
 
-          <p className={styles.title}>{t('cv_form_section_salary_range')}</p>
+          <p className={styles.title}>{t('jobs_search_section_salary_range')}</p>
           <div className={styles.range}>
             <InputField
             name={'salaryMin'}
             classNameInputWrapper={styles.inputWrapper}
             classNameInput={styles.input}
-            label={t('cv_form_field_experience_from')}
+            label={t('jobs_search_field_experience_from')}
             format='price'
             />
             <span>-</span>
@@ -141,19 +141,19 @@ export default function Filters(props: Props) {
             name={'salaryMax'}
             classNameInputWrapper={styles.inputWrapper}
             classNameInput={styles.input}
-            label={t('cv_form_field_experience_to')}
+            label={t('jobs_search_field_experience_to')}
             format='price'
             />
           </div>
 
-          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
+          <p className={styles.title}>{t('jobs_search_field_salary_type')}</p>
           <RadioField
           resettable
           name={'salaryType'} itemClassName={styles.radio}
           options={Dictionary.getSalaryTypeOptions(t)}
           />
 
-          <p className={styles.title}>{t('job_preview_employment_country')}</p>
+          <p className={styles.title}>{t('jobs_search_field_country')}</p>
           <CountryField name={'country'} key={formik.values.country?.name} className={styles.input}
           placeholder={t('form_field_search')}
           resettable
@@ -168,7 +168,7 @@ export default function Filters(props: Props) {
           </>
           }
 
-          <p className={styles.title}>{t('job_preview_employment_location')}</p>
+          <p className={styles.title}>{t('jobs_search_field_location')}</p>
           <CityField name={'city'} key={formik.values.city?.name} className={styles.input}
           placeholder={t('form_field_search')}
           value={formik.values.city}
@@ -183,7 +183,7 @@ export default function Filters(props: Props) {
           />
           </>}
 
-          <p className={styles.title}>{t('job_preview_employment_type')}</p>
+          <p className={styles.title}>{t('jobs_search_field_employment_type')}</p>
           <CheckboxMultipleField name={'employment'}
           options={Dictionary.getEmploymentOptions(t)}
           />
@@ -195,17 +195,17 @@ export default function Filters(props: Props) {
           options={Dictionary.getExperienceOptions(t)}
           />
 
-          <p className={styles.title}>{t('job_form_tab_details_section_Experience')}</p>
+          <p className={styles.title}>{t('jobs_search_field_experience')}</p>
           <CheckboxMultipleField name={'experienceDuration'}
           options={Dictionary.getExperienceDurationOptions(t)}
           />
 
-          <p className={styles.title}>{t('job_form_tab_details_field_workplace')}</p>
+          <p className={styles.title}>{t('jobs_search_field_workplace')}</p>
           <CheckboxMultipleField name={'workplace'}
           options={Dictionary.getWorkplaceOptions(t)}
           />
 
-          <p className={styles.title}>{t('job_form_tab_workflow_section_keywords')}</p>
+          <p className={styles.title}>{t('jobs_search_field_keywords')}</p>
           <KeywordField name={'keywords'}
           selectClassName={styles.input}
           />

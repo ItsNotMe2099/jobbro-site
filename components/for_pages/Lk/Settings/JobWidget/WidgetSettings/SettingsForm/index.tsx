@@ -3,27 +3,26 @@ import Card from '@/components/for_pages/Common/Card'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { IOption, Nullable } from '@/types/types'
 import { useEffect, useRef } from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import SwitchField from '@/components/fields/SwitchField'
 import SelectField from '@/components/fields/SelectField'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
-import NoEyeSvg from '@/components/svg/NoEyeSvg'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 import { useJobWidgetContext } from '@/context/job_widget_state'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
+import {useRouter} from 'next/router'
+import {Routes} from '@/types/routes'
+import useTranslation from 'next-translate/useTranslation'
 
 
-interface IFormData extends 
-Pick<IJobWidget, 
-'categoryFilter' | 
-'locationFilter' | 
-'employmentFilter' | 
-'language' | 
-'jobsPerPage' | 
-'showItemLogo' | 
-'showItemLocation' | 
-'showItemEmploymentType' | 
+interface IFormData extends
+Pick<IJobWidget,
+'categoryFilter' |
+'locationFilter' |
+'employmentFilter' |
+'language' |
+'jobsPerPage' |
+'showItemLogo' |
+'showItemLocation' |
+'showItemEmploymentType' |
 'showItemCategory'>
 {}
 
@@ -35,8 +34,9 @@ interface Props {
 export default function WidgetSettingsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const jobWidgetContext = useJobWidgetContext()
+  const router = useRouter()
   const isFormSet = useRef<boolean>(false)
-
+  const {t} = useTranslation()
 
   const handleSubmit = async (data: IFormData) => {
     jobWidgetContext.saveSettings()
@@ -114,10 +114,10 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Category filter
+                    {t('settings_job_widget_settings_category')}
                   </div>
                   <div className={styles.desc}>
-                    Users can narrow the jobs listed down to a specific category
+                    {t('settings_job_widget_settings_category_desc')}
                   </div>
                 </div>} />
             <SwitchField name='locationFilter'
@@ -125,10 +125,10 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Location filter
+                    {t('settings_job_widget_settings_location')}
                   </div>
                   <div className={styles.desc}>
-                    Users can narrow the jobs listed down to a specific category
+                    {t('settings_job_widget_settings_location_desc')}
                   </div>
                 </div>} />
             <SwitchField name='employmentFilter'
@@ -136,26 +136,26 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Employment type filter
+                    {t('settings_job_widget_settings_employment')}
                   </div>
                   <div className={styles.desc}>
-                    Users can narrow the jobs listed down to a specific employment type
+                    {t('settings_job_widget_settings_employment_desc')}
                   </div>
                 </div>} />
             <div className={styles.select}>
-              <SelectField placeholder='Language' name='language'
+              <SelectField placeholder={t('settings_job_widget_settings_lang')} name='language'
                 onChange={(val)=> formik.setFieldValue('language', val)}
                 options={langs} />
               <div className={styles.desc}>
-                Choose the language of the widget interface elements
+                {t('settings_job_widget_settings_lang_desc')}
               </div>
             </div>
             <div className={styles.select}>
-              <SelectField placeholder='Jobs Per Page' name='jobsPerPage'
+              <SelectField placeholder={t('settings_job_widget_settings_per_page')} name='jobsPerPage'
                 onChange={(val)=> formik.setFieldValue('jobsPerPage', val)}
                 options={jobsPerPageVariants} />
               <div className={styles.desc}>
-                Define the number of jobs to be listed per page
+                {t('settings_job_widget_settings_per_page_desc')}
               </div>
             </div>
             <SwitchField name='showItemLogo'
@@ -163,10 +163,10 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Logo
+                    {t('settings_job_widget_settings_item_logo')}
                   </div>
                   <div className={styles.desc}>
-                    Your company logo is displayed next to each job (on desktop only)
+                    {t('settings_job_widget_settings_item_logo_desc')}
                   </div>
                 </div>} />
             <SwitchField name='showItemLocation'
@@ -174,10 +174,10 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Location
+                    {t('settings_job_widget_settings_item_location')}
                   </div>
                   <div className={styles.desc}>
-                    Location is displayed for each job
+                    {t('settings_job_widget_settings_item_location_desc')}
                   </div>
                 </div>} />
             <SwitchField name='showItemEmploymentType'
@@ -185,10 +185,10 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Employment type
+                    {t('settings_job_widget_settings_item_employment')}
                   </div>
                   <div className={styles.desc}>
-                    Employment type is displayed for each job
+                    {t('settings_job_widget_settings_item_employment_desc')}
                   </div>
                 </div>} />
             <SwitchField name='showItemCategory'
@@ -196,32 +196,15 @@ export default function WidgetSettingsForm(props: Props) {
               label={
                 <div className={styles.checboxLabel}>
                   <div className={styles.label}>
-                    Category
+                    {t('settings_job_widget_settings_item_category')}
                   </div>
                   <div className={styles.desc}>
-                    Category is displayed for each job
+                    {t('settings_job_widget_settings_item_category_desc')}
                   </div>
                 </div>} />
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'>
-            Save
-          </Button>
-          <Button styleType='large' color='white'>
-            Cancel
-          </Button>
-          <div className={styles.preview} onClick={props.onPreview}>
-            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
-              :
-              <NoEyeSvg color={colors.green} className={styles.eye} />
-            }
-            {!props.preview ? <div className={styles.text}>Preview</div>
-              :
-              <div className={styles.text}>Close Preview Mode</div>
-            }
-          </div>
-        </FormStickyFooter>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={() => router.push(Routes.lkSettingsJobWidget)} loading={jobWidgetContext.editLoading}/>
       </Form>
     </FormikProvider>
   )

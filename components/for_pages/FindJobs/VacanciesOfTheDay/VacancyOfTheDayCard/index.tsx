@@ -3,6 +3,7 @@ import styles from 'components/for_pages/FindJobs/VacanciesOfTheDay/VacancyOfThe
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import VacancyUtils from '@/utils/VacancyUtils'
 import Formatter from '@/utils/formatter'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   vacancy: IVacancy
@@ -10,6 +11,7 @@ interface Props {
 
 export default function VacancyOfTheDayCard(props: Props) {
   const vacancy = props.vacancy
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -40,7 +42,7 @@ export default function VacancyOfTheDayCard(props: Props) {
               </div>
               <div className={styles.common}>
                 <div className={styles.date}>
-                  Publish Date:
+                  {t('find_jobs_vacancies_card_publish_date')}:
                 </div>
                 <div className={styles.published}>
                   {Formatter.formatDate(vacancy.publishedAt ?? vacancy.createdAt!)}

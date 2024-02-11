@@ -3,17 +3,16 @@ import Card from '@/components/for_pages/Common/Card'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { Nullable } from '@/types/types'
 import { useEffect, useRef, useState } from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
-import NoEyeSvg from '@/components/svg/NoEyeSvg'
 import HexColorPickerField from '@/components/fields/HexColorPickerField'
 import Switch from '@/components/ui/Switch'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 import JobWidget from '@/components/ui/JobWidget'
 import { useJobWidgetContext } from '@/context/job_widget_state'
 import { useVacancyListOwnerContext } from '@/context/vacancy_owner_list_state'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 
 
 interface IFormData extends
@@ -45,8 +44,8 @@ export default function WidgetDesignForm(props: Props) {
   const jobWidgetContext = useJobWidgetContext()
   const vacancyListContext = useVacancyListOwnerContext()
   const isFormSet = useRef<boolean>(false)
-
-
+  const router = useRouter()
+  const {t} = useTranslation()
   const handleSubmit = async (data: IFormData) => {
     jobWidgetContext.saveSettings()
   }
@@ -110,10 +109,6 @@ export default function WidgetDesignForm(props: Props) {
   const [primaryTextJobCardVisible, setPrimaryTextJobCardVisible] = useState<boolean>(false)
   const [secondaryTextJobCardVisible, setSecondaryTextJobCardVisible] = useState<boolean>(false)
 
-  // // switches
-  // const [border, setBorder] = useState<boolean>(true)
-  // const [shadow, setShadow] = useState<boolean>(false)
-
   const handleResetStyles = (style: Style) => {
     // formik.resetForm()
     if (style === Style.Widget) {
@@ -146,7 +141,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Background
+                  {t('settings_job_widget_design_field_background')}
                 </div>
               </div>
               <HexColorPickerField name='backgroundWidget' visible={backgroundWidgetVisible}
@@ -158,7 +153,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Filter Borders
+                  {t('settings_job_widget_design_field_filter_boards')}
                 </div>
               </div>
               <HexColorPickerField name='filterBorders' visible={filterBordersVisible}
@@ -170,7 +165,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Pagination
+                  {t('settings_job_widget_design_field_pagination')}
                 </div>
               </div>
               <HexColorPickerField name='pagination' visible={paginationVisible}
@@ -183,14 +178,14 @@ export default function WidgetDesignForm(props: Props) {
         </Card>
         <Card title={
           <div className={styles.cardTitle}>
-            <div className={styles.title}>Job Card Styles</div>
-            <div onClick={() => handleResetStyles(Style.JobCard)} className={styles.reset}>Reset</div>
+            <div className={styles.title}>{t('settings_job_widget_design_job_card_styles')}</div>
+            <div onClick={() => handleResetStyles(Style.JobCard)} className={styles.reset}>{t('settings_job_widget_design_reset')}</div>
           </div>}>
           <div className={styles.wrapper}>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Background
+                  {t('settings_job_widget_design_field_background')}
                 </div>
               </div>
               <HexColorPickerField name='backgroundJobCard' visible={backgroundJobCardVisible}
@@ -202,7 +197,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.titleWithSwitch}>
-                  Border
+                  {t('settings_job_widget_design_field_border')}
                 </div>
                 <Switch checked={formik.values.showCardBorder} onChange={(v)=> formik.setFieldValue('showCardBorder', v)} />
               </div>
@@ -215,7 +210,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.titleWithSwitch}>
-                  Shadow
+                  {t('settings_job_widget_design_field_shadow')}
                 </div>
                 <Switch checked={formik.values.showCardShadow} onChange={(v)=> formik.setFieldValue('showCardShadow', v)} />
               </div>
@@ -227,7 +222,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Primary Text
+                  {t('settings_job_widget_design_field_primary_text')}
                 </div>
               </div>
               <HexColorPickerField name='primaryText' visible={primaryTextJobCardVisible}
@@ -238,7 +233,7 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Secondary Text
+                  {t('settings_job_widget_design_field_secondary_text')}
                 </div>
               </div>
               <HexColorPickerField name='secondaryText' visible={secondaryTextJobCardVisible}
@@ -248,24 +243,7 @@ export default function WidgetDesignForm(props: Props) {
             </div>
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'>
-            Save
-          </Button>
-          <Button styleType='large' color='white'>
-            Cancel
-          </Button>
-          <div className={styles.preview} onClick={props.onPreview}>
-            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
-              :
-              <NoEyeSvg color={colors.green} className={styles.eye} />
-            }
-            {!props.preview ? <div className={styles.text}>Preview</div>
-              :
-              <div className={styles.text}>Close Preview Mode</div>
-            }
-          </div>
-        </FormStickyFooter>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={() => router.push(Routes.lkSettingsJobWidget)} loading={jobWidgetContext.editLoading}/>
       </Form>
     </FormikProvider>
   </>)

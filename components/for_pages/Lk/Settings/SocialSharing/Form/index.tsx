@@ -8,6 +8,7 @@ import { Nullable } from '@/types/types'
 import {useVacancyShareSettingsContext} from '@/context/vacancy_sharing_settings_state'
 import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
 import Spacer from '@/components/ui/Spacer'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 }
@@ -19,7 +20,7 @@ export interface FormData {
 export default function SocialSharingForm(props: Props) {
   const vacancyShareSettingsContext = useVacancyShareSettingsContext()
   const [visible, setVisible] = useState<boolean>(false)
-
+  const {t} = useTranslation()
   const handleSubmit = async (data: FormData) => {
     vacancyShareSettingsContext.saveSettings(data)
   }
@@ -39,15 +40,15 @@ export default function SocialSharingForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form className={styles.form}>
-        <Card title={'Job ad image'} className={styles.card}>
+        <Card title={t('social_sharing_title')} className={styles.card}>
           <div className={styles.wrapper}>
             <div className={styles.top}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Background colour
+                  {t('social_sharing_background_color')}
                 </div>
                 <div className={styles.desc}>
-                  Personalise your ad with a colour that fits your brand
+                  {t('social_sharing_background_color_desc')}
                 </div>
               </div>
               <HexColorPickerField
@@ -58,10 +59,10 @@ export default function SocialSharingForm(props: Props) {
             </div>
             <div className={styles.text}>
               <div className={styles.title}>
-                Preview
+                {t('social_sharing_preview')}
               </div>
               <div className={styles.desc}>
-                This is how your job ad image will look when you share it
+                {t('social_sharing_preview_desc')}
               </div>
             </div>
             <JobAd color={formik.values.backgroundColor} />

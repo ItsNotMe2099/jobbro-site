@@ -18,12 +18,13 @@ import VacancyRepository from '@/data/repositories/VacancyRepository'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {IIpLocate} from '@/data/interfaces/IIpLocate'
 import {FindJobsMainWrapper} from '@/context/find_jobs_main_state'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const FindJobsInner = () => {
   const appContext = useAppContext()
   const {isSmDesktopWidth} = appContext.size
-
+  const {t} = useTranslation()
   const [banner, setBanner] = useState<boolean>(true)
   const [vacanciesByLocation, setVacanciesByLocation] = useState<{ data: IVacancy[], location: IIpLocate | null, total: number}>({data: [], total: 0, location: null})
   useEffect(() => {
@@ -46,24 +47,24 @@ const FindJobsInner = () => {
                 <SwiperSlide className={styles.slide}>
                   <TopCard
                   link='#'
-                  linkLabel='Process'
-                  text={<>AI processing of<br /> your CVs to PDF</>}
+                  linkLabel={t('find_jobs_cards_top_process_title')}
+                  text={t('find_jobs_cards_top_process_desc')}
                   icon={<ProcessSvg color={colors.white} />}
                   />
                 </SwiperSlide >
                 <SwiperSlide className={styles.slide}>
                   <TopCard
                   link='#'
-                  linkLabel='Rate'
-                  text={<>Only trusted<br /> companies</>}
+                  linkLabel={t('find_jobs_cards_top_rate_title')}
+                  text={t('find_jobs_cards_top_rate_desc')}
                   icon={<RateSvg color={colors.white} />}
                   />
                 </SwiperSlide>
                 <SwiperSlide className={styles.slide}>
                   <TopCard
                   link='#'
-                  linkLabel='Show'
-                  text={<>Jobs arround<br /> with you</>}
+                  linkLabel={t('find_jobs_cards_top_show_title')}
+                  text={t('find_jobs_cards_top_show_desc')}
                   icon={<ShowSvg color={colors.white} />}
                   />
                 </SwiperSlide>

@@ -3,13 +3,14 @@ import styles from './index.module.scss'
 import Link from 'next/link'
 import Card from '../../Common/Card'
 import CompanyCard from './CompanyCard'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
 }
 
 export default function VacanciesByLocation(props: Props) {
-
+  const {t} = useTranslation()
   const companies = [
     { name: 'Xing', image: '/profiles/xing.png', vacancies: 632 },
     { name: 'LinkedIn', image: '/profiles/linkedin.png', vacancies: 632 },
@@ -18,7 +19,7 @@ export default function VacanciesByLocation(props: Props) {
 
   return (
     <div className={styles.root}>
-      <Card className={styles.wrapper} title={'Work with the best'}>
+      <Card className={styles.wrapper} title={t('find_jobs_companies_title')}>
         <div className={styles.better}>
           Better company in recent times
         </div>
@@ -28,7 +29,7 @@ export default function VacanciesByLocation(props: Props) {
           )}
         </div>
         <Link href={'#'} className={styles.bottom}>
-          More companies
+          {t('find_jobs_companies_more')}
         </Link>
       </Card>
     </div>

@@ -3,6 +3,7 @@ import Validator from '@/utils/validator'
 import InputField from '@/components/fields/InputField'
 import {useApplyJobAnonymize} from '@/context/apply_job_anonymously'
 import {useAppContext} from '@/context/state'
+import useTranslation from 'next-translate/useTranslation'
 enum StepKey{
   First = 'first',
   Confirm = 'confirm'
@@ -14,23 +15,17 @@ interface Props {
 export default function ApplyForJobConfirmStep(props: Props) {
   const appContext = useAppContext()
   const applyJobAnonymize = useApplyJobAnonymize()
-  const {isTabletWidth} = appContext.size
+  const {t} = useTranslation()
   return (
     <div className={styles.root}>
-      {/* <div className={styles.title}>
-        Apply for job
-        {isTabletWidth &&
-          <CloseModalBtn onClick={appContext.hideModal}/>
-        }
-      </div> */}
       <div className={styles.description}>
-        We have sent a confirmation code to {applyJobAnonymize.formData?.email}.
+        {t('job_apply_form_type_confirm_desc_1', {email: applyJobAnonymize.formData?.email})}
         <br/>
         <br/>
-        After confirmation, the application will be accepted.
+        {t('job_apply_form_type_confirm_desc_2')}
       </div>
       <InputField
-        label='Code'
+        label= {t('job_apply_form_type_confirm_field_code')}
         type='password'
         name='code'
         obscure

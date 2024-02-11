@@ -28,6 +28,7 @@
   font-weight: 500;
   line-height: 130%;
   letter-spacing: -0.32px;
+  white-space: pre-line;
   @include mq($TabletWidth, max) {
     align-self: flex-start;
   }

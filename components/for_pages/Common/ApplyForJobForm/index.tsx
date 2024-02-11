@@ -25,6 +25,7 @@ import Button from '@/components/ui/Button'
 import {Routes} from '@/types/routes'
 import useTranslation from 'next-translate/useTranslation'
 import {toast} from 'react-toastify'
+import Trans from 'next-translate/Trans'
 
 enum FormToShow {
   Apply = 'apply',
@@ -68,7 +69,7 @@ const ApplyForJobFormInner = (props: Props) => {
   }
 
   const formToShow = useMemo<Nullable<FormToShow>>(() => {
-    
+
     if (!appContext.allLoaded) {
       return null
     }
@@ -124,9 +125,10 @@ const ApplyForJobFormInner = (props: Props) => {
       case FormToShow.Apply:
         return (
           <div>
-            <div className={styles.privacy}>
-              By pressing &quot;Apply&quot; you agree with  <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}>privacy</a>
-            </div>
+              <Trans
+                i18nKey="job_apply_form_type_apply_privacy"
+                components={[ <div className={styles.privacy}/>, <a href={ lang === 'id' ? 'https://drive.google.com/file/d/1VpKHbMqnj_f91gaiZJcKfVKGRjRx2t0m/view?usp=sharing' : 'https://drive.google.com/file/d/1sAVdJWQR94WXVi4-ILKhIyis3QpC4vSK/view?usp=sharing'} target={'_blank'}/>]}
+              />
             <Button
             fluid
             type='submit'
@@ -136,7 +138,7 @@ const ApplyForJobFormInner = (props: Props) => {
             spinner={applyJobAnonymize.sending}
             onClick={() => formik.submitForm()}
             >
-              Apply
+              {t('job_apply_form_type_apply_button')}
             </Button>
           </div>
         )
@@ -150,7 +152,7 @@ const ApplyForJobFormInner = (props: Props) => {
           spinner={applyJobAnonymize.sending}
           onClick={() => formik.submitForm()} className={styles.btn}
           >
-            Confirm
+            {t('job_apply_form_type_confirm_button')}
           </Button>
         )
       case FormToShow.ShowCv:
@@ -168,7 +170,7 @@ const ApplyForJobFormInner = (props: Props) => {
             appContext.hideBottomSheet()
           }}
           >
-            Show now
+            {t('job_apply_form_type_show_cv_button')}
           </Button>
         )
     }

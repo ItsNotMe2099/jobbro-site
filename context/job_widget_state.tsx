@@ -3,6 +3,11 @@ import { IVacancy } from '@/data/interfaces/IVacancy'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 import JobWidgetRepository from '@/data/repositories/JobWidgetRepository'
 import {Dispatch, SetStateAction, createContext, useContext, useEffect, useState} from 'react'
+import {RequestError} from '@/types/types'
+import {SnackbarType} from '@/types/enums'
+import {useAppContext} from '@/context/state'
+import {useRouter} from 'next/router'
+import {Routes} from '@/types/routes'
 
 
 interface IState {
@@ -16,6 +21,7 @@ interface IState {
   page: number
   setPage: (p: number) => void
   loading: boolean
+  editLoading: boolean
 }
 
 const JobWidgetContext = createContext<IState>({} as IState)
@@ -27,22 +33,32 @@ interface Props {
 }
 
 export function JobWidgetWrapper(props: Props) {
+  const appContext = useAppContext()
+  const router = useRouter()
   const [settings, setSettings] = useState<Partial<IJobWidget>|undefined>(props.settings||undefined)
   const [vacancies, setVacancies] = useState<Map<number, IVacancy[]>>(props.initialVacancies? new Map([[1, props.initialVacancies.data]]) : new Map())
   const [token, setToken] = useState<string>(props.settings?.token||'')
   const [page, setPageState] = useState<number>(1)
   const [total, setTotal] = useState<number>(props?.initialVacancies?.total||0)
   const [loading, setLoading] = useState<boolean>(false)
-
-  const saveSettings = (data?: Partial<IJobWidget>) => {
+  const [editLoading, setEditLoading] = useState<boolean>(false)
+  const saveSettings = async (data?: Partial<IJobWidget>) => {
+    setEditLoading(true)
     const dataToSave:Partial<IJobWidget> = {
       ...settings,
       categoriesIds: settings?.categories?.map(c=>c.id),
       locationIds: settings?.location?.map(l=>l.geonameid),
     }
-    JobWidgetRepository.updateWidget(dataToSave)
-    .then(res=> {
-    })
+    try{
+     const res = await JobWidgetRepository.updateWidget(dataToSave)
+      router.push(Routes.lkSettingsJobWidget)
+      }catch (err) {
+      if (err instanceof RequestError) {
+        appContext.showSnackbar(err.message, SnackbarType.error)
+      }
+    }
+    setEditLoading(false)
+
   }
 
   const getWidget = () => {
@@ -118,7 +134,8 @@ export function JobWidgetWrapper(props: Props) {
     total,
     page,
     setPage,
-    loading
+    loading,
+    editLoading
   }
 
   return (

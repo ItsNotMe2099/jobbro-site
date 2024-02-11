@@ -59,6 +59,7 @@
   line-height: 20px;
   color: $text-primary;
   letter-spacing: -0.16px;
+  white-space: pre-line;
   @include mq($TabletWidth, max){
     margin: unset;
     font-size: clamp(14px, 3vw, 16px);

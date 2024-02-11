@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import {useFindJobsMainContext} from '@/context/find_jobs_main_state'
 import Formatter from '@/utils/formatter'
 import { useVacancySearchContext } from '@/context/vacancy_search_state'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -24,6 +25,7 @@ export default function Header(props: Props) {
   const {isTabletWidth} = appContext.size
   const [filters, setFilters] = useState<IVacancyFilterParams>({})
   const router = useRouter()
+  const {t} = useTranslation()
   const [activeFilters, setActiveFilters] = useState<boolean>(false)
 
 
@@ -39,7 +41,7 @@ export default function Header(props: Props) {
           <InputSearch
             searchRequest={() => null}
             onEnterClick={onSearchEnter}
-            placeholder={isTabletWidth? 'Search':'Profession, position or company'}
+            placeholder={isTabletWidth? t('find_jobs_header_search_ph_mobile'):t('find_jobs_header_search_ph_desktop')}
             searchIcon
             onFilterClick={()=> setActiveFilters(!activeFilters)}
             showFilterButton={isTabletWidth}
@@ -58,7 +60,7 @@ export default function Header(props: Props) {
                 {Formatter.formatNumber(stats?.cvs_count!)}
               </div>
               <div className={styles.name}>
-                Summary
+                {t('find_jobs_header_stat_summary')}
               </div>
             </div>}
             {stats?.vacancies_count && <div className={styles.stat}>
@@ -66,7 +68,7 @@ export default function Header(props: Props) {
                 {Formatter.formatNumber(stats?.vacancies_count!)}
               </div>
               <div className={styles.name}>
-                Vacancies
+                {t('find_jobs_header_stat_vacancies')}
               </div>
             </div>}
             {stats?.companies_count && <div className={styles.stat}>
@@ -74,17 +76,17 @@ export default function Header(props: Props) {
                 {Formatter.formatNumber(stats?.companies_count!)}
               </div>
               <div className={styles.name}>
-                Companies
+                {t('find_jobs_header_stat_companies')}
               </div>
             </div>}
           </div>
           <div className={styles.btns}>
             <Button className={styles.btn} styleType='large' color='white'>
-              Post a CV
+              {t('find_jobs_header_post_cv')}
             </Button>
-            <div className={styles.or}>Or</div>
+            <div className={styles.or}>{t('find_jobs_header_or')}</div>
             <Button className={styles.btn} styleType='large' color='white'>
-              Post a vacancy
+              {t('find_jobs_header_post_vacancy')}
             </Button>
           </div>
         </div>

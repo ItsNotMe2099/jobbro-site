@@ -23,7 +23,6 @@ const LkSettingsIntegrationsPageInner = (props: Props) => {
   useEffectOnce(() => {
     integrationOwnerListContext.reFetch()
   })
-  console.log('Platforms', platforms)
   return (
     <div className={styles.root}>
       <div className={styles.section}>

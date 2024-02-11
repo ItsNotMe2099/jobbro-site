@@ -16,6 +16,7 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import ReactPaginate from 'react-paginate'
 import { useJobWidgetContext } from '@/context/job_widget_state'
 import classNames from 'classnames'
+import {Routes} from '@/types/routes'
 
 interface Props extends Partial<IJobWidget> {
   vacancies?: IVacancy[]
@@ -34,33 +35,33 @@ export default function JobWidget(props: Props) {
     onSubmit: () => {}
   })
 
-  return (<div className={styles.root} style={{background: props.backgroundWidget}} id="job-widget"> 
+  return (<div className={styles.root} style={{background: props.backgroundWidget}} id="job-widget">
     <p className={styles.title} style={{color: props.primaryText}}>Widget preview</p>
     <FormikProvider value={formik}>
       <Form>
         <div className={styles.settings}>
           { props.categoryFilter &&
-            <SelectField 
+            <SelectField
             className={styles.select}
             style={{border: props.filterBorders&&`2px solid ${props.filterBorders}`}}
-            label={'All categories'}
-            options={props?.categories&&props?.categories?.length > 0 ? props?.categories?.map(i => ({value: i.id, label: i.name})):[]} 
+            label={t('job_widget_all_categories')}
+            options={props?.categories&&props?.categories?.length > 0 ? props?.categories?.map(i => ({value: i.id, label: i.name})):[]}
             name={'category'}/>
           }
           {props.locationFilter &&
-            <SelectField 
+            <SelectField
             className={styles.select}
             style={{border: props.filterBorders&&`2px solid ${props.filterBorders}`}}
-            label={'All locations'}
-            options={ props?.location&&props?.location?.length > 0 ?  props.location.map(i => ({value: i.geonameid, label: i.name})):[]} 
+            label={t('job_widget_all_locations')}
+            options={ props?.location&&props?.location?.length > 0 ?  props.location.map(i => ({value: i.geonameid, label: i.name})):[]}
             name={'location'}/>
           }
           {props.employmentFilter &&
-            <SelectField 
+            <SelectField
             className={styles.select}
             style={{border: props.filterBorders&&`2px solid ${props.filterBorders}`}}
-            label={'All employment types'}
-            options={ props?.employments&&props?.employments?.length > 0 ?props.employments.map(i => ({value: i, label: Dictionary.getEmploymentName(i, t)})):[]} 
+            label={t('job_widget_all_employment_types')}
+            options={ props?.employments&&props?.employments?.length > 0 ?props.employments.map(i => ({value: i, label: Dictionary.getEmploymentName(i, t)})):[]}
             name={'employment'}/>
           }
         </div>
@@ -71,12 +72,12 @@ export default function JobWidget(props: Props) {
       {/* @ts-ignore */}
       { jobWidgetContext.vacancies&& jobWidgetContext?.vacancies?.get(jobWidgetContext.page)?.length > 0 && jobWidgetContext?.vacancies?.get(jobWidgetContext.page).map(v => {
         return (
-          <div className={classNames(styles.vacancy, jobWidgetContext.loading&&styles.loading)} 
+          <div className={classNames(styles.vacancy, jobWidgetContext.loading&&styles.loading)}
           style={{
-            background: props.backgroundJobCard, 
+            background: props.backgroundJobCard,
             boxShadow: (props.cardShadow&& props.showCardShadow)?`0px 0px 10px 0px ${props.cardShadow}`:'',
             border: (props.cardBorder &&props.showCardBorder)?'2px solid '+props.cardBorder:'',
-          }} 
+          }}
           >
             {props.showItemLogo &&
               <AvatarCircular file={jobWidgetContext.settings?.company.logo} initials={jobWidgetContext.settings?.company?.name[0]} size={80}/>
@@ -105,10 +106,10 @@ export default function JobWidget(props: Props) {
         return (
           <div className={classNames(styles.vacancy, styles.loading)} key={'empty'}
           style={{
-            background: jobWidgetContext?.settings?.backgroundJobCard, 
+            background: jobWidgetContext?.settings?.backgroundJobCard,
             boxShadow: (jobWidgetContext?.settings?.cardShadow&& jobWidgetContext.settings?.showCardShadow)?`0px 0px 10px 0px ${jobWidgetContext.settings.cardShadow}`:'',
             border: (jobWidgetContext.settings?.cardBorder &&jobWidgetContext?.settings?.showCardBorder)?'2px solid '+jobWidgetContext.settings.cardBorder:'',
-          }} 
+          }}
           >
             {props.showItemLogo &&
               <AvatarCircular size={80}/>
@@ -133,7 +134,7 @@ export default function JobWidget(props: Props) {
           </div>
         )
       })}
-  
+
     </div>
 
     {/* @ts-ignore */}
@@ -157,7 +158,7 @@ export default function JobWidget(props: Props) {
       renderOnZeroPageCount={null}
       />
      }
-      <Link className={styles.link} href={'#'}>Show all jobs at Jobbro</Link>
-    </div>  
+      <Link className={styles.link} href={Routes.getGlobal(Routes.findJobs)}>{t('job_widget_show_all')}</Link>
+    </div>
   </div>)
 }

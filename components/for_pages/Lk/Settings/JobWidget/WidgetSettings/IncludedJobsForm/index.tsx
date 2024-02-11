@@ -2,11 +2,6 @@ import styles from './index.module.scss'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { Nullable } from '@/types/types'
 import { useEffect, useRef } from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
-import NoEyeSvg from '@/components/svg/NoEyeSvg'
 import Card from '@/components/for_pages/Common/Card'
 import { IJobWidget } from '@/data/interfaces/JobWidgetType'
 import { useJobWidgetContext } from '@/context/job_widget_state'
@@ -17,9 +12,12 @@ import Dictionary from '@/utils/Dictionary'
 import RemovableItem from '@/components/ui/RemovableItem'
 import { useServiceCategoryListOwnerContext } from '@/context/service_category_list_state'
 import { ISpecializationCategory } from '@/data/interfaces/Common'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
 
 
-interface IFormData  extends 
+interface IFormData  extends
 Pick<IJobWidget, 'categories'|'location'|'employments'>
 {}
 
@@ -32,6 +30,7 @@ export default function IncludedJobsForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
   const jobWidgetContext = useJobWidgetContext()
   const {t} = useTranslation()
+  const router = useRouter()
   const serviceCategoryListContext = useServiceCategoryListOwnerContext()
   const isFormSet = useRef<boolean>(false)
 
@@ -76,68 +75,51 @@ export default function IncludedJobsForm(props: Props) {
   return (
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
-        <Card title={'Category'}>
-          <p className={styles.description}>Limit the jobs displayed in this widget to one or more categories</p>
+        <Card title={t('settings_job_widget_included_category')}>
+          <p className={styles.description}>{t('settings_job_widget_included_category_desc')}</p>
           <div className={styles.removableItems}>
           {jobWidgetContext.settings?.categories && jobWidgetContext.settings?.categories.length > 0 && jobWidgetContext.settings?.categories.map(
             (el, index) => <RemovableItem key={index} text={el.name||el.translations[0].name} onClick={() => formik.setFieldValue('categories', formik.values.categories.filter((_, i) => i !== index))}/>
-          )}            
+          )}
           </div>
-          <SelectField 
-          placeholder='Search Employment Type' 
+          <SelectField
+          placeholder={t('settings_job_widget_included_field_category')}
           options={serviceCategoryListContext.data.filter(el=> !formik.values.categories.includes(el as ISpecializationCategory)).map(c => {
             return {label: c.name, value: c}
-          })}          
-          name={`categories[${formik.values.categories.length === 0?formik.values.categories.length: formik.values.categories.length-1}]`} 
+          })}
+          name={`categories[${formik.values.categories.length === 0?formik.values.categories.length: formik.values.categories.length-1}]`}
           onChange={(el)=>formik.setFieldValue('categories', [...formik.values.categories, el])}
           />
         </Card>
-        <Card title={'Location'}>
-          <p className={styles.description}>Limit the jobs displayed in this widget to one or more locations</p>
+        <Card title={t('settings_job_widget_included_location')}>
+          <p className={styles.description}>{t('settings_job_widget_included_location_desc')}</p>
           <div className={styles.removableItems}>
           {formik.values.location.length > 0 && formik.values.location.map(
             (el, index) => <RemovableItem key={index} text={el.name} onClick={() => formik.setFieldValue('location', formik.values.location.filter((_, i) => i !== index))}/>
-          )}            
+          )}
           </div>
-          <CityField 
+          <CityField
           className={styles.input}
           placeholder={t('form_field_search')}
           onChange={(el)=>formik.setFieldValue('location', [...formik.values.location.filter(f=>f!==el), el])}
-          name={`location[${formik.values.location.length === 0?formik.values.location.length: formik.values.location.length-1}]`} 
+          name={`location[${formik.values.location.length === 0?formik.values.location.length: formik.values.location.length-1}]`}
           />
         </Card>
-        <Card title={'Employment Type'}>
-          <p className={styles.description}>Limit the jobs displayed in this widget to one or more employment types</p>
+        <Card title={t('settings_job_widget_included_employment_type')}>
+          <p className={styles.description}>{t('settings_job_widget_included_employment_type_desc')}</p>
           <div className={styles.removableItems}>
           {formik.values.employments &&formik.values.employments.length > 0 && formik.values.employments.map(
             (el, index) => <RemovableItem key={index} text={el} onClick={() => formik.setFieldValue('employments', formik.values.employments.filter((_, i) => i !== index))}/>
-          )}            
+          )}
           </div>
-          <SelectField 
-          placeholder='Search Employment Type' 
-          options={Dictionary.getEmploymentOptions(t).filter(el => formik.values.employments.findIndex(e=> el.value === e)===-1)} 
-          name={`employments[${formik.values.employments.length === 0?formik.values.employments.length: formik.values.employments.length-1}]`} 
+          <SelectField
+          placeholder={t('settings_job_widget_included_field_employment')}
+          options={Dictionary.getEmploymentOptions(t).filter(el => formik.values.employments.findIndex(e=> el.value === e)===-1)}
+          name={`employments[${formik.values.employments.length === 0?formik.values.employments.length: formik.values.employments.length-1}]`}
           onChange={(el)=>formik.setFieldValue('employments', [...formik.values.employments, el])}
           />
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'>
-            Save
-          </Button>
-          <Button styleType='large' color='white'>
-            Cancel
-          </Button>
-          <div className={styles.preview} onClick={props.onPreview}>
-            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
-              :
-              <NoEyeSvg color={colors.green} className={styles.eye} />
-            }
-            {!props.preview ? <div className={styles.text}>Preview</div>
-              :
-              <div className={styles.text}>Close Preview Mode</div>
-            }
-          </div>
-        </FormStickyFooter>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={() => router.push(Routes.lkSettingsJobWidget)} loading={jobWidgetContext.editLoading}/>
       </Form>
     </FormikProvider>
   )
