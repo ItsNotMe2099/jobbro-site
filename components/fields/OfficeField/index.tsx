@@ -14,7 +14,7 @@ interface Props extends IField<IOffice> {
 
 export default function OfficeField(props: Props) {
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [field] = useField<IOffice>(props as any)
+  const [field, meta, helpers] = useField<IOffice>(props as any)
   const loadOptions = async (search: string, loadedOptions: IOption<IOffice>[], data: any): Promise<{ options: IOption<IOffice>[], hasMore: boolean, additional?: any | null }> => {
     const page = data.page
     if (abortControllerRef.current) {
@@ -27,6 +27,7 @@ export default function OfficeField(props: Props) {
       page,
       ...(search ? {search} : {}),
     }, {signal: abortControllerRef.current?.signal})
+
     const hasMore = res.total > res.data.length + loadedOptions.length
     return {
       options: res.data.map(i => ({

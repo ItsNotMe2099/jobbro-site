@@ -6,6 +6,7 @@ import {SalaryType} from '@/data/enum/SalaryType'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {Translate} from 'next-translate'
+import {IntegrationPlatform} from '@/data/enum/IntegrationPlatform'
 
 export default class Dictionary {
 
@@ -56,7 +57,7 @@ export default class Dictionary {
     return t(Dictionary.getWorkplaceNames()[value])
   }
 
-  //============= Experience 
+  //============= Experience
   static getExperienceNames(): {[key in Experience]: string}{
     return {
       [Experience.Junior]: 'dictionary_experience_junior',
@@ -82,9 +83,10 @@ export default class Dictionary {
   static getExperienceDurationNames(): {[key in ExperienceDuration]: string}{
     return {
       [ExperienceDuration.NoExp]: 'dictionary_experience_duration_none',
-      [ExperienceDuration.From1to3]: 'dictionary_experience_duration_1to3',
-      [ExperienceDuration.From3to6]: 'dictionary_experience_duration_3to6',
-      [ExperienceDuration.From6]: 'dictionary_experience_duration_to6',
+      [ExperienceDuration.From1to2]: 'dictionary_experience_duration_1to2',
+      [ExperienceDuration.From3to5]: 'dictionary_experience_duration_3to5',
+      [ExperienceDuration.From6to10]: 'dictionary_experience_duration_6to10',
+      [ExperienceDuration.From10]: 'dictionary_experience_duration_from10',
     }
   }
 
@@ -153,5 +155,40 @@ export default class Dictionary {
 
   static getVacancyStatusName(value: PublishStatus, t: Translate) : string {
     return t(Dictionary.getVacancyStatusNames()[value])
+  }
+
+  static getIntegrationPlatformNames(): {[key in IntegrationPlatform]: string}{
+    return {
+      [IntegrationPlatform.Indeed]: 'Indeed',
+      [IntegrationPlatform.LinkedIn]: 'LinkedIn',
+    }
+  }
+
+  static getIntegrationPlatformOptions(t: Translate): IOption<IntegrationPlatform>[]{
+    return Object.keys(Dictionary.getIntegrationPlatformNames()).map(i => ({label: Dictionary.getIntegrationPlatformName(i as IntegrationPlatform, t), value: i as IntegrationPlatform}))
+  }
+
+  static getIntegrationPlatformName(value: IntegrationPlatform, t: Translate) : string {
+    return t(Dictionary.getIntegrationPlatformNames()[value])
+  }
+
+  static getIntegrationPlatformDescriptions(): {[key in IntegrationPlatform]: string}{
+    return {
+      [IntegrationPlatform.Indeed]: 'integration_type_indeed_desc',
+      [IntegrationPlatform.LinkedIn]: 'integration_type_linkedin_desc',
+    }
+  }
+  static getIntegrationPlatformDescription(value: IntegrationPlatform, t: Translate) : string {
+    return t(Dictionary.getIntegrationPlatformDescriptions()[value])
+  }
+
+  static getIntegrationPlatformImages(): {[key in IntegrationPlatform]: string}{
+    return {
+      [IntegrationPlatform.Indeed]: '/img/integrations/linkedin.svg',
+      [IntegrationPlatform.LinkedIn]: '/img/integrations/linkedin.svg'
+    }
+  }
+  static getIntegrationPlatformImage(value: IntegrationPlatform) : string {
+    return Dictionary.getIntegrationPlatformImages()[value]
   }
 }

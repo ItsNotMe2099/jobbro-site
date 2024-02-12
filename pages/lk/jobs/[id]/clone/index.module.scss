@@ -1,0 +1,22 @@
+@import "../../../../../styles/index";
+
+.root {}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+    @include mq($TabletWidth, max) {
+        padding-inline: 16px;
+    }
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    @include list(16px, true);
+}
+
+.item {
+    cursor: pointer;
+}

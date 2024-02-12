@@ -10,7 +10,7 @@ import {useOfficeOwnerContext} from '@/context/office_owner_state'
 import {FormikHelpers} from 'formik/dist/types'
 import {IOffice} from '@/data/interfaces/IOffice'
 import CityField from '@/components/fields/CityField'
-import {useRef} from 'react'
+import { useRef} from 'react'
 import Validator from '@/utils/validator'
 import {useRouter} from 'next/router'
 import {Routes} from '@/types/routes'
@@ -21,6 +21,7 @@ import {omit} from '@/utils/omit'
 import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
+import CheckBoxField from '@/components/fields/CheckBoxField'
 
 interface Props {
 
@@ -33,6 +34,7 @@ export interface IFormData {
   postalCode: Nullable<string>
   street: Nullable<string>
   house: Nullable<string>
+  isDefault: boolean
 }
 
 export default function CompanyOfficeForm(props: Props) {
@@ -42,16 +44,15 @@ export default function CompanyOfficeForm(props: Props) {
   const router = useRouter()
   const {t} = useTranslation()
   const ref = useRef<Nullable<HTMLFormElement>>(null)
-
   const handleSubmit = async (data: IFormData, formikHelpers: FormikHelpers<IFormData>) => {
     const newData: DeepPartial<IOffice> = {...omit(data, ['country', 'city']), countryId: data.country?.geonameid, cityId: data.city?.geonameid}
     try {
       if (officeContext.office) {
         await officeContext.update(newData)
-        showToast({title: t('toast_office_created_title'), text: t('toast_office_created_desc')})
+        showToast({title: t('toast_office_edited_title'), text: t('toast_office_edited_desc')})
       } else {
         await officeContext.create({...newData, companyId: companyOwnerContext.company?.id} as DeepPartial<IOffice>)
-        showToast({title: t('toast_office_edited_title'), text: t('toast_office_edited_desc')})
+        showToast({title: t('toast_office_created_title'), text: t('toast_office_created_desc')})
       }
     await router.push(Routes.lkCompanyOffices)
     } catch (err) {
@@ -74,6 +75,7 @@ export default function CompanyOfficeForm(props: Props) {
     postalCode: officeContext.office?.postalCode ?? null,
     street: officeContext.office?.street ?? null,
     house: officeContext.office?.house ?? null,
+    isDefault: officeContext.office?.isDefault ?? false
   }
 
   const formik = useFormik<IFormData>({
@@ -101,6 +103,7 @@ export default function CompanyOfficeForm(props: Props) {
               <InputField name={'street'} label={t('office_form_field_street')}/>
               <InputField name={'house'} label={t('office_form_field_house')}/>
             </div>
+          <CheckBoxField name={'isDefault'} label={t('office_form_field_is_default')}/>
         </Card>
         <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={handleCancel} loading={officeContext.editLoading}/>
       </Form>

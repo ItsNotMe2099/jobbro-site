@@ -37,6 +37,7 @@ export interface ExperienceInfo {
 export interface EducationInfo {
   institution: string,
   speciality: string,
+  degree: string
   toYear: number
   fromYear: number
 }

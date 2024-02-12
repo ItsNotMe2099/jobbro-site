@@ -1,7 +1,6 @@
 @import "styles/index";
 
 .root {
-
   display: flex;
   flex-direction: column;
   @include list(24px);
@@ -23,7 +22,10 @@
 }
 .card{
   width: 100%;
-  height: calc(100vh - 354px);
+  // height: calc(100vh - 354px);
+  @include mq($TabletWidth, max) {
+    height: unset;
+  }
 }
 .form{
 
@@ -45,4 +47,17 @@
 .right{
   flex-basis: 330px;
   max-height: 100%;
+}
+
+.title {
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+  }
+}
+
+.footer {
+  max-width: calc(100vw - 420px);
+  @include mq($TabletWidth, max) {
+    max-width: unset;
+  }
 }

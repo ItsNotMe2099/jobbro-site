@@ -3,7 +3,6 @@ import styles from './index.module.scss'
 import { ServiceCategoryListOwnerWrapper } from '@/context/service_category_list_state'
 import Filters from './Filters'
 import FilteredVacancies from './FilteredVacancies'
-import { VacancySearchWrapper } from '@/context/vacancy_search_state'
 import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
 import { useAppContext } from '@/context/state'
 
@@ -16,7 +15,6 @@ export default function Search(props: Props) {
   const {isTabletWidth} = appContext.size
 
   return (
-    <VacancySearchWrapper filters={{...props.filter, search: props.search}}>
       <div className={styles.root}>
         {!isTabletWidth &&
           <ServiceCategoryListOwnerWrapper>
@@ -25,6 +23,5 @@ export default function Search(props: Props) {
         }
         <FilteredVacancies/>
       </div>
-    </VacancySearchWrapper>
   )
 }

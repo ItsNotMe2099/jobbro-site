@@ -29,13 +29,15 @@ export default function TimeField(props: Props) {
 
   return (
     <div className={classNames(styles.root, props.className)} data-field={props.name} >
-      {props.label && <FieldLabel label={`${props.label}`} className={styles.label} focusedClassName={styles.labelFocused} focused={focused || !!field.value}/>}
-      <div className={classNames({
+      <div className={classNames(
+        styles.rootWrapper,
+        {
         [styles.wrapper]: true,
         [styles.withLabel]: !!props.label,
         [styles.inputFocused]: focused,
         [styles.inputError]: showError,
       })} ref={wrapperRef}>
+        {props.label && <FieldLabel label={`${props.label}`} className={styles.label} focusedClassName={styles.labelFocused} focused={focused || !!field.value}/>}
         
         {/* <TimePicker minTime={props.minTime} focused={focused} onSet={onSet} value={field.value}   /> */}
         <TimePicker
@@ -71,7 +73,6 @@ export default function TimeField(props: Props) {
           clearIcon={props.resettable ? <CloseSvg className={styles.clear} color={colors.simpleGrey}/> : null}
         />
       </div>
-
       <FieldError showError={showError}>{meta.error}</FieldError>
     </div>
   )

@@ -12,5 +12,7 @@ export interface IOffice {
   street: Nullable<string>
   house: Nullable<string>
   companyId: Nullable<string>
-
+  jobsCount: string
+  managersCount: string
+  isDefault: boolean
 }

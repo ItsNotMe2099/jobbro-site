@@ -35,6 +35,7 @@ import Analytics from '@/utils/goals'
 import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
+import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
 
 
 enum TabKey {
@@ -70,7 +71,7 @@ export interface IVacancyFormData {
   tasks: Nullable<string>
   cvRequired: Nullable<ApplicationInfoRequirements>
   coverLetterRequired: Nullable<ApplicationInfoRequirements>
-  languageKnowledges: {language: string, level: string}[] 
+  languageKnowledges: {language: string, level: string}[]
   benefits: string[]
   skills: string[]
   keywords: string[]
@@ -91,6 +92,14 @@ export default function CreateJobManuallyForm(props: Props) {
   const router = useRouter()
   const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
+  const valuesRef = useRef<Nullable<IVacancyFormData>>(null)
+  useEffect(() => {
+    OfficeOwnerRepository.fetch({isDefault: true, page: 1, limit: 1}).then(i => {
+      if(!valuesRef.current?.office && !vacancyContext.vacancy?.office && i.data.length > 0) {
+        formik.setFieldValue('office', i.data[0])
+      }
+    })
+  }, [vacancyContext.vacancy?.office])
 
   const handleSubmit = async (data: IVacancyFormData) => {
     const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
@@ -107,7 +116,7 @@ export default function CreateJobManuallyForm(props: Props) {
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
     try {
-      if (vacancyContext.vacancy) {
+      if (vacancyContext.vacancy && !vacancyContext.isClone) {
         await vacancyContext.update(newData)
         showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
@@ -134,12 +143,13 @@ export default function CreateJobManuallyForm(props: Props) {
     employment: props.initialValuesAi?.employment ? props.initialValuesAi.employment as Employment : (vacancyContext.vacancy?.employment ?? null),
     workplace:  vacancyContext.vacancy?.workplace?? null,
     office: vacancyContext.vacancy?.office?? null,
-    currency: 'EUR',
+    currency: props.initialValuesAi?.currency ?? vacancyContext?.vacancy?.currency ?? 'USD',
     languageKnowledges: vacancyContext.vacancy?.languageKnowledges||[],
-    salaryMin:  vacancyContext.vacancy?.salaryMin?? null,
-    salaryMax: vacancyContext.vacancy?.salaryMax?? null,
-    salaryType: vacancyContext.vacancy?.salaryType?? null,
+    salaryMin: props.initialValuesAi?.salaryMin ?? vacancyContext.vacancy?.salaryMin?? null,
+    salaryMax: props.initialValuesAi?.salaryMax ?? vacancyContext.vacancy?.salaryMax ?? null,
+    salaryType: props.initialValuesAi?.salaryType ?? vacancyContext.vacancy?.salaryType?? null,
     experience: props.initialValuesAi?.experience ? props.initialValuesAi.experience as Experience : (vacancyContext.vacancy?.experience ?? null),
+    experienceDuration: props.initialValuesAi?.experienceDuration ? props.initialValuesAi.experienceDuration as ExperienceDuration : (vacancyContext.vacancy?.experienceDuration ?? null),
     benefitsDescription:  props.initialValuesAi?.benefitsDescription ? { description: props.initialValuesAi.benefitsDescription, visible: true } :  vacancyContext.vacancy?.benefitsDescription?? { description: null, visible: false },
     requirements: props.initialValuesAi?.requirements ?? vacancyContext.vacancy?.requirements?? null,
     tasks: props.initialValuesAi?.tasks ?? vacancyContext.vacancy?.tasks?? null,
@@ -160,7 +170,9 @@ export default function CreateJobManuallyForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
-
+  useEffect(() => {
+    valuesRef.current = formik.values
+  }, [formik.values])
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
@@ -240,14 +252,12 @@ export default function CreateJobManuallyForm(props: Props) {
   }
   const form = (
     <FormikProvider value={formik}>
-
       <Form className={styles.form}>
         <FormErrorScroll formik={formik} />
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
         {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
         {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
         {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
-
       </Form>
     </FormikProvider>
   )

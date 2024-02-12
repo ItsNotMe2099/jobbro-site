@@ -25,7 +25,7 @@ const HiringBoardPageInner = () => {
   return (
     <div className={styles.container}>
 
-      <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkHiringBoards} right={ <IconButton
+      <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} className={styles.title} link={Routes.lkHiringBoards} right={ <IconButton
         size={'large'}
         onClick={() => setIsEdit(!isEdit)}>
         <SettingsSvg color={isEdit ? colors.green : colors.textSecondary}/>

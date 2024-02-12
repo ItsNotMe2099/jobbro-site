@@ -1,9 +1,6 @@
 import {format, formatRelative} from 'date-fns'
 import { ru } from 'date-fns/locale'
 
-const PNF = require('google-libphonenumber').PhoneNumberFormat
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
-
 const pluralizeNative = require('numeralize-ru').pluralize
 
 export default class Formatter {
@@ -80,18 +77,6 @@ export default class Formatter {
   }
   static formatDate(date: string | Date) {
     return format(typeof date === 'string' ? new Date(date) : date,'dd MMM yyyy ')
-  }
-
-  static formatPhone(phone: string | null) {
-    try {
-      if (!phone) {
-        return
-      }
-      const number = phoneUtil.parseAndKeepRawInput(this.cleanPhone(`${phone}`), 'RU')
-      return phoneUtil.format(number, PNF.INTERNATIONAL)
-    } catch (e) {
-      return phone
-    }
   }
 
   static pad(pad: string, str: string, padLeft = true) {

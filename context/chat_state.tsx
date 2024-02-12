@@ -86,7 +86,11 @@ export function ChatWrapper(props: Props) {
     if (abortControllerRef.current) {
       abortControllerRef.current?.abort()
     }
+    if(!isLoggedRef.current){
+      return
+    }
     abortControllerRef.current = new AbortController()
+
 
     try {
       const data = await ChatRepository.fetchAll({page, limit,

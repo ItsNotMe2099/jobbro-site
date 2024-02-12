@@ -22,6 +22,8 @@ import Analytics from '@/utils/goals'
 import CvCreationTypeBadge from '@/components/ui/CvCreationTypeBadge'
 import {runtimeConfig} from '@/config/runtimeConfig'
 import Checkbox from '@/components/ui/Checkbox'
+import {NotificationUnreadType} from '@/data/interfaces/INotification'
+import {useNotificationContext} from '@/context/notifications_state'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
@@ -44,10 +46,37 @@ const JobApplyCardInner = (props: Props) => {
   const applyCvContext = useApplyCvContext()
   const favoriteContext = useCandidateAddedContext()
   const cvEvaluationContext = useCvEvaluationContext()
+  const notifyContext = useNotificationContext()
   const { t } = useTranslation()
   const evaluation = cvEvaluationContext.store[`${applyCvContext.cv!.id}:${applyCvContext.apply!.vacancyId!}`]?.evaluation
   const cv = applyCvContext.cv!
   const appContext = useAppContext()
+  const active = props.cv.applications.length > 0 ? notifyContext.store[NotificationUnreadType.application].find(i => i.eId === props.cv.applications[0].id) : (props.cv.applications.length > 0 ? notifyContext.store[NotificationUnreadType.proposal].find(i => i.eId === props.cv.proposals[0].id)  : false)
+  useEffect(() => {
+    if(props.cv.applications.length > 0){
+      console.log('AddRecord11')
+      notifyContext.addRecord(props.cv.applications[0].id, NotificationUnreadType.application)
+      return () => {
+        console.log('AddRecord12')
+        notifyContext.removeRecord(props.cv.applications[0].id, NotificationUnreadType.application)
+      }
+    }else if(props.cv.proposals.length > 0){
+      notifyContext.addRecord(props.cv.proposals[0].id, NotificationUnreadType.proposal)
+      return () => {
+        notifyContext.removeRecord(props.cv.proposals[0].id, NotificationUnreadType.proposal)
+      }
+    }
+  }, [])
+  useEffect(() => {
+    if (active) {
+      if(props.cv.applications.length > 0){
+        notifyContext.markRead(props.cv.applications[0].id, NotificationUnreadType.application, false)
+      }else if(props.cv.proposals.length > 0){
+        notifyContext.markRead(props.cv.proposals[0].id, NotificationUnreadType.proposal, false)
+      }
+
+    }
+  }, [active])
   const ai = {
     percent: null,
     description: null

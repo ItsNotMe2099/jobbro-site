@@ -21,7 +21,7 @@ export enum ChatDialogRoute {
   Dialog = 'dialog',
   CreateEvent = 'createMeeting',
   SelectEventSlot = 'selectEventSlot',
-  EditEvent = 'edintEvent'
+  EditEvent = 'editEvent'
 }
 export enum ChatDisabledType {
   OtherManager = 'otherManager',

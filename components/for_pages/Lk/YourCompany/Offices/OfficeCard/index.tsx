@@ -7,6 +7,8 @@ import {useRouter} from 'next/router'
 import {Routes} from '@/types/routes'
 import {OfficeOwnerWrapper, useOfficeOwnerContext} from '@/context/office_owner_state'
 import useTranslation from 'next-translate/useTranslation'
+import PersonSvg from '@/components/svg/PersonSvg'
+import {colors} from '@/styles/variables'
 enum MenuKey{
   Edit = 'edit',
   Delete = 'delete'
@@ -40,14 +42,14 @@ const OfficeCardInner = (props: Props) => {
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.jobs}>
-            0 {t('office_card_job')}
+            {props.office.jobsCount} {t('office_card_job')}
           </div>
-          {/* <div className={styles.employees}>
+           <div className={styles.employees}>
             <PersonSvg color={colors.textSecondary} />
             <div className={styles.quantity}>
-             0
+              {props.office.managersCount}
             </div>
-          </div> */}
+          </div>
         </div>
         <div className={styles.middle}>
           <div className={styles.country}>
@@ -58,9 +60,9 @@ const OfficeCardInner = (props: Props) => {
           </div>
         </div>
         <div className={styles.bottom}>
-          {/*<div className={styles.status}>
+          {props.office.isDefault && <div className={styles.status}>
             Default
-          </div>*/}
+          </div>}
           <MenuButton<MenuKey> options={menuOptions} onClick={handleMenuClick}/>
         </div>
       </div>

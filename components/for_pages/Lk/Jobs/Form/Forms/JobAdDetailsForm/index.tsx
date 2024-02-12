@@ -8,7 +8,7 @@ import { IVacancyFormData} from '../..'
 import RichTextField from '@/components/fields/RichTextField'
 import Dictionary from '@/utils/Dictionary'
 import {SalaryType} from '@/data/enum/SalaryType'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {Workplace} from '@/data/enum/Workplace'
 import {Employment} from '@/data/enum/Employment'
 import OfficeField from '@/components/fields/OfficeField'
@@ -51,11 +51,14 @@ export default function JobAdDetailsForm(props: Props) {
             <ServiceCategoryField label={t('job_form_tab_details_field_sub-category')} categoryId={props.formik.values.categoryId} className={styles.select} name='subCategoryId' />
           </div>
           <div className={styles.line}>
-            <SelectField<Employment> label={t('job_form_tab_details_field_employment')} className={styles.select} name='employment' options={Dictionary.getEmploymentOptions(t)} />
-            <SelectField<Workplace> label={t('job_form_tab_details_field_workplace')} className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions(t)} />
+            <SelectField<Employment> label={t('job_form_tab_details_field_employment')} className={styles.select} name='employment' options={Dictionary.getEmploymentOptions(t)} resettable={true}/>
+            <SelectField<Workplace> label={t('job_form_tab_details_field_workplace')} className={styles.select} name='workplace' options={Dictionary.getWorkplaceOptions(t)} resettable={true}/>
           </div>
-          <OfficeField placeholder={t('job_form_tab_details_field_office')} className={styles.select} name='office'  />
-        </div>
+          <div className={styles.line}>
+            <SelectField<ExperienceDuration> label={t('job_form_tab_details_field_experience_duration')} className={styles.select} name='experienceDuration' resettable={true} options={Dictionary.getExperienceDurationOptions(t)} />
+            <OfficeField placeholder={t('job_form_tab_details_field_office')} className={styles.select} name='office' resettable={true} />
+          </div>
+         </div>
       </Card>
       <Card title={t('job_form_tab_details_section_requirements')}>
         <RichTextField name='requirements' />

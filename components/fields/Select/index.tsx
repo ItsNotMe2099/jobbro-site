@@ -34,6 +34,7 @@ interface Props<T> {
   resettable?: boolean
   menuPosition?: string
   isLoading?: boolean | undefined
+  style?: React.CSSProperties
  }
 
 export default function Select<T>(props: Props<T>) {
@@ -43,7 +44,7 @@ export default function Select<T>(props: Props<T>) {
   const {t} = useTranslation()
 
   return (
-    <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name}>
+    <div className={classNames(styles.root, props.className)} ref={ref} data-field={props.name} style={props.style}>
       {props.label &&
         <FieldLabel label={props.label} focused={focused || !!props.value}/>
       }

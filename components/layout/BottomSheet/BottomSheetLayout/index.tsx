@@ -17,9 +17,9 @@ export default function BottomSheetLayout(props: Props) {
   return (
     <>
       <Sheet.Container style={{ background: props.backgroundColor ? props.backgroundColor: colors.white, borderRadius: '10px 10px 0 0' }}>
-        <Sheet.Content dragListener={false}>
+        <Sheet.Header style={{ position: props.lineOver ? 'absolute' : 'static', zIndex: 1 }} />
+        <Sheet.Content dragListener={false} >
           <div className={styles.root}>
-            <Sheet.Header style={{ position: props.lineOver ? 'absolute' : 'static', zIndex: 1 }} />
             <div className={styles.content}>
               {props.children}
             </div>

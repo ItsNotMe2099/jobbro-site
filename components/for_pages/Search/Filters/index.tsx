@@ -43,7 +43,7 @@ export default function Filters(props: Props) {
     delete data.fullCities
     data.cities?.length === 0 && delete data.cities
     data.countries?.length === 0 && delete data.countries
-    
+
     if(context.filters) {
       context.filters.current = {...data, page: 1, limit: 20}
     }
@@ -51,7 +51,7 @@ export default function Filters(props: Props) {
   }
 
   const initialValues = {
-    employment: [],
+    experienceDuration: [],
     salaryMin: undefined,
     salaryMax: undefined,
     workplace: [],
@@ -62,7 +62,8 @@ export default function Filters(props: Props) {
     countries: [],
     country: undefined,
     cities: [],
-    city: undefined
+    city: undefined,
+    employment: []
   }
 
   const formik = useFormik<Partial<IVacancyFilterParams>>({
@@ -89,8 +90,8 @@ export default function Filters(props: Props) {
         state.set(formik.values.country.geonameid, formik.values.country)
         return new Map(state)
       })
-      formik.setFieldValue('country', undefined)
-    }  
+      // formik.setFieldValue('country', undefined)
+    }
     if(formik.values.city) {
       context.setFullCities(state=> {
         //@ts-ignore
@@ -103,55 +104,57 @@ export default function Filters(props: Props) {
         state.set(formik.values.city?.geonameid, formik.values.city)
         return new Map(state)
       })
-      formik.setFieldValue('city', undefined)
+      // formik.setFieldValue('city', undefined)
     }
   }, [formik.values])
-
-
 
   useEffect(()=>{
     formik.setValues({...initialValues, ...context.filters.current})
   }, [])
-  
-  return (<div className={classNames(styles.root, styles['root_'+appContext.headerDirection])}> 
+
+  return (<div className={classNames(styles.root, styles['root_'+appContext.headerDirection])}>
     <FormikProvider value={formik}>
       <div className={classNames(styles.formWrapper, styles['formWrapper_'+appContext.headerDirection])}>
         <Form className={styles.form}>
 
-          <p className={styles.title}>{t('cv_form_field_category')}</p>
+          <p className={styles.title}>{t('jobs_search_field_category')}</p>
           <CheckboxMultipleField options={serviceCategoryListContext.data.map(c => {
             return {label: c.name, value: c.id}
           })} name={'categories'}/>
-        
-          <p className={styles.title}>{t('cv_form_field_sub_category')}</p>
+
+          <p className={styles.title}>{t('jobs_search_field_sub_category')}</p>
           <CheckboxMultipleField options={serviceCategoryListContext.data.map(c => {
             return {label: c.name, value: c.id}
           })} name={'subcategories'}/>
 
-          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
+          <p className={styles.title}>{t('jobs_search_section_salary_range')}</p>
           <div className={styles.range}>
-            <InputField 
-            name={'salaryMin'} 
-            classNameInputWrapper={styles.inputWrapper} 
+            <InputField
+            name={'salaryMin'}
+            classNameInputWrapper={styles.inputWrapper}
             classNameInput={styles.input}
-            label={t('cv_form_field_experience_from')}
+            label={t('jobs_search_field_experience_from')}
             format='price'
-            // suffix={'$'}
             />
             <span>-</span>
-            <InputField 
-            name={'salaryMax'} 
-            classNameInputWrapper={styles.inputWrapper} 
+            <InputField
+            name={'salaryMax'}
+            classNameInputWrapper={styles.inputWrapper}
             classNameInput={styles.input}
-            label={t('cv_form_field_experience_to')}
+            label={t('jobs_search_field_experience_to')}
             format='price'
-
-            // suffix={'$'}
             />
           </div>
 
-          <p className={styles.title}>{t('job_preview_employment_country')}</p>
-          <CountryField name={'country'} className={styles.input} 
+          <p className={styles.title}>{t('jobs_search_field_salary_type')}</p>
+          <RadioField
+          resettable
+          name={'salaryType'} itemClassName={styles.radio}
+          options={Dictionary.getSalaryTypeOptions(t)}
+          />
+
+          <p className={styles.title}>{t('jobs_search_field_country')}</p>
+          <CountryField name={'country'} key={formik.values.country?.name} className={styles.input}
           placeholder={t('form_field_search')}
           resettable
           />
@@ -160,63 +163,60 @@ export default function Filters(props: Props) {
           <Spacer basis={16}/>
           <CheckboxMultipleField name={'countries'}
           options={[...context.fullCountries.values()]?.map((c: IGeoName) => (
-            {label: c.name, value: c.geonameid} as IOption<number>))||[]} 
+            {label: c.name, value: c.geonameid} as IOption<number>))||[]}
             />
           </>
           }
 
-          <p className={styles.title}>{t('job_preview_employment_location')}</p>
-          <CityField name={'city'} className={styles.input} 
+          <p className={styles.title}>{t('jobs_search_field_location')}</p>
+          <CityField name={'city'} key={formik.values.city?.name} className={styles.input}
           placeholder={t('form_field_search')}
+          value={formik.values.city}
+          resettable
           />
-          {context.fullCities.size > 0 && 
+          {context.fullCities.size > 0 &&
           <>
           <Spacer basis={16}/>
           <CheckboxMultipleField name={'cities'}
           options={[...context.fullCities.values()]?.map((c: IGeoName) => (
-            {label: c.name, value: c.geonameid} as IOption<number>))||[]} 
+            {label: c.name, value: c.geonameid} as IOption<number>))||[]}
           />
           </>}
 
-          <p className={styles.title}>{t('job_preview_employment_type')}</p>
-          <CheckboxMultipleField name={'employment'} 
+          <p className={styles.title}>{t('jobs_search_field_employment_type')}</p>
+          <CheckboxMultipleField name={'employment'}
           options={Dictionary.getEmploymentOptions(t)}
           />
 
           <p className={styles.title}>Grade</p>
-          <RadioField 
+          <RadioField
+          resettable
           name={'experience'} itemClassName={styles.radio}
-          options={Dictionary.getExperienceOptions(t)} 
+          options={Dictionary.getExperienceOptions(t)}
           />
 
-          <p className={styles.title}>{t('job_form_tab_details_section_Experience')}</p>
-          <CheckboxMultipleField name={'employment'} 
+          <p className={styles.title}>{t('jobs_search_field_experience')}</p>
+          <CheckboxMultipleField name={'experienceDuration'}
           options={Dictionary.getExperienceDurationOptions(t)}
           />
 
-          <p className={styles.title}>{t('cv_form_section_salary_type')}</p>
-          <RadioField 
-          name={'salaryType'} itemClassName={styles.radio}
-          options={Dictionary.getSalaryTypeOptions(t)}
-          />
-
-          <p className={styles.title}>{t('job_form_tab_details_field_workplace')}</p>
+          <p className={styles.title}>{t('jobs_search_field_workplace')}</p>
           <CheckboxMultipleField name={'workplace'}
           options={Dictionary.getWorkplaceOptions(t)}
-          />   
+          />
 
-          <p className={styles.title}>{t('job_form_tab_workflow_section_keywords')}</p>
+          <p className={styles.title}>{t('jobs_search_field_keywords')}</p>
           <KeywordField name={'keywords'}
-          selectClassName={styles.input} 
+          selectClassName={styles.input}
           />
         </Form>
       </div>
 
       <div className={styles.buttons}>
         {formik.values !== formik.initialValues &&
-          <Button color={'white'} onClick={()=>formik.resetForm()} type={'button'} className={styles.submitButton}>Reset Filter</Button>   
-        } 
-        <Button color={'green'} onClick={()=>{formik.submitForm(); appContext.hideModal()}} type={'submit'} className={styles.submitButton}>Apply Filter</Button>  
+          <Button color={'white'} onClick={()=>formik.resetForm()} type={'button'} className={styles.submitButton}>Reset Filter</Button>
+        }
+        <Button color={'green'} onClick={()=>{formik.submitForm(); appContext.hideModal()}} type={'submit'} className={styles.submitButton}>Apply Filter</Button>
       </div>
     </FormikProvider>
   </div>)

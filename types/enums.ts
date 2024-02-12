@@ -7,7 +7,8 @@ export enum ModalType {
   ApplyForJobModal = 'applyForJobModal',
   SearchFiltersModal = 'searchFiltersModal',
   JobChatModal = 'jobChatModal',
-  MyEventsModal = 'myEventsModal'
+  MyEventsModal = 'myEventsModal',
+  ChooseSlotModal = 'chooseSlotModal'
 }
 export enum CookiesType {
   accessToken = 'accessToken',

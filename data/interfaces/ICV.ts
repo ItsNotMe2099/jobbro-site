@@ -56,6 +56,7 @@ export interface ICV {
   bio: string;
   portfolio: string;
   skills: ISkill[];
+  skillsTitles: string[]
   skillsIds: number[];
   salaryMin: string | number;
   salaryMax: string | number;

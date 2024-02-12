@@ -9,6 +9,7 @@ import {useRouter} from 'next/router'
 import ClientOnly from '@/components/visibility/ClientOnly'
 import {useFavoriteContext} from '@/context/favorite_state'
 import {FavoriteEntityType} from '@/data/enum/FavoriteEntityType'
+import BookmarkOutlinedSvg from '@/components/svg/BookmarkOutlinedSvg'
 
 interface Props {
   id: number
@@ -76,13 +77,13 @@ export default function VacancyFavoriteBtn(props: Props) {
       }, props.className)}
     >
       <ClientOnly>
-        <BookmarkSvg color={colors.green} className={classNames({
+        <BookmarkOutlinedSvg color={colors.green} className={classNames({
           [styles.inactiveImage]: true,
           [styles.inactiveImageInvisible]: active,
         })}/>
       </ClientOnly>
       <ClientOnly>
-        <BookmarkSvg color={colors.white} className={classNames({
+        <BookmarkSvg color={colors.green} className={classNames({
           [styles.activeImage]: true,
           [styles.activeImageVisible]: active,
         })}/>

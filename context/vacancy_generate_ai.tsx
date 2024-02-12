@@ -13,7 +13,7 @@ import {debounce} from 'debounce'
 import useWindowFocus from 'use-window-focus'
 import {AiRequestStatus} from '@/data/enum/AiRequestStatus'
 import {Employment} from '@/data/enum/Employment'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {SalaryType} from '@/data/enum/SalaryType'
 interface IState {
   reconnectState$: Subject<boolean>,
@@ -76,6 +76,10 @@ export function VacancyGenerateAiWrapper(props: Props) {
       salaryType: result.salaryType &&
       Object.values(SalaryType).includes(result.salaryType as SalaryType)
         ? result.salaryType
+        : null,
+      experienceDuration: result.experienceDuration &&
+      Object.values(ExperienceDuration).includes(result.experienceDuration as ExperienceDuration)
+        ? result.experienceDuration
         : null,
     }
   }

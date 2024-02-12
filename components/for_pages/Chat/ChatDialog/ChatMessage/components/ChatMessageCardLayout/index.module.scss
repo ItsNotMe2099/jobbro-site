@@ -1,4 +1,5 @@
-@import "../../../../../../../styles/index";
+@import 'styles/index';
+
 $radius: 16px;
 .root {
   display: flex;
@@ -9,15 +10,24 @@ $radius: 16px;
     align-items: flex-start;
     .message{
       background: $background-success;
-      border-top-left-radius: 8px;
+      border-bottom-left-radius: 0px;
+      &:before {
+        border-bottom: 6px $background-success solid;
+        left: -6px;
+      }
     }
   }
 
   &.sideMy {
     align-items: flex-end;
     .message{
-      background: $white;
-      border-top-right-radius: 8px;
+      background: $grey;
+      border-bottom-right-radius: 0px;
+      &:before {
+        border-bottom: 6px $grey solid;
+        right: -6px;
+      }
+
     }
   }
 
@@ -34,6 +44,16 @@ $radius: 16px;
   color: $text-primary;
   border-radius: $radius;
   white-space: pre-line;
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 24px;
+    height: 12px;
+    border: 6px transparent solid;
+  }
+
 }
 .author{
   font-weight: 400;

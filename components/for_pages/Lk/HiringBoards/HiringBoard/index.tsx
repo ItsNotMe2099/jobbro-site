@@ -1,7 +1,7 @@
+import styles from './index.module.scss'
 import {HiringBoardWrapper, useHiringBoardContext} from '@/context/hiring_board_state'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 import HiringBoardColumn from '@/components/for_pages/Lk/HiringBoards/HiringBoard/HiringBoardColumn'
-import styles from './index.module.scss'
 import {StrictModeDroppable} from '@/components/ui/StrictModeDroppable'
 import HiringBoardNewColumn from '@/components/for_pages/Lk/HiringBoards/HiringBoard/HiringBoardNewColumn'
 

@@ -3,9 +3,7 @@
 .root {
   border-radius: 16px;
   background-color: $white;
-  // padding-block: 16px;
   padding-inline: 16px 4px;
-  // padding-right: 4px;
   max-width: 325px;
   position: sticky;
   top: 40px;
@@ -79,17 +77,18 @@
     z-index: 1;
   }
   
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   width: calc(100% + 32px);
-  //   height: calc(100% + 32px);
-  //   top: -16px;
-  //   left: -16px;
-  //   backdrop-filter: blur(2px);
-  //   background-color: rgba(0, 0, 0, 0.178);
-  //   filter: blur(10px)
-  // }
+  &:after {
+    content: '';
+    position: absolute;
+    width: calc(100% + 32px);
+    height: calc(100% + 32px);
+    top: -16px;
+    left: -16px;
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.178);
+    filter: blur(10px);
+    border-radius: 16px;
+  }
 }
 
 .submitButton {

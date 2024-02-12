@@ -2,26 +2,32 @@ import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { Nullable } from '@/types/types'
-import { useRef, useState } from 'react'
-import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
-import Button from '@/components/ui/Button'
-import EyeSvg from '@/components/svg/EyeSvg'
-import { colors } from '@/styles/variables'
-import NoEyeSvg from '@/components/svg/NoEyeSvg'
+import { useEffect, useRef, useState } from 'react'
 import HexColorPickerField from '@/components/fields/HexColorPickerField'
 import Switch from '@/components/ui/Switch'
+import { IJobWidget } from '@/data/interfaces/JobWidgetType'
+import JobWidget from '@/components/ui/JobWidget'
+import { useJobWidgetContext } from '@/context/job_widget_state'
+import { useVacancyListOwnerContext } from '@/context/vacancy_owner_list_state'
+import FormSaveStickyFooter from '@/components/for_pages/Common/FormSaveCancelStickyFooter'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 
 
-interface IFormData {
-  backgroundWidget: string
-  filterBorders: string
-  pagination: string
-  backgroundJobCard: string
-  border: string
-  shadow: string
-  primaryText: string
-  secondaryText: string
-}
+interface IFormData extends
+Pick<IJobWidget,
+  'backgroundWidget' |
+  'filterBorders' |
+  'pagination' |
+  'backgroundJobCard' |
+  'cardBorder' |
+  'cardShadow' |
+  'primaryText' |
+  'secondaryText'|
+  'showCardBorder'|
+  'showCardShadow'
+>{}
 
 interface Props {
   onPreview?: () => void
@@ -35,27 +41,60 @@ enum Style {
 
 export default function WidgetDesignForm(props: Props) {
   const ref = useRef<Nullable<HTMLFormElement>>(null)
-
+  const jobWidgetContext = useJobWidgetContext()
+  const vacancyListContext = useVacancyListOwnerContext()
+  const isFormSet = useRef<boolean>(false)
+  const router = useRouter()
+  const {t} = useTranslation()
   const handleSubmit = async (data: IFormData) => {
-
-
+    jobWidgetContext.saveSettings()
   }
 
   const initialValues: IFormData = {
-    backgroundWidget: '#EBEBEB',
-    filterBorders: '#D4D4D8',
+    backgroundWidget: '#FFFFFF',
+    filterBorders: '#FFFFFF',
     pagination: '#24B563',
-    backgroundJobCard: '#EBEBEB',
-    border: '#3C3C3C',
-    shadow: '#EBEBEB',
-    primaryText: '#24B563',
-    secondaryText: '#838383',
+    backgroundJobCard: '#FFFFFF',
+    cardBorder: '#EBEBEB',
+    cardShadow: '#EBEBEB',
+    primaryText: '#3C3C3C',
+    secondaryText: '#3C3C3C',
+    showCardBorder: false,
+    showCardShadow: false
   }
 
   const formik = useFormik<IFormData>({
     initialValues,
     onSubmit: handleSubmit
   })
+
+  useEffect(()=>{
+    if(isFormSet.current) {
+      jobWidgetContext.setSettings(state=> ({...state, ...formik.values}))
+    }
+  }, [formik.values])
+
+  useEffect(()=>{
+    if(jobWidgetContext.settings && !isFormSet.current) {
+      formik.setFieldValue('backgroundWidget', jobWidgetContext.settings.backgroundWidget)
+      formik.setFieldValue('filterBorders', jobWidgetContext.settings.filterBorders)
+      formik.setFieldValue('pagination', jobWidgetContext.settings.pagination)
+      formik.setFieldValue('backgroundJobCard', jobWidgetContext.settings.backgroundJobCard)
+      formik.setFieldValue('cardBorder', jobWidgetContext.settings.cardBorder)
+      formik.setFieldValue('cardShadow', jobWidgetContext.settings.cardShadow)
+      formik.setFieldValue('primaryText', jobWidgetContext.settings.primaryText)
+      formik.setFieldValue('secondaryText', jobWidgetContext.settings.secondaryText)
+      formik.setFieldValue('showCardBorder', jobWidgetContext.settings.showCardBorder)
+      formik.setFieldValue('showCardShadow', jobWidgetContext.settings.showCardShadow)
+      isFormSet.current = true
+    }
+  }, [jobWidgetContext.settings])
+
+  useEffect(()=>{
+    if(!jobWidgetContext.settings) {
+      jobWidgetContext.getWidget()
+    }
+  }, [])
 
 
   //Widget Styles
@@ -70,26 +109,27 @@ export default function WidgetDesignForm(props: Props) {
   const [primaryTextJobCardVisible, setPrimaryTextJobCardVisible] = useState<boolean>(false)
   const [secondaryTextJobCardVisible, setSecondaryTextJobCardVisible] = useState<boolean>(false)
 
-  // switches
-  const [border, setBorder] = useState<boolean>(true)
-  const [shadow, setShadow] = useState<boolean>(false)
-
   const handleResetStyles = (style: Style) => {
+    // formik.resetForm()
     if (style === Style.Widget) {
-      formik.setFieldValue('backgroundWidget', '#EBEBEB')
-      formik.setFieldValue('filterBorders', '#D4D4D8')
-      formik.setFieldValue('pagination', '#24B563')
+      formik.setFieldValue('backgroundWidget', initialValues.backgroundWidget)
+      formik.setFieldValue('filterBorders', initialValues.filterBorders)
+      formik.setFieldValue('pagination', initialValues.pagination)
     }
     else {
-      formik.setFieldValue('backgroundJobCard', '#EBEBEB')
-      formik.setFieldValue('border', '#3C3C3C')
-      formik.setFieldValue('shadow', '#EBEBEB')
-      formik.setFieldValue('primaryText', '#24B563')
-      formik.setFieldValue('secondaryText', '#838383')
+      formik.setFieldValue('backgroundJobCard', initialValues.backgroundJobCard)
+      formik.setFieldValue('cardBorder', initialValues.cardBorder)
+      formik.setFieldValue('cardShadow', initialValues.cardShadow)
+      formik.setFieldValue('primaryText', initialValues.primaryText)
+      formik.setFieldValue('secondaryText', initialValues.secondaryText)
+      formik.setFieldValue('showCardBorder', initialValues.showCardBorder)
+      formik.setFieldValue('showCardShadow', initialValues.showCardShadow)
     }
   }
 
-  return (
+  return (<>
+
+    <JobWidget {...jobWidgetContext.settings} vacancies={vacancyListContext.data.data}/>
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <Card title={
@@ -101,130 +141,110 @@ export default function WidgetDesignForm(props: Props) {
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Background
+                  {t('settings_job_widget_design_field_background')}
                 </div>
               </div>
               <HexColorPickerField name='backgroundWidget' visible={backgroundWidgetVisible}
-                color={formik.values.backgroundWidget}
-                setVisible={() => setBackgroundWidgetVisible(true)}
-                className={styles.colors}
-                onChange={() => setBackgroundWidgetVisible(false)} />
+               setVisible={(val) => setBackgroundWidgetVisible(val??true)}
+              className={styles.colors}
+              onChange={() => setBackgroundWidgetVisible(false)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Filter Borders
+                  {t('settings_job_widget_design_field_filter_boards')}
                 </div>
               </div>
               <HexColorPickerField name='filterBorders' visible={filterBordersVisible}
-                color={formik.values.filterBorders}
-                setVisible={() => setFilterBordersVisible(true)}
-                className={styles.colors}
-                onChange={() => setFilterBordersVisible(false)} />
+              setVisible={(val) => setFilterBordersVisible(val??true)}
+              className={styles.colors}
+              onChange={() => setFilterBordersVisible(false)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Pagination
+                  {t('settings_job_widget_design_field_pagination')}
                 </div>
               </div>
               <HexColorPickerField name='pagination' visible={paginationVisible}
-                color={formik.values.pagination}
-                setVisible={() => setPaginationVisible(true)}
-                className={styles.colors}
-                onChange={() => setPaginationVisible(false)} />
+              setVisible={(val) => setPaginationVisible(val??true)}
+              className={styles.colors}
+              onChange={() => setPaginationVisible(false)}
+              />
             </div>
           </div>
         </Card>
         <Card title={
           <div className={styles.cardTitle}>
-            <div className={styles.title}>Job Card Styles</div>
-            <div onClick={() => handleResetStyles(Style.JobCard)} className={styles.reset}>Reset</div>
+            <div className={styles.title}>{t('settings_job_widget_design_job_card_styles')}</div>
+            <div onClick={() => handleResetStyles(Style.JobCard)} className={styles.reset}>{t('settings_job_widget_design_reset')}</div>
           </div>}>
           <div className={styles.wrapper}>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Background
+                  {t('settings_job_widget_design_field_background')}
                 </div>
               </div>
               <HexColorPickerField name='backgroundJobCard' visible={backgroundJobCardVisible}
-                color={formik.values.backgroundJobCard}
-                setVisible={() => setBackgroundJobCardVisible(true)}
-                className={styles.colors}
-                onChange={() => setBackgroundJobCardVisible(false)} />
+              setVisible={(val) => setBackgroundJobCardVisible(val??true)}
+              className={styles.colors}
+              onChange={() => setBackgroundJobCardVisible(false)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.titleWithSwitch}>
-                  Border
+                  {t('settings_job_widget_design_field_border')}
                 </div>
-                <Switch checked={border} onChange={setBorder} />
+                <Switch checked={formik.values.showCardBorder} onChange={(v)=> formik.setFieldValue('showCardBorder', v)} />
               </div>
-              <HexColorPickerField disabled={!border} name='border' visible={borderJobCardVisible}
-                color={formik.values.border}
-                setVisible={() => setBorderJobCardVisible(true)}
-                className={styles.colors}
-                onChange={() => setBorderJobCardVisible(false)} />
+              <HexColorPickerField disabled={!formik.values.showCardBorder} name='cardBorder' visible={borderJobCardVisible}
+              setVisible={(val) => setBorderJobCardVisible(val??true)}
+              className={styles.colors}
+              onChange={() => setBorderJobCardVisible(false)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.titleWithSwitch}>
-                  Shadow
+                  {t('settings_job_widget_design_field_shadow')}
                 </div>
-                <Switch checked={shadow} onChange={setShadow} />
+                <Switch checked={formik.values.showCardShadow} onChange={(v)=> formik.setFieldValue('showCardShadow', v)} />
               </div>
-              <HexColorPickerField disabled={!shadow} name='shadow' visible={shadowJobCardVisible}
-                color={formik.values.shadow}
-                setVisible={() => setShadowJobCardVisible(true)}
+              <HexColorPickerField disabled={!formik.values.showCardShadow} name='cardShadow' visible={shadowJobCardVisible}
+                setVisible={(val) => setShadowJobCardVisible(val??true)}
                 className={styles.colors}
                 onChange={() => setShadowJobCardVisible(false)} />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Primary Text
+                  {t('settings_job_widget_design_field_primary_text')}
                 </div>
               </div>
               <HexColorPickerField name='primaryText' visible={primaryTextJobCardVisible}
-                color={formik.values.primaryText}
-                setVisible={() => setPrimaryTextJobCardVisible(true)}
+                setVisible={(val) => setPrimaryTextJobCardVisible(val??true)}
                 className={styles.colors}
                 onChange={() => setPrimaryTextJobCardVisible(false)} />
             </div>
             <div className={styles.field}>
               <div className={styles.text}>
                 <div className={styles.title}>
-                  Secondary Text
+                  {t('settings_job_widget_design_field_secondary_text')}
                 </div>
               </div>
               <HexColorPickerField name='secondaryText' visible={secondaryTextJobCardVisible}
-                color={formik.values.primaryText}
-                setVisible={() => setSecondaryTextJobCardVisible(true)}
+                setVisible={(val) => setSecondaryTextJobCardVisible(val??true)}
                 className={styles.colors}
                 onChange={() => setSecondaryTextJobCardVisible(false)} />
             </div>
           </div>
         </Card>
-        <FormStickyFooter boundaryElement={`.${styles.root}`} formRef={ref}>
-          <Button spinner={false} type='submit' styleType='large' color='green'>
-            Save
-          </Button>
-          <Button styleType='large' color='white'>
-            Cancel
-          </Button>
-          <div className={styles.preview} onClick={props.onPreview}>
-            {!props.preview ? <EyeSvg color={colors.green} className={styles.eye} />
-              :
-              <NoEyeSvg color={colors.green} className={styles.eye} />
-            }
-            {!props.preview ? <div className={styles.text}>Preview</div>
-              :
-              <div className={styles.text}>Close Preview Mode</div>
-            }
-          </div>
-        </FormStickyFooter>
+        <FormSaveStickyFooter boundaryElement={`.${styles.root}`} formRef={ref} onCancel={() => router.push(Routes.lkSettingsJobWidget)} loading={jobWidgetContext.editLoading}/>
       </Form>
     </FormikProvider>
-  )
+  </>)
 }

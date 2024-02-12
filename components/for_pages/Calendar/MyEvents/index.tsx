@@ -10,6 +10,7 @@ import ContentLoader from '@/components/ui/ContentLoader'
 import {EventCard} from '@/components/for_pages/Calendar/MyEvents/EventCard'
 import classNames from 'classnames'
 import { useAppContext } from '@/context/state'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
   children?: ReactElement | ReactElement[]
@@ -19,6 +20,7 @@ interface Props {
 export const MyEvents = (props: Props) => {
   const {isTabletWidth} = useAppContext().size
   const eventListContext = useEventListContext()
+  const {t} = useTranslation()
   const [open, setOpen] = useState<boolean>(false)
 
   return (
@@ -32,26 +34,29 @@ export const MyEvents = (props: Props) => {
             {format(new Date(), 'EEEE, MMM dd')}
           </div>
           {isTabletWidth &&
-          <p className={styles.counter}>{eventListContext.events.length} meets</p>
+          <p className={styles.counter}>{t('events_my_meets', {count: eventListContext.events.length})}</p>
           }
         </div>
         {!isTabletWidth &&
           <div className={styles.separator} />
         }
-        {eventListContext.loading && 
+        {eventListContext.loading &&
           <ContentLoader isOpen={true}/>
         }
-        {!eventListContext.loading && eventListContext.events.length === 0 && 
+        {!eventListContext.loading && eventListContext.events.length === 0 &&
           <MyEventsEmpty/>
         }
         {!eventListContext.loading && eventListContext.events.length > 0 &&
           <>
           <div className={classNames(styles.events, open && isTabletWidth && styles.open) }>
-            {eventListContext.events.map(i => <EventCard key={i.id} event={i}/>)}
+            {(open ? eventListContext.events : eventListContext.events.slice(0, 2)).map(i => <EventCard key={i.id} event={i}/>)}
           </div>
-          {isTabletWidth &&
-            <p className={styles.watchAll} onClick={() => setOpen(!open)}>View all</p>
-          }
+            {isTabletWidth &&
+              <p className={styles.watchAllMobile} onClick={() => setOpen(!open)}>{t('events_my_view_all')}</p>
+            }
+            {!isTabletWidth && !open &&  eventListContext.events.length > 2 &&
+              <p className={styles.watchAllDesktop} onClick={() => setOpen(!open)}>{t('events_my_view_all')}</p>
+            }
           </>
         }
       </div>

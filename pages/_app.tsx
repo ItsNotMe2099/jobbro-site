@@ -25,6 +25,7 @@ import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
 import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
 import {EmployeeAiCvRequestsWrapper} from '@/context/employee_cv_request_state'
+import { VacancySearchWrapper } from '@/context/vacancy_search_state'
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -50,6 +51,8 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
         <FavoriteWrapper>
           <CandidateAddedWrapper>
             <CvEvaluationWrapper>
+              <VacancySearchWrapper >
+
               <EventListWrapper>
                 <EmployeeAiCvRequestsWrapper>
                 <Head>
@@ -72,7 +75,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                     href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
                     rel="stylesheet"/>
                 </Head>
-                {getLayout(<Component {...pageProps as any} />)}
+                {getLayout(<Component {...pageProps as any}  />)}
                 <ModalContainer/>
                 <SidePanelContainer/>
                 <BottomSheetContainer/>
@@ -91,6 +94,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                   />
                 </EmployeeAiCvRequestsWrapper>
               </EventListWrapper>
+              </VacancySearchWrapper>
             </CvEvaluationWrapper>
           </CandidateAddedWrapper>
         </FavoriteWrapper>

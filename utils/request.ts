@@ -12,6 +12,7 @@ interface Options {
   data?: any
   token?: string // needed for requests from server side
   file?: File
+  isMultiPart?: boolean
   disableCache?: boolean
   config?: AxiosRequestConfig
 }
@@ -27,6 +28,7 @@ async function request<T = any>(options: string | Options): Promise<T> {
   let method = 'get'
   let data: any = null
   let file: File | null = null
+  let isMultiPart: boolean = false
   let disableCache = false
   let config: AxiosRequestConfig = {}
   if (optionsIsString) {
@@ -36,6 +38,7 @@ async function request<T = any>(options: string | Options): Promise<T> {
     method = options.method ? options.method.toLowerCase() : 'get'
     data = options.data
     file = options.file ?? null
+    isMultiPart = !!file || (options.isMultiPart ?? false)
     disableCache = options.disableCache ?? false
     config = options.config as any
   }
@@ -59,7 +62,7 @@ async function request<T = any>(options: string | Options): Promise<T> {
     'Authorization': accessToken ? `Bearer ${accessToken}` : '',
   }
 
-  if (!file) {
+  if (!file && !isMultiPart) {
     headers['Content-Type'] = 'application/json'
   }
 
@@ -67,7 +70,7 @@ async function request<T = any>(options: string | Options): Promise<T> {
     url: correctUrl,
     method,
     headers: headers,
-    data: file ? mulipartFormData : (method !== 'get' && data) ? JSON.stringify(data) : undefined,
+    data: file ? mulipartFormData : isMultiPart ? data  as FormData : (method !== 'get' && data) ? JSON.stringify(data) : undefined,
     ...config,
     validateStatus: (status) => true
   })

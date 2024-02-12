@@ -1,21 +1,39 @@
 @import 'styles/index';
 
+.root {
+  display: flex;
+  flex-direction: column;
+  @include list(32px, false);
+}
+
+.main {
+  position: relative;
+  @include mq ($TabletWidth, max) {
+  &:before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -16px;
+    width: 100vw;
+    height: 300px;
+    background-color: $green;
+    border-radius: 16px;
+  }
+}
+
+
+}
+
 .form {
   display: flex;
   flex-direction: column;
   @include list(32px, false);
   position: relative;
-    @include mq ($TabletWidth, max) {
-    &:before {
-      content: '';
-      position: absolute;
-      top: -200px;
-      right: -16px;
-      width: 100vw;
-      height: 300px;
-      background-color: $green;
-      border-radius: 16px;
-    }
+  z-index: 2;
+  margin-bottom: 32px;
+  @include mq ($TabletWidth, max) {
+    max-width: calc(100vw - 32px);
+    margin-bottom: 16px;
   }
 }
 
@@ -36,15 +54,10 @@
   height: 24px;
 }
 
-.root {
+.root{
+  position: relative;
   display: flex;
   flex-direction: column;
-  @include list(32px, false);
-  position: relative;
-  z-index: 2;
-  @include mq ($TabletWidth, max) {
-    max-width: calc(100vw - 32px);
-  }
 }
 
 .clear {
@@ -72,7 +85,7 @@
 
 .select {
   flex: 1;
-  min-width: 250px; 
+  min-width: 250px;
 }
 
 .location{
@@ -129,8 +142,6 @@
 .remove {
   cursor: pointer;
 }
-
-
 
 .text {
   font-size: 16px;

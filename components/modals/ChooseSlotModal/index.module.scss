@@ -1,0 +1,57 @@
+@import 'styles/index';
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 16px;
+  margin-top: auto;
+}
+
+.form {
+  height: calc(100% - 228px);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding-bottom: 24px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+
+  @include list(8px);
+  .day{
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+  }
+  .timezone{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @include list(8px, true);
+    font-size: 16px;
+    .label{
+      font-style: normal;
+      font-weight: 700;
+      color: $text-secondary;
+    }
+    .value{
+      color: $text-primary;
+      font-weight: 400;
+    }
+  }
+} 
+
+.modalBody {
+  height: 90vh;
+  max-height: 600px;
+}

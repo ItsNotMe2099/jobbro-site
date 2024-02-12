@@ -68,10 +68,16 @@
 
 }
 
-.watchAll {
+.watchAllMobile {
   color: $green;
   font-weight: 600;
   margin-left: 64px;
+}
+.watchAllDesktop {
+  cursor: pointer;
+  color: $green;
+  font-weight: 600;
+  text-align: center;
 }
 
 .counter {

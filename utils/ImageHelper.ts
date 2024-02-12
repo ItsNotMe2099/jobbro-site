@@ -1,6 +1,6 @@
 import IFile from 'data/interfaces/IFile'
 import { Preset } from 'types/enums'
-import { runtimeConfig } from 'config/runtimeConfig'
+import {runtimeConfig, serverRuntimeConfig} from 'config/runtimeConfig'
 
 export default class ImageHelper {
   static urlFromFile(file?: IFile, preset: Preset = Preset.mdResize): string {
@@ -10,10 +10,10 @@ export default class ImageHelper {
     const imageParamsStr = file.type === 'IMAGE'
       ? `w=${this.getImageSize(preset)}&h=${this.getImageSize(preset)}&mode=${this.needCrop(preset) ? 'crop' : 'resize'}&fpx=${file.focalPoint?.x || '0.5'}&fpy=${file.focalPoint?.y || '0.5'}`
       : ''
-    return `${runtimeConfig.HOST}/api/asset/files/${file.source}?${imageParamsStr}`
+    return `${runtimeConfig?.HOST ?? serverRuntimeConfig?.HOST}/api/asset/files/${file.source}?${imageParamsStr}`
   }
   static urlFromSource(source: string): string {
-    return `${runtimeConfig.HOST}/api/asset/files/${source}`
+    return `${runtimeConfig.HOST ?? serverRuntimeConfig?.HOST}/api/asset/files/${source}`
   }
 
   static getImageSize(preset: Preset): number {

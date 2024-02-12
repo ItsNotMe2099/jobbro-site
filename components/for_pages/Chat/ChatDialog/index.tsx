@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import {useAppContext} from 'context/state'
 import ContentLoader from 'components/ui/ContentLoader'
 import {ChatDialogRoute, ChatDialogWrapper, ChatDisabledType, useChatDialogContext} from 'context/chat_dialog_state'
-import {ReactElement} from 'react'
+import {ReactElement, useMemo} from 'react'
 import classNames from 'classnames'
 import ChatMessageForm from '@/components/for_pages/Chat/ChatMessageForm'
 import ChatSuggestionLogin from '@/components/for_pages/Chat/ChatDialog/ChatSuggestionLogin'
@@ -13,6 +13,8 @@ import EventOwnerForm from '@/components/for_pages/Calendar/EventOwnerForm'
 import EventSelectSlotForm from '@/components/for_pages/Calendar/EventSelectSlotForm'
 import {Nullable} from '@/types/types'
 import ChatMessagesList from '@/components/for_pages/Chat/ChatDialog/ChatMessagesList'
+import { MyEvents } from '../../Calendar/MyEvents'
+import { ProfileType } from '@/data/enum/ProfileType'
 
 interface Props {
   className?: string
@@ -28,27 +30,51 @@ interface Props {
 
 const ChatDialogInner = (props: Props) => {
   const appContext = useAppContext()
-  const chatContext = useChatDialogContext()
-  const loading = chatContext.loading || !appContext.aboutMeLoaded
+  const {isTabletWidth} = appContext.size
+  const chatDialogContext = useChatDialogContext()
+  const loading = chatDialogContext.loading || !appContext.aboutMeLoaded
   const renderChatSuggestion = () => {
-    switch (chatContext.disabledType) {
+    switch (chatDialogContext.disabledType) {
       case ChatDisabledType.Auth:
         return <ChatSuggestionLogin/>
     }
     return null
-
   }
-  return (<div className={classNames(styles.root, props.className)}>
-      {chatContext.chat?.cv &&
-        <PageTitle className={styles.title} title={chatContext.chat?.cv.name ?? chatContext.chat?.cv.title ?? ''}
-                   onBack={props.onBackClick}/>}
-      {<ChatHeader hasBack={props.hasBack ?? false} showBothChatNames={props.showBothChatNames}
-                   chat={chatContext.chat}
-                   title={props.title ?? null}/>}
-      <ChatMessagesList/>
-      <div className={styles.bottom}>
-        <ChatMessageForm/>
+
+  const name = useMemo(() => {
+    switch (appContext.aboutMe?.profileType){
+      case ProfileType.Employee:
+        return chatDialogContext.chat?.vacancy?.company?.name|| (chatDialogContext.chat?.vacancy.profile.firstName + ' ' + chatDialogContext.chat?.vacancy.profile.lastName)
+      case ProfileType.Hirer:
+        return chatDialogContext.chat?.cv?.name
+    }
+  }, [chatDialogContext.chat])
+
+  return (
+    <div className={classNames(styles.root, props.className)}>
+      <div className={styles.container}>
+        {chatDialogContext.chat?.cv &&
+          <PageTitle
+          className={styles.title}
+          title={name||''}
+          onBack={props.onBackClick}
+          invertColors={isTabletWidth}
+          />
+        }
+        <ChatHeader
+        hasBack={props.hasBack ?? false}
+        showBothChatNames={props.showBothChatNames}
+        chat={chatDialogContext.chat||undefined}
+        title={props.title ?? null}
+        />
+        <ChatMessagesList/>
+        <div className={styles.bottom}>
+          <ChatMessageForm/>
+        </div>
       </div>
+      {!isTabletWidth &&
+        <MyEvents/>
+      }
     </div>
   )
 }
@@ -62,12 +88,23 @@ const ChatDialogRouteWrapper = (props: Props) => {
   }
   switch (chatContext.route) {
     case ChatDialogRoute.CreateEvent:
-      return <EventOwnerForm cvId={args.cvId} vacancyId={args.vacancyId}
-                             onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
-                             onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventOwnerForm
+        cvId={args.cvId} vacancyId={args.vacancyId}
+        onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+        onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      />
+    case ChatDialogRoute.EditEvent:
+      return <EventOwnerForm
+        cvId={args.cvId} vacancyId={args.vacancyId} eventId={args.eventId}
+        onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+        onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      />
     case ChatDialogRoute.SelectEventSlot:
-      return <EventSelectSlotForm eventId={args.eventId} onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
-                                  onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}/>
+      return <EventSelectSlotForm
+      eventId={args.eventId}
+      onBack={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      onSubmit={() => chatContext.setRoute(ChatDialogRoute.Dialog)}
+      />
     case ChatDialogRoute.Dialog:
     default:
       return <ChatDialogInner {...props}/>

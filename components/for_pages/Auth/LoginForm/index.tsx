@@ -41,11 +41,14 @@ export default function LoginForm(props: Props) {
       if (accessToken) {
         Analytics.goal(Goal.Login)
         appContext.setToken(accessToken)
-        appContext.updateAboutMe()
+        await appContext.updateAboutMe()
 
         if (redirect && redirect !== '/') {
+
+          console.log('redirect to redirect', redirect)
           router.replace(redirect)
         } else {
+          console.log('redirect to lk')
           router.replace(Routes.lk)
         }
       } else {

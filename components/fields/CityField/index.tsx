@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {IField, IOption, Nullable} from '@/types/types'
 import {useField} from 'formik'
 import LocationRepository from '@/data/repositories/LocationRepository'
@@ -41,6 +41,9 @@ export default function CityField(props: Props) {
       }
     }
   }
+  useEffect(()=>{
+    console.log(field.value)
+  }, [field.value])
   return (
     <SelectField<IGeoName> {...(props as any)} async={true}
                            selectKey={`${props.country}`}

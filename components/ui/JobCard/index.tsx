@@ -1,29 +1,30 @@
 import styles from './index.module.scss'
 
-import { IVacancy } from '@/data/interfaces/IVacancy'
+import {IVacancy} from '@/data/interfaces/IVacancy'
 import Image from 'next/image'
 import Formatter from '@/utils/formatter'
 import Button from '../Button'
-import { useState } from 'react'
-import { ISkill } from '@/data/interfaces/ISkill'
+import {useState} from 'react'
+import {ISkill} from '@/data/interfaces/ISkill'
 import VacancyUtils from '@/utils/VacancyUtils'
-import { useAppContext } from '@/context/state'
-import { ModalType } from '@/types/enums'
-import { ApplicationCreateModalArguments } from '@/types/modal_arguments'
+import {useAppContext} from '@/context/state'
+import {ModalType} from '@/types/enums'
+import {ApplicationCreateModalArguments} from '@/types/modal_arguments'
 import useTranslation from 'next-translate/useTranslation'
-import { colors } from '@/styles/variables'
-import BookmarkSvg from '@/components/svg/BookmarkSvg'
-import BookmarkOutlinedSvg from '@/components/svg/BookmarkOutlinedSvg'
-import { FILES } from '@/types/constants'
+import {FILES} from '@/types/constants'
+import Link from 'next/link'
+import VacancyFavoriteBtn from '@/components/for_pages/Common/VacancyFavoriteBtn'
+import {FavoriteEntityType} from '@/data/enum/FavoriteEntityType'
+import {Routes} from '@/types/routes'
+import {useRouter} from 'next/router'
 
 interface Props {
   vacancy: IVacancy,
-  onSave: (vacancy: IVacancy) => void
 }
 
-export default function JobCard({vacancy, onSave}: Props) {
+export default function JobCard({vacancy}: Props) {
   const appContext = useAppContext()
-
+  const router = useRouter()
  const [showAllSkills, setShowAllSkills] = useState(false)
   const {t} = useTranslation()
 
@@ -33,24 +34,17 @@ export default function JobCard({vacancy, onSave}: Props) {
     <div title={k.title} className={styles.keyword} key={k.id}>{k.title}</div>
   )
 
-  const showApply = () => {
-    if(appContext) {
+  const showApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    if(appContext.isLogged) {
       appContext.showModal<ApplicationCreateModalArguments>(ModalType.ApplicationCreate, {vacancyId: vacancy.id})
+    }else {
+      router.push(Routes.job(vacancy.id))
     }
   }
 
-  return (<div className={styles.root}> 
-      <button onClick={() => onSave(vacancy)} className={styles.bookmark}>
-        {vacancy.isSavedByCurrentProfile &&
-        <BookmarkSvg 
-        color={colors.green} 
-        />
-        ||
-        <BookmarkOutlinedSvg color={colors.green} />
-        }
-      </button>
-    
-
+  return (<Link href={`/job/${vacancy.id}`} className={styles.root} >
+    <VacancyFavoriteBtn id={vacancy.id} entityType={FavoriteEntityType.vacancy} className={styles.bookmark}/>
     <div className={styles.top}>
       {vacancy.company.logo &&
         <div className={styles.imageWrapper}>
@@ -77,7 +71,16 @@ export default function JobCard({vacancy, onSave}: Props) {
         <div className={styles.keywords}>
           {!showAllSkills && skillsShortList?.map((k) => skillItem(k))}
           {showAllSkills && vacancy.skills?.map((k) => skillItem(k))}
-          {vacancy.skills?.length > 3 && !showAllSkills && <div className={styles.more} onClick={() => setShowAllSkills(true)}>+{vacancy.skills.length - 3}</div>}
+          {vacancy.skills?.length > 3 && !showAllSkills &&
+            <div
+            className={styles.more}
+            onClick={(e) => {
+              e.preventDefault()
+              setShowAllSkills(true)
+            }}>
+              +{vacancy.skills.length - 3}
+            </div>
+          }
         </div>
       }
       <p className={styles.published}>
@@ -91,5 +94,5 @@ export default function JobCard({vacancy, onSave}: Props) {
       <Button styleType='small' color='green'>{t('apply_look_button_apply')}</Button>
       }
     </div>
-  </div>)
+  </Link>)
 }

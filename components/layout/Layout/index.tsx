@@ -10,6 +10,8 @@ import classNames from 'classnames'
 interface Props {
   children?: ReactElement | ReactElement[]
   hideTabbar?: boolean
+  hideHeader?: boolean
+  hideFooter?: boolean
 }
 
 export default function Layout(props: Props) {
@@ -17,23 +19,27 @@ export default function Layout(props: Props) {
 
   const {isTabletWidth} = appContext.size
   const headerDirection = appContext.headerDirection
-  
+
 
   return (
     <div className={styles.root}>
       <StickyContainer>
+        {!props.hideHeader &&
           <Sticky>
             {({style, distanceFromTop}) => <div className={classNames(styles.headerWrapper, headerDirection === 'down'&& styles.headerHide)}  style={style}>
               <Header distanceFromTop={distanceFromTop}  />
             </div>}
           </Sticky>
+          }
         <div className={styles.container}>
           {props.children}
         </div>
         {isTabletWidth && !props.hideTabbar && appContext.aboutMe &&
         <TabBar/>
         }
-        <Footer />
+        {!props.hideFooter &&
+          <Footer />
+        }
       </StickyContainer>
     </div>
   )

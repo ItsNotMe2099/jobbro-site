@@ -5,11 +5,35 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
-  padding: 15px;
+  // TODO  при включенном column0reverse не работает прокрутка, надо поправить
+  // flex-direction: column;
+  padding: 20px;
   flex: 1;
+  background-color: $white;
+  border-radius: 0px 0px 24px 24px;
+
+    @include mq($TabletWidth, max) {
+    margin-bottom: unset;
+    padding-bottom: 90px;
+  }
 }
 
 .list {
   display: flex;
   flex-direction: column-reverse;
+  @include mq($TabletWidth, max) {
+    padding-bottom: 20px;
+  }
+
+}
+
+
+.bugFix {
+  display: none;
+  @include mq($TabletWidth, max) {    
+    display: block;
+    margin: 0;
+    // height: px;
+    opacity: 0;
+  }
 }

@@ -30,10 +30,10 @@ export default function JobDetailsPreview(props: Props) {
 
         <div className={styles.fields}>
           <div className={styles.inputs}>
-            <div className={styles.input}>
-              <div className={styles.inputLabel}>{t('job_preview_requirements_experience')}</div>
-              <div className={styles.inputValue}>3 — 6 years</div>
-            </div>
+            {!!job.experienceDuration && <div className={styles.input}>
+              <div className={styles.inputLabel}>{t('job_preview_required_experience')}</div>
+              <div className={styles.inputValue}>{Dictionary.getExperienceDurationName(job.experienceDuration, t)}</div>
+            </div>}
             {!!job.employment && <div className={styles.input}>
               <div className={styles.inputLabel}>{t('job_preview_employment_type')}</div>
               <div className={styles.inputValue}>{Dictionary.getEmploymentName(job.employment, t)}</div>

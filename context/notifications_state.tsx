@@ -118,6 +118,7 @@ export function NotificationWrapper(props: Props) {
   }
 
   const debouncedSave = debounce(async () => {
+    console.log('tmpList', tmpList)
     if (isLoggedRef.current && tmpList.length > 0) {
       const list = await NotificationRepository.fetchStatus(tmpList)
       if (list) {
@@ -148,7 +149,7 @@ export function NotificationWrapper(props: Props) {
     }
   }, 500)
   const debouncedDeleteRecord = debounce(async () => {
-    const toDeletedRecordList =  deleteRecordList.filter((i) => tmpList.find(a => i.time?.getTime() > a.time.getTime()))
+    const toDeletedRecordList =  deleteRecordList.filter((i) => tmpList.find(a => i.time?.getTime() - a.time.getTime() > 1000))
     const notificationIds = toDeletedRecordList.filter(i => i.id !== 0).map(i => i.id)
     const keys = Object.keys(store) as NotificationUnreadType[]
     const newStore = { ...storeRef.current }
@@ -165,6 +166,7 @@ export function NotificationWrapper(props: Props) {
     setStore(newStore)
     deleteRecordList.length = 0
   }, 200)
+
   const value: IState = {
     store,
     addRecord(id: number, type: NotificationUnreadType) {

@@ -72,8 +72,8 @@ const JobsPageInner = () => {
 
         {vacancyListContext.isLoaded && vacancyListContext.data.total === 0 &&
           <NoData
-            title={vacancyListContext.filtersCount === 0 ? t('stub_jobs_filter_title') : t('stub_jobs_title')}
-            text={vacancyListContext.filtersCount === 0 ? t('stub_jobs_filter_desc') : t('stub_jobs_desc')}
+            title={vacancyListContext.filtersCount === 0 ? t('stub_jobs_title') : t('stub_jobs_filter_title')}
+            text={vacancyListContext.filtersCount === 0 ? t('stub_jobs_desc') : t('stub_jobs_filter_desc')}
           />
         }
         {!vacancyListContext.isLoaded && vacancyListContext.isLoading &&

@@ -2,15 +2,19 @@ import request from 'utils/request'
 import {AxiosRequestConfig} from 'axios/index'
 import {IPagination} from '@/data/interfaces/IPaginationRequest'
 import {DeepPartial} from '@/types/types'
-import {IManagerListRequest} from '@/data/interfaces/IManagerListRequest'
 import {IOffice} from '@/data/interfaces/IOffice'
+import {IOfficeListRequest} from '@/data/interfaces/IOfficeListRequest'
+import {omit} from '@/utils/omit'
 
 export default class OfficeOwnerRepository {
-  static async fetch(data: IManagerListRequest, config?: AxiosRequestConfig): Promise<IPagination<IOffice>> {
+  static async fetch(data: IOfficeListRequest, config?: AxiosRequestConfig): Promise<IPagination<IOffice>> {
     const res = await request<IPagination<IOffice>>({
       method: 'get',
       url: '/api/owner/office',
-      data,
+      data: {
+        ...omit(data, ['isDefault']),
+      ...(data.isDefault ? {isDefault: '1'} : {})
+      },
       config,
     })
     return res

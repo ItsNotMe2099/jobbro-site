@@ -1,3 +1,5 @@
+import {IntegrationPlatform} from '@/data/enum/IntegrationPlatform'
+
 export class Routes {
   static getGlobal(url: string) {
     return `${typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : ''}${url}`
@@ -92,6 +94,9 @@ export class Routes {
   static lkJobEdit(id: string | number) {
     return `/lk/jobs/${id}/edit`
   }
+  static lkJobClone(id: string | number) {
+    return `/lk/jobs/${id}/clone`
+  }
 
   static lkJobCv(id: string | number, cvId: number) {
     return `/lk/jobs/${id}/cv/${cvId}`
@@ -153,6 +158,13 @@ export class Routes {
     return '/lk/settings/integrations'
   }
 
+  static  lkSettingsIntegrationCreate(platform?: IntegrationPlatform) {
+    return `/lk/settings/integrations/create${platform ? `?platform=${platform}` : ''}`
+  }
+  static  lkSettingsIntegrationEdit(id: number) {
+    return `/lk/settings/integrations/${id}`
+  }
+
   static get lkSettingsSocialSharing() {
     return '/lk/settings/social-sharing'
   }
@@ -162,15 +174,15 @@ export class Routes {
   }
 
   static get lkSettingsConfigWidgetSettings() {
-    return '/lk/settings/job-widget/configure-widget/settings'
+    return '/lk/settings/job-widget/configure-widget?page=settings'
   }
 
   static get lkSettingsConfigWidgetDesign() {
-    return '/lk/settings/job-widget/configure-widget/design'
+    return '/lk/settings/job-widget/configure-widget?page=design'
   }
 
   static get lkSettingsConfigWidgetIncludedJobs() {
-    return '/lk/settings/job-widget/configure-widget/included-jobs'
+    return '/lk/settings/job-widget/configure-widget?page=included-jobs'
   }
 
   static get lkSettingsConfigWidget() {
@@ -231,6 +243,6 @@ export class Routes {
   }
 
   static get marks() {
-    return '/chat'
+    return '/lk/marks'
   }
 }

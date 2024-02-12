@@ -3,16 +3,42 @@
 .root {
   position: relative;
   display: flex;
+  column-gap: 24px;
+}
+
+.container {
+  position: relative;
+  display: flex;
   flex-direction: column;
   max-height: 100%;
   flex: 1;
   height: calc(100vh - 135px);
   @include mq($TabletWidth, max) {
-    padding-inline: 16px;
+    height: 100vh;
+    height: 100dvh;
   }
 }
+
+
 .title{
   margin-bottom: 28px;
+  @include mq($TabletWidth, max) {
+    padding-inline: 16px;
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      background-color: $green;
+      top: 0;
+      left: 0;
+      height: 70px;
+      width: 100%;
+    }
+
+    >div {
+      position: relative;
+    }
+  }
 }
 
 .messages {
@@ -27,4 +53,25 @@
 .list {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.bottom {
+  @include mq($TabletWidth, max) {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      border-radius: 16px 16px 0px 0px;
+      width: calc(100% + 32px);
+      height: 200%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ffffff9e;    
+      backdrop-filter: blur(2px);
+    }
+  }
 }

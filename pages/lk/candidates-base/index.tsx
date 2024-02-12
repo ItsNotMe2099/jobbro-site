@@ -108,8 +108,8 @@ const CandidatesPageInner = () => {
 
         {candidateListContext.isLoaded && candidateListContext.data.total === 0 &&
           <NoData
-            title={candidateListContext.filterIsEmpty ? t('stub_candidate_base_filter_title') : t('stub_candidate_base_title')}
-            text={candidateListContext.filterIsEmpty ? t('stub_candidate_base_filter_desc') : t('stub_candidate_base_desc')}
+            title={candidateListContext.filterIsEmpty ? t('stub_candidate_base_title') : t('stub_candidate_base_filter_title')}
+            text={candidateListContext.filterIsEmpty ? t('stub_candidate_base_desc') : t('stub_candidate_base_filter_desc')}
           />
         }
         {!candidateListContext.isLoaded && candidateListContext.isLoading &&

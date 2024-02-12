@@ -8,6 +8,7 @@ import {DeepPartial} from '@/types/types'
 import {ICV} from '@/data/interfaces/ICV'
 import {Routes} from '@/types/routes'
 import CvForm from '@/components/for_pages/Cv/CvForm'
+import {useState} from 'react'
 
 interface Props {
 
@@ -16,6 +17,8 @@ interface Props {
 const ProfileResumeEditPageInner = (props: Props) => {
   const cvOwnerContext = useCVOwnerContext()
   const router = useRouter()
+  const [preview, setPreview] = useState<boolean>(false)
+
   const handleSubmit = async (data: DeepPartial<ICV>) => {
     if (cvOwnerContext.cv) {
       await cvOwnerContext.update(data as DeepPartial<ICV>)
@@ -25,7 +28,7 @@ const ProfileResumeEditPageInner = (props: Props) => {
     router.push(Routes.profileResume)
   }
   return (cvOwnerContext.loading ? <ContentLoader isOpen={true}/> :
-    <CvForm onSubmit={handleSubmit} loading={cvOwnerContext.editLoading} cv={cvOwnerContext.cv} cancelLink={Routes.profileResume} />
+    <CvForm onSubmit={handleSubmit} loading={cvOwnerContext.editLoading} cv={cvOwnerContext.cv} cancelLink={Routes.profileResume} preview={preview} onPreview={() => setPreview(!preview)} />
   )
 }
 

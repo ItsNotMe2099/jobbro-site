@@ -9,6 +9,7 @@ import DateUtils from '@/utils/DateUtils'
 import NotificationBadge from '@/components/ui/NotificationBadge'
 import AvatarCircular from '@/components/ui/AvatarCircular'
 import Highlighter from 'react-highlight-words'
+import { Nullable } from '@/types/types'
 interface Props {
   chat: IChat
   highlight: string | null
@@ -21,15 +22,18 @@ export default function ChatDialogCard(props: Props) {
   const lastMessageAt = props.chat.searchMessageAt ?? props.chat.lastMessageAt
   const hasUnAssignedBadge = appContext.aboutMe?.company && !props.chat.messages
   const hasNotificationBadge = !hasUnAssignedBadge && props.chat.totalUnread > 0
-  const name = useMemo(() => {
+
+  const name:Nullable<string> | undefined = useMemo(() => {
     switch (appContext.aboutMe?.profileType){
       case ProfileType.Employee:
         return props.chat.vacancy?.company?.name
       case ProfileType.Hirer:
-        return props.chat.cv?.name
+        return [props.chat.cv?.name, props.chat.vacancy.name].join(props.chat.cv?.name?' | ':'')
     }
   }, [props.chat])
+
   const nameHighlighted = props.highlight && name ? props.highlight?.split(' ').some(i => name.toLowerCase().includes(i.toLowerCase())) : false
+
   const image = useMemo(() => {
     switch (appContext.aboutMe?.profileType){
       case ProfileType.Employee:
@@ -49,11 +53,18 @@ export default function ChatDialogCard(props: Props) {
   }, [props.chat])
 
   const authorName = useMemo(() => {
+    const isYourMessage = props.chat.last?.profile?.id === appContext.aboutMe?.id
+    const lastMessageByHirer = !isYourMessage?
+    props.chat?.cv?.name||'Collocutor'
+    :'You'
+    const lastMessageByEmployee = !isYourMessage?
+    [props.chat.vacancy.profile.firstName, props.chat.vacancy.profile.lastName].filter(Boolean).join(' ')||'Collocutor'
+    :'You'
     switch (appContext.aboutMe?.profileType){
       case ProfileType.Employee:
-        return null
+        return lastMessageByEmployee
       case ProfileType.Hirer:
-        return props.chat.cv?.name
+        return lastMessageByHirer
     }
   }, [props.chat])
 
@@ -61,7 +72,7 @@ export default function ChatDialogCard(props: Props) {
   const centerText = useMemo(() => {
     switch (appContext.aboutMe?.profileType){
       case ProfileType.Employee:
-        return props.chat.vacancy?.name
+        return lastMessage
       case ProfileType.Hirer:
         return lastMessage
     }
@@ -77,6 +88,7 @@ export default function ChatDialogCard(props: Props) {
     }
     }, [centerText])
 
+
   return (
     <Link href={Routes.chatId(props.chat.id)} className={styles.root}>
       <AvatarCircular file={image} initials={initials} className={styles.icon} size={68} />
@@ -87,7 +99,7 @@ export default function ChatDialogCard(props: Props) {
           </div>
         <div className={styles.message}>
             {authorName && <div className={styles.messenger}>
-              {authorName}:
+              {authorName}:&nbsp;
             </div>}
             <div className={styles.msg}>
               {centerTextHighlighted && <Highlighter

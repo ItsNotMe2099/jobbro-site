@@ -37,12 +37,14 @@ import FormErrorScroll from '@/components/ui/FormErrorScroll'
 import FileField from '@/components/fields/Files/FileField'
 import useTranslation from 'next-translate/useTranslation'
 import LanguagesField from '@/components/fields/LanguagesField'
+import {PublishStatus} from '@/data/enum/PublishStatus'
+import CvPreview from '@/components/for_pages/Cv/CvPreview'
 
 interface Props {
   onPreview?: () => void
   preview?: boolean
   onSubmit: (data: DeepPartial<ICV>) => void
-  loading?: boolean
+  loading: boolean
   cv?: ICV | undefined | null
   cancelLink?: string
 }
@@ -56,6 +58,7 @@ interface ICvContactPersonForm extends ICvContactPerson {
 }
 
 export interface ICvFormData {
+  status: Nullable<PublishStatus>
   title: Nullable<string>
   image: Nullable<IFile>
   categoryId: Nullable<number>
@@ -83,7 +86,7 @@ export default function CvForm(props: Props) {
   const appContext = useAppContext()
   const { t } = useTranslation()
   const cv = props.cv
-  let ref = useRef<HTMLFormElement | null>(null)
+  let ref = useRef<HTMLDivElement | null>(null)
 
 
   const handleSubmit = async (data: ICvFormData) => {
@@ -125,6 +128,7 @@ export default function CvForm(props: Props) {
   }
 
   const initialValues: ICvFormData = {
+    status: cv?.status ?? null,
     title: cv?.title ?? null,
     image: cv?.image ?? null,
     categoryId: cv?.categoryId ?? null,
@@ -162,7 +166,10 @@ export default function CvForm(props: Props) {
     initialValues,
     onSubmit: handleSubmit
   })
-
+  const handlePublishClick = async () => {
+    await formik.setFieldValue('status', PublishStatus.Published)
+    await formik.submitForm()
+  }
   const handleSaveClick = async () => {
     await formik.submitForm()
   }
@@ -170,32 +177,54 @@ export default function CvForm(props: Props) {
   const handleChangeCountry = () => {
     formik.setFieldValue('city', null)
   }
+  const preview = (<CvPreview cv={formik.values as any as ICV} />)
+  const showPublish = !props.preview && (!cv || cv.profileId) &&  (!cv || !([PublishStatus.Published] as PublishStatus[]).includes(cv!.status))
+  const formFooter = ( <>
+    {showPublish && <Button type='button' onClick={handlePublishClick} disabled={props.loading} spinner={props.loading && formik.values.status === PublishStatus.Published} styleType='large' color='green'>
+      {t('job_form_button_publish')}
+    </Button>}
+    {!props.preview && <Button disabled={props.loading ?? false} spinner={props.loading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color={!showPublish ? 'green' : 'white'}>
+      {!cv ? t('job_form_button_save_draft') : t('job_form_button_save')}
+    </Button>}
 
-  return (
+      {!props.preview && props.cancelLink && <Button href={props.cancelLink} type={'button'} styleType='large' color='white'>
+        {t('form_button_cancel')}
+      </Button>}
+      <div className={styles.preview} onClick={props.onPreview}>
+        {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
+          :
+          <NoEyeSvg color={colors.green} className={styles.eye}/>
+        }
+        {!props.preview ? <div className={styles.text}>{t('cv_form_button_preview')}</div>
+          :
+          <div className={styles.text}>{t('cv_form_button_close_preview')}</div>
+        }
+      </div>
+  </>)
+  const form = (
     <FormikProvider value={formik}>
-      <Form ref={ref} className={styles.form}>
+      <Form className={styles.form}>
         <FormErrorScroll formik={formik} />
-        <div className={styles.root}>
 
           <Card title={t('cv_form_section_specialization')}>
             <div className={styles.wrapper}>
-              <InputField 
-              name={'title'} 
-              label={t('cv_form_field_title')}                          
-              validate={Validator.required}
-              resettable
+              <InputField
+                name={'title'}
+                label={t('cv_form_field_title')}
+                validate={Validator.required}
+                resettable
               />
               <div className={styles.line}>
-                <ServiceCategoryField 
-                name='categoryId'
-                label={t('cv_form_field_category')} 
-                className={styles.select} 
+                <ServiceCategoryField
+                  name='categoryId'
+                  label={t('cv_form_field_category')}
+                  className={styles.select}
                 />
-                <ServiceCategoryField 
-                name='subCategoryId'
-                label={t('cv_form_field_sub_category')} 
-                categoryId={formik.values.categoryId}
-                className={styles.select} 
+                <ServiceCategoryField
+                  name='subCategoryId'
+                  label={t('cv_form_field_sub_category')}
+                  categoryId={formik.values.categoryId}
+                  className={styles.select}
                 />
               </div>
             </div>
@@ -204,35 +233,35 @@ export default function CvForm(props: Props) {
           <Card title={t('cv_form_section_details')}>
             <div className={styles.wrapper}>
               <FileField
-              isImage
-              withCrop
-              name='image'
-              accept={[FileUploadAcceptType.Image]}
+                isImage
+                withCrop
+                name='image'
+                accept={[FileUploadAcceptType.Image]}
               />
-              <InputField 
-              name='name' 
-              label={t('cv_form_field_name')}
-              validate={Validator.required}
+              <InputField
+                name='name'
+                label={t('cv_form_field_name')}
+                validate={Validator.required}
               />
               <div className={styles.line}>
                 <div className={styles.location}>
-                  <CountryField 
-                  className={styles.select} 
-                  name={'country'} 
-                  label={t('cv_form_field_country')} 
-                  onChange={handleChangeCountry}
+                  <CountryField
+                    className={styles.select}
+                    name={'country'}
+                    label={t('cv_form_field_country')}
+                    onChange={handleChangeCountry}
                   />
-                  <CityField 
-                  className={styles.select}  
-                  name={'city'} 
-                  label={t('cv_form_field_city')}
-                  country={formik.values.country?.country}
+                  <CityField
+                    className={styles.select}
+                    name={'city'}
+                    label={t('cv_form_field_city')}
+                    country={formik.values.country?.country}
                   />
                   <SelectField<Relocation>
-                  className={styles.select}
-                  label={t('cv_form_field_relocate')} name={'relocation'}
-                  resettable={true}
-                  options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.yes}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.no}]}
+                    className={styles.select}
+                    label={t('cv_form_field_relocate')} name={'relocation'}
+                    resettable={true}
+                    options={[{label: t('cv_form_field_relocate_ready'), value: Relocation.yes}, {label: t('cv_form_field_relocate_not_ready'), value: Relocation.no}]}
                   />
                 </div>
               </div>
@@ -241,73 +270,73 @@ export default function CvForm(props: Props) {
 
           <Card title={t('cv_form_section_salary')}>
             <div className={styles.line}>
-              <CurrencyField 
-              className={styles.select} 
-              name='currency' 
-              label={t('cv_form_field_currency')}
+              <CurrencyField
+                className={styles.select}
+                name='currency'
+                label={t('cv_form_field_currency')}
               />
-              <InputField 
-              className={styles.select} 
-              format={'number'} 
-              label={t('cv_form_field_salary_max')} 
-              name='salaryMax'
+              <InputField
+                className={styles.select}
+                format={'number'}
+                label={t('cv_form_field_salary_max')}
+                name='salaryMax'
               />
-              <InputField 
-              className={styles.select} 
-              format={'number'} 
-              label={t('cv_form_field_salary_min')} 
-              name='salaryMin'
+              <InputField
+                className={styles.select}
+                format={'number'}
+                label={t('cv_form_field_salary_min')}
+                name='salaryMin'
               />
-              <SelectField<SalaryType> 
-              className={styles.select} 
-              label={t('cv_form_field_salary_type')} 
-              name='salaryType'
-              options={Dictionary.getSalaryTypeOptions(t)}
+              <SelectField<SalaryType>
+                className={styles.select}
+                label={t('cv_form_field_salary_type')}
+                name='salaryType'
+                options={Dictionary.getSalaryTypeOptions(t)}
               />
             </div>
           </Card>
 
-          <Card 
-          title={
-            <div className={styles.top}>
-              <div className={styles.title}>{t('cv_form_section_contacts')}</div>
-              <SwitchField name={'contactsVisible'}/>
-            </div>
-          }>
+          <Card
+            title={
+              <div className={styles.top}>
+                <div className={styles.title}>{t('cv_form_section_contacts')}</div>
+                <SwitchField name={'contactsVisible'}/>
+              </div>
+            }>
             {formik.values.contactsVisible && <FieldArray name={'contacts'}>
               {arrayHelpers => (
                 <div className={styles.root} data-field={'contacts'}>
                   <div className={styles.fields}>
-                    {(formik.values.contacts ?? []).map((i, index) => 
+                    {(formik.values.contacts ?? []).map((i, index) =>
                       <div className={styles.line}>
-                        <div 
-                        key={`contact_${index}`}
-                        className={classNames(styles.fieldListLine, styles.line)}
+                        <div
+                          key={`contact_${index}`}
+                          className={classNames(styles.fieldListLine, styles.line)}
                         >
                           <SelectField<CvContactPersonType>
-                          className={styles.column}
-                          label={t('cv_form_field_contact_type')} name={`contacts[${index}].type`}
-                          options={[{label: t('cv_form_field_contact_email'), value: CvContactPersonType.Email}, {
-                            label: t('cv_form_field_contact_phone'),
-                            value: CvContactPersonType.Phone
-                          }]}
+                            className={styles.column}
+                            label={t('cv_form_field_contact_type')} name={`contacts[${index}].type`}
+                            options={[{label: t('cv_form_field_contact_email'), value: CvContactPersonType.Email}, {
+                              label: t('cv_form_field_contact_phone'),
+                              value: CvContactPersonType.Phone
+                            }]}
                           />
 
-                          {formik.values.contacts[index].type === CvContactPersonType.Email && 
+                          {formik.values.contacts[index].type === CvContactPersonType.Email &&
                             <InputField
-                            label={t('cv_form_field_contact_email')}
-                            className={styles.column}
-                            name={`contacts[${index}].email`}
-                            validate={Validator.email}/>
+                              label={t('cv_form_field_contact_email')}
+                              className={styles.column}
+                              name={`contacts[${index}].email`}
+                              validate={Validator.email}/>
                           }
 
-                          {formik.values.contacts[index].type === CvContactPersonType.Phone && 
+                          {formik.values.contacts[index].type === CvContactPersonType.Phone &&
                             <InputField
-                            label={t('cv_form_field_contact_phone')}
-                            format={'phone'}
-                            className={styles.column}
-                            name={`contacts[${index}].phone`}
-                            validate={Validator.phone}/>
+                              label={t('cv_form_field_contact_phone')}
+                              format={'phone'}
+                              className={styles.column}
+                              name={`contacts[${index}].phone`}
+                              validate={Validator.phone}/>
                           }
                         </div>
                         <IconButton
@@ -317,18 +346,18 @@ export default function CvForm(props: Props) {
                       </div>
                     )}
                     <div
-                    onClick={() => arrayHelpers.push(
-                      formik.values.contacts.find(i => i.type === CvContactPersonType.Phone) 
-                      ? {
-                          type: CvContactPersonType.Email,
-                          email: null
-                        } 
-                      : {
-                          type: CvContactPersonType.Phone, 
-                          phone: null
-                        }
-                    )} 
-                    className={styles.add}
+                      onClick={() => arrayHelpers.push(
+                        formik.values.contacts.find(i => i.type === CvContactPersonType.Phone)
+                          ? {
+                            type: CvContactPersonType.Email,
+                            email: null
+                          }
+                          : {
+                            type: CvContactPersonType.Phone,
+                            phone: null
+                          }
+                      )}
+                      className={styles.add}
                     >
                       {t('cv_form_contact_add')}
                     </div>
@@ -337,14 +366,14 @@ export default function CvForm(props: Props) {
             </FieldArray>}
           </Card>
 
-          <Card 
-          title={
-            <div className={styles.top}>
-              <div className={styles.title}>{t('cv_form_section_about_me')}</div>
-              <SwitchField name={'about.visible'}/>
-            </div>
-          }>
-            {formik.values.about?.visible && 
+          <Card
+            title={
+              <div className={styles.top}>
+                <div className={styles.title}>{t('cv_form_section_about_me')}</div>
+                <SwitchField name={'about.visible'}/>
+              </div>
+            }>
+            {formik.values.about?.visible &&
               <RichTextField name='about.description'/>
             }
           </Card>
@@ -354,32 +383,32 @@ export default function CvForm(props: Props) {
               {arrayHelpers => (
                 <div className={styles.root} data-field={'educationInfo'}>
                   <div className={styles.fields}>
-                    {(formik.values.educationInfo ?? []).map((i, index) => 
+                    {(formik.values.educationInfo ?? []).map((i, index) =>
                       <div className={styles.blockLine}>
-                        <div 
-                        key={`education_${index}`}
-                        className={classNames(styles.fieldListLine, styles.fields)}
+                        <div
+                          key={`education_${index}`}
+                          className={classNames(styles.fieldListLine, styles.fields)}
                         >
-                          <InputField 
-                          resettable
-                          name={`educationInfo[${index}].institution`} 
-                          label={t('cv_form_field_education_institution')}
+                          <InputField
+                            resettable
+                            name={`educationInfo[${index}].institution`}
+                            label={t('cv_form_field_education_institution')}
                           />
-                          <InputField 
-                          resettable
-                          name={`educationInfo[${index}].speciality`} 
-                          label={t('cv_form_field_education_speciality')}
+                          <InputField
+                            resettable
+                            name={`educationInfo[${index}].speciality`}
+                            label={t('cv_form_field_education_speciality')}
                           />
                           <div className={styles.datesWrapper}>
-                            <InputField 
-                            resettable
-                            name={`educationInfo[${index}].fromYear`} 
-                            label={t('cv_form_field_education_from_year')}
+                            <InputField
+                              resettable
+                              name={`educationInfo[${index}].fromYear`}
+                              label={t('cv_form_field_education_from_year')}
                             />
-                            <InputField 
-                            resettable
-                            name={`educationInfo[${index}].toYear`} 
-                            label={t('cv_form_field_education_to_year')}
+                            <InputField
+                              resettable
+                              name={`educationInfo[${index}].toYear`}
+                              label={t('cv_form_field_education_to_year')}
                             />
                           </div>
                         </div>
@@ -411,17 +440,17 @@ export default function CvForm(props: Props) {
                 <div className={styles.root} data-field={'coursesInfo'}>
                   <div className={styles.fields}>
                     {(formik.values.coursesInfo ?? []).map((i, index) =>
-                      <InputField 
-                      key={index} 
-                      name={`coursesInfo[${index}].name`} 
-                      label={t('cv_form_field_courses_title')}
-                      suffix={index > 0 
-                        ? <CloseSvg  
-                          className={styles.remove} 
-                          onClick={() => arrayHelpers.remove(index)} 
-                          color={colors.textSecondary}
-                          /> 
-                        : ''}/>
+                      <InputField
+                        key={index}
+                        name={`coursesInfo[${index}].name`}
+                        label={t('cv_form_field_courses_title')}
+                        suffix={index > 0
+                          ? <CloseSvg
+                            className={styles.remove}
+                            onClick={() => arrayHelpers.remove(index)}
+                            color={colors.textSecondary}
+                          />
+                          : ''}/>
                     )}
                   </div>
                   <div onClick={() => arrayHelpers.push({name: null})} className={styles.add}>
@@ -431,24 +460,24 @@ export default function CvForm(props: Props) {
               )}
             </FieldArray>
           </Card>
-          
-          <Card 
-          title={
-            <div className={styles.top}>
-              <div className={styles.title}>{t('cv_form_section_skills')}</div>
-              <SwitchField name={'skillsDescription.visible'}/>
-            </div>
-          }>
-            {formik.values.skillsDescription?.visible && 
+
+          <Card
+            title={
+              <div className={styles.top}>
+                <div className={styles.title}>{t('cv_form_section_skills')}</div>
+                <SwitchField name={'skillsDescription.visible'}/>
+              </div>
+            }>
+            {formik.values.skillsDescription?.visible &&
               <RichTextField name='skillsDescription.description'/>
             }
           </Card>
 
           <Card title={t('cv_form_section_skills_tags')}>
-            <SkillField 
-            name='skills'
-            className={styles.select} 
-            placeholder={t('cv_form_field_skills_tags_ph')} 
+            <SkillField
+              name='skills'
+              className={styles.select}
+              placeholder={t('cv_form_field_skills_tags_ph')}
             />
           </Card>
 
@@ -462,52 +491,52 @@ export default function CvForm(props: Props) {
                 <div className={styles.root} data-field={'experienceInfo'}>
                   <div className={styles.fields}>
                     {(formik.values.experienceInfo ?? []).map((i, index) => <div className={styles.line}>
-                      <div 
-                      key={`experience_${index}`}
-                      className={classNames(styles.fieldListLine, styles.fields)}
+                      <div
+                        key={`experience_${index}`}
+                        className={classNames(styles.fieldListLine, styles.fields)}
                       >
                         <div className={styles.blockLine}>
                           <div className={styles.fields}>
 
-                        <InputField  
-                        name={`experienceInfo[${index}].company`} 
-                        resettable 
-                        className={styles.select}
-                        validate={Validator.required}
-                        label={t('cv_form_field_experience_employer_name')} 
-                        />
-                        <CountryField 
-                        name={`experienceInfo[${index}].country`}
-                        resettable 
-                        className={styles.select}
-                        label={t('cv_form_field_experience_country')} 
-                        />
-                        <div className={styles.datesWrapper}>
-                          <DateYearMonthField 
-                          name={`experienceInfo[${index}].fromMonthYear`} 
-                          label={t('cv_form_field_experience_from')}
-                          />
-                          <DateYearMonthField 
-                          name={`experienceInfo[${index}].toMonthYear`} 
-                          label={t('cv_form_field_experience_to')}
-                          />
-                        </div>
-                        <InputField 
-                        resettable
-                        name={`experienceInfo[${index}].position`} 
-                        label={t('cv_form_field_experience_position')}
-                        validate={Validator.required}
-                        />
+                            <InputField
+                              name={`experienceInfo[${index}].company`}
+                              resettable
+                              className={styles.select}
+                              validate={Validator.required}
+                              label={t('cv_form_field_experience_employer_name')}
+                            />
+                            <CountryField
+                              name={`experienceInfo[${index}].country`}
+                              resettable
+                              className={styles.select}
+                              label={t('cv_form_field_experience_country')}
+                            />
+                            <div className={styles.datesWrapper}>
+                              <DateYearMonthField
+                                name={`experienceInfo[${index}].fromMonthYear`}
+                                label={t('cv_form_field_experience_from')}
+                              />
+                              <DateYearMonthField
+                                name={`experienceInfo[${index}].toMonthYear`}
+                                label={t('cv_form_field_experience_to')}
+                              />
+                            </div>
+                            <InputField
+                              resettable
+                              name={`experienceInfo[${index}].position`}
+                              label={t('cv_form_field_experience_position')}
+                              validate={Validator.required}
+                            />
                           </div>
-                        <IconButton
-                      onClick={() => arrayHelpers.remove(index)}
-                      >
-                        <CloseSvg color={colors.textSecondary}/>
-                      </IconButton>
+                          <IconButton
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <CloseSvg color={colors.textSecondary}/>
+                          </IconButton>
                         </div>
 
                       </div>
-                        <RichTextField name={`experienceInfo[${index}].description`}/>
+                      <RichTextField name={`experienceInfo[${index}].description`}/>
 
                     </div>)}
                   </div>
@@ -525,29 +554,15 @@ export default function CvForm(props: Props) {
             </FieldArray>
 
           </Card>
-        </div>
 
-        <FormStickyFooter className={styles.footer} boundaryElement={`.${styles.form}`} formRef={ref}>
-          <>
-            <Button  type={'submit'} styleType='large' color='green' spinner={props.loading ?? false}>
-              {t('form_button_save')}
-            </Button>
-            {props.cancelLink && <Button href={props.cancelLink} type={'button'} styleType='large' color='white'>
-              {t('form_button_cancel')}
-            </Button>}
-            <div className={styles.preview} onClick={props.onPreview}>
-              {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
-                :
-                <NoEyeSvg color={colors.green} className={styles.eye}/>
-              }
-              {!props.preview ? <div className={styles.text}>{t('cv_form_button_preview')}</div>
-                :
-                <div className={styles.text}>{t('cv_form_button_close_preview')}</div>
-              }
-            </div>
-          </>
-        </FormStickyFooter>
       </Form>
     </FormikProvider>
   )
+  return (<div className={classNames(styles.root, styles.main)} ref={ref} >
+    {!props.preview && form}
+    {props.preview && preview}
+    <FormStickyFooter className={styles.footer} boundaryElement={`.${styles.root}`} formRef={ref}>
+      {formFooter}
+    </FormStickyFooter>
+    </div>)
 }

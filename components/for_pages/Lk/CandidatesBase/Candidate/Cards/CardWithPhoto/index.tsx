@@ -41,7 +41,7 @@ export default function CardWithPhoto(props: Props) {
             </div>
             {cv.country && <div className={styles.country}>
               <LocationSvg color={colors.textSecondary} />
-              <div>{cv.country?.name}</div>
+              <div>{cv.country?.locName}</div>
             </div>}
           </div>
           {(cv.contacts?.length > 0) && <div className={styles.contacts}>
@@ -49,12 +49,24 @@ export default function CardWithPhoto(props: Props) {
               {t('cv_preview_profile_contacts')}
             </div>
             {cv.contacts.filter(i => !!i.email).length > 0 && <div className={styles.email}>
-              <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' />
-              {cv.contacts?.filter(i => !!i.email).map(i => <a href={`mailto:${i.email}`}>{i.email}</a>)}
+              {cv.contacts?.filter(i => !!i.email).map(i => {
+                return (
+                  <div className={styles.emailItem}>
+                  <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' />
+                  <a href={`mailto:${i.email}`}>{i.email}</a>
+                  </div>
+                )
+              })}
             </div>}
             {cv.contacts.filter(i => !!i.phone).length > 0  && <div className={styles.email}>
-              <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' phone />
-              {cv.contacts?.filter(i => !!i.phone).map(i => <a href={`tel:${i.phone}`}>{i.phone}</a>)}
+              {cv.contacts?.filter(i => !!i.phone).map(i => {
+                return (
+                  <div className={styles.emailItem}>
+                    <IconInCircleSvg color={colors.green} circleColor='#DBF9DD' phone />
+                    <a href={`tel:${i.phone}`}>{i.phone}</a>
+                  </div>
+                )
+              })}
             </div>}
           </div>}
         </div>

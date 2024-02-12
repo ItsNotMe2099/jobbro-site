@@ -70,13 +70,22 @@ display: flex;
   color: $green;
   font-weight: 700;
   font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
   &:hover{
     text-decoration: underline;
   }
 }
-.date{
 
+.count {
+  color: $white;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: $green;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin: unset;
 }
 
-.startMeet{
-}

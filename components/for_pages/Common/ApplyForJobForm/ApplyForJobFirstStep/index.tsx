@@ -5,7 +5,6 @@ import {FileUploadAcceptType} from '@/types/enums'
 import FileField from '@/components/fields/Files/FileField'
 import useTranslation from 'next-translate/useTranslation'
 import {useAppContext} from '@/context/state'
-import {useApplyJobAnonymize} from '@/context/apply_job_anonymously'
 enum StepKey{
   First = 'first',
   Confirm = 'confirm'
@@ -17,14 +16,12 @@ interface Props {
 export default function ApplyForJobFirstStep(props: Props) {
   const appContext = useAppContext()
   const {t, lang} = useTranslation()
-  const applyJobAnonymize = useApplyJobAnonymize()
-  const {isTabletWidth} = appContext.size
   return (
     <div className={styles.root}>
       <FileField
         name='cv'
         accept={[FileUploadAcceptType.Pdf]}
-        description={<div>Drag & drop pdf file to upload</div>}
+        description={<div>{t('job_apply_form_type_apply_field_resume')}</div>}
         disableUpload={true}
         validate={Validator.required}
         dropZoneClassName={styles.dropZone}
@@ -34,14 +31,14 @@ export default function ApplyForJobFirstStep(props: Props) {
         name='image'
         withCrop
         accept={[FileUploadAcceptType.Image]}
-        description={'Select your photo to upload. Use 1 image smaller than 3.5MB and at least 752px by 480px.'}
+        description={t('job_apply_form_type_apply_field_avatar')}
         disableUpload={true}
         dropZoneClassName={styles.dropZone}
         validate={Validator.required}
       />
-      <InputField name='name' label={'Name'}
+      <InputField name='name' label={t('job_apply_form_type_apply_field_name')}
                   validate={Validator.required} />
-      <InputField name='email' label={'Email'}
+      <InputField name='email' label={t('job_apply_form_type_apply_field_email')}
                   validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
     </div>
   )

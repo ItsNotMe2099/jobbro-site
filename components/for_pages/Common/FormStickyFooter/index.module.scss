@@ -7,8 +7,8 @@
   backdrop-filter: blur(12px);
   background-color: $white;
   display: flex;
-  
   width: 100%;
+  transform: translateY(-32px);
   @include mq($TabletWidth, min) {
     @include list(32px, true);    
   }
