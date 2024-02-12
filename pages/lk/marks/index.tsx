@@ -32,7 +32,7 @@ const MarksPageInner = (props: Props) => {
         <ContentLoader style={'page'} isOpen={true}/>}
 
       {favoriteListContext.isLoaded && favoriteListContext.data.total > 0 && favoriteListContext.data.data.map((i, index) =>
-        <JobCard vacancy={i} key={i.id}  onSave={(el)=> {}}/>
+        <JobCard vacancy={i} key={i.id} />
       )}
     </div>
   )

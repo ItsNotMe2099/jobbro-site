@@ -43,11 +43,6 @@ export default function JobCard({vacancy}: Props) {
     }
   }
 
-  const onSaveClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, vacancy: IVacancy) => {
-    e.preventDefault()
-    onSave(vacancy)
-  }
-
   return (<Link href={`/job/${vacancy.id}`} className={styles.root} >
     <VacancyFavoriteBtn id={vacancy.id} entityType={FavoriteEntityType.vacancy} className={styles.bookmark}/>
     <div className={styles.top}>
