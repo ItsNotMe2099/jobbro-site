@@ -7,6 +7,7 @@ import ServerClusterSvg from '@/components/svg/ServerClusterSvg'
 import { useState } from 'react'
 import CardAuth from '@/components/for_pages/Common/CardAuth'
 import useTranslation from 'next-translate/useTranslation'
+import {Routes} from '@/types/routes'
 
 export default function ForgotPassword() {
   const { t } = useTranslation()
@@ -26,7 +27,7 @@ export default function ForgotPassword() {
               title={t('password_forgot_success_title')}
               text={t('password_forgot_success_desc')}
               btnText={t('password_forgot_success_button')}
-              btnHref={'/'}
+              btnHref={Routes.login()}
             />
             <ServerClusterSvg className={styles.proud} />
           </>}

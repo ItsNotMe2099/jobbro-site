@@ -6,6 +6,9 @@ import Chip from '@/components/ui/Chip'
 import Formatter from '@/utils/formatter'
 import VacancyUtils from '@/utils/VacancyUtils'
 import Card from '@/components/for_pages/Common/Card'
+import {useNotificationContext} from '@/context/notifications_state'
+import {NotificationUnreadType} from '@/data/interfaces/INotification'
+import {useEffect} from 'react'
 
 enum MenuKey{
   Publish = 'publish',
@@ -21,8 +24,32 @@ interface Props {
 
 const ApplyCardInner = (props: Props) => {
   const vacancy = props.vacancy
+  const notifyContext = useNotificationContext()
+  const active = vacancy.applications.length > 0 ? notifyContext.store[NotificationUnreadType.application].find(i => i.eId === vacancy.applications[0].id) : (vacancy.applications.length > 0 ? notifyContext.store[NotificationUnreadType.proposal].find(i => i.eId === vacancy.proposals[0].id)  : false)
+  useEffect(() => {
+    if(vacancy.applications.length > 0){
+      notifyContext.addRecord(vacancy.applications[0].id, NotificationUnreadType.application)
+      return () => {
+        notifyContext.removeRecord(vacancy.applications[0].id, NotificationUnreadType.application)
+      }
+    }else if(vacancy.proposals.length > 0){
+      notifyContext.addRecord(vacancy.proposals[0].id, NotificationUnreadType.proposal)
+      return () => {
+        notifyContext.removeRecord(vacancy.proposals[0].id, NotificationUnreadType.proposal)
+      }
+    }
 
+  }, [])
+  useEffect(() => {
+    if (active) {
+      if(vacancy.applications.length > 0){
+        notifyContext.markRead(vacancy.applications[0].id, NotificationUnreadType.application, false)
+      }else if(vacancy.proposals.length > 0){
+        notifyContext.markRead(vacancy.proposals[0].id, NotificationUnreadType.proposal, false)
+      }
 
+    }
+  }, [active])
   return (
     <Card className={styles.root} link={`/job/${vacancy.id}`} >
       <div className={styles.top}>

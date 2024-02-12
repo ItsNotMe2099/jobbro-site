@@ -6,7 +6,7 @@ export interface IAiVacancy {
   benefits: string[];
   category: string;
   experience: Experience | null;
-  experienceDuration: string;
+  experienceDuration: string | null;
   intro: string;
   keywords: string[];
   name: string;

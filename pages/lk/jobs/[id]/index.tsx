@@ -76,6 +76,7 @@ const JobPageInner = (props: Props) => {
         break
     }
   }
+  console.log('AddRecord13', applyCvListContext.isLoaded , applyCvListContext.data.total > 0)
   return (
     <>
       <div className={styles.container} ref={containerRef}>

@@ -8,7 +8,6 @@ import {IOption} from '@/types/types'
 import {Routes} from '@/types/routes'
 import {useAppContext} from '@/context/state'
 import {HirerRole} from '@/data/enum/HirerRole'
-import SettingsSvg from '@/components/svg/SettingsSvg'
 import Link from 'next/link'
 
 enum TabKey {
@@ -34,7 +33,7 @@ const LkDashboardPageLayoutInner = (props: Props) => {
 
   return (
     <div className={styles.root}>
-      <PageTitle title='Dashboard' right={<Link href={Routes.lkSettings}><SettingsSvg/></Link>}/>
+      <PageTitle title='Dashboard' right={<Link href={Routes.lkSettings}>{/*<SettingsSvg/>*/}</Link>}/>
       <Tabs<TabKey> options={options}/>
       {props.children}
     </div>

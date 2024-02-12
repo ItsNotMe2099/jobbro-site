@@ -83,16 +83,14 @@ export default function ResetPasswordForm(props: Props) {
           type='password'
           name='password'
           label={t('password_reset_field_password')}
-
           obscure
           validate={Validator.requiredPassword} />
         <InputField
           type='password'
           name='passwordConfirm'
           label={t('password_reset_field_new_password')}
-
           obscure
-          validate={Validator.combine([Validator.requiredPassword, Validator.passwordsMustMatch(formik.values)])} />
+          validate={Validator.combine([Validator.requiredPassword, Validator.password, Validator.passwordsMustMatch(formik.values)])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
             {t('password_reset_button_apply')}

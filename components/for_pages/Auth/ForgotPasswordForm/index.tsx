@@ -63,9 +63,7 @@ export default function ForgotPasswordForm(props: Props) {
         <div className={styles.text}>
           {t('password_forgot_desc')}
         </div>
-        <InputField label={t('password_forgot_field_email')} name='email'
-
-          validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
+        <InputField label={t('password_forgot_field_email')} name='email' validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <div className={styles.btns}>
           <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
             {t('password_forgot_button_reset')}

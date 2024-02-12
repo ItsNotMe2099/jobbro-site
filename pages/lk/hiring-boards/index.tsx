@@ -54,8 +54,8 @@ const HiringBoardsInner = () => {
 
         {hiringBoardListContext.isLoaded && hiringBoardListContext.data.total === 0 &&
           <NoData
-            title={hiringBoardListContext.filterIsEmpty ? t('stub_hiring_boards_filter_title') : t('stub_hiring_boards_title')}
-            text={hiringBoardListContext.filterIsEmpty ? t('stub_hiring_boards_filter_desc') : t('stub_hiring_boards_desc')}
+            title={hiringBoardListContext.filterIsEmpty ? t('stub_hiring_boards_title') : t('stub_hiring_boards_filter_title')}
+            text={hiringBoardListContext.filterIsEmpty ? t('stub_hiring_boards_desc') : t('stub_hiring_boards_filter_desc')}
           />
         }
         {!hiringBoardListContext.isLoaded && hiringBoardListContext.isLoading &&

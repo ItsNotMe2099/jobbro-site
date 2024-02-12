@@ -805,7 +805,7 @@
   "job_apply_form_type_apply_field_avatar": "Select your photo to upload. Use 1 image smaller than 3.5MB and at least 752px by 480px.",
   "job_apply_form_type_apply_field_email": "Email",
   "job_apply_form_type_apply_field_name": "Name",
-  "job_apply_form_type_apply_privacy": "<0>By pressing &quot;Apply&quot; you agree with<1>privacy</1></0>",
+  "job_apply_form_type_apply_privacy": "<0>By pressing \"Apply\" you agree with<1>privacy</1></0>",
   "job_apply_form_type_apply_button": "Apply",
   "job_apply_form_type_confirm_title": "Confirm Email",
   "job_apply_form_type_confirm_desc_1": "We have sent a confirmation code to {{email}}",
