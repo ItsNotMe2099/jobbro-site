@@ -11,7 +11,6 @@ export interface IVacancySearchStateProps {
   setVacancies: (clear?: boolean) => void
   total: number,
   nextPage: () => void
-  saveHandler: (vacancy: IVacancy) => void
   clearQuery: (link?: string) => void
   loading: boolean
   fullCities: Map<number, IGeoName>
@@ -29,7 +28,7 @@ interface Props {
 }
 
 export function VacancySearchWrapper(props: Props) {
-  
+
   const [vacancies, setVacanciesState] = useState<Map<number, IVacancy>>(new Map)
   const filters = useRef<IVacancyFilterParams>({...props.filters, page: 1, limit: 10})
   const [loading, setLoading] = useState<boolean>(true)
@@ -59,26 +58,6 @@ export function VacancySearchWrapper(props: Props) {
     setVacancies()
   }
 
-  const saveHandler = (vacancy: IVacancy) => {
-    if(!vacancy.isSavedByCurrentProfile) {
-      VacancyRepository.addVacancyToSaved(vacancy.id)
-      .then(_ => {
-        setVacanciesState(state => {
-          state.set(vacancy.id, {...vacancy, isSavedByCurrentProfile: true})
-          return new Map(state)
-        }) 
-      })
-    }
-    else {
-      VacancyRepository.removeVacancyFromSaved(vacancy.id)
-      .then(_ => {
-        setVacanciesState(state => {
-          state.set(vacancy.id, {...vacancy, isSavedByCurrentProfile: false})
-          return new Map(state)
-        }) 
-      })
-    }
-  }
 
   const clearQuery = () => {
     router.replace(router.pathname, undefined, { shallow: true })
@@ -95,7 +74,6 @@ export function VacancySearchWrapper(props: Props) {
     filters: filters,
     total,
     nextPage,
-    saveHandler,
     clearQuery,
     loading,
     fullCities,

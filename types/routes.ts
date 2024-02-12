@@ -243,6 +243,6 @@ export class Routes {
   }
 
   static get marks() {
-    return '/chat'
+    return '/lk/marks'
   }
 }

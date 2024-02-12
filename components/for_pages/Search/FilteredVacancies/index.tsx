@@ -82,7 +82,7 @@ export default function FilteredVacancies(props: Props) {
         {vacancySearchContext.total === 0 && !vacancySearchContext.loading && <p>No results</p>}
         <div className={styles.vcWrapper}>
           {[...vacancySearchContext.vacancies?.values()].map(el=>{
-            return (<JobCard vacancy={el}  onSave={(el)=> vacancySearchContext.saveHandler(el)}/>)
+            return (<JobCard vacancy={el} />)
           })}
         </div>
       </InfiniteScroll>

@@ -41,14 +41,14 @@ export default function CardWithPhoto(props: Props) {
             </div>
             {cv.country && <div className={styles.country}>
               <LocationSvg color={colors.textSecondary} />
-              <div>{cv.country?.name}</div>
+              <div>{cv.country?.locName}</div>
             </div>}
           </div>
           {(cv.contacts?.length > 0) && <div className={styles.contacts}>
             <div className={styles.title}>
               {t('cv_preview_profile_contacts')}
             </div>
-            {cv.contacts.filter(i => !!i.email).length > 0 && <div className={styles.email}>              
+            {cv.contacts.filter(i => !!i.email).length > 0 && <div className={styles.email}>
               {cv.contacts?.filter(i => !!i.email).map(i => {
                 return (
                   <div className={styles.emailItem}>
