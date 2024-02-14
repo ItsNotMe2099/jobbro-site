@@ -4,6 +4,7 @@ import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
 import VacancyRepository from '@/data/repositories/VacancyRepository'
 import { useRouter } from 'next/router'
 import {  Dispatch, MutableRefObject, SetStateAction, createContext, useContext, useEffect, useRef, useState } from 'react'
+import {Routes} from '@/types/routes'
 
 export interface IVacancySearchStateProps {
   filters: MutableRefObject<Partial<IVacancyFilterParams>>
@@ -64,8 +65,10 @@ export function VacancySearchWrapper(props: Props) {
   }
 
   useEffect(()=>{
-    setVacancies()
-    clearQuery()
+    if([Routes.findJobs, Routes.search].includes(router.asPath)) {
+      setVacancies()
+      clearQuery()
+    }
   }, [])
 
   const value: IVacancySearchStateProps = {

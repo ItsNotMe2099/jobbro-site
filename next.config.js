@@ -17,6 +17,10 @@ module.exports = nextTranslate({
         protocol: 'https',
         hostname: 'api.jobbro.dev.firelabs.ru',
       },
+      {
+        protocol: 'https',
+        hostname: 'jobbro.ai',
+      },
     ],
   },
   serverRuntimeConfig: {
