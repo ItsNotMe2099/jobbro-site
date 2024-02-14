@@ -42,11 +42,11 @@ export default function CardCandidateSummary(props: Props) {
             {cv.coursesInfo.filter(i => !!i.name).map((i) => <div>{i.name}</div>)}
           </div>
         </div>}
-        {(skills.length > 0 || (cv.skillsDescription.visible && cv.skillsDescription.description)) && <div className={styles.section}>
+        {(skills.length > 0 || (cv.skillsDescription?.visible && cv.skillsDescription?.description)) && <div className={styles.section}>
           <div className={styles.title}>
             {t('cv_preview_about_skills')}
           </div>
-          {cv.skillsDescription.visible && <HtmlText>
+          {cv.skillsDescription?.visible && <HtmlText>
           {cv.skillsDescription.description}
           </HtmlText>}
           <ChipList>
