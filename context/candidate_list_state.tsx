@@ -112,9 +112,9 @@ export function CandidateListWrapper(props: Props) {
       case CvListSortType.FromOldToNew:
         return 'createdAt,ASC'
       case CvListSortType.FromLowToHighSalary:
-        return 'salaryMin,ASC'
+        return 'cv.salaryMin,ASC'
       case CvListSortType.FromHighToLowSalary:
-        return 'salaryMin,DESC'
+        return 'cv.salaryMin,DESC'
     }
   }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<ICandidate>> => {
