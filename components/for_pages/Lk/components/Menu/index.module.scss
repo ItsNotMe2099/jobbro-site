@@ -3,6 +3,7 @@
 .root {
   flex-basis: 325px;
   transition: all ease 0.25s;
+  flex-shrink: 0;
   @include mq($SmDesktopWidth, max) {
     position: fixed;
     top:100px;
