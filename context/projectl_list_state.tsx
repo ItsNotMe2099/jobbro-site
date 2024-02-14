@@ -46,7 +46,7 @@ export function ProjectListOwnerWrapper(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-  const [filter, setFilter] = useState<IProjectFilter>({page: 1, limit: props.limit ?? 10})
+  const [filter, setFilter] = useState<IProjectFilter>({page: 1, limit: props.limit ?? 30})
   const filterRef = useRef<IProjectFilter>(filter)
   const abortControllerRef = useRef<AbortController | null>(null)
 

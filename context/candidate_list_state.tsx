@@ -72,7 +72,7 @@ export function CandidateListWrapper(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-  const [filter, setFilter] = useState<ICandidateFilter>({page: 1, limit: props.limit ?? 10})
+  const [filter, setFilter] = useState<ICandidateFilter>({page: 1, limit: props.limit ?? 30})
   const [sortType, setSortType] = useState<Nullable<CvListSortType>>(null)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [isSelectAll, setSelectAll] = useState<boolean>(false)
@@ -82,7 +82,7 @@ export function CandidateListWrapper(props: Props) {
   const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const limit = props.limit ?? 20
+  const limit = props.limit ?? 30
   const init = async () => {
     await Promise.all([fetch()])
     setIsLoaded(true)

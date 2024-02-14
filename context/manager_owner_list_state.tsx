@@ -47,7 +47,7 @@ export function ManagerListOwnerWrapper(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-  const [filter, setFilter] = useState<IManagerFilter>({page: 1, limit: props.limit ?? 10})
+  const [filter, setFilter] = useState<IManagerFilter>({page: 1, limit: props.limit ?? 30})
   const filterRef = useRef<IManagerFilter>(filter)
   const abortControllerRef = useRef<AbortController | null>(null)
 
