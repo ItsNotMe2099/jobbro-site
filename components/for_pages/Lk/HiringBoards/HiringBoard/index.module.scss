@@ -3,16 +3,16 @@
 .root{
   background-color: white;
   overflow: scroll;
-  width: calc(100vw - 420px);
+  max-width: calc(100vw - 90px);
   border-radius: 32px;
   @include mq($SmDesktopWidth, max) {
     width: calc(100vw - 64px);
     overflow: auto;
+    max-width: unset;
 
   }
   @include mq($TabletWidth, max) {
     width: calc(100vw - 32px);
-    margin-left: 16px;
   }
 
 }
