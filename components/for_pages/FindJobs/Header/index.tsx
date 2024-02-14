@@ -10,7 +10,6 @@ import MainFilters from 'components/for_pages/FindJobs/MainFilters'
 import { useRouter } from 'next/router'
 import {useFindJobsMainContext} from '@/context/find_jobs_main_state'
 import Formatter from '@/utils/formatter'
-import { useVacancySearchContext } from '@/context/vacancy_search_state'
 import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
 
 export default function Header(props: Props) {
   const appContext = useAppContext()
-  const vacancySearchContext = useVacancySearchContext()
   const findJobsMainContext = useFindJobsMainContext()
   const stats = findJobsMainContext.stats
   const {isTabletWidth} = appContext.size
@@ -30,8 +28,11 @@ export default function Header(props: Props) {
 
 
   const onSearchEnter = (s: string) => {
-    vacancySearchContext.filters.current = {...filters, search: s}
-    router.push('/find-jobs/search')
+    const clearedQuery: {[key: string]: any} = {...filters, search: s}
+    Object.entries(clearedQuery).forEach(([key, value]) => {
+      if(!Boolean(value)||value.length === 0||Object.keys(value).length === 0||Object.values(value).filter(Boolean).length === 0) delete clearedQuery[key]
+    })
+    router.push({pathname: '/find-jobs/search', query: {filter: JSON.stringify(clearedQuery)}})
   }
 
   return (

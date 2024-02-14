@@ -19,6 +19,7 @@ import KeywordField from '@/components/fields/KeywordField'
 import { IOption } from '@/types/types'
 import { IGeoName } from '@/data/interfaces/ILocation'
 import Spacer from '@/components/ui/Spacer'
+import { useRouter } from 'next/router'
 
 interface Props {
   vacancySearchContext?: IVacancySearchStateProps
@@ -31,6 +32,7 @@ export default function Filters(props: Props) {
   const vacancySearchContext = useVacancySearchContext()
   const context = props.vacancySearchContext||vacancySearchContext
   const appContext = useAppContext()
+  const router = useRouter()
 
   useEffect(()=>{
     serviceCategoryListContext.reFetch()
@@ -48,6 +50,13 @@ export default function Filters(props: Props) {
       context.filters.current = {...data, page: 1, limit: 20}
     }
     context.setVacancies?.(true)
+
+    const clearedQuery: {[key: string]: any} = {...formik.values}
+    Object.entries(clearedQuery).forEach(([key, value]) => {
+      if(!Boolean(value)||value.length === 0||Object.keys(value).length === 0||Object.values(value).filter(Boolean).length === 0) delete clearedQuery[key]
+    })
+
+    router.replace({query: {filter: JSON.stringify(clearedQuery)}}, undefined)
   }
 
   const initialValues = {
@@ -63,7 +72,8 @@ export default function Filters(props: Props) {
     country: undefined,
     cities: [],
     city: undefined,
-    employment: []
+    employment: [],
+    ...context.filters.current
   }
 
   const formik = useFormik<Partial<IVacancyFilterParams>>({
@@ -110,6 +120,7 @@ export default function Filters(props: Props) {
 
   useEffect(()=>{
     formik.setValues({...initialValues, ...context.filters.current})
+    submit(context.filters.current)
   }, [])
 
   return (<div className={classNames(styles.root, styles['root_'+appContext.headerDirection])}>
