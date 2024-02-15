@@ -9,7 +9,7 @@ export default class EntityViewRepository {
   static async track(entityType: EntityViewType, id: number): Promise<null> {
     const res = await request({
       method: 'post',
-      url: `/api/vacancy/${id}/removeFromSaved`,
+      url: `/api/entity-view/${id}/track`,
       data:{
         entityType, id
       }
