@@ -26,6 +26,7 @@ import {format} from 'date-fns'
 import ImageHelper from '@/utils/ImageHelper'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {Employment} from '@/data/enum/Employment'
+import EntityViewRepository, {EntityViewType} from '@/data/repositories/EntityViewRepository'
 
 const getSalaryUnitJsonLd = (vacancy: IVacancy):      'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' => {
   switch (vacancy.salaryType){
@@ -199,7 +200,9 @@ const JobPageInner = (props: Props) => {
   )
 }
 const JobPage = (props: Props) => {
-  const router = useRouter()
+  useEffect(() => {
+    EntityViewRepository.track(EntityViewType.Vacancy,props.job.id)
+  }, [])
   return (<JobPageInner {...props}/>)
 }
 
@@ -207,6 +210,7 @@ export default JobPage
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> => {
   const id = parseInt(context.query.id as string, 10)
   const token = context.req.cookies[CookiesType.accessToken]
+
   try {
     const job = await VacancyRepository.fetchById(id, token)
     return {

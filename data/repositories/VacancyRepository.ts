@@ -40,7 +40,8 @@ export default class VacancyRepository {
     const res = await request<IVacancyWithCurrentUserApply>({
       method: 'get',
       url: `/api/vacancy/${id}`,
-      token
+      token,
+      ctx
     })
     return res
   }
