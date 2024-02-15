@@ -6,6 +6,7 @@ import NodeCache from 'node-cache'
 import { isClient, isServer } from 'utils/media'
 import { RequestError } from 'types/types'
 import queryString from 'query-string'
+import {CookiesLifeTime} from '@/types/constants'
 interface Options {
   url: string
   method?: 'post' | 'put' | 'get' | 'delete' | 'patch'
@@ -15,6 +16,7 @@ interface Options {
   isMultiPart?: boolean
   disableCache?: boolean
   config?: AxiosRequestConfig
+  sessionId?: string
 }
 
 export const nodeCache = new NodeCache( { stdTTL: 60 * 60 * runtimeConfig.CACHE_TIME_HOURS } )
@@ -24,6 +26,8 @@ async function request<T = any>(options: string | Options): Promise<T> {
   const { HOST, CACHE_TIME_HOURS } = runtimeConfig
   const optionsIsString = typeof options === 'string'
   const accessToken = (!optionsIsString && options.token) ? options.token : Cookies.get(CookiesType.accessToken)
+  const sessionId = (!optionsIsString && options.sessionId) ? options.sessionId : Cookies.get(CookiesType.sessionId)
+
   let url = ''
   let method = 'get'
   let data: any = null
@@ -60,6 +64,7 @@ async function request<T = any>(options: string | Options): Promise<T> {
 
   const headers: HeadersInit = {
     'Authorization': accessToken ? `Bearer ${accessToken}` : '',
+    'X-Session': sessionId ? sessionId : ''
   }
 
   if (!file && !isMultiPart) {
@@ -74,7 +79,10 @@ async function request<T = any>(options: string | Options): Promise<T> {
     ...config,
     validateStatus: (status) => true
   })
-
+  const xSession = res.headers['x-session']
+  if(xSession){
+    Cookies.set(CookiesType.sessionId, xSession, {       expires: CookiesLifeTime.accessToken, })
+  }
   if (res.status === 401) {
    // Cookies.remove(CookiesType.accessToken)
     if (isClient) {

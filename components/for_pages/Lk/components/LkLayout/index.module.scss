@@ -10,5 +10,6 @@
   }
 }
 .container{
-  flex: 1;
+  flex: 1 auto;
+  overflow-x: auto;
 }

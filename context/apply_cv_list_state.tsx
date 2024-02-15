@@ -123,9 +123,9 @@ export function ApplyCvListWrapper(props: Props) {
       case CvListSortType.FromHighToLowSalary:
         return 'salaryMin,DESC'
       case CvListSortType.FromHighToLowScore:
-        return 'evaluations.score,ASC'
+        return 'score,ASC'
       case CvListSortType.FromLowToHighScore:
-        return 'evaluations.score,DESC'
+        return 'score,DESC'
     }
   }
   const fetch = async ({page}: { page: number } = {page: 1}): Promise<IPagination<ICVWithApply>> => {

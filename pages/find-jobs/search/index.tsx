@@ -1,22 +1,24 @@
 
 import Search from '@/components/for_pages/Search'
 import Layout from '@/components/layout/Layout'
+import { VacancySearchWrapper } from '@/context/vacancy_search_state'
 import { IVacancyFilterParams } from '@/data/interfaces/IVacancySearchParams'
 
 interface Props {
-  search: string;
   filter: IVacancyFilterParams;
 }
 
 export const getServerSideProps = (data: {query: {search: string, filter?: string}}) => {
   return ({
-    props: {search: data.query.search||'', filter: data.query.filter?JSON.parse(data.query.filter) as IVacancyFilterParams:{}}
+    props: {filter: data.query.filter?JSON.parse(data.query.filter) as IVacancyFilterParams:{}}
   })
 }
 
 export default function SearchPage(props: Props) {
 
   return (<Layout>
-    <Search search={props.search} filter={props.filter}/>
+    <VacancySearchWrapper filters={props.filter}>
+      <Search search={props.filter.search||''} filter={props.filter}/>
+    </VacancySearchWrapper>
   </Layout>)
 }

@@ -25,7 +25,6 @@ import {CandidateAddedWrapper} from '@/context/candidate_added_state'
 import SidePanelContainer from '@/components/layout/SidePanelContainer'
 import {CvEvaluationWrapper} from '@/context/cv_evaluation_state'
 import {EmployeeAiCvRequestsWrapper} from '@/context/employee_cv_request_state'
-import { VacancySearchWrapper } from '@/context/vacancy_search_state'
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -51,7 +50,6 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
         <FavoriteWrapper>
           <CandidateAddedWrapper>
             <CvEvaluationWrapper>
-              <VacancySearchWrapper >
 
               <EventListWrapper>
                 <EmployeeAiCvRequestsWrapper>
@@ -81,7 +79,6 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
                   />
                 </EmployeeAiCvRequestsWrapper>
               </EventListWrapper>
-              </VacancySearchWrapper>
             </CvEvaluationWrapper>
           </CandidateAddedWrapper>
         </FavoriteWrapper>
