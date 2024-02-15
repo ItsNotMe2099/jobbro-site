@@ -41,7 +41,6 @@ export default class VacancyRepository {
       method: 'get',
       url: `/api/vacancy/${id}`,
       token,
-      ctx
     })
     return res
   }
