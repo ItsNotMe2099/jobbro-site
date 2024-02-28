@@ -24,10 +24,10 @@ enum MenuProfileKey {
   UserProfile = 'profile',
   Logout = 'logout'
 }
+
 interface Props {
   distanceFromTop: number
 }
-
 
 
 export default function Header(props: Props) {
@@ -36,49 +36,42 @@ export default function Header(props: Props) {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const [fromTop, setFromTop] = useState<number>(0)
-  const { t } = useTranslation()
-  const menu = appContext.aboutMe?.profileType === ProfileType.Hirer ? [
-    { label: t('header_menu_products'), link: '#' },
-    { label: t('header_menu_resources'), link: '#' },
-    { label: t('header_menu_pricing'), link: '#' },
-  ] : (appContext.aboutMe?.profileType === ProfileType.Employee ? [
-    { label: t('header_menu_main'), link: Routes.index },
-    { label: t('header_menu_applies'), link: Routes.lkApplies },
-    { label: t('header_menu_marks'), link: Routes.marks },
-  ] : [
-    { label: t('header_menu_search_jobs'), link: Routes.search },
-    { label: t('header_menu_create_resume'), link: '/' },
-    { label: t('header_menu_login'), link: Routes.login(router.asPath) },
-  ])
-  const menuLogin = { label: t('header_menu_login'), link: Routes.login(router.asPath) }
-  const menuSearchJobs = { label: t('header_menu_search_jobs'), link: Routes.search }
-    const accountOptions = [
+  const {t} = useTranslation()
+  const menu = appContext.aboutMe?.profileType === ProfileType.Hirer ? []
+    : (appContext.aboutMe?.profileType === ProfileType.Employee ? [
+      {label: t('header_menu_main'), link: Routes.index},
+      {label: t('header_menu_applies'), link: Routes.lkApplies},
+      {label: t('header_menu_marks'), link: Routes.marks},
+    ] : [
+      {label: t('header_menu_search_jobs'), link: Routes.search},
+      {label: t('header_menu_create_resume'), link: '/'},
+      {label: t('header_menu_login'), link: Routes.login(router.asPath)},
+    ])
+  const menuLogin = {label: t('header_menu_login'), link: Routes.login(router.asPath)}
+  const menuSearchJobs = {label: t('header_menu_search_jobs'), link: Routes.search}
+  const accountOptions = []
 
-    ]
-
-  useEffect(()=>{
+  useEffect(() => {
     // if(!isTabletWidth) {
-      if(props.distanceFromTop > fromTop && props.distanceFromTop <= -40) {
-        appContext.setDirection('up')
-        setFromTop(props.distanceFromTop)
-      }
-      else if(props.distanceFromTop < fromTop && props.distanceFromTop <= -40) {
-        appContext.setDirection('down')
-        // !isTabletWidth && setDropDownOpen(false)
-        setFromTop(props.distanceFromTop)
-      }
-      else {
-        appContext.setDirection('up')
-      }
+    if (props.distanceFromTop > fromTop && props.distanceFromTop <= -40) {
+      appContext.setDirection('up')
+      setFromTop(props.distanceFromTop)
+    } else if (props.distanceFromTop < fromTop && props.distanceFromTop <= -40) {
+      appContext.setDirection('down')
+      // !isTabletWidth && setDropDownOpen(false)
+      setFromTop(props.distanceFromTop)
+    } else {
+      appContext.setDirection('up')
+    }
     // }
   }, [props.distanceFromTop])
 
   const handleClickProfileItem = (value: MenuProfileKey) => {
-    switch (value){
+    switch (value) {
       case MenuProfileKey.UserProfile:
-        if(appContext.aboutMe?.profileType === ProfileType.Hirer){
+        if (appContext.aboutMe?.profileType === ProfileType.Hirer) {
           router.push(Routes.account)
-        }else {
+        } else {
           router.push(Routes.profile)
         }
         break
@@ -101,30 +94,36 @@ export default function Header(props: Props) {
             {i.label}
           </Link>
         )}
-        {isTabletWidth && appContext.isLogged && <Link href={menuSearchJobs.link} className={styles.item}>{menuSearchJobs.label}</Link>}
-        {isTabletWidth && !appContext.isLogged && <Link href={menuLogin.link} className={styles.item}>{menuLogin.label}</Link>}
+        {isTabletWidth && appContext.isLogged &&
+          <Link href={menuSearchJobs.link} className={styles.item}>{menuSearchJobs.label}</Link>}
+        {isTabletWidth && !appContext.isLogged &&
+          <Link href={menuLogin.link} className={styles.item}>{menuLogin.label}</Link>}
       </div>
 
-      {appContext.isLogged &&  <div className={styles.controls}>
+      {appContext.isLogged && <div className={styles.controls}>
         {!isTabletWidth && <LanguageSelector/>}
-        <HeaderButton<string>  dropdownClassName={styles.dropDownNotifications} badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])} icon={<ChatSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
+        <HeaderButton<string> dropdownClassName={styles.dropDownNotifications}
+                              badge={notificationContext.getTotalByTypes([NotificationType.chatMessage])}
+                              icon={<ChatSvg color={colors.white}/>}
+                              menuRender={(isOpen) => <HeaderMenuChat isOpen={isOpen}/>}/>
         <HeaderButton<string> dropdownClassName={styles.dropDownChats} badge={notificationContext.getTotalByTypes([
-          NotificationType.newApplication ,
+          NotificationType.newApplication,
           NotificationType.newProposal,
           NotificationType.userBlocked,
           NotificationType.userUnBlocked,
           NotificationType.cvRejected,
-          NotificationType.vacancyRejected])} icon={<BellSvg color={colors.white} />} menuRender={(isOpen) => <HeaderMenuNotification isOpen={isOpen}/>}/>
+          NotificationType.vacancyRejected])} icon={<BellSvg color={colors.white}/>}
+                              menuRender={(isOpen) => <HeaderMenuNotification isOpen={isOpen}/>}/>
         <HeaderButton<MenuProfileKey>
-        onClickItem={handleClickProfileItem}
-        icon={<AccSvg color={colors.white} />}
-        groups={[
-          {options: [{label: t('header_user_profile'), value: MenuProfileKey.UserProfile}], },
-          {options: [{label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed}]}]}
-        options={[
-          {label: t('header_user_profile'), value: MenuProfileKey.UserProfile},
-          {label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed},
-        ]}/>
+          onClickItem={handleClickProfileItem}
+          icon={<AccSvg color={colors.white}/>}
+          groups={[
+            {options: [{label: t('header_user_profile'), value: MenuProfileKey.UserProfile}],},
+            {options: [{label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed}]}]}
+          options={[
+            {label: t('header_user_profile'), value: MenuProfileKey.UserProfile},
+            {label: t('header_user_logout'), value: MenuProfileKey.Logout, color: colors.textRed},
+          ]}/>
       </div>}
     </div>
   )

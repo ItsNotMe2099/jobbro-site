@@ -774,7 +774,7 @@
   "form_field_select_no_results": "Tidak ada hasil",
   "hour": "jam",
   "404_page_title": "Halaman yang Anda cari tidak dapat ditemukan",
-  "404_page_button_home": "Pergi ke rumah",
+  "404_page_button_back": "Pergi ke rumah",
   "error_page_title": "Terjadi kesalahan",
   "error_page_button_home": "Pergi ke rumah",
   "form_field_validation_required_checkbox_other": "Pilih lebih dari satu nilai"

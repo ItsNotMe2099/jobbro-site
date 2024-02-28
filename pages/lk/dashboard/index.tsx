@@ -9,6 +9,9 @@ export default function DashboardPage() {
 }
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer, async (context) => {
   return {
+    notFound: true
+  }
+  return {
     redirect: {
       permanent: false,
       destination: Routes.lkDashboardMyBoard,

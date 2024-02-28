@@ -21,7 +21,7 @@ interface Props {
 export default function Menu(props: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
   const rootRef = useRef<HTMLDivElement>(null!)
-  const [isActive, setIsActive] = useDetectOutsideClick(rootRef.current, false) 
+  const [isActive, setIsActive] = useDetectOutsideClick(rootRef.current, false)
 
   const { t } = useTranslation()
   const appContext = useAppContext()
@@ -29,12 +29,12 @@ export default function Menu(props: Props) {
   const router = useRouter()
 
   const menu = [
-    { label: t('hirer_left_menu_dashboard'), link: Routes.lkDashboard },
+ //   { label: t('hirer_left_menu_dashboard'), link: Routes.lkDashboard },
     { label: t('hirer_left_menu_jobs'), link: Routes.lkJobs },
     { label: t('hirer_left_menu_candidates_base'), link: Routes.lkCandidatesBase },
     { label: t('hirer_left_menu_hiring_boards'), link: Routes.lkHiringBoards },
     { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
-    { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
+  //  { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
     ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }] : []),
 ]
 
