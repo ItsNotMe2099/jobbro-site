@@ -16,7 +16,7 @@ export const getServerSideProps = getAuthServerSideProps(null, async (context, u
       redirect = Routes.profileResume
       break
     case ProfileType.Hirer:
-      redirect = Routes.lkDashboard
+      redirect = Routes.lkJobs
       break
   }
   return {

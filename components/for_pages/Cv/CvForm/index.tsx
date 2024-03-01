@@ -178,12 +178,12 @@ export default function CvForm(props: Props) {
     formik.setFieldValue('city', null)
   }
   const preview = (<CvPreview cv={formik.values as any as ICV} />)
-  const showPublish = !props.preview && (!cv || cv.profileId) &&  (!cv || !([PublishStatus.Published] as PublishStatus[]).includes(cv!.status))
+  const showPublish = (!cv || cv.profileId) &&  (!cv || !([PublishStatus.Published] as PublishStatus[]).includes(cv!.status))
   const formFooter = ( <>
     {showPublish && <Button type='button' onClick={handlePublishClick} disabled={props.loading} spinner={props.loading && formik.values.status === PublishStatus.Published} styleType='large' color='green'>
       {t('job_form_button_publish')}
     </Button>}
-    {!props.preview && <Button disabled={props.loading ?? false} spinner={props.loading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color={!showPublish ? 'green' : 'white'}>
+    {<Button disabled={props.loading ?? false} spinner={props.loading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color={!showPublish ? 'green' : 'white'}>
       {!cv ? t('job_form_button_save_draft') : t('job_form_button_save')}
     </Button>}
 

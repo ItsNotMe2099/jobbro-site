@@ -262,13 +262,15 @@ export default function CreateJobManuallyForm(props: Props) {
     </FormikProvider>
   )
   const preview = ( <JobPreview job={formik.values as any as IVacancy} company={companyContext.company}/>)
+  const publishButton = (<Button type='button' onClick={handlePublishClick} disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Published} styleType='large' color='green'>
+    {t('job_form_button_publish')}
+  </Button>)
+  const saveButton = ( <Button disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
+    {!vacancyContext.vacancy! ? t('job_form_button_save_draft') : t('job_form_button_save')}
+  </Button>)
   const formFooter = ( <>
-    {!props.preview && (!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && <Button type='button' onClick={handlePublishClick} disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Published} styleType='large' color='green'>
-      {t('job_form_button_publish')}
-    </Button>}
-    {!props.preview && <Button disabled={vacancyContext.editLoading} spinner={vacancyContext.editLoading && formik.values.status === PublishStatus.Draft} onClick={handleSaveClick} type={'button'} styleType='large' color='white'>
-      {!vacancyContext.vacancy! ? t('job_form_button_save_draft') : t('job_form_button_save')}
-    </Button>}
+    {(!vacancyContext.vacancy! || !([PublishStatus.Published] as PublishStatus[]).includes(vacancyContext.vacancy!.status)) && publishButton}
+    {saveButton}
     <div className={styles.preview} onClick={props.onPreview}>
       {!props.preview ? <EyeSvg color={colors.green} className={styles.eye}/>
         :
