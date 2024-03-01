@@ -79,3 +79,110 @@
   min-height: calc(100vh - 500px);
   min-height: calc(100dvh - 500px);
 }
+
+.row {
+  display: contents;
+
+  .rowItem {
+    margin: unset;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: white;
+    color: black;
+    padding-inline: 10px;
+    align-self: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &_frozen {
+      position: sticky;
+      left: 0;
+    }
+
+    &_active {
+      background-color: $greenLight;
+    }
+  }
+}
+
+.jobsTable {
+  background-color: $white;
+  height: calc(100vh - 490px);
+  border: unset;
+  border-radius: 16px;
+  user-select: none;
+
+  .headerCell {
+    background-color: white;
+    color: $black;
+    align-items: center;
+    display: flex;
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+
+    .sortIcon {
+      transition: ease-in-out .2s ;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 24px;
+      background-color: $grey;
+    }
+  }
+
+  :global {
+    .rdg-header-row {
+      background-color: white;
+    }
+
+    .rdg-cell {
+      border: unset;
+      box-shadow: unset;
+      overflow: hidden;
+    }
+  }
+}
+
+.button {
+  width: 40px;
+  height: 40px;
+  padding: unset;
+  background-color: white;
+  border: 2px $grey solid;
+}
+
+.publishStatus {
+  text-transform: capitalize;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.rowLine {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  max-width: 100%;
+}
+
+.rowSpan {
+  flex: 1 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

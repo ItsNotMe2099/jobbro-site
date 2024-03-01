@@ -25,7 +25,14 @@ const CheckBoxField = (props: Props) => {
     props.onChange?.(!field.value)
   }
   return (
-    <div ref={ref} className={styles.root} onClick={handleChange} data-field={props.name}>
+    <div 
+    ref={ref} 
+    className={styles.root} 
+    onClick={(e)=> {
+      e.stopPropagation()
+      e.preventDefault()
+      handleChange()}} 
+    data-field={props.name}>
       <CheckboxWithLabel label={props.label} checked={field.value} onClick={handleChange} showError={showError}/>
       <FieldError showError={showError}>{meta.error}</FieldError>
     </div>

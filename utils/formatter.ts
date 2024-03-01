@@ -53,6 +53,9 @@ export default class Formatter {
   }
 
   static formatDateRelative(date: string | Date) {
+    if (!date) {
+      return ''
+    }
     const formatRelativeLocale: { [key: string]: string } = {
       'yesterday': 'Вчера HH:mm',
       'today': 'Сегодня HH:mm',
@@ -65,9 +68,7 @@ export default class Formatter {
       formatRelative: (token: string) =>
         formatRelativeLocale[token] || formatRelativeLocale['other'],
     }
-    if (!date) {
-      return ''
-    }
+
     return formatRelative(typeof date === 'string' ? new Date(date) : date, new Date(), { locale })
   }
 
@@ -76,7 +77,11 @@ export default class Formatter {
     return format(typeof date === 'string' ? new Date(date) : date,'dd.MM.yyyy HH:MM')
   }
   static formatDate(date: string | Date) {
-    return format(typeof date === 'string' ? new Date(date) : date,'dd MMM yyyy ')
+    const newDate = new Date(date)
+    if (!date|| String(newDate) === 'Invalid Date') {
+      return ''
+    }
+    return format(typeof date === 'string' ? newDate : date,'dd MMM yyyy ')
   }
 
   static pad(pad: string, str: string, padLeft = true) {
