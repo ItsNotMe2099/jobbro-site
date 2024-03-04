@@ -88,7 +88,6 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 100%;
-    overflow: hidden;
     background-color: white;
     color: black;
     padding-inline: 10px;
@@ -101,6 +100,9 @@
     &_frozen {
       position: sticky;
       left: 0;
+      background: rgba(255, 255, 255, 0.808);
+      backdrop-filter: blur(3px);
+      z-index: 2;
     }
 
     &_active {
@@ -124,6 +126,10 @@
     font-weight: 500;
     font-size: 16px;
     position: relative;
+    background: rgba(255, 255, 255, 0.418);
+
+
+
 
     .sortIcon {
       transition: ease-in-out .2s ;
@@ -154,6 +160,9 @@
       border: unset;
       box-shadow: unset;
       overflow: hidden;
+      backdrop-filter: blur(3px);
+      background: rgba(255, 255, 255, 0.418);
+
     }
   }
 }
@@ -185,4 +194,9 @@
   flex: 1 1;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.rowLink {
+  @extend .rowSpan;
+  color: black;
 }

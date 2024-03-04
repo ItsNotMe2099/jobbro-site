@@ -3,7 +3,7 @@ import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import {useRef, useState} from 'react'
+import { useMemo, useRef, useState} from 'react'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
 import {CardViewType, SidePanelType} from '@/types/enums'
@@ -11,12 +11,10 @@ import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 import {ApplyCvListWrapper, useApplyCvListOwnerContext} from '@/context/apply_cv_list_state'
 import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
-import JobApplyCard from '@/components/for_pages/Lk/Jobs/JobApplyCard'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {
   HiringStageListWrapper, useHiringStageListContext
 } from '@/context/hiring_stage_list_state'
-import CardsLayout from '@/components/ui/CardsLayout'
 import SortFilterButton from '@/components/for_pages/Common/FilterToolbar/SortFilterButton'
 import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
 import {CvFilterSidePanelArguments} from '@/types/side_panel_arguments'
@@ -25,7 +23,7 @@ import {CvListSortType} from '@/data/enum/CvListSortType'
 import {useAppContext} from '@/context/state'
 import NoData from '@/components/for_pages/Common/NoData'
 import ContentLoader from '@/components/ui/ContentLoader'
-import {Nullable} from '@/types/types'
+import {IOption, Nullable} from '@/types/types'
 import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import Spinner from '@/components/ui/Spinner'
 import {colors} from '@/styles/variables'
@@ -33,13 +31,194 @@ import DropdownActionFilterButton from '@/components/for_pages/Common/FilterTool
 import CloseSvg from '@/components/svg/CloseSvg'
 import IconButton from '@/components/ui/IconButton'
 import MenuButton from '@/components/ui/MenuButton'
+
+import ReactDataGrid, {RenderRowProps, Column, RenderHeaderCellProps, Row, SortColumn} from 'react-data-grid'
 import classNames from 'classnames'
+import SortIconSvg from '@/components/svg/SortIconSvg'
+import Button from '@/components/ui/Button'
+import Link from 'next/link'
+import ChevronTriangleSvg from '@/components/svg/ChevronTriangleSvg'
+import type { Key } from 'react'
+import { ApplyCvWrapper, useApplyCvContext } from '@/context/apply_cv_state'
+import UserUtils from '@/utils/UserUtils'
+import Formatter from '@/utils/formatter'
+import DownloadSvg from '@/components/svg/DownloadSvg'
+import { useCvEvaluationContext } from '@/context/cv_evaluation_state'
+import {runtimeConfig} from '@/config/runtimeConfig'
+import LinkSvg from '@/components/svg/LinkSvg'
+import RejectSvg from '@/components/svg/RejectSvg'
+import { useDropDown } from '@/components/hooks/useDropDown'
+import MenuSvg from '@/components/svg/MenuSvg'
+import { MenuDropdown } from '@/components/ui/MenuDropdown'
+import CardsLayout from '@/components/ui/CardsLayout'
+import JobApplyCard from '@/components/for_pages/Lk/Jobs/JobApplyCard'
+import Checkbox from '@/components/ui/Checkbox'
+import { ICV } from '@/data/interfaces/ICV'
+
+
+
 enum MenuMultiKey{
   AddToBase = 'addToBase',
   InviteToOtherJob = 'inviteToOtherJob',
 }
 interface Props {
 
+}
+
+enum MenuKey{
+  DownLoadPDF = 'downloadPDF',
+  AddToBase = 'addToBase',
+  InviteToOtherJob = 'inviteToOtherJob',
+  Select = 'select',
+  DownloadOriginal = 'downloadOriginal'
+}
+
+
+
+export interface Row  {
+  name: Nullable<string> | undefined;
+  rate: string;
+  stage: string
+  email: string;
+  applied: string;
+  location: string 
+  cv: JSX.Element | null
+  actions: JSX.Element | null 
+  id: number
+}
+
+type Comparator = (a: Row, b: Row) => number;
+export const getComparator = (sortColumn: string): Comparator => {
+  switch (sortColumn) {
+    case 'name':
+    case 'rate':
+    case 'stage':
+    case 'email':
+    case 'location':
+      return (a, b) => {
+        return String(a[sortColumn]).toLowerCase().localeCompare(String(b[sortColumn]).toLowerCase())
+      }
+    case 'applied':
+      return (a, b) => {
+        const aDate = new Date(String(a[sortColumn])).getTime()
+        const bDate = new Date(String(b[sortColumn])).getTime()
+
+        
+        return aDate < bDate? 1:-1
+      }
+      // return (a, b) => {
+      //   return a[sortColumn].localeCompare(b[sortColumn])
+      // }
+    case 'cv':
+    case 'actions':
+    default:
+      throw new Error(`unsupported sortColumn: "${sortColumn}"`)
+  }
+}
+
+const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) => {
+  const applyCvContext = useApplyCvContext()
+  const applyCvListContext = useApplyCvListOwnerContext()
+  const cvEvaluationContext = useCvEvaluationContext()
+  const evaluation = cvEvaluationContext.store[`${applyCvContext.cv!.id}:${applyCvContext.apply!.vacancyId!}`]?.evaluation
+
+  const {row, viewportColumns} = props.rowProps
+  const {id, ...rowValues} = row
+
+  const getCell = (s: string, value: any, id: number) => {
+    
+    switch(s) {
+      case 'published':{
+        return <span className={styles.rowSpan} title={value}>{value}</span>
+      }
+      case 'salary':{
+        return <span className={styles.rowSpan} >{value}</span>
+      }
+      case 'rate': {
+        return <div className={styles.evaluation}>{evaluation?.percentEvaluation||'0'}%</div>
+      }
+      case 'name':
+        return <div className={styles.rowLine} >
+          <Checkbox 
+          checked={applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll} 
+          onClick={el=> {
+            el.preventDefault()
+            el.stopPropagation()
+            applyCvListContext.addToSelectedId(id)
+          }}/>
+          <Link href={Routes.lkJobCv(applyCvContext.apply!.vacancyId!, id)} className={styles.rowLink} title={value}>
+            {value}
+          </Link>
+        </div>
+      case 'actions': 
+        return value
+      case 'stage':
+        return (
+          <p 
+          className={styles.publishStatus} 
+          style={{color:colors.green}}>
+            <span className={styles.rowSpan} title={value}>{value}</span>
+            <ChevronTriangleSvg color={colors.green}/>
+          </p>
+        )
+      case 'cv':
+        return value
+      default :
+        return <span className={styles.rowSpan} title={value}>{value}</span>
+    }
+  }
+
+  return <div role='row'  aria-rowindex={props.rowProps.gridRowStart} className={styles.row} >
+    {Object.entries(rowValues).map(([key, value], index) => {
+      return (
+        <div 
+        className={classNames(styles.rowItem, viewportColumns[index]?.frozen&&styles.rowItem_frozen, (applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll)&&styles.rowItem_active)} 
+        style={{gridArea: `${props.rowProps.gridRowStart} / ${index + 1}`}}
+        >
+          {getCell(viewportColumns[index]?.key, value, id)}
+        </div>
+      )
+    })}
+  </div>
+}
+
+const ActionButtons = (props: {cv: ICV}) => {
+  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({offset: [0, 8], placement: 'bottom-end', position: 'absolute'})
+
+  const handleClickItem = (value: MenuKey) => {
+    switch(value){
+      case MenuKey.DownLoadPDF: {
+        window.open(`${runtimeConfig.HOST}/api/cv/${props.cv!.id}/exportToPdf` )
+      }
+    }
+
+  }
+
+  const menuOptions: IOption<MenuKey>[] = [
+    {label: 'Download CV in PDF', value: MenuKey.DownLoadPDF, },
+    {label: 'Add to base', value: MenuKey.AddToBase},
+    {label: 'Invite to other job', value: MenuKey.InviteToOtherJob},
+    {label: 'Select', value: MenuKey.Select},
+  ]
+  if(props.cv.file) {
+    menuOptions.push({label: 'Download original CV', value: MenuKey.DownloadOriginal})
+  }
+  
+
+  return (
+    <div className={styles.actionButtons} ref={setRootRef}>
+      <Button className={styles.button}><RejectSvg/></Button>
+      <Button className={styles.button}><LinkSvg/></Button>
+      <Button className={styles.button} onClick={() => setIsActive(!isActive)}><MenuSvg color='black'/></Button>
+      <MenuDropdown 
+      ref={setPopperElement}
+      isOpen={isActive as boolean}
+      onClick={(v)=> handleClickItem(v)}
+      style={popperStyles.popper}
+      options={menuOptions}
+      {...attributes.popper} />
+    </div>
+  )
 }
 
 const JobPageInner = (props: Props) => {
@@ -49,8 +228,12 @@ const JobPageInner = (props: Props) => {
   const hiringStageListContext = useHiringStageListContext()
   const { t } = useTranslation()
 
+
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
   const [view, setView] = useState<CardViewType>(CardViewType.Card)
+
+  const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([])
+
 
   useEffectOnce(() => {
     applyCvListContext.reFetch()
@@ -76,11 +259,71 @@ const JobPageInner = (props: Props) => {
         break
     }
   }
-  console.log('AddRecord13', applyCvListContext.isLoaded , applyCvListContext.data.total > 0)
-  return (
-    <>
-      <div className={styles.container} ref={containerRef}>
+  
+  const renderHeaderCell = (p: RenderHeaderCellProps<Row, unknown>) => {
+    return <div className={classNames(styles.headerCell, p.column.frozen && styles.headerCell_frozen)}>
+      {p.column.key === 'name' &&
+        <Checkbox 
+        checked={applyCvListContext.isSelectAll} 
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          applyCvListContext.setSelectAll(!applyCvListContext.isSelectAll)
+        }}
+        />
+      }
+      {p.column.name}
+      {p.sortDirection &&
+        <SortIconSvg className={styles.sortIcon} style={{rotate: p.sortDirection === 'ASC'?'0deg':'180deg'}}/>
+      }
+    </div>
+  }
 
+  const columns: Column<Row, unknown>[] = [
+    {key: 'name', name: 'Name', minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
+    {key: 'rate', name: 'Rate',  minWidth: 90, resizable: false, sortable: true, renderHeaderCell},
+    {key: 'stage', name: 'Stage', minWidth: 160, sortable: true, renderHeaderCell},
+    {key: 'email', name: 'Email', minWidth: 230,sortable: true, renderHeaderCell},
+    {key: 'applied', name: 'Applied on', minWidth: 130, sortable: true, resizable: false, renderHeaderCell},
+    {key: 'location', name: 'Candidate location', minWidth: 184, sortable: true,  renderHeaderCell},
+    {key: 'cv', name: 'CV', minWidth: 164 , sortable: true, renderHeaderCell},
+    {key: 'actions', name: 'Actions', minWidth: 170, resizable: false,  renderHeaderCell}
+  ]
+
+  const rows:Row[] = [...applyCvListContext.data.data?.map(el=>{
+    return {
+      name: UserUtils.getName(el), 
+      rate: 'rate',
+      stage: el.applications[0].status,
+      email: el.profile?.email||'',
+      applied: Formatter.formatDate(String(el.applications[0].updatedAt)),
+      location: el?.city?.locName||'',
+      cv: <Link href={`${runtimeConfig.HOST}/api/cv/${el!.id}/exportToPdf`} className={styles.rowLine}><DownloadSvg/> <span className={styles.rowLink}>Original PDF</span></Link>,
+      actions: <ActionButtons cv={el}/>,
+      id: el.id
+    }
+  })]
+
+  const sortedRows = useMemo((): readonly Row[] => {
+    if (sortColumns.length === 0) {return rows}
+    const sortedRows = [...rows]
+
+    sortedRows.sort((a, b) => {
+      for (const sort of sortColumns) {
+        const comparator = getComparator(sort.columnKey)
+        const compResult = comparator(a, b)
+        if (compResult !== 0) {
+          return sort.direction === 'ASC' ? compResult : -compResult
+        }
+      }
+      return 0
+    })
+    return sortedRows
+  }, [rows, sortColumns])
+
+
+  return (
+      <div className={styles.container} ref={containerRef}>
         <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
           <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
           <FilterToolbar left={[...((applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll) && !applyCvListContext.isActionLoading ? [
@@ -111,17 +354,40 @@ const JobPageInner = (props: Props) => {
               text={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_desc') : t('stub_job_applies_desc')}
             />
           }
-          {!applyCvListContext.isLoaded && applyCvListContext.isLoading &&
+          {!applyCvListContext.isLoaded && applyCvListContext.isLoading && 
             <ContentLoader style={'page'} isOpen={true}/>}
-          {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 &&
-          <CardsLayout type={view===CardViewType.Row ? 'list' : 'cards'} className={classNames({[styles.selectedMode]: applyCvListContext.selectedIds.length > 0})}>
+            {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Row &&
+              <ReactDataGrid 
+              className={styles.jobsTable}
+              rowHeight={48}
+              headerRowHeight= {60}
+              columns={columns} 
+              rows={sortedRows}
+              sortColumns={sortColumns}
+              onSortColumnsChange={setSortColumns}
+              renderers={{
+                renderRow: (k, v) => {
+                  return (
+                    <ApplyCvWrapper cv={applyCvListContext.data.data[Number(k)]} >
+                      <RowElement key={k} rowProps={v} />
+                    </ApplyCvWrapper>
+                  )
+                  },
+                }}
+                defaultColumnOptions={{
+                  resizable: true,
+                }}
+              />
+            }
+
+          {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Card &&
+          <CardsLayout type={'cards'} className={classNames({[styles.selectedMode]: applyCvListContext.selectedIds.length > 0})}>
             {applyCvListContext.data.data.map((i, index) =>
-              <JobApplyCard view={view} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
+              <JobApplyCard view={CardViewType.Card} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
             )}
           </CardsLayout>}
         </div>
       </div>
-    </>
   )
 }
 const JobPage = (props: Props) => {

@@ -4,7 +4,7 @@ import {colors} from '@/styles/variables'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {Routes} from '@/types/routes'
-import {CardViewType} from '@/types/enums'
+import {CardViewType, ModalType} from '@/types/enums'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {PublishStatus} from '@/data/enum/PublishStatus'
 import {IOption} from '@/types/types'
@@ -15,7 +15,8 @@ import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
-import showToast from '@/utils/showToast'
+import { useAppContext } from '@/context/state'
+import { IShareModalArgs } from '@/components/modals/ShareModal'
 
 enum MenuKey{
   Edit = 'edit',
@@ -31,6 +32,7 @@ interface Props {
 
 const JobCardInner = (props: Props) => {
   const vacancyContext = useVacancyOwnerContext()
+  const appContext = useAppContext()
   const vacancy = vacancyContext.vacancy!
   const router = useRouter()
   const { t } = useTranslation()
@@ -64,8 +66,9 @@ const JobCardInner = (props: Props) => {
         router.push(Routes.lkJobClone(vacancy.id))
         break
       case MenuKey.Share:
-        navigator.clipboard.writeText(Routes.getGlobal(Routes.job(vacancy.id)))
-        showToast({title: t('toast_job_share_copied_link')})
+        appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {link: Routes.getGlobal(Routes.job(vacancy.id))})
+        // navigator.clipboard.writeText(Routes.getGlobal(Routes.job(vacancy.id)))
+        // showToast({title: t('toast_job_share_copied_link')})
         break
       case MenuKey.Delete:
         vacancyContext.delete()

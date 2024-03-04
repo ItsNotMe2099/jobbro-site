@@ -25,22 +25,24 @@ import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import useTranslation from 'next-translate/useTranslation'
 import NoData from '@/components/for_pages/Common/NoData'
 import ContentLoader from '@/components/ui/ContentLoader'
-import 'react-data-grid/lib/styles.css'
 
 import ReactDataGrid, {RenderRowProps, Column, RenderHeaderCellProps, Row} from 'react-data-grid'
 import type { Key } from 'react'
 import VacancyUtils from '@/utils/VacancyUtils'
-import { PublishStatus } from '@/data/enum/PublishStatus'
 import classNames from 'classnames'
 import SortIconSvg from '@/components/svg/SortIconSvg'
 import Formatter from '@/utils/formatter'
 import Button from '@/components/ui/Button'
 import MenuSvg from '@/components/svg/MenuSvg'
-import { colors } from '@/styles/variables'
 import CheckBoxField from '@/components/fields/CheckBoxField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { IVacancy } from '@/data/interfaces/IVacancy'
-import ChevronTriangleSvg from '@/components/svg/ChevronTriangleSvg'
+import { Routes } from '@/types/routes'
+import Link from 'next/link'
+import CardsLayout from '@/components/ui/CardsLayout'
+import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
+import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
+import { VacancyOwnerWrapper } from '@/context/vacancy_owner_state'
 
 
 export type SortDirection = 'ASC' | 'DESC';
@@ -51,7 +53,7 @@ export interface SortColumn {
 
 export interface Row {
   name: string;
-  status: PublishStatus;
+  status: JSX.Element | null;
   salary: JSX.Element | null | IVacancy;
   published: string;
   location: string;
@@ -59,13 +61,17 @@ export interface Row {
   responseRate: number;
   actions: JSX.Element | null 
   id: number
+  vacancy: IVacancy
 }
 
 type Comparator = (a: Row, b: Row) => number;
 export const getComparator = (sortColumn: string): Comparator => {
   switch (sortColumn) {
-    case 'name':
     case 'status':
+      return (a, b) => {
+        return String(a.status).toLowerCase().localeCompare(String(b.status).toLowerCase())
+      }
+    case 'name':
     case 'location':
     case 'project':
       return (a, b) => {
@@ -94,7 +100,56 @@ export const getComparator = (sortColumn: string): Comparator => {
 }
 
 
+const RowElement = (props: {row: RenderRowProps<Row, unknown>, key: Key, formik: any}) => {
+  const {row, viewportColumns} = props.row
+  const {id, vacancy, ...rowValues} = row
 
+  const getCell = (s: string, value: any, id: number) => {
+    
+    switch(s) {
+      case 'published':{
+        return <span className={styles.rowSpan} title={value}>{value}</span>
+      }
+      case 'salary':{
+        return <span className={styles.rowSpan} >{value}</span>
+      }
+      case 'name':
+        return <div className={styles.rowLine} >
+          <CheckBoxField name={String(id)}/> 
+          <Link href={Routes.lkJob(id)} className={styles.rowLink} title={value}>
+            {value}
+          </Link>
+        </div>
+      case 'actions': 
+        return value
+      case 'status':
+        return value
+        // return (
+        //   <p 
+        //   className={styles.publishStatus} 
+        //   style={{color: value === 'published'&&colors.green||value === 'draft'&&colors.blue||colors.darkOrange}}>
+        //     <span className={styles.rowSpan} title={value}>{value}</span>
+        //     <ChevronTriangleSvg color={value === 'published'&&colors.green||value === 'draft'&&colors.blue||colors.darkOrange}/>
+        //   </p>
+        // )
+      default :
+        return <span className={styles.rowSpan} title={value}>{value}</span>
+    }
+  }
+
+  return <div role='row'  aria-rowindex={props.row.gridRowStart} className={styles.row} >
+    {Object.entries(rowValues).map(([key, value], index) => {
+      return (
+        <div 
+        className={classNames(styles.rowItem, viewportColumns[index]?.frozen&&styles.rowItem_frozen, props.formik.values[String(id)]&&styles.rowItem_active)} 
+        style={{gridArea: `${props.row.gridRowStart} / ${index + 1}`}}
+        >
+          {getCell(viewportColumns[index]?.key, value, id)}
+        </div>
+      )
+    })}
+  </div>
+}
 
 
 
@@ -123,8 +178,6 @@ const JobsPageInner = () => {
     </div>
   }
 
-
-
   const columns: Column<Row, unknown>[] = [
     {key: 'name', name: 'Name Job', minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
     {key: 'status', name: 'Status',  minWidth: 130, sortable: true, renderHeaderCell},
@@ -139,14 +192,15 @@ const JobsPageInner = () => {
   const rows:Row[] = [...vacancyListContext.data?.data?.map(el=>{
     return {
       name: el.name, 
-      status: el.status, 
+      status: <JobStatus/>, 
       salary: VacancyUtils.formatSalary({currency: el.currency, salaryMin: el.salaryMin, salaryMax: el.salaryMax, salaryType: el.salaryType}), 
       published: Formatter.formatDate(String(el.publishedAt)), 
       location: el.office?.country.locName, 
       project: el.project?.title, 
       responseRate: 0, 
       actions: <Button className={styles.button}><MenuSvg color='black'/></Button>,
-      id: el.id
+      id: el.id,
+      vacancy: el
     }
   })]
 
@@ -188,55 +242,6 @@ const JobsPageInner = () => {
     }
   }, [formik.values.all])
 
-  const rowElement = (key: Key, props: RenderRowProps<Row, unknown>) => {
-    const {row, viewportColumns} = props
-    const {id, ...rowValues} = row
-  
-    const getCell = (s: string, value: any, id: number) => {
-      
-      switch(s) {
-        case 'published':{
-          return <span className={styles.rowSpan} title={value}>{value}</span>
-        }
-        case 'salary':{
-          return <span className={styles.rowSpan} >{value}</span>
-        }
-        case 'name':
-          return <div className={styles.rowLine}>
-            <CheckBoxField name={String(id)}/> <span className={styles.rowSpan} title={value}>{value}</span>
-          </div>
-        case 'actions': 
-          return value
-        case 'status':
-          return (
-            <p 
-            className={styles.publishStatus} 
-            style={{color: value === 'published'&&colors.green||value === 'draft'&&colors.blue||colors.darkOrange}}>
-              <span className={styles.rowSpan} title={value}>{value}</span>
-              <ChevronTriangleSvg color={value === 'published'&&colors.green||value === 'draft'&&colors.blue||colors.darkOrange}/>
-            </p>
-          )
-        default :
-          return <span className={styles.rowSpan} title={value}>{value}</span>
-      }
-    }
-
-    return <div role='row'  aria-rowindex={props.gridRowStart} className={styles.row} >
-      {Object.entries(rowValues).map(([key, value], index) => {
-        return (
-          <div 
-          className={classNames(styles.rowItem, viewportColumns[index]?.frozen&&styles.rowItem_frozen, formik.values[String(id)]&&styles.rowItem_active)} 
-          style={{gridArea: `${props.gridRowStart} / ${index + 1}`}}
-          >
-            {getCell(viewportColumns[index]?.key, value, id)}
-          </div>
-        )
-      })}
-    </div>
-  }
-
-
-
   return (
       <div ref={ref} className={styles.container}>
         <PageStickyHeader boundaryElement={styles.container} formRef={ref}>
@@ -275,8 +280,7 @@ const JobsPageInner = () => {
         }
         {!vacancyListContext.isLoaded && vacancyListContext.isLoading &&
           <ContentLoader style={'page'} isOpen={true}/>}
-        {vacancyListContext.isLoaded && vacancyListContext.data.total > 0 && vacancyListContext.data?.data.length > 0 &&
-          
+        {vacancyListContext.isLoaded && vacancyListContext.data.total > 0 && vacancyListContext.data?.data.length > 0 && view === CardViewType.Row &&
           <FormikProvider value={formik}>
             <Form>
               <ReactDataGrid 
@@ -288,38 +292,33 @@ const JobsPageInner = () => {
               sortColumns={sortColumns}
               onSortColumnsChange={setSortColumns}
               renderers={{
-                // renderCheckbox: (p) => {
-                //   console.log('checbox',p)
-                //   return <Checkbox checked={false}/>
-                // },
-                renderRow: (k, v) => rowElement(k, v),
-                // renderCheckbox: (p) => {
-                //   return <input type="checkbox" checked={p.checked} />
-                // }
+                renderRow: (k, v) => {
+                  return (
+                    <VacancyOwnerWrapper vacancy={v.row.vacancy} vacancyId={v.row.id}>                      
+                      <RowElement key={k} row={v} formik={formik}/>
+                    </VacancyOwnerWrapper>
+                  )
+                  
+                }
               }}
-                // rowClass={(r, i) => {
-                //   console.log(r, i)
-                //   return 'myRow'
-                // }}
               defaultColumnOptions={{
                 resizable: true,
               }}
               />
             </Form>
           </FormikProvider>
-
-
-
-      
-
-          
         }
+        {vacancyListContext.isLoaded && vacancyListContext.data.total > 0 && view === CardViewType.Card &&
+        <CardsLayout type={'cards'} className={styles.cards}>
+          {vacancyListContext.data.data.map(i =>
+            <JobCard view={CardViewType.Card} className={styles.card} vacancy={i} key={i.id}/>
+          )}
+        </CardsLayout>}
         <StickyFab boundaryElement={styles.container} containerRef={ref}>
           <div className={styles.plus}>
             <MenuOptions isActive={showMenu} className={styles.menu} onClick={() => setShowMenu(false)}/>
             <Fab active={showMenu} onClick={() => setShowMenu(!showMenu)}/>
           </div>
-
         </StickyFab>
       </div>
   )

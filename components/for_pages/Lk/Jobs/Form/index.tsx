@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import {Form, FormikProvider, useFormik} from 'formik'
-import {Goal, SnackbarType} from '@/types/enums'
+import {Goal, ModalType, SnackbarType} from '@/types/enums'
 import {useEffect, useRef, useState} from 'react'
 import {DeepPartial, IOption, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
@@ -36,6 +36,7 @@ import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
 import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
+import { IShareModalArgs } from '@/components/modals/ShareModal'
 
 
 enum TabKey {
@@ -118,9 +119,19 @@ export default function CreateJobManuallyForm(props: Props) {
     try {
       if (vacancyContext.vacancy && !vacancyContext.isClone) {
         await vacancyContext.update(newData)
+        .then(res=> {
+          if(res){
+            appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {link: Routes.getGlobal(Routes.job(res.id))})
+          }
+        })
         showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
+        .then(res=> {
+          if(res){
+            appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {link: Routes.getGlobal(Routes.job(res.id))})
+          }
+        })
         if(props.fromAi){
           Analytics.goal(Goal.CreateJobAi)
         }
@@ -173,6 +184,7 @@ export default function CreateJobManuallyForm(props: Props) {
   useEffect(() => {
     valuesRef.current = formik.values
   }, [formik.values])
+
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
@@ -249,6 +261,7 @@ export default function CreateJobManuallyForm(props: Props) {
   const handlePublishClick = async () => {
     await formik.setFieldValue('status', PublishStatus.Published)
     await formik.submitForm()
+
   }
   const form = (
     <FormikProvider value={formik}>

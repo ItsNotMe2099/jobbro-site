@@ -9,6 +9,8 @@ import {PublishStatus} from '@/data/enum/PublishStatus'
 import {JobReviewSidePanelArguments} from '@/types/side_panel_arguments'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
+import { IShareModalArgs } from '@/components/modals/ShareModal'
+import { Routes } from '@/types/routes'
 
 interface IState {
   vacancyId?: Nullable<number> | undefined
@@ -172,6 +174,11 @@ export function VacancyOwnerWrapper(props: Props) {
           await updateStatusRequest(PublishStatus.Published)
           appContext.hideModal()
           showToast({title: t('toast_vacancy_published_title'), text: t('toast_vacancy_published_desc')})
+          if(vacancy) {
+            setTimeout(() => {
+              appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {link: Routes.getGlobal(Routes.job(vacancy.id))})
+            }, 200)
+          }
         }
       } as ConfirmModalArguments)
     })

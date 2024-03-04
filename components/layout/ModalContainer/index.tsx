@@ -9,6 +9,7 @@ import SearchFiltersModal from '@/components/modals/SearchFiltersModal'
 import GalleryModal from '@/components/modals/GalleryModal'
 import JobChatModal from '@/components/modals/JobChatModal'
 import ChooseSlotModal from '@/components/modals/ChooseSlotModal'
+import ShareModal from '@/components/modals/ShareModal'
 
 interface Props { }
 
@@ -41,6 +42,9 @@ export default function ModalContainer(props: Props) {
         </Modal>
         <Modal isOpen={appContext.modal === ModalType.ChooseSlotModal} {...commonSettings}>
           {appContext.modal === ModalType.ChooseSlotModal && <ChooseSlotModal onClose={appContext.hideModal} isBottomSheet={false}/>}
+        </Modal>
+        <Modal isOpen={appContext.modal === ModalType.ShareModal} {...commonSettings}>
+          {appContext.modal === ModalType.ShareModal && <ShareModal onClose={appContext.hideModal} isBottomSheet={false}/>}
         </Modal>
       </div>
     </RemoveScroll>

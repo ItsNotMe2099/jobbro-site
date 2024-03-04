@@ -645,6 +645,9 @@
   "job_review_button_sent": "Send Invite",
   "job_review_button_cancel": "Cancel",
 
+  "job_modal_share_title": "Share vacancy",
+  "job_modal_share_description": "Increase the reach of your job ad. Share it on other resources and attract more talent. Share it now to speed up your recruitment process.",
+
   "apply_create_title": "Select resume for apply",
   "apply_create_no_resume_desc": "To respond to job openings, you must create a resume",
   "apply_create_no_cv": "No resume",

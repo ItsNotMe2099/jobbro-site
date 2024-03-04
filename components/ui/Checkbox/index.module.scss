@@ -11,6 +11,7 @@
   border: 2px solid $green;
   transition: background 0.2s, border 0.2s;
   flex-shrink: 0;
+  cursor: pointer;
 
 
   &.hover {}
