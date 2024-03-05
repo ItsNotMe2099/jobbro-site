@@ -21,14 +21,14 @@ enum MenuKey {
 }
 
 interface Props {
-
+  isLast?: boolean
 }
 
 export default function JobStatus(props: Props) {
   const vacancyContext = useVacancyOwnerContext()
   const {t} = useTranslation()
   const vacancy = vacancyContext.vacancy!
-  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown()
+  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown(props.isLast?{placement: 'top-end'}:undefined)
 
   const menuOptions: IOption<MenuKey>[] = [
     ...(!([PublishStatus.Closed] as PublishStatus[]).includes(vacancy.status) ? [

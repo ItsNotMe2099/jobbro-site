@@ -642,6 +642,31 @@
   "job_review_field_mark_platform": "Evaluate the quality of work on the platform",
   "job_review_field_review_platform": "Write a review",
 
+  "jobId_table_name": "Name",
+  "jobId_table_rate": "Rate",
+  "jobId_table_stage": "Stage",
+  "jobId_table_email": "Email",
+  "jobId_table_appliedOn": "Applied on",
+  "jobId_table_candidateLocation": "Candidate location",
+  "jobId_table_cv": "CV",
+  "jobId_table_actions": "Actions",
+
+  "job_table_name": "Name Job",
+  "job_table_status": "Status",
+  "job_table_salary": "Salary",
+  "job_table_publicationDate": "Publication date",
+  "job_table_location": "Job location",
+  "job_table_project": "Project",
+  "job_table_responseRate": "Response rate",
+  "job_table_actions": "Actions",
+
+  "jobId_tableAction_downloadPdf":"Download CV in PDF",
+  "jobId_tableAction_addToBase":"Add to base",
+  "jobId_tableAction_inviteToOther":"Invite to other job",
+  "jobId_tableAction_select":"Select",
+  "jobId_tableAction_downloadOriginal":"Download original CV",
+
+
   "job_review_button_sent": "Send Invite",
   "job_review_button_cancel": "Cancel",
 

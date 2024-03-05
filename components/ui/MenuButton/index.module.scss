@@ -9,6 +9,8 @@
   cursor: pointer;
   transition: .2s linear;
   border-radius: 10px;
+  display: block;
+  flex-shrink: 0;
     &:active {
       background-color: rgb(235, 235, 235);
     }

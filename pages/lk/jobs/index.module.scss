@@ -82,6 +82,16 @@
 
 .row {
   display: contents;
+  @include hover {
+    .rowItem {
+      background-color: $greenLight;
+    }
+  }
+  &:active {
+    .rowItem {
+      background-color: #BCFFC0;
+    }
+  }
 
   .rowItem {
     margin: unset;
@@ -106,7 +116,7 @@
     }
 
     &_active {
-      background-color: $greenLight;
+      background-color: #BCFFC0;
     }
   }
 }
@@ -126,10 +136,8 @@
     font-weight: 500;
     font-size: 16px;
     position: relative;
+    padding-inline: 8px;
     background: rgba(255, 255, 255, 0.418);
-
-
-
 
     .sortIcon {
       transition: ease-in-out .2s ;
@@ -158,6 +166,7 @@
 
     .rdg-cell {
       border: unset;
+      padding: unset;
       box-shadow: unset;
       overflow: hidden;
       backdrop-filter: blur(3px);
@@ -199,4 +208,14 @@
 .rowLink {
   @extend .rowSpan;
   color: black;
+}
+
+.menuButton {
+  border: 2px $grey solid;
+  border-radius: 12px;
+  background-color: $white;
+
+  &_active {
+    background-color: $green;
+  }
 }

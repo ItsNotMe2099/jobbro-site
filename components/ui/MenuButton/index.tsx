@@ -16,13 +16,19 @@ interface Props<T> {
   groups?: IOptionGroup<T>[]
   onClick: (value: T) => void
   className?: string
+  activeClassName?: string
   placement?: Placement|undefined
+  isLast?: boolean
 }
 
 export default function MenuButton<T>(props: Props<T>) {
-  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({
+  const options = {
     placement: props.placement
-  })
+  }
+  if(props.isLast) {
+    options.placement = 'top-end'
+  }
+  const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown(options)
 
   const handleClick: MouseEventHandler = (e) => {
     e.preventDefault()
@@ -35,7 +41,7 @@ export default function MenuButton<T>(props: Props<T>) {
   }
 
   return (
-    <div className={classNames(styles.root, props.className)} ref={setRootRef}>
+    <div className={classNames(styles.root, props.className, isActive&&props.activeClassName)} ref={setRootRef}>
       <MenuSvg onClick={handleClick}  className={styles.menu} color={colors.textPrimary}/>
       <MenuDropdown<T> 
       ref={setPopperElement}  

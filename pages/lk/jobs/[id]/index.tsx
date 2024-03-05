@@ -6,7 +6,7 @@ import PageTitle from '@/components/for_pages/Common/PageTitle'
 import { useMemo, useRef, useState} from 'react'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
-import {CardViewType, SidePanelType} from '@/types/enums'
+import {CardViewType, ModalType, SidePanelType} from '@/types/enums'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 import {ApplyCvListWrapper, useApplyCvListOwnerContext} from '@/context/apply_cv_list_state'
@@ -54,6 +54,9 @@ import CardsLayout from '@/components/ui/CardsLayout'
 import JobApplyCard from '@/components/for_pages/Lk/Jobs/JobApplyCard'
 import Checkbox from '@/components/ui/Checkbox'
 import { ICV } from '@/data/interfaces/ICV'
+import { useCandidateAddedContext } from '@/context/candidate_added_state'
+import { IShareModalArgs } from '@/components/modals/ShareModal'
+import { IVacancy } from '@/data/interfaces/IVacancy'
 
 
 
@@ -182,7 +185,12 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
   </div>
 }
 
-const ActionButtons = (props: {cv: ICV}) => {
+const ActionButtons = (props: {cv: ICV, vacancyId: number}) => {
+  const favoriteContext = useCandidateAddedContext()
+  const applyCvListContext = useApplyCvListOwnerContext()
+  const appContext = useAppContext()
+  const {t} = useTranslation()
+
   const {setRootRef, isActive, setIsActive, popperStyles, setPopperElement, attributes} = useDropDown({offset: [0, 8], placement: 'bottom-end', position: 'absolute'})
 
   const handleClickItem = (value: MenuKey) => {
@@ -190,26 +198,42 @@ const ActionButtons = (props: {cv: ICV}) => {
       case MenuKey.DownLoadPDF: {
         window.open(`${runtimeConfig.HOST}/api/cv/${props.cv!.id}/exportToPdf` )
       }
+        break
+      case MenuKey.AddToBase: {
+        favoriteContext.like(props.cv!.id)
+      }
+        break
+      case MenuKey.Select: {
+        applyCvListContext.addToSelectedId(props.cv.id)
+      }
+        break
     }
 
   }
 
   const menuOptions: IOption<MenuKey>[] = [
-    {label: 'Download CV in PDF', value: MenuKey.DownLoadPDF, },
-    {label: 'Add to base', value: MenuKey.AddToBase},
-    {label: 'Invite to other job', value: MenuKey.InviteToOtherJob},
-    {label: 'Select', value: MenuKey.Select},
+    {label: t('jobId_tableAction_downloadPdf'), value: MenuKey.DownLoadPDF, },
+    {label: t('jobId_tableAction_addToBase'), value: MenuKey.AddToBase},
+    {label: t('jobId_tableAction_inviteToOther'), value: MenuKey.InviteToOtherJob},
+    {label: t('jobId_tableAction_select'), value: MenuKey.Select},
   ]
   if(props.cv.file) {
-    menuOptions.push({label: 'Download original CV', value: MenuKey.DownloadOriginal})
+    menuOptions.push({label: t('jobId_tableAction_downloadOriginal'), value: MenuKey.DownloadOriginal})
   }
+
+  const onShareClick = () => {
+    appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {
+      link: Routes.getGlobal(Routes.lkJob(props.vacancyId)+`/cv/${props.cv.id}`),
+    })
+  }
+
   
 
   return (
     <div className={styles.actionButtons} ref={setRootRef}>
       <Button className={styles.button}><RejectSvg/></Button>
-      <Button className={styles.button}><LinkSvg/></Button>
-      <Button className={styles.button} onClick={() => setIsActive(!isActive)}><MenuSvg color='black'/></Button>
+      <Button className={styles.button} onClick={onShareClick}><LinkSvg/></Button>
+      <Button className={classNames(styles.button, isActive&&styles.button_green)}  onClick={() => setIsActive(!isActive)}><MenuSvg color='black'/></Button>
       <MenuDropdown 
       ref={setPopperElement}
       isOpen={isActive as boolean}
@@ -280,14 +304,14 @@ const JobPageInner = (props: Props) => {
   }
 
   const columns: Column<Row, unknown>[] = [
-    {key: 'name', name: 'Name', minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
-    {key: 'rate', name: 'Rate',  minWidth: 90, resizable: false, sortable: true, renderHeaderCell},
-    {key: 'stage', name: 'Stage', minWidth: 160, sortable: true, renderHeaderCell},
-    {key: 'email', name: 'Email', minWidth: 230,sortable: true, renderHeaderCell},
-    {key: 'applied', name: 'Applied on', minWidth: 130, sortable: true, resizable: false, renderHeaderCell},
-    {key: 'location', name: 'Candidate location', minWidth: 184, sortable: true,  renderHeaderCell},
-    {key: 'cv', name: 'CV', minWidth: 164 , sortable: true, renderHeaderCell},
-    {key: 'actions', name: 'Actions', minWidth: 170, resizable: false,  renderHeaderCell}
+    {key: 'name', name: t('jobId_table_name'), minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
+    {key: 'rate', name: t('jobId_table_rate'),  minWidth: 90, resizable: false, sortable: true, renderHeaderCell},
+    {key: 'stage', name:  t('jobId_table_stage'), minWidth: 160, sortable: true, renderHeaderCell},
+    {key: 'email', name: t('jobId_table_email'), minWidth: 230,sortable: true, renderHeaderCell},
+    {key: 'applied', name: t('jobId_table_appliedOn'), minWidth: 130, sortable: true, resizable: false, renderHeaderCell},
+    {key: 'location', name: t('jobId_table_candidateLocation'), minWidth: 184, sortable: true,  renderHeaderCell},
+    {key: 'cv', name: t('jobId_table_cv'), minWidth: 164 , sortable: true, renderHeaderCell},
+    {key: 'actions', name: t('jobId_table_actions'), minWidth: 170, resizable: false,  renderHeaderCell}
   ]
 
   const rows:Row[] = [...applyCvListContext.data.data?.map(el=>{
@@ -299,7 +323,7 @@ const JobPageInner = (props: Props) => {
       applied: Formatter.formatDate(String(el.applications[0].updatedAt)),
       location: el?.city?.locName||'',
       cv: <Link href={`${runtimeConfig.HOST}/api/cv/${el!.id}/exportToPdf`} className={styles.rowLine}><DownloadSvg/> <span className={styles.rowLink}>Original PDF</span></Link>,
-      actions: <ActionButtons cv={el}/>,
+      actions: <ActionButtons cv={el} key={'actionButtons'+el.id} vacancyId={Number((vacancyOwnerContext.vacancy as IVacancy).id) }/>,
       id: el.id
     }
   })]

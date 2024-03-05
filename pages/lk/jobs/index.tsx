@@ -6,14 +6,14 @@ import PageTitle from '@/components/for_pages/Common/PageTitle'
 import {useEffect, useMemo, useRef, useState} from 'react'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import StickyFab from '@/components/for_pages/Common/StickyFab'
-import {Nullable} from '@/types/types'
+import {IOption, Nullable} from '@/types/types'
 import Fab from '@/components/for_pages/Common/Fab'
 import {
   useVacancyListOwnerContext,
   VacancyListOwnerWrapper,
   VacancyOwnerListSortType
 } from '@/context/vacancy_owner_list_state'
-import {CardViewType, SidePanelType} from '@/types/enums'
+import {CardViewType, ModalType, SidePanelType} from '@/types/enums'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
@@ -32,8 +32,6 @@ import VacancyUtils from '@/utils/VacancyUtils'
 import classNames from 'classnames'
 import SortIconSvg from '@/components/svg/SortIconSvg'
 import Formatter from '@/utils/formatter'
-import Button from '@/components/ui/Button'
-import MenuSvg from '@/components/svg/MenuSvg'
 import CheckBoxField from '@/components/fields/CheckBoxField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { IVacancy } from '@/data/interfaces/IVacancy'
@@ -42,13 +40,24 @@ import Link from 'next/link'
 import CardsLayout from '@/components/ui/CardsLayout'
 import JobCard from '@/components/for_pages/Lk/Jobs/JobCard'
 import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
-import { VacancyOwnerWrapper } from '@/context/vacancy_owner_state'
+import { VacancyOwnerWrapper, useVacancyOwnerContext } from '@/context/vacancy_owner_state'
+import MenuButton from '@/components/ui/MenuButton'
+import { useRouter } from 'next/router'
+import { IShareModalArgs } from '@/components/modals/ShareModal'
+import { colors } from '@/styles/variables'
 
 
 export type SortDirection = 'ASC' | 'DESC';
 export interface SortColumn {
   readonly columnKey: string;
   readonly direction: SortDirection;
+}
+
+enum MenuKey{
+  Edit = 'edit',
+  Duplicate = 'duplicate',
+  Share = 'share',
+  Delete = 'delete'
 }
 
 export interface Row {
@@ -151,6 +160,44 @@ const RowElement = (props: {row: RenderRowProps<Row, unknown>, key: Key, formik:
   </div>
 }
 
+const ActionButton =(props: {isLast?: boolean})=> {
+  const router = useRouter()
+  const {t} = useTranslation()
+  const appContext = useAppContext()
+  const vacancyContext = useVacancyOwnerContext()
+  const vacancy = vacancyContext.vacancy!
+
+
+  const menuOptions: IOption<MenuKey>[] =  [
+    {label: t('job_card_menu_edit'), value: MenuKey.Edit},
+    {label: t('job_card_menu_duplicate'), value: MenuKey.Duplicate},
+    {label: t('job_card_menu_share'), value: MenuKey.Share},
+    {label: t('job_card_menu_delete'), value: MenuKey.Delete, color: colors.textRed},
+  ]
+  const handleMenuItemClick = (key: MenuKey) => {
+    switch (key){
+      case MenuKey.Edit:
+        router.push(Routes.lkJobEdit(vacancy.id))
+        break
+      case MenuKey.Duplicate:
+        router.push(Routes.lkJobClone(vacancy.id))
+        break
+      case MenuKey.Share:
+        appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {link: Routes.getGlobal(Routes.job(vacancy.id))})
+        // navigator.clipboard.writeText(Routes.getGlobal(Routes.job(vacancy.id)))
+        // showToast({title: t('toast_job_share_copied_link')})
+        break
+      case MenuKey.Delete:
+        vacancyContext.delete()
+        break
+    }
+  }
+
+  return (
+    <MenuButton<MenuKey> isLast={props.isLast} className={styles.menuButton} activeClassName={styles.menuButton_active}  options={menuOptions} onClick={handleMenuItemClick}/>
+  )
+}
+
 
 
 const JobsPageInner = () => {
@@ -178,30 +225,37 @@ const JobsPageInner = () => {
     </div>
   }
 
+
+
+
+
   const columns: Column<Row, unknown>[] = [
-    {key: 'name', name: 'Name Job', minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
-    {key: 'status', name: 'Status',  minWidth: 130, sortable: true, renderHeaderCell},
-    {key: 'salary', name: 'Salary', minWidth: 150, sortable: true, renderHeaderCell},
-    {key: 'published', name: 'Publiсation date', minWidth: 230,sortable: true, renderHeaderCell},
-    {key: 'location', name: 'Job location', minWidth: 144, sortable: true, renderHeaderCell},
-    {key: 'project', name: 'Project', minWidth: 144, sortable: true, renderHeaderCell},
-    {key: 'responseRate', name: 'Response rate', minWidth: 164 , sortable: true, renderHeaderCell},
-    {key: 'actions', name: 'Actions', minWidth: 86, renderHeaderCell}
+    {key: 'name', name: t('job_table_name'), minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
+    {key: 'status', name: t('job_table_status'),  minWidth: 130, sortable: true, renderHeaderCell},
+    {key: 'salary', name: t('job_table_salary'), minWidth: 150, sortable: true, renderHeaderCell},
+    {key: 'published', name: t('job_table_publicationDate'), minWidth: 230,sortable: true, renderHeaderCell},
+    {key: 'location', name: t('job_table_location'), minWidth: 144, sortable: true, renderHeaderCell},
+    {key: 'project', name: t('job_table_project'), minWidth: 144, sortable: true, renderHeaderCell},
+    {key: 'responseRate', name: t('job_table_responseRate'), minWidth: 164 , sortable: true, renderHeaderCell},
+    {key: 'actions', name: t('job_table_actions'), minWidth: 86, renderHeaderCell}
   ]
 
-  const rows:Row[] = [...vacancyListContext.data?.data?.map(el=>{
+  const rows:Row[] = [...vacancyListContext.data?.data?.map((el, index)=>{
     return {
       name: el.name, 
-      status: <JobStatus/>, 
+      status: <JobStatus isLast={index>=vacancyListContext.data?.data?.length-2} key={'status'+(el.id*index)}/>, 
       salary: VacancyUtils.formatSalary({currency: el.currency, salaryMin: el.salaryMin, salaryMax: el.salaryMax, salaryType: el.salaryType}), 
       published: Formatter.formatDate(String(el.publishedAt)), 
       location: el.office?.country.locName, 
       project: el.project?.title, 
       responseRate: 0, 
-      actions: <Button className={styles.button}><MenuSvg color='black'/></Button>,
+      actions: <VacancyOwnerWrapper vacancy={el} vacancyId={el.id}>
+      <ActionButton key={'menuButton'+el.id} isLast={index>=vacancyListContext.data?.data?.length-3}/>
+      </VacancyOwnerWrapper>
+      ,
       id: el.id,
       vacancy: el
-    }
+    } 
   })]
 
   const sortedRows = useMemo((): readonly Row[] => {
@@ -291,11 +345,12 @@ const JobsPageInner = () => {
               rows={sortedRows}
               sortColumns={sortColumns}
               onSortColumnsChange={setSortColumns}
+              enableVirtualization={vacancyListContext.data?.data.length > 50}
               renderers={{
                 renderRow: (k, v) => {
                   return (
-                    <VacancyOwnerWrapper vacancy={v.row.vacancy} vacancyId={v.row.id}>                      
-                      <RowElement key={k} row={v} formik={formik}/>
+                    <VacancyOwnerWrapper vacancy={v.row.vacancy} vacancyId={v.row.id} key={'vacancyContext' + k}>                      
+                      <RowElement key={'row'+k} row={v} formik={formik}/>
                     </VacancyOwnerWrapper>
                   )
                   

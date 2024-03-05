@@ -13,6 +13,7 @@
     flex-direction: column;
     @include list(32px, false);
     position: relative;
+    padding-bottom: 80px;
 }
 
 .cards {
@@ -49,6 +50,16 @@
 
 .row {
   display: contents;
+  @include hover {
+    .rowItem {
+      background-color: $greenLight;
+    }
+  }
+  &:active {
+    .rowItem {
+      background-color: #BCFFC0;
+    }
+  }
 
   .rowItem {
     margin: unset;
@@ -71,7 +82,7 @@
     }
 
     &_active {
-      background-color: $greenLight;
+      background-color: #BCFFC0;
     }
   }
 }
@@ -93,6 +104,7 @@
     font-size: 16px;
     position: relative;
     background: rgba(255, 255, 255, 0.418);
+    padding-inline: 8px;
 
 
     .sortIcon {
@@ -124,6 +136,7 @@
       border: unset;
       box-shadow: unset;
       overflow: hidden;
+      padding-inline: unset;
       backdrop-filter: blur(3px);
       background: rgba(255, 255, 255, 0.418);
 
@@ -137,6 +150,10 @@
   padding: unset;
   background-color: white;
   border: 2px $grey solid;
+
+  &_green {
+    background-color: $green;
+  }
 }
 
 .publishStatus {
