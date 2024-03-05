@@ -14,6 +14,7 @@ import AuthRepository from '@/data/repositories/AuthRepository'
 import Link from 'next/link'
 import Analytics from '@/utils/goals'
 import useTranslation from 'next-translate/useTranslation'
+import Modes from '@/components/ui/Modes'
 
 interface IFormData {
   email: string,
@@ -24,6 +25,11 @@ interface Props {
 
 }
 
+enum AuthType {
+  Find='find',
+  Post='post'
+}
+
 export default function LoginForm(props: Props) {
 
   const appContext = useAppContext()
@@ -31,6 +37,7 @@ export default function LoginForm(props: Props) {
   const { t } = useTranslation()
   const redirect = router.query.redirect as string
   const [loading, setLoading] = useState(false)
+  const [authType, setAuthType] = useState<AuthType>(AuthType.Post)
 
   const handleSubmit = async (data: IFormData) => {
     setLoading(true)
@@ -80,6 +87,14 @@ export default function LoginForm(props: Props) {
         <div className={styles.title}>
           {t('login_title')}
         </div>
+        <Modes 
+          buttons={[
+            {name: t('login_switcher_find'), type: AuthType.Find},
+            {name: t('login_switcher_post'), type: AuthType.Post}
+          ]} 
+          buttonClassName={styles.modesButton}
+          activeButton={authType} 
+          onSet={(type)=>setAuthType(type)}/> 
         <InputField name='email' label={t('login_field_email')}
           validate={Validator.combine([Validator.requiredEmail, Validator.email])} />
         <InputField
@@ -90,12 +105,13 @@ export default function LoginForm(props: Props) {
           validate={Validator.requiredPassword} />
           <Link className={styles.reset} href={Routes.passwordForgot}>{t('login_reset_password')}</Link>
         <div className={styles.btns}>
-          <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
-            {t('login_button_login')}
-          </Button>
           <Button href={Routes.registration()} className={styles.btn} styleType='large' color='white'>
             {t('login_button_registration')}
           </Button>
+          <Button spinner={loading} type='submit' className={styles.btn} styleType='large' color='green'>
+            {t('login_button_login')}
+          </Button>
+          
         </div>
       </Form>
     </FormikProvider>

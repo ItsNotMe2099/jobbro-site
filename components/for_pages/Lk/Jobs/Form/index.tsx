@@ -192,7 +192,7 @@ export default function CreateJobManuallyForm(props: Props) {
       if(result?.name && formik.values.name !== lastAIResultRef.current?.name){
         formik.setFieldValue('name', result.name)
       }
-      if((result?.benefits?.length ?? 0) > 0 && formik.values.benefits.length === (lastAIResultRef.current?.benefits.length ?? 0) && formik.values.benefits.every(i => lastAIResultRef.current!.benefits.includes(i))){
+      if((result?.benefits?.length ?? 0) > 0 && formik.values.benefits.length === (lastAIResultRef.current?.benefits?.length ?? 0) && formik.values.benefits.every(i => lastAIResultRef.current!.benefits?.includes(i))){
         formik.setFieldValue('benefits', result!.benefits)
       }
 

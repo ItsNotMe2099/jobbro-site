@@ -366,12 +366,15 @@
   "team_form_title": "Invite Team Members",
   "team_form_field_email": "Email",
 
-  "login_title": "Login to the Jobbro",
+  "login_title": "Authorisation",
   "login_field_email": "Email",
   "login_field_password": "Password",
   "login_button_login": "Log In",
-  "login_button_registration": "Create account",
+  "login_button_registration": "Create",
   "login_reset_password": "Reset password",
+  "login_switcher_find": "Find job",
+  "login_switcher_post": "Post a Job",
+
 
   "registration_title": "Creating new account",
   "registration_field_first_name": "First Name",
@@ -650,6 +653,13 @@
   "jobId_table_candidateLocation": "Candidate location",
   "jobId_table_cv": "CV",
   "jobId_table_actions": "Actions",
+
+  "job_aiLoader_text1": "Masters of words create a formula of success for your vacancy. Soon it will conquer the labor market!",
+  "job_aiLoader_text2": "Our magic coat is already creating the job description",
+  "job_aiLoader_text3": "We're digging into the algorithms to make your vacancy awesome.",
+  "job_aiLoader_text4": "The magic coat has passed the text to the magic pen.",
+  "job_aiLoader_text5": "Our space engineers have already gone into orbit to write space-grade text!",
+  "job_aiLoader_text6": "Adding a pinch of magic and style",
 
   "job_table_name": "Name Job",
   "job_table_status": "Status",

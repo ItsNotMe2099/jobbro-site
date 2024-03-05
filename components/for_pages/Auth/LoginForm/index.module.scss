@@ -23,7 +23,11 @@
 
 .btns {
     display: flex;
-    @include list(24px, true);
+    column-gap: 24px;
+
+    .btn {
+        flex: 1 1;
+    }
 }
 
 .reset {
@@ -33,4 +37,8 @@
     font-weight: 600;
     line-height: 100%;
     letter-spacing: -0.16px;
+}
+
+.modesButton {
+    flex: 1 1;
 }
