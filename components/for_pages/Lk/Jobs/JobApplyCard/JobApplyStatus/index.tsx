@@ -18,6 +18,7 @@ import { useDropDown } from '@/components/hooks/useDropDown'
 
 interface Props {
   cv: ICVWithApply
+  className?: string
 }
 
 export default function JobApplyStatus(props: Props) {
@@ -73,7 +74,7 @@ export default function JobApplyStatus(props: Props) {
     }
   }, [apply, hiringStageListContext.data])
   return (
-    <div className={styles.root} ref={setRootRef}>
+    <div className={classNames(styles.root, props.className)} ref={setRootRef}>
       <div className={classNames(styles.status, {[styles.rejected]: isRejected})}
            onClick={handleClick}>{statusName}{!isRejected && <ChevronDownMiniSvg className={classNames(styles.chevron, {[styles.reversed]: isActive})} color={colors.green}/>}</div>
       <MenuDropdown ref={setPopperElement}

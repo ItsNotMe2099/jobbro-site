@@ -37,7 +37,6 @@ import classNames from 'classnames'
 import SortIconSvg from '@/components/svg/SortIconSvg'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
-import ChevronTriangleSvg from '@/components/svg/ChevronTriangleSvg'
 import type { Key } from 'react'
 import { ApplyCvWrapper, useApplyCvContext } from '@/context/apply_cv_state'
 import UserUtils from '@/utils/UserUtils'
@@ -57,6 +56,7 @@ import { ICV } from '@/data/interfaces/ICV'
 import { useCandidateAddedContext } from '@/context/candidate_added_state'
 import { IShareModalArgs } from '@/components/modals/ShareModal'
 import { IVacancy } from '@/data/interfaces/IVacancy'
+import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
 
 
 
@@ -81,7 +81,7 @@ enum MenuKey{
 export interface Row  {
   name: Nullable<string> | undefined;
   rate: string;
-  stage: string
+  stage: JSX.Element | null 
   email: string;
   applied: string;
   location: string 
@@ -156,14 +156,7 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
       case 'actions': 
         return value
       case 'stage':
-        return (
-          <p 
-          className={styles.publishStatus} 
-          style={{color:colors.green}}>
-            <span className={styles.rowSpan} title={value}>{value}</span>
-            <ChevronTriangleSvg color={colors.green}/>
-          </p>
-        )
+        return value
       case 'cv':
         return value
       default :
@@ -272,9 +265,9 @@ const JobPageInner = (props: Props) => {
     applyCvListContext.moveToStageMulti(hiringStageId as number)
 
   }
+
   const handleMenuMultiClick = (value: MenuMultiKey) => {
     switch (value){
-
       case MenuMultiKey.AddToBase:
         applyCvListContext.addToBaseMulti()
         break
@@ -307,7 +300,7 @@ const JobPageInner = (props: Props) => {
     {key: 'name', name: t('jobId_table_name'), minWidth: 230, frozen: true, sortable: true, renderHeaderCell},
     {key: 'rate', name: t('jobId_table_rate'),  minWidth: 90, resizable: false, sortable: true, renderHeaderCell},
     {key: 'stage', name:  t('jobId_table_stage'), minWidth: 160, sortable: true, renderHeaderCell},
-    {key: 'email', name: t('jobId_table_email'), minWidth: 230,sortable: true, renderHeaderCell},
+    {key: 'email', name: t('jobId_table_email'), minWidth: 130,sortable: true, renderHeaderCell},
     {key: 'applied', name: t('jobId_table_appliedOn'), minWidth: 130, sortable: true, resizable: false, renderHeaderCell},
     {key: 'location', name: t('jobId_table_candidateLocation'), minWidth: 184, sortable: true,  renderHeaderCell},
     {key: 'cv', name: t('jobId_table_cv'), minWidth: 164 , sortable: true, renderHeaderCell},
@@ -318,7 +311,7 @@ const JobPageInner = (props: Props) => {
     return {
       name: UserUtils.getName(el), 
       rate: 'rate',
-      stage: el.applications[0].status,
+      stage: <JobApplyStatus cv={el} className={styles.applyStatus}/>,
       email: el.profile?.email||'',
       applied: Formatter.formatDate(String(el.applications[0].updatedAt)),
       location: el?.city?.locName||'',

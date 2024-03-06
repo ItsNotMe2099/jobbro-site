@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   column-gap: 32px;
   row-gap: 32px;
+  padding-bottom: 100px;
   @include mq($TabletWidth, max) {
     margin-bottom: 80px;
   }
