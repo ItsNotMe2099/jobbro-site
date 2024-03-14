@@ -36,7 +36,7 @@ export default function JobWidget(props: Props) {
   })
 
   return (<div className={styles.root} style={{background: props.backgroundWidget}} id="job-widget">
-    <p className={styles.title} style={{color: props.primaryText}}>Widget preview</p>
+    <p className={styles.title} style={{color: props.primaryText}}>Available positions</p>
     <FormikProvider value={formik}>
       <Form>
         <div className={styles.settings}>
