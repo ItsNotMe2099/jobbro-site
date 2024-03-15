@@ -21,10 +21,10 @@
     cursor: pointer;
     display: flex;
     column-gap: 24px;
-    align-items: center;   
-    border-radius: 24px; 
-    border: 2px $grey solid;  
-    padding: 24px;
+    align-items: center;
+    border-radius: 24px;
+    border: 2px $grey solid;
+    padding: 12px 24px;
     @include transitionDefault;
     filter: blur(0px);
 
