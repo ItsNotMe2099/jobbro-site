@@ -72,7 +72,7 @@ export default function JobWidget(props: Props) {
       {/* @ts-ignore */}
       { jobWidgetContext.vacancies&& jobWidgetContext?.vacancies?.get(jobWidgetContext.page)?.length > 0 && jobWidgetContext?.vacancies?.get(jobWidgetContext.page).map(v => {
         return (
-          <div className={classNames(styles.vacancy, jobWidgetContext.loading&&styles.loading)}
+          <Link  href={Routes.job(v.id)} target={'_parent'} className={classNames(styles.vacancy, jobWidgetContext.loading&&styles.loading)}
           style={{
             background: props.backgroundJobCard,
             boxShadow: (props.cardShadow&& props.showCardShadow)?`0px 0px 10px 0px ${props.cardShadow}`:'',
@@ -98,8 +98,8 @@ export default function JobWidget(props: Props) {
                 </div>
               }
             </div>
-            <IconButton className={styles.arrow} href={'/'}><ChevronDownSvg color={colors.green} direction='right'/></IconButton>
-          </div>
+            <IconButton className={styles.arrow} href={Routes.job(v.id)}><ChevronDownSvg color={colors.green} direction='right'/></IconButton>
+          </Link>
         )
       })}
       {false && !jobWidgetContext.loading && new Array(jobWidgetContext.settings?.jobsPerPage||2).fill('').map(i => {
@@ -158,7 +158,7 @@ export default function JobWidget(props: Props) {
       renderOnZeroPageCount={null}
       />
      }
-      <Link className={styles.link} href={Routes.getGlobal(Routes.findJobs)}>{t('job_widget_show_all')}</Link>
+      <Link className={styles.link} target={'_parent'} href={Routes.getGlobal(Routes.findJobs)}>{t('job_widget_show_all')}</Link>
     </div>
   </div>)
 }
