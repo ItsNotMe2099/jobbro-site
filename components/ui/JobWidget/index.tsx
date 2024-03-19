@@ -20,6 +20,7 @@ import {Routes} from '@/types/routes'
 
 interface Props extends Partial<IJobWidget> {
   vacancies?: IVacancy[]
+  preview?: boolean
 }
 
 export default function JobWidget(props: Props) {
@@ -36,7 +37,7 @@ export default function JobWidget(props: Props) {
   })
 
   return (<div className={styles.root} style={{background: props.backgroundWidget}} id="job-widget">
-    <p className={styles.title} style={{color: props.primaryText}}>Available positions</p>
+    <p className={styles.title} style={{color: props.primaryText}}>{props.preview ? t('job_widget_title_preview') : t('job_widget_title')}</p>
     <FormikProvider value={formik}>
       <Form>
         <div className={styles.settings}>

@@ -129,7 +129,7 @@ export default function WidgetDesignForm(props: Props) {
 
   return (<>
 
-    <JobWidget {...jobWidgetContext.settings} vacancies={vacancyListContext.data.data}/>
+    <JobWidget {...jobWidgetContext.settings} preview vacancies={vacancyListContext.data.data}/>
     <FormikProvider value={formik}>
       <Form ref={ref} className={styles.root}>
         <Card title={

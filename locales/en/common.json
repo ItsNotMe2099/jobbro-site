@@ -496,6 +496,8 @@
   "settings_job_widget_settings_item_category": "Category",
   "settings_job_widget_settings_item_category_desc": "Category is displayed for each job",
 
+  "job_widget_title": "Available positions",
+  "job_widget_title_preview": "Widget Preview",
   "job_widget_all_categories": "All categories",
   "job_widget_all_locations": "All locations",
   "job_widget_all_employment_types": "All employment types",

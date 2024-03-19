@@ -63,7 +63,7 @@ const LkSettingsJobWidgetsPage = (props: Props) => {
           </div>
         </div>
       </Card>
-      <JobWidget {...jobWidgetContext.settings}/>
+      <JobWidget {...jobWidgetContext.settings} preview/>
       {jobWidgetContext.settings && jobWidgetContext.vacancies.size > 0 &&
       <Card title={t('settings_job_widget_embed_code')}>
         <pre className={styles.code}>
