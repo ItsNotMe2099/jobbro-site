@@ -203,7 +203,7 @@ const ActionButton =(props: {isLast?: boolean})=> {
 const JobsPageInner = () => {
   const appContext = useAppContext()
   const ref = useRef<Nullable<HTMLDivElement>>(null)
-  const [view, setView] = useState<CardViewType>(CardViewType.Card)
+  const [view, setView] = useState<CardViewType>(CardViewType.Row)
   const vacancyListContext = useVacancyListOwnerContext()
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const { t } = useTranslation()

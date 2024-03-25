@@ -81,12 +81,12 @@ enum MenuKey{
 export interface Row  {
   name: Nullable<string> | undefined;
   rate: string;
-  stage: JSX.Element | null 
+  stage: JSX.Element | null
   email: string;
   applied: string;
-  location: string 
+  location: string
   cv: JSX.Element | null
-  actions: JSX.Element | null 
+  actions: JSX.Element | null
   id: number
 }
 
@@ -106,7 +106,7 @@ export const getComparator = (sortColumn: string): Comparator => {
         const aDate = new Date(String(a[sortColumn])).getTime()
         const bDate = new Date(String(b[sortColumn])).getTime()
 
-        
+
         return aDate < bDate? 1:-1
       }
       // return (a, b) => {
@@ -129,7 +129,7 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
   const {id, ...rowValues} = row
 
   const getCell = (s: string, value: any, id: number) => {
-    
+
     switch(s) {
       case 'published':{
         return <span className={styles.rowSpan} title={value}>{value}</span>
@@ -142,8 +142,8 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
       }
       case 'name':
         return <div className={styles.rowLine} >
-          <Checkbox 
-          checked={applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll} 
+          <Checkbox
+          checked={applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll}
           onClick={el=> {
             el.preventDefault()
             el.stopPropagation()
@@ -153,7 +153,7 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
             {value}
           </Link>
         </div>
-      case 'actions': 
+      case 'actions':
         return value
       case 'stage':
         return value
@@ -167,8 +167,8 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
   return <div role='row'  aria-rowindex={props.rowProps.gridRowStart} className={styles.row} >
     {Object.entries(rowValues).map(([key, value], index) => {
       return (
-        <div 
-        className={classNames(styles.rowItem, viewportColumns[index]?.frozen&&styles.rowItem_frozen, (applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll)&&styles.rowItem_active)} 
+        <div
+        className={classNames(styles.rowItem, viewportColumns[index]?.frozen&&styles.rowItem_frozen, (applyCvListContext.selectedIds.includes(id)||applyCvListContext.isSelectAll)&&styles.rowItem_active)}
         style={{gridArea: `${props.rowProps.gridRowStart} / ${index + 1}`}}
         >
           {getCell(viewportColumns[index]?.key, value, id)}
@@ -220,14 +220,14 @@ const ActionButtons = (props: {cv: ICV, vacancyId: number}) => {
     })
   }
 
-  
+
 
   return (
     <div className={styles.actionButtons} ref={setRootRef}>
       <Button className={styles.button}><RejectSvg/></Button>
       <Button className={styles.button} onClick={onShareClick}><LinkSvg/></Button>
       <Button className={classNames(styles.button, isActive&&styles.button_green)}  onClick={() => setIsActive(!isActive)}><MenuSvg color='black'/></Button>
-      <MenuDropdown 
+      <MenuDropdown
       ref={setPopperElement}
       isOpen={isActive as boolean}
       onClick={(v)=> handleClickItem(v)}
@@ -244,10 +244,8 @@ const JobPageInner = (props: Props) => {
   const applyCvListContext = useApplyCvListOwnerContext()
   const hiringStageListContext = useHiringStageListContext()
   const { t } = useTranslation()
-
-
   const containerRef = useRef<Nullable<HTMLDivElement>>(null)
-  const [view, setView] = useState<CardViewType>(CardViewType.Card)
+  const [view, setView] = useState<CardViewType>(CardViewType.Row)
 
   const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([])
 
@@ -276,12 +274,12 @@ const JobPageInner = (props: Props) => {
         break
     }
   }
-  
+
   const renderHeaderCell = (p: RenderHeaderCellProps<Row, unknown>) => {
     return <div className={classNames(styles.headerCell, p.column.frozen && styles.headerCell_frozen)}>
       {p.column.key === 'name' &&
-        <Checkbox 
-        checked={applyCvListContext.isSelectAll} 
+        <Checkbox
+        checked={applyCvListContext.isSelectAll}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -309,7 +307,7 @@ const JobPageInner = (props: Props) => {
 
   const rows:Row[] = [...applyCvListContext.data.data?.map(el=>{
     return {
-      name: UserUtils.getName(el), 
+      name: UserUtils.getName(el),
       rate: 'rate',
       stage: <JobApplyStatus cv={el} className={styles.applyStatus}/>,
       email: el.profile?.email||'',
@@ -371,14 +369,14 @@ const JobPageInner = (props: Props) => {
               text={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_desc') : t('stub_job_applies_desc')}
             />
           }
-          {!applyCvListContext.isLoaded && applyCvListContext.isLoading && 
+          {!applyCvListContext.isLoaded && applyCvListContext.isLoading &&
             <ContentLoader style={'page'} isOpen={true}/>}
             {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Row &&
-              <ReactDataGrid 
+              <ReactDataGrid
               className={styles.jobsTable}
               rowHeight={48}
               headerRowHeight= {60}
-              columns={columns} 
+              columns={columns}
               rows={sortedRows}
               sortColumns={sortColumns}
               onSortColumnsChange={setSortColumns}
