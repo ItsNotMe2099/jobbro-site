@@ -26,6 +26,11 @@ interface Props {
   onBackClick?: () => void | undefined
   sellerId?: string | undefined | null
   showBothChatNames?: boolean | undefined
+  hideTitle?: boolean
+  hideHeader?: boolean
+  hideCalendar?: boolean
+  styleType?: 'white' | 'transparent'
+  containerClassName?: string
 }
 
 const ChatDialogInner = (props: Props) => {
@@ -52,8 +57,8 @@ const ChatDialogInner = (props: Props) => {
 
   return (
     <div className={classNames(styles.root, props.className)}>
-      <div className={styles.container}>
-        {chatDialogContext.chat?.cv &&
+      <div className={classNames(styles.container, props.containerClassName)}>
+        {!props.hideTitle && chatDialogContext.chat?.cv &&
           <PageTitle
           className={styles.title}
           title={name||''}
@@ -61,18 +66,18 @@ const ChatDialogInner = (props: Props) => {
           invertColors={isTabletWidth}
           />
         }
-        <ChatHeader
+        {!props.hideHeader && <ChatHeader
         hasBack={props.hasBack ?? false}
         showBothChatNames={props.showBothChatNames}
         chat={chatDialogContext.chat||undefined}
         title={props.title ?? null}
-        />
-        <ChatMessagesList/>
+        />}
+        <ChatMessagesList styleType={props.styleType}/>
         <div className={styles.bottom}>
           <ChatMessageForm/>
         </div>
       </div>
-      {!isTabletWidth &&
+      {!props.hideCalendar && !isTabletWidth &&
         <MyEvents/>
       }
     </div>

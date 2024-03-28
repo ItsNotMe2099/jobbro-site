@@ -9,9 +9,10 @@
   // flex-direction: column;
   padding: 20px;
   flex: 1;
-  background-color: $white;
-  border-radius: 0px 0px 24px 24px;
-
+  &.white{
+    border-radius: 0px 0px 24px 24px;
+    background-color: $white;
+  }
     @include mq($TabletWidth, max) {
     margin-bottom: unset;
     padding-bottom: 90px;
@@ -30,7 +31,7 @@
 
 .bugFix {
   display: none;
-  @include mq($TabletWidth, max) {    
+  @include mq($TabletWidth, max) {
     display: block;
     margin: 0;
     // height: px;

@@ -1,0 +1,41 @@
+@import "styles/index";
+
+.root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  height: calc(100vh - 400px);
+  @include mq($TabletWidth, max) {
+    height: 100vh;
+    height: 100dvh;
+  }
+}
+
+
+.bottom {
+  @include mq($TabletWidth, max) {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      border-radius: 16px 16px 0px 0px;
+      width: calc(100% + 32px);
+      height: 200%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ffffff9e;
+      backdrop-filter: blur(2px);
+    }
+  }
+}

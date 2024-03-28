@@ -1,8 +1,6 @@
 import styles from './index.module.scss'
-import {LkPageHirerLayout} from '@/components/for_pages/Lk/components/LkLayout'
 import {getAuthServerSideProps} from '@/utils/auth'
 import {ProfileType} from '@/data/enum/ProfileType'
-import PageTitle from '@/components/for_pages/Common/PageTitle'
 import { useMemo, useRef, useState} from 'react'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
@@ -10,7 +8,7 @@ import {CardViewType, ModalType, SidePanelType} from '@/types/enums'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 import {ApplyCvListWrapper, useApplyCvListOwnerContext} from '@/context/apply_cv_list_state'
-import {useVacancyOwnerContext, VacancyOwnerWrapper} from '@/context/vacancy_owner_state'
+import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
 import {useEffectOnce} from '@/components/hooks/useEffectOnce'
 import {
   HiringStageListWrapper, useHiringStageListContext
@@ -24,7 +22,6 @@ import {useAppContext} from '@/context/state'
 import NoData from '@/components/for_pages/Common/NoData'
 import ContentLoader from '@/components/ui/ContentLoader'
 import {IOption, Nullable} from '@/types/types'
-import PageStickyHeader from '@/components/for_pages/Common/PageStickyHeader'
 import Spinner from '@/components/ui/Spinner'
 import {colors} from '@/styles/variables'
 import DropdownActionFilterButton from '@/components/for_pages/Common/FilterToolbar/DropdownFilterButton'
@@ -57,6 +54,8 @@ import { useCandidateAddedContext } from '@/context/candidate_added_state'
 import { IShareModalArgs } from '@/components/modals/ShareModal'
 import { IVacancy } from '@/data/interfaces/IVacancy'
 import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
+import JobPageLayout, {JobPageTabKey} from '@/components/for_pages/Lk/Job/JobPageLayout'
+import {LkJobHirerLayout} from '@/components/for_pages/Lk/Job/LkJobLayout'
 
 
 
@@ -336,86 +335,81 @@ const JobPageInner = (props: Props) => {
     return sortedRows
   }, [rows, sortColumns])
 
+  const filter = (<FilterToolbar left={[...((applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll) && !applyCvListContext.isActionLoading ? [
+    <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.cancelSelection()}><div className={styles.selected}><IconButton onClick={() => applyCvListContext.cancelSelection()}><CloseSvg color={colors.green}/></IconButton><div>{applyCvListContext.isSelectAll ? t('job_applies_select_selected_all') : t('job_applies_select_selected_amount', {count: applyCvListContext.selectedIds?.length ?? 0})}</div></div></FilterButton>,
+    <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.setSelectAll(!applyCvListContext.isSelectAll)}>{applyCvListContext.isSelectAll ? t('job_applies_select_unselect_all') : t('job_applies_select_select_all')}</FilterButton>,
+    <DropdownActionFilterButton<number | string> onChange={handleClickChangeStatusItem} isLoading={applyCvListContext.isLoading} options={[...hiringStageListContext.data.map(i => ({label: i.title, value: i.id})), {label: t('apply_card_menu_status_action_reject'), value: 'reject', color: colors.textRed}]}>{t('job_applies_select_change_status')}</DropdownActionFilterButton>,
+  ] : applyCvListContext.isActionLoading ? [    <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>] : [
+    <SortFilterButton<CvListSortType> value={applyCvListContext.sortType} options={[
+      {label: t('cv_filter_sort_from_new_to_old'), value: CvListSortType.FromNewToOld},
+      {label: t('cv_filter_sort_from_old_to_new'), value: CvListSortType.FromOldToNew},
+      {label: t('cv_filter_sort_score_from_low_to_high'), value: CvListSortType.FromLowToHighScore},
+      {label: t('cv_filter_sort_score_from_high_to_low'), value: CvListSortType.FromHighToLowScore},
+      {label: t('cv_filter_sort_from_low_to_high'), value: CvListSortType.FromLowToHighSalary},
+      {label: t('cv_filter_sort_from_high_to_low'), value: CvListSortType.FromHighToLowSalary}
+    ]} onChange={(sort) => applyCvListContext.setSortType(sort ?? null)}/>,
+    <FilterButton key={'filter'} hasValue={!applyCvListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.CandidateBaseFilter, {
+      showScore: true,
+      filter: applyCvListContext.filter,
+      onSubmit: applyCvListContext.setFilter
+    } as CvFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
+  ]),
+  ]} right={applyCvListContext.selectedIds?.length > 0 ? <MenuButton<MenuMultiKey> options={[{label: 'Add to base', value: MenuMultiKey.AddToBase}, {label: 'Invite to other job', value: MenuMultiKey.InviteToOtherJob}]} onClick={handleMenuMultiClick}/> : <ViewToggleFilterButton onChange={setView} view={view}/>}/>)
+  return ( <JobPageLayout header={filter} activeTab={JobPageTabKey.Candidates}>
+      <div className={styles.wrapper}>
+        {applyCvListContext.isLoaded && applyCvListContext.data.total === 0 &&
+          <NoData
+            title={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_title') : t('stub_job_applies_title')}
+            text={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_desc') : t('stub_job_applies_desc')}
+          />
+        }
+        {!applyCvListContext.isLoaded && applyCvListContext.isLoading &&
+          <ContentLoader style={'page'} isOpen={true}/>}
+        {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Row &&
+          <ReactDataGrid
+            className={styles.jobsTable}
+            rowHeight={48}
+            headerRowHeight= {60}
+            columns={columns}
+            rows={sortedRows}
+            sortColumns={sortColumns}
+            onSortColumnsChange={setSortColumns}
+            renderers={{
+              renderRow: (k, v) => {
+                return (
+                  <ApplyCvWrapper cv={applyCvListContext.data.data[Number(k)]} >
+                    <RowElement key={k} rowProps={v} />
+                  </ApplyCvWrapper>
+                )
+              },
+            }}
+            defaultColumnOptions={{
+              resizable: true,
+            }}
+          />
+        }
 
-  return (
-      <div className={styles.container} ref={containerRef}>
-        <PageStickyHeader boundaryElement={styles.root} formRef={containerRef}>
-          <PageTitle title={vacancyOwnerContext.vacancy?.name ?? ''} link={Routes.lkJobs}/>
-          <FilterToolbar left={[...((applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll) && !applyCvListContext.isActionLoading ? [
-            <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.cancelSelection()}><div className={styles.selected}><IconButton onClick={() => applyCvListContext.cancelSelection()}><CloseSvg color={colors.green}/></IconButton><div>{applyCvListContext.isSelectAll ? t('job_applies_select_selected_all') : t('job_applies_select_selected_amount', {count: applyCvListContext.selectedIds?.length ?? 0})}</div></div></FilterButton>,
-            <FilterButton disabled={applyCvListContext.isActionLoading} onClick={() => applyCvListContext.setSelectAll(!applyCvListContext.isSelectAll)}>{applyCvListContext.isSelectAll ? t('job_applies_select_unselect_all') : t('job_applies_select_select_all')}</FilterButton>,
-            <DropdownActionFilterButton<number | string> onChange={handleClickChangeStatusItem} isLoading={applyCvListContext.isLoading} options={[...hiringStageListContext.data.map(i => ({label: i.title, value: i.id})), {label: t('apply_card_menu_status_action_reject'), value: 'reject', color: colors.textRed}]}>{t('job_applies_select_change_status')}</DropdownActionFilterButton>,
-         ] : applyCvListContext.isActionLoading ? [    <Spinner size={24} color={colors.white} secondaryColor={colors.green}/>] : [
-            <SortFilterButton<CvListSortType> value={applyCvListContext.sortType} options={[
-              {label: t('cv_filter_sort_from_new_to_old'), value: CvListSortType.FromNewToOld},
-              {label: t('cv_filter_sort_from_old_to_new'), value: CvListSortType.FromOldToNew},
-              {label: t('cv_filter_sort_score_from_low_to_high'), value: CvListSortType.FromLowToHighScore},
-              {label: t('cv_filter_sort_score_from_high_to_low'), value: CvListSortType.FromHighToLowScore},
-              {label: t('cv_filter_sort_from_low_to_high'), value: CvListSortType.FromLowToHighSalary},
-              {label: t('cv_filter_sort_from_high_to_low'), value: CvListSortType.FromHighToLowSalary}
-            ]} onChange={(sort) => applyCvListContext.setSortType(sort ?? null)}/>,
-            <FilterButton key={'filter'} hasValue={!applyCvListContext.filterIsEmpty} onClick={() => appContext.showSidePanel(SidePanelType.CandidateBaseFilter, {
-              showScore: true,
-              filter: applyCvListContext.filter,
-              onSubmit: applyCvListContext.setFilter
-            } as CvFilterSidePanelArguments)}>{t('filter_toolbar_filter')}</FilterButton>
-          ]),
-            ]} right={applyCvListContext.selectedIds?.length > 0 ? <MenuButton<MenuMultiKey> options={[{label: 'Add to base', value: MenuMultiKey.AddToBase}, {label: 'Invite to other job', value: MenuMultiKey.InviteToOtherJob}]} onClick={handleMenuMultiClick}/> : <ViewToggleFilterButton onChange={setView} view={view}/>}/>
-        </PageStickyHeader>
-        <div className={styles.wrapper}>
-          {applyCvListContext.isLoaded && applyCvListContext.data.total === 0 &&
-            <NoData
-              title={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_title') : t('stub_job_applies_title')}
-              text={applyCvListContext.filterIsEmpty ? t('stub_job_applies_filter_desc') : t('stub_job_applies_desc')}
-            />
-          }
-          {!applyCvListContext.isLoaded && applyCvListContext.isLoading &&
-            <ContentLoader style={'page'} isOpen={true}/>}
-            {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Row &&
-              <ReactDataGrid
-              className={styles.jobsTable}
-              rowHeight={48}
-              headerRowHeight= {60}
-              columns={columns}
-              rows={sortedRows}
-              sortColumns={sortColumns}
-              onSortColumnsChange={setSortColumns}
-              renderers={{
-                renderRow: (k, v) => {
-                  return (
-                    <ApplyCvWrapper cv={applyCvListContext.data.data[Number(k)]} >
-                      <RowElement key={k} rowProps={v} />
-                    </ApplyCvWrapper>
-                  )
-                  },
-                }}
-                defaultColumnOptions={{
-                  resizable: true,
-                }}
-              />
-            }
-
-          {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Card &&
+        {applyCvListContext.isLoaded && applyCvListContext.data.total > 0 && view === CardViewType.Card &&
           <CardsLayout type={'cards'} className={classNames({[styles.selectedMode]: applyCvListContext.selectedIds.length > 0})}>
             {applyCvListContext.data.data.map((i, index) =>
               <JobApplyCard view={CardViewType.Card} className={styles.card} cv={i} key={i.id} onSelect={() => applyCvListContext.addToSelectedId(i.id)} isSelected={applyCvListContext.selectedIds.includes(i.id) || applyCvListContext.isSelectAll} isSelectMode={applyCvListContext.selectedIds?.length > 0 || applyCvListContext.isSelectAll}/>
             )}
           </CardsLayout>}
-        </div>
       </div>
+  </JobPageLayout>
+
   )
 }
 const JobPage = (props: Props) => {
   const router = useRouter()
   const vacancyId = parseInt(router.query.id as string, 10)
-  return (<VacancyOwnerWrapper vacancyId={vacancyId}>
+  return (
     <HiringStageListWrapper vacancyId={vacancyId}>
       <ApplyCvListWrapper vacancyId={vacancyId}>
         <JobPageInner/>
       </ApplyCvListWrapper>
-    </HiringStageListWrapper>
-  </VacancyOwnerWrapper>)
+    </HiringStageListWrapper>)
 }
-JobPage.getLayout = LkPageHirerLayout
+JobPage.getLayout = LkJobHirerLayout
 export default JobPage
 export const getServerSideProps = getAuthServerSideProps(ProfileType.Hirer)

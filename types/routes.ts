@@ -91,6 +91,12 @@ export class Routes {
   static lkJob(id: string | number) {
     return `/lk/jobs/${id}`
   }
+  static lkJobPipeline(id: string | number) {
+    return `/lk/jobs/${id}/pipeline`
+  }
+  static lkJobSettings(id: string | number) {
+    return `/lk/jobs/${id}/settings`
+  }
   static lkJobEdit(id: string | number) {
     return `/lk/jobs/${id}/edit`
   }

@@ -44,7 +44,7 @@ const CreateJobAiPageInner = () => {
   const textsArray = ['job_aiLoader_text1', 'job_aiLoader_text2', 'job_aiLoader_text3', 'job_aiLoader_text4', 'job_aiLoader_text5', 'job_aiLoader_text6']
 
 
-  // const initPreloader = useCallback((stop?: boolean) => {   
+  // const initPreloader = useCallback((stop?: boolean) => {
   //   if(stop){
   //     clearInterval(interval.current)
   //     setPercents(2)
@@ -65,7 +65,7 @@ const CreateJobAiPageInner = () => {
         setPercents(state=> state + percentsRandom)
         setCurrentTextIndex(state=> state < textsArray.length - 1 ? state + 1 : 0)
       }, timeoutMS)
-    }  
+    }
   }, [percents])
 
   useEffect(()=>{
@@ -78,7 +78,9 @@ const CreateJobAiPageInner = () => {
           {preview ? <PageTitle title={t('Preview mode')} onBack={() => setPreview(false)} />
             : <PageTitle title={t('job_create_ai_title')} link={Routes.lkJobs} />}
           <div className={styles.form}>
-            {initialRequest && !vacancyGenerateAiContext.loading &&   <VacancyOwnerWrapper><CreateJobManuallyForm fromAi={true} initialValuesAi={vacancyGenerateAiContext.request?.result} preview={preview} onPreview={() => setPreview(!preview)}/></VacancyOwnerWrapper>}
+            {initialRequest &&  <VacancyOwnerWrapper>
+              <div style={{display: vacancyGenerateAiContext.loading ? 'none' : 'block'}}><CreateJobManuallyForm fromAi={true} initialValuesAi={vacancyGenerateAiContext.request?.result} preview={preview} onPreview={() => setPreview(!preview)}/></div>
+            </VacancyOwnerWrapper>}
             {vacancyGenerateAiContext.loading &&
             <div className={styles.loader}>
               <div className={styles.loaderItem}>

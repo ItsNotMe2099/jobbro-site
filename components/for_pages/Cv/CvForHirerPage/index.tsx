@@ -1,40 +1,52 @@
 import styles from 'components/for_pages/Cv/CvForHirerPage/index.module.scss'
 import PageTitle from '@/components/for_pages/Common/PageTitle'
-import {useRef} from 'react'
-import ControlsStickyFooter from '@/components/for_pages/Common/ControlsStickyFooter'
-import Button from '@/components/ui/Button'
+import {useRef, useState} from 'react'
 import {useAppContext} from '@/context/state'
-import {SidePanelType} from '@/types/enums'
-import {JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import {ICV} from '@/data/interfaces/ICV'
-import {Nullable} from '@/types/types'
+import {IOption, Nullable} from '@/types/types'
 import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
 import useTranslation from 'next-translate/useTranslation'
-import CvPreview from '@/components/for_pages/Cv/CvPreview'
+import Tabs from '@/components/ui/Tabs'
+import CvForHirerResume from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerResume'
+import CvForHirerChat from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerChat'
+import {CvNoteListOwnerWrapper} from '@/context/cv_note_list_state'
+import CvForHirerNotesTab from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerNotesTab'
+enum MenuKey{
+  Resume = 'resume',
+  Chat = 'chat',
+  Notes = 'notes'
+}
 interface Props{
   cv: ICV
+  vacancyId?: number
   evaluation?: Nullable<ICVEvaluation> | undefined
   backLink: string
   hasEvaluation?: boolean
+
 }
 const CvForHirerPage = (props: Props) => {
   const appContext = useAppContext()
   const cv = props.cv
+  const [tab, setTab] = useState<MenuKey>(MenuKey.Resume)
   const { t } = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
-  return (
+  const tabs: IOption<MenuKey>[] = [
+    {value: MenuKey.Resume, label: 'Resume'},
+  ...(props.vacancyId ? [{value: MenuKey.Chat, label: 'Chat'}] : []),
+    {value: MenuKey.Notes, label: 'Notes'},
+  ]
+  const handleChangeTab = (tab: MenuKey) => {
+ setTab(tab)
+  }
+  return (<CvNoteListOwnerWrapper cvId={props.cv.id}>
      <div ref={ref} className={styles.root}>
         <PageTitle title={cv.title} link={props.backLink} />
-        <CvPreview cv={cv} hasEvaluation={props.hasEvaluation ?? false} evaluation={props.evaluation} showMatching={true}/>
-        <ControlsStickyFooter btns={[
-          <Button type='button' styleType='large' color='green' onClick={() => appContext.showSidePanel(SidePanelType.InviteToJob, {cv} as JobInviteSidePanelArguments)}>
-            {t('cv_preview_send_invite')}
-          </Button>,
-          <Button className={styles.cancel} styleType='large' color='white' href={props.backLink} >
-            {t('cv_preview_cancel')}
-          </Button>
-        ]} boundaryElement={`.${styles.root}`} formRef={ref} />
-      </div>
+       <Tabs<MenuKey> options={tabs} value={tab} onClick={handleChangeTab}/>
+       {tab === MenuKey.Resume && <CvForHirerResume cv={props.cv} backLink={props.backLink} />}
+       {props.vacancyId && tab === MenuKey.Chat && <CvForHirerChat cvId={props.cv.id} vacancyId={props.vacancyId}/>}
+       {tab === MenuKey.Notes && <CvForHirerNotesTab/>}
+     </div>
+    </CvNoteListOwnerWrapper>
   )
 }
 

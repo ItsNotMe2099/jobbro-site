@@ -7,9 +7,10 @@ import Spacer from '@/components/ui/Spacer'
 import ChatMessage from '@/components/for_pages/Chat/ChatDialog/ChatMessage'
 import {ChatDisabledType, useChatDialogContext} from '@/context/chat_dialog_state'
 import ChatSuggestionLogin from '@/components/for_pages/Chat/ChatDialog/ChatSuggestionLogin'
+import classNames from 'classnames'
 
 interface Props {
-
+  styleType?: 'white' | 'transparent'
 }
 
 export default function ChatMessagesList(props: Props) {
@@ -25,13 +26,13 @@ export default function ChatMessagesList(props: Props) {
 
   }
   return (
-    <div 
-    className={styles.root} 
+    <div
+    className={classNames(styles.root, {[styles[props.styleType ?? 'white']]: true})}
     id={'chat-messages'}
     ref={chatContext.scrollableTarget as RefObject<HTMLDivElement>}
     >
       {loading && <ContentLoader style={'block'} isOpen={true}/>}
-      {!loading && !chatContext.disabled && 
+      {!loading && !chatContext.disabled &&
         <InfiniteScroll
         dataLength={chatContext.messages.length}
         next={chatContext.fetchMore}
@@ -50,7 +51,7 @@ export default function ChatMessagesList(props: Props) {
           return (
             <div key={i.id ?? i.sid}>
               {previous && previous.profileId !== i.profileId && <Spacer basis={10}/>}
-              <ChatMessage 
+              <ChatMessage
               message={i}
               side={appContext.aboutMe?.id === i.profileId ? 'my' : 'other'}
               />

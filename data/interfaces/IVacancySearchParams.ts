@@ -1,6 +1,6 @@
-import { IVacancyFormData } from '@/components/for_pages/Lk/Jobs/Form'
 import { IPaginationRequest } from './IPaginationRequest'
 import { IGeoName } from './ILocation'
+import {IVacancyFormData} from '@/types/form_data/IVacancyFormData'
 
 export interface IVacancyFilterParamsInner extends
 Pick<IVacancyFormData,

@@ -1,0 +1,19 @@
+@import "styles/index";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    @include list(32px, false);
+}
+
+.cancel{
+    border: 0;
+    background-color: transparent;
+
+    &:hover{
+        border: 0;
+    }
+}
+.container{
+  height: calc(100vh - 309px) !important;
+}

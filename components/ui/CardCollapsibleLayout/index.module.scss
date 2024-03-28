@@ -1,0 +1,30 @@
+@import "styles/index";
+.root{
+  @include card;
+}
+.header{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include list(12px, true);
+  .left{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @include list(12px, true)
+  }
+}
+.chevron{
+  transform: translateY(2px);
+  @include dropDownChevron;
+}
+
+.title {
+  @include h2;
+  flex: 1;
+}
+.content{
+  margin-top: 16px;
+}

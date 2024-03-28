@@ -1,24 +1,22 @@
 import styles from './index.module.scss'
 import Card from '@/components/for_pages/Common/Card'
-import { FormikProps } from 'formik'
 import RichTextField from '@/components/fields/RichTextField'
 import SelectField from '@/components/fields/SelectField'
 import SwitchField from '@/components/fields/SwitchField'
-import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import Dictionary from '@/utils/Dictionary'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import KeywordField from '@/components/fields/KeywordField'
 import useTranslation from 'next-translate/useTranslation'
 import ProjectField from '@/components/fields/ProjectField'
 import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
+import {IVacancyWorkflowData} from '@/types/form_data/IVacancyFormData'
 
-type MyFormikType = FormikProps<IVacancyFormData>
 
 interface Props {
-  formik: MyFormikType
+  values: IVacancyWorkflowData
 }
 
-export default function WorkflowForm(props: Props) {
+export default function JobWorkflowForm(props: Props) {
   const {t} = useTranslation()
   const vacancyContext = useVacancyOwnerContext()
   return (
@@ -40,13 +38,13 @@ export default function WorkflowForm(props: Props) {
         <div className={styles.title}>{t('job_form_tab_workflow_section_auto_reply')}</div>
         <SwitchField name={'applyAutoMessage.enabled'} />
       </div>}>
-        {props.formik.values.applyAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_ph')} name='applyAutoMessage.template' /> : <></>}
+        {props.values.applyAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_ph')} name='applyAutoMessage.template' /> : <></>}
       </Card>
       <Card title={<div className={styles.top}>
         <div className={styles.title}>{t('job_form_tab_workflow_section_auto_reply_decline')}</div>
         <SwitchField name={'declineAutoMessage.enabled'} />
       </div>}>
-        {props.formik.values.declineAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_decline_ph')} name='declineAutoMessage.template' /> : <></>}
+        {props.values.declineAutoMessage?.enabled ? <RichTextField placeholder={t('job_form_tab_workflow_field_auto_reply_decline_ph')} name='declineAutoMessage.template' /> : <></>}
       </Card>
       <Card title={t('job_form_tab_workflow_section_keywords')}>
         <KeywordField name={'keywords'}/>

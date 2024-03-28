@@ -17,18 +17,18 @@ const JobEditPageInner = () => {
   const [preview, setPreview] = useState<boolean>(false)
   const vacancyContext = useVacancyOwnerContext()
   return (
-        <div className={styles.container}>
-          {preview ? <PageTitle title={'Preview mode'} onBack={() => setPreview(false)} />
-            : <PageTitle title={'Edit Job'} link={Routes.lkJobs} />}
-          {vacancyContext.loading ? <ContentLoader style={'block'} isOpen={true}/> : <CreateJobManuallyForm preview={preview} onPreview={() => setPreview(!preview)} />}
-        </div>
+    <div className={styles.container}>
+      {preview ? <PageTitle title={'Preview mode'} onBack={() => setPreview(false)} />
+        : <PageTitle title={'Edit Job'} link={Routes.lkJobs} />}
+      {vacancyContext.loading ? <ContentLoader style={'block'} isOpen={true}/> : <CreateJobManuallyForm preview={preview} onPreview={() => setPreview(!preview)} />}
+    </div>
   )
 }
 const JobEditPage = () => {
   const router = useRouter()
   return (<CompanyOwnerWrapper>
     <VacancyOwnerWrapper  vacancyId={parseInt(router.query.id as string, 10)}>
-    <JobEditPageInner/>
+      <JobEditPageInner/>
     </VacancyOwnerWrapper>
   </CompanyOwnerWrapper>)
 }

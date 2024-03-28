@@ -33,8 +33,9 @@ export default function Menu(props: Props) {
     { label: t('hirer_left_menu_jobs'), link: Routes.lkJobs },
     { label: t('hirer_left_menu_candidates_base'), link: Routes.lkCandidatesBase },
     { label: t('hirer_left_menu_hiring_boards'), link: Routes.lkHiringBoards },
+    { label: t('hirer_left_menu_chats'), link: Routes.chat },
     { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
-  //  { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
+    //  { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
     ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }] : []),
 ]
 

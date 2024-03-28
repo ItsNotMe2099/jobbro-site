@@ -1,0 +1,70 @@
+@import 'styles/index';
+
+$radius: 16px;
+.root {
+  display: flex;
+  flex-direction: column;
+
+  &.green {
+    align-items: flex-start;
+    .message{
+      background: $background-success;
+      border-bottom-left-radius: 0px;
+      &:before {
+        border-bottom: 6px $background-success solid;
+        left: -6px;
+      }
+    }
+  }
+
+  &.white {
+    align-items: flex-end;
+    .message{
+      background: $white;
+      border-bottom-right-radius: 0px;
+      &:before {
+        border-bottom: 6px $grey solid;
+        right: -6px;
+      }
+
+    }
+  }
+
+  &.yellow{
+    .message {
+      background: $white;
+    }
+  }
+}
+.message{
+  padding: 12px;
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-primary;
+  border-radius: $radius;
+  white-space: pre-line;
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 24px;
+    height: 12px;
+    border: 6px transparent solid;
+  }
+
+}
+.author{
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.time {
+  display: inline-block;
+  float: right;
+  padding: 0 0 0 7px;
+  position: relative;
+  bottom: -4px;
+  font-size: 14px;
+  color: $text-secondary;
+}

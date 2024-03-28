@@ -9,6 +9,7 @@ import MobileMenuSvg from '@/components/svg/MobileMenuSvg'
 import CloseSvg from '@/components/svg/CloseSvg'
 import {Routes} from '@/types/routes'
 import useTranslation from 'next-translate/useTranslation'
+import LogoSvg from '@/components/svg/LogoSvg'
 
 interface Props {
 
@@ -35,9 +36,7 @@ export default function Header(props: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.logo}>
-        Jobbro
-      </div>
+      <LogoSvg/>
       {isPhoneWidth ?
         <>
           {isMenuMobileOpen ?

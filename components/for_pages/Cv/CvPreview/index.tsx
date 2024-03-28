@@ -10,11 +10,14 @@ import {ICV} from '@/data/interfaces/ICV'
 import {Nullable} from '@/types/types'
 import {ICVEvaluation} from '@/data/interfaces/ICVEvaluation'
 import useTranslation from 'next-translate/useTranslation'
+import CvForHirerNotes from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerNotes'
+import CardCollapsibleLayout from '@/components/ui/CardCollapsibleLayout'
 interface Props{
   cv: ICV
   evaluation?: Nullable<ICVEvaluation> | undefined
   hasEvaluation?: boolean
   showMatching?: boolean
+  hasNotes?: boolean
 }
 const CvPreview = (props: Props) => {
   const appContext = useAppContext()
@@ -29,6 +32,10 @@ const CvPreview = (props: Props) => {
             <CardWithPhoto cv={cv} />
             {props.hasEvaluation && <CardAiSummary className={styles.aiSum} evaluation={props.evaluation}/>}
           </div>
+         {props.hasNotes && <CardCollapsibleLayout title={'Notes'}>
+           <CvForHirerNotes/>
+         </CardCollapsibleLayout>}
+
           <CardCandidateSummary cv={cv} />
           <CardProfExp cv={cv} />
          {props.showMatching && <CardMatching  cv={cv}/>}
