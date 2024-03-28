@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/server'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {IVacancyShareSettings} from '@/data/interfaces/IVacancyShareSettings'
+import {serverRuntimeConfig} from '@/config/runtimeConfig'
 interface IVacancyWidthShareSettings extends  IVacancy{
   shareSettings: IVacancyShareSettings
 }
@@ -14,10 +15,9 @@ export default async function handler(request: Request) {
   const id = url.searchParams.get('id')
 
   const vacancy = await fetch(
-    `https://jobbro.dev.firelabs.ru/api/vacancy/${id}?forShareImage=true`,
+    `${serverRuntimeConfig.HOST_INNER}/api/vacancy/${id}?forShareImage=true`,
     { next: { revalidate: 0 } }
   ).then((res) => res.json() as Promise<IVacancyWidthShareSettings>)
-  console.log('Vacancy', vacancy)
   const salary = VacancyUtils.formatSalary(vacancy)
   const location = [vacancy.office?.country?.name, vacancy.office?.city?.name]
     .filter((i) => !!i)
