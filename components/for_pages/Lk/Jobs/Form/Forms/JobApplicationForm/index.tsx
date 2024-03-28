@@ -6,9 +6,9 @@ import { FieldArray, FieldArrayRenderProps, FormikProps } from 'formik'
 import CloseSvg from '@/components/svg/CloseSvg'
 import { colors } from '@/styles/variables'
 import AddSvg from '@/components/svg/AddSvg'
-import {IVacancyFormData} from '@/components/for_pages/Lk/Jobs/Form'
 import SwitchField from '@/components/fields/SwitchField'
 import useTranslation from 'next-translate/useTranslation'
+import {IVacancyFormData} from '@/types/form_data/IVacancyFormData'
 
 // Define a type for the Formik instance
 type MyFormikType = FormikProps<IVacancyFormData>
@@ -17,7 +17,7 @@ interface Props {
   formik: MyFormikType
 }
 
-export default function ApplicationForm(props: Props) {
+export default function JobApplicationForm(props: Props) {
   const {t} = useTranslation()
   return (
     <div className={styles.root}>

@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from 'react'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import {DeepPartial, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
@@ -11,6 +11,7 @@ import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
 import { IShareModalArgs } from '@/components/modals/ShareModal'
 import { Routes } from '@/types/routes'
+import {AxiosRequestConfig} from 'axios'
 
 interface IState {
   vacancyId?: Nullable<number> | undefined
@@ -23,7 +24,7 @@ interface IState {
   fetch: () => Promise<Nullable<IVacancy>>
   delete: () => Promise<Nullable<IVacancy>>,
   edit: () => void,
-  update: (data: DeepPartial<IVacancy>) => Promise<Nullable<IVacancy>>,
+  update: (data: DeepPartial<IVacancy>, config?: AxiosRequestConfig) => Promise<Nullable<IVacancy>>,
   create: (data: DeepPartial<IVacancy>) => Promise<Nullable<IVacancy>>,
 
   publish: () => Promise<Nullable<IVacancy>>,
@@ -65,7 +66,11 @@ export function VacancyOwnerWrapper(props: Props) {
   const [loading, setLoading] = useState<boolean>(true)
   const [editLoading, setEditLoading] = useState<boolean>(false)
   const [editStatusLoading, setEditStatusLoading] = useState<boolean>(false)
+  const vacancyRef = useRef<Nullable<IVacancy>>(vacancy)
   const { t } = useTranslation()
+  useEffect(() => {
+    vacancyRef.current = vacancy
+  }, [vacancy])
   useEffect(() => {
     setVacancy(props.vacancy as Nullable<IVacancy>)
     setLoading(false)
@@ -97,6 +102,7 @@ export function VacancyOwnerWrapper(props: Props) {
     try {
       setEditLoading(true)
       const res = await VacancyRepository.create(data)
+      vacancyRef.current = res
       setVacancy(res)
       handleCreate(res)
       setEditLoading(false)
@@ -110,10 +116,10 @@ export function VacancyOwnerWrapper(props: Props) {
     }
   }
 
-  const update = async (data: DeepPartial<IVacancy>): Promise<Nullable<IVacancy>> => {
+  const update = async (data: DeepPartial<IVacancy>, config?: AxiosRequestConfig): Promise<Nullable<IVacancy>> => {
     try {
       setEditLoading(true)
-      const res = await VacancyRepository.update(props.vacancyId!, data)
+      const res = await VacancyRepository.update(vacancyRef?.current?.id ?? props.vacancyId!, data, config)
       handleUpdate(res)
       setVacancy(i => ({...i, ...res}))
       setEditLoading(false)
@@ -134,7 +140,7 @@ export function VacancyOwnerWrapper(props: Props) {
           try {
             appContext.hideModal()
             setDeleteLoading(true)
-            const res = await VacancyRepository.delete(props.vacancyId!)
+            const res = await VacancyRepository.delete(vacancyRef?.current?.id ?? props.vacancyId!)
             handleDelete(vacancy!)
             resolve(vacancy)
             showToast({title: t('toast_vacancy_deleted_title'), text: t('toast_vacancy_deleted_desc')})
@@ -154,7 +160,7 @@ export function VacancyOwnerWrapper(props: Props) {
   const updateStatusRequest = async (status: PublishStatus): Promise<Nullable<IVacancy>> => {
     try {
       setEditStatusLoading(true)
-      const res = await VacancyRepository.update(props.vacancyId!, {status})
+      const res = await VacancyRepository.update(vacancyRef?.current?.id ?? props.vacancyId!, {status})
       handleUpdate({...vacancy, status} as IVacancy)
       setEditStatusLoading(false)
     } catch (err) {

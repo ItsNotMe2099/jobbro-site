@@ -18,6 +18,7 @@ import classNames from 'classnames'
 import {useEffect, useState} from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import LanguageSelector from './LanguageSelector'
+import LogoSvg from '@/components/svg/LogoSvg'
 
 
 enum MenuProfileKey {
@@ -85,9 +86,7 @@ export default function Header(props: Props) {
   }
   return (
     <div className={classNames(styles.root, styles[appContext.headerDirection])}>
-      <div className={styles.logo}>
-        Jobbro
-      </div>
+        <LogoSvg/>
       <div className={styles.menu}>
         {!isTabletWidth && menu.map((i, index) =>
           <Link href={i.link} key={index} className={styles.item}>

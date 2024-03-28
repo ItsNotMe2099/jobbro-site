@@ -11,9 +11,6 @@ import ChatDialogSearch from '@/components/for_pages/Chat/ChatDialogList/ChatDia
 import {debounce} from 'debounce'
 import {InputValueType} from '@/components/fields/InputField'
 import {ChatSocketWrapper} from '@/context/chat_socket_state'
-import Tabs from '@/components/ui/Tabs'
-import {IOption} from '@/types/types'
-import {useState} from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useAppContext } from '@/context/state'
 import { MyEvents } from '../../Calendar/MyEvents'
@@ -31,24 +28,10 @@ const ChatDialogListInner = (props: Props) => {
   const appContext = useAppContext()
   const {isTabletWidth} = appContext.size
   const { t } = useTranslation()
-  const [tab, setTab] = useState<TabKey>(TabKey.All)
   const debouncedSearchChange = debounce(async (search: InputValueType<string>) => {
     chatContext.setFilter({...chatContext.filter, search})
   }, 300)
-  const tabs: IOption<TabKey>[] = [
-    {label: t('chats_tab_all'), value: TabKey.All},
-    {label: t('chats_tab_invites'), value: TabKey.Invites},
-    {label: t('chats_tab_new_messages'), value: TabKey.NewMessages},
-  ]
-  const handleChangeTab = (tab: TabKey) => {
-    setTab(tab)
-    chatContext.setFilter({
-      ...(tab === TabKey.Invites ? {filter: 'invites'} : {
-      }),
-      ...(tab === TabKey.NewMessages ? {filter: 'unread'} : {
-      })
-    })
-  }
+
   return (<div className={styles.root}>
       {!isTabletWidth &&
         <PageTitle title={t('chats_title')}/>
@@ -58,10 +41,6 @@ const ChatDialogListInner = (props: Props) => {
           <ChatDialogSearch onChange={(val) => debouncedSearchChange(val)}/>
         </Card>
         {isTabletWidth && <MyEvents className={styles.myEvents}/>}
-      </div>
-      
-      <div>
-      <Tabs<TabKey> value={tab} onClick={handleChangeTab} options={tabs} />
       </div>
       <Card>
         <div className={styles.dialogs}>

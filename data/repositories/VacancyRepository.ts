@@ -45,20 +45,22 @@ export default class VacancyRepository {
     return res
   }
 
-  static async update(id: number, data: DeepPartial<IVacancy>): Promise<IVacancy> {
+  static async update(id: number, data: DeepPartial<IVacancy>, config?: AxiosRequestConfig): Promise<IVacancy> {
     const res = await request<IVacancy>({
       method: 'patch',
       url: `/api/vacancy/${id}`,
       data,
+      config,
     })
     return res
   }
 
-  static async create(data: DeepPartial<IVacancy>): Promise<IVacancy> {
+  static async create(data: DeepPartial<IVacancy>, config?: AxiosRequestConfig): Promise<IVacancy> {
     const res = await request<IVacancy>({
       method: 'post',
       url: '/api/vacancy',
       data,
+      config,
     })
     return res
   }

@@ -7,7 +7,7 @@ import ArrowSvg from '@/components/svg/ArrowSvg'
 
 interface Props {
   title: string
-  right?: ReactElement
+  right?: ReactElement | undefined | null
   link?: string
   onBack?: (() => void) | undefined
   className?: string

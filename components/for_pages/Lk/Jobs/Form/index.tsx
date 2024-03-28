@@ -6,8 +6,6 @@ import {DeepPartial, IOption, Nullable, RequestError} from '@/types/types'
 import {useAppContext} from '@/context/state'
 import {useRouter} from 'next/router'
 import JobAdDetailsForm from './Forms/JobAdDetailsForm'
-import ApplicationForm from './Forms/ApplicationForm'
-import WorkflowForm from './Forms/WorkflowForm'
 import FormStickyFooter from '@/components/for_pages/Common/FormStickyFooter'
 import Tabs from '@/components/ui/Tabs'
 import Button from '@/components/ui/Button'
@@ -16,10 +14,7 @@ import {colors} from '@/styles/variables'
 import NoEyeSvg from '@/components/svg/NoEyeSvg'
 import {useVacancyOwnerContext} from '@/context/vacancy_owner_state'
 import {Employment} from '@/data/enum/Employment'
-import {IOffice} from '@/data/interfaces/IOffice'
-import {Workplace} from '@/data/enum/Workplace'
 import {Experience, ExperienceDuration} from '@/data/enum/Experience'
-import {SalaryType} from '@/data/enum/SalaryType'
 import {ApplicationInfoRequirements} from '@/data/enum/ApplicationInfoRequirements'
 import {omit} from '@/utils/omit'
 import {IVacancy} from '@/data/interfaces/IVacancy'
@@ -36,7 +31,11 @@ import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import useTranslation from 'next-translate/useTranslation'
 import showToast from '@/utils/showToast'
 import OfficeOwnerRepository from '@/data/repositories/OfficeOwnerRepository'
-import { IShareModalArgs } from '@/components/modals/ShareModal'
+import {IShareModalArgs} from '@/components/modals/ShareModal'
+import {useDebouncedCallback} from 'use-debounce'
+import JobApplicationForm from '@/components/for_pages/Lk/Jobs/Form/Forms/JobApplicationForm'
+import JobWorkflowForm from '@/components/for_pages/Lk/Jobs/Form/Forms/JobWorkflowForm'
+import {IVacancyFormData, VacancyFormSection} from '@/types/form_data/IVacancyFormData'
 
 
 enum TabKey {
@@ -52,37 +51,6 @@ interface Props {
   initialValuesAi?: IAiVacancy | undefined | null
 }
 
-export interface IVacancyFormData {
-  status?: Nullable<PublishStatus> | undefined
-  name: Nullable<string>
-  intro: { description: Nullable<string>, visible: boolean }
-  categoryId: Nullable<number>
-  subCategoryId: Nullable<number>
-  employment: Nullable<Employment>
-  workplace: Nullable<Workplace>
-  office: Nullable<IOffice>
-  currency: Nullable<string>
-  salaryMin: Nullable<string|number>
-  salaryMax: Nullable<string|number>
-  salaryType: Nullable<SalaryType>
-  experience: Nullable<Experience>
-  experienceDuration?: Nullable<ExperienceDuration>
-  benefitsDescription: { description: Nullable<string>, visible: boolean }
-  requirements: Nullable<string>
-  tasks: Nullable<string>
-  cvRequired: Nullable<ApplicationInfoRequirements>
-  coverLetterRequired: Nullable<ApplicationInfoRequirements>
-  languageKnowledges: {language: string, level: string}[]
-  benefits: string[]
-  skills: string[]
-  keywords: string[]
-  project: Nullable<string>
-  applicationFormLanguage: Nullable<string>
-  applyAutoMessage: {template: Nullable<string>, enabled: boolean}
-  declineAutoMessage: {template: Nullable<string>, enabled: boolean}
-  hiringStagesDescriptions: { title: string, description: string }[],
-  contactPerson: { name: Nullable<string>, visible: boolean }
-}
 
 export default function CreateJobManuallyForm(props: Props) {
   const appContext = useAppContext()
@@ -90,10 +58,21 @@ export default function CreateJobManuallyForm(props: Props) {
   const companyContext = useCompanyOwnerContext()
   const vacancyGenerateAiContext = useVacancyGenerateAiContext()
   const lastAIResultRef = useRef<Nullable<IAiVacancy >| undefined>(props.initialValuesAi)
+  const vacancyRef = useRef<Nullable<IVacancy>>(vacancyContext.vacancy)
+  const createPromiseRef = useRef<Nullable<Promise<any>>>(null)
   const router = useRouter()
   const {t} = useTranslation()
   let ref = useRef<HTMLDivElement | null>(null)
+  const abortSaveControllerRef = useRef<AbortController | null>(null)
+  const [locked, setLocked] = useState<VacancyFormSection[]>([])
+  const lockedRef = useRef<VacancyFormSection[]>([])
   const valuesRef = useRef<Nullable<IVacancyFormData>>(null)
+  useEffect(() => {
+    vacancyRef.current = vacancyContext.vacancy
+  }, [vacancyContext.vacancy])
+  useEffect(() => {
+    lockedRef.current = locked
+  }, [locked])
   useEffect(() => {
     OfficeOwnerRepository.fetch({isDefault: true, page: 1, limit: 1}).then(i => {
       if(!valuesRef.current?.office && !vacancyContext.vacancy?.office && i.data.length > 0) {
@@ -101,11 +80,11 @@ export default function CreateJobManuallyForm(props: Props) {
       }
     })
   }, [vacancyContext.vacancy?.office])
-
-  const handleSubmit = async (data: IVacancyFormData) => {
+  const getDataForSubmit = (data: IVacancyFormData) => {
     const salaryMax = Number(data?.salaryMax?.toString().replaceAll(' ', ''))
     const salaryMin = Number(data?.salaryMin?.toString().replaceAll(' ', ''))
-    const newData: DeepPartial<IVacancy> = {...omit(data, ['skills', 'benefits', 'keywords', 'office', 'project']),
+
+    return  {...omit(data, ['skills', 'benefits', 'keywords', 'office', 'project']),
       skillsTitles: data.skills,
       benefitsTitles: data.benefits,
       keywordsTitles: data.keywords,
@@ -116,6 +95,36 @@ export default function CreateJobManuallyForm(props: Props) {
       salaryMin,
       creationType: props.fromAi ? VacancyCreationType.Ai : VacancyCreationType.Manual
     } as  DeepPartial<IVacancy>
+  }
+  const debounceSaveDraft = useDebouncedCallback(async (data: IVacancyFormData) => {
+    abortSaveControllerRef.current = new AbortController()
+    const newData = getDataForSubmit(data)
+    try {
+      if (vacancyContext.vacancy && !vacancyContext.isClone) {
+        await vacancyContext.update(newData, {signal: abortSaveControllerRef.current?.signal})
+      } else {
+        createPromiseRef.current  =  vacancyContext.create({...newData} as DeepPartial<IVacancy>)
+      }
+    } catch (err) {
+    }
+  }, 500)
+  const stopDebounceSave =() => {
+    try {
+      debounceSaveDraft?.cancel()
+    }catch (e) {
+      console.error(e)
+    }
+    try {
+      if (abortSaveControllerRef.current) {
+        abortSaveControllerRef.current?.abort()
+      }
+    }catch (e) {
+
+    }
+
+  }
+  const handleSubmit = async (data: IVacancyFormData) => {
+    const newData = getDataForSubmit(data)
     try {
       if (vacancyContext.vacancy && !vacancyContext.isClone) {
         await vacancyContext.update(newData)
@@ -126,6 +135,7 @@ export default function CreateJobManuallyForm(props: Props) {
         })
         showToast({title: t('toast_vacancy_edited_title'), text: t('toast_vacancy_edited_desc')})
       } else {
+
         await vacancyContext.create({...newData} as DeepPartial<IVacancy>)
         .then(res=> {
           if(res){
@@ -173,6 +183,7 @@ export default function CreateJobManuallyForm(props: Props) {
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
+    declineAuto: vacancyContext.vacancy?.declineAuto ?? {minRating: 75, replyAfter: 3, enabled: false},
     hiringStagesDescriptions: vacancyContext?.vacancy?.hiringStagesDescriptions ?? [],
     contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false }
   }
@@ -184,55 +195,65 @@ export default function CreateJobManuallyForm(props: Props) {
   useEffect(() => {
     valuesRef.current = formik.values
   }, [formik.values])
+  useEffect(() => {
+    if(!valuesRef.current || valuesRef.current?.status === PublishStatus.Draft) {
+      debounceSaveDraft(formik.values)
+    }
+  }, [formik.values])
 
   useEffect(() => {
     const subscriptionUpdate = vacancyGenerateAiContext.requestUpdateState$.subscribe((request: IAiVacancyGenRequest) => {
       const result = request.result
-
-      if(result?.name && formik.values.name !== lastAIResultRef.current?.name){
+      const locked = lockedRef.current
+      if(!locked.includes(VacancyFormSection.Header) && result?.name && formik.values.name !== result.name){
         formik.setFieldValue('name', result.name)
       }
-      if((result?.benefits?.length ?? 0) > 0 && formik.values.benefits.length === (lastAIResultRef.current?.benefits?.length ?? 0) && formik.values.benefits.every(i => lastAIResultRef.current!.benefits?.includes(i))){
+      if(!locked.includes(VacancyFormSection.TagsBenefits) && (result?.benefits?.length ?? 0) > 0 && formik.values.benefits.length === (result?.benefits?.length ?? 0) && formik.values.benefits.every(i => lastAIResultRef.current!.benefits?.includes(i))){
         formik.setFieldValue('benefits', result!.benefits)
       }
 
 
-      if(result?.experience && formik.values.experience === lastAIResultRef.current?.experience){
-       formik.setFieldValue('experience', result.experience)
-      }
-      if(result?.intro && formik.values.intro?.description === lastAIResultRef.current?.intro){
-        formik.setFieldValue('intro.description', result.intro)
-      }
-      if((result?.keywords?.length ?? 0) > 0 && formik.values.keywords.length === (lastAIResultRef.current?.keywords.length ?? 0) && formik.values.keywords.every(i => lastAIResultRef.current?.keywords.includes(i))){
-        formik.setFieldValue('keywords', result!.keywords)
+      if(!locked.includes(VacancyFormSection.Experience) && result?.experience && formik.values.experience !== result.experience){
+        formik.setFieldValue('experience', result.experience)
       }
 
-      if(result?.requirements && formik.values.requirements === lastAIResultRef.current?.requirements){
+      if(!locked.includes(VacancyFormSection.Details) && result?.experienceDuration && formik.values.experienceDuration !== result.experienceDuration){
+        formik.setFieldValue('experienceDuration', result.experienceDuration)
+      }
+
+      if(!locked.includes(VacancyFormSection.Intro) && result?.intro && formik.values.intro?.description !== result.intro){
+        formik.setFieldValue('intro.description', result.intro)
+      }
+      if(locked.includes(VacancyFormSection.Header) && (result?.keywords?.length ?? 0) > 0){
+       // formik.setFieldValue('tags', result!.keywords)
+      }
+
+      if(!locked.includes(VacancyFormSection.Requirements) && result?.requirements && formik.values.requirements !== result.requirements){
         formik.setFieldValue('requirements', result.requirements)
       }
-      if((result?.skills?.length ?? 0) > 0 && formik.values.skills.length === (lastAIResultRef.current?.skills.length ?? 0) && formik.values.skills.every(i => lastAIResultRef.current?.skills.includes(i))){
+      if(!locked.includes(VacancyFormSection.Skills) && (result?.skills?.length ?? 0) > 0){
         formik.setFieldValue('skills', result!.skills)
       }
 
-      if(result?.tasks &&  formik.values.tasks === lastAIResultRef.current?.tasks){
+      if(!locked.includes(VacancyFormSection.Tasks) && result?.tasks &&  formik.values.tasks !== result.tasks){
         formik.setFieldValue('tasks', result.tasks)
       }
-      if(result?.salaryType &&  formik.values.salaryType === lastAIResultRef.current?.salaryType){
+      if(!locked.includes(VacancyFormSection.Salary) && result?.salaryType &&  formik.values.salaryType !== result.salaryType){
         formik.setFieldValue('salaryType', result.salaryType)
       }
 
-      if(result?.salaryMax &&  formik.values.salaryMax === lastAIResultRef.current?.salaryMax){
+      if(!locked.includes(VacancyFormSection.Salary) && result?.salaryMax &&  formik.values.salaryMax !== result.salaryMax){
         formik.setFieldValue('salaryMax', result.salaryMax)
       }
 
-      if(result?.salaryMin &&  formik.values.salaryMin === lastAIResultRef.current?.salaryMin){
+      if(!locked.includes(VacancyFormSection.Salary) && result?.salaryMin &&  formik.values.salaryMin !== result.salaryMin){
         formik.setFieldValue('salaryMin', result.salaryMin)
       }
 
-      if(result?.currency &&  formik.values.currency === lastAIResultRef.current?.currency){
+      if(!locked.includes(VacancyFormSection.Salary) && result?.currency &&  formik.values.currency !== result.currency){
         formik.setFieldValue('currency', result.currency)
       }
-      if(result?.benefitsDescription &&  formik.values.benefitsDescription?.description === lastAIResultRef.current?.benefitsDescription){
+      if(!locked.includes(VacancyFormSection.Benefits) && result?.benefitsDescription &&  formik.values.benefitsDescription?.description !== result.benefitsDescription){
         formik.setFieldValue('benefitsDescription', result.benefitsDescription)
       }
 
@@ -261,6 +282,79 @@ export default function CreateJobManuallyForm(props: Props) {
   const handlePublishClick = async () => {
     await formik.setFieldValue('status', PublishStatus.Published)
     await formik.submitForm()
+  }
+  const handleClickLock = (section: VacancyFormSection) => {
+    setLocked(i => i.includes(section) ? i.filter(a => a !== section) : [...i, section])
+  }
+  const handleClickRefresh = (section: VacancyFormSection) =>{
+    const result = vacancyGenerateAiContext.request?.result
+    if(!result){
+      return null
+    }
+    switch (section){
+      case VacancyFormSection.Header:
+        if(result.name) {
+          formik.setFieldValue('name', result.name)
+        }
+        break
+      case VacancyFormSection.Intro:
+        if(result.intro) {
+          formik.setFieldValue('intro.description', result.intro)
+        }
+        break
+      case VacancyFormSection.Details:
+        if(result.experienceDuration) {
+          formik.setFieldValue('experienceDuration', result.experienceDuration)
+        }
+        break
+      case VacancyFormSection.Requirements:
+        if(result.requirements) {
+          formik.setFieldValue('requirements', result.requirements)
+        }
+
+        break
+      case VacancyFormSection.Experience:
+        if(result.experience) {
+          formik.setFieldValue('experience', result.experience)
+        }
+        break
+      case VacancyFormSection.LanguageTags:
+        break
+      case VacancyFormSection.Skills:
+        if((result?.skills?.length ?? 0) > 0){
+          formik.setFieldValue('skills', result!.skills)
+        }
+        break
+      case VacancyFormSection.Tasks:
+        if(result?.tasks){
+          formik.setFieldValue('tasks', result.tasks)
+        }
+        break
+      case VacancyFormSection.Salary:
+        if( result?.salaryType){
+          formik.setFieldValue('salaryType', result.salaryType)
+        }
+
+        if( result?.salaryMax){
+          formik.setFieldValue('salaryMax', result.salaryMax)
+        }
+
+        if(result?.salaryMin){
+          formik.setFieldValue('salaryMin', result.salaryMin)
+        }
+
+        if( result?.currency){
+          formik.setFieldValue('currency', result.currency)
+        }
+        break
+      case VacancyFormSection.Benefits:
+        if(result.benefits) {
+          formik.setFieldValue('benefits', result.benefits)
+        }
+        break
+      case VacancyFormSection.TagsBenefits:
+        break
+    }
 
   }
   const form = (
@@ -268,9 +362,9 @@ export default function CreateJobManuallyForm(props: Props) {
       <Form className={styles.form}>
         <FormErrorScroll formik={formik} />
         <Tabs<TabKey> options={options} value={tab} onClick={value => setTab(value)}/>
-        {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik}/>}
-        {tab === TabKey.ApplicationForm && <ApplicationForm formik={formik}/>}
-        {tab === TabKey.Workflow && <WorkflowForm formik={formik}/>}
+        {tab === TabKey.AdDetails && <JobAdDetailsForm formik={formik} locked={locked} onClickLock={handleClickLock} onClickRefresh={handleClickRefresh} fromAi={props.fromAi}/>}
+        {tab === TabKey.ApplicationForm && <JobApplicationForm formik={formik}/>}
+        {tab === TabKey.Workflow && <JobWorkflowForm values={formik.values}/>}
       </Form>
     </FormikProvider>
   )

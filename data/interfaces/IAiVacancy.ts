@@ -1,12 +1,12 @@
 import {SalaryType} from '@/data/enum/SalaryType'
-import {Experience} from '@/data/enum/Experience'
+import {Experience, ExperienceDuration} from '@/data/enum/Experience'
 import {Employment} from '@/data/enum/Employment'
 
 export interface IAiVacancy {
   benefits: string[];
   category: string;
   experience: Experience | null;
-  experienceDuration: string | null;
+  experienceDuration: ExperienceDuration | null;
   intro: string;
   keywords: string[];
   name: string;

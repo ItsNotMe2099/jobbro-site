@@ -1,0 +1,26 @@
+@import "../../../../../../../styles/index";
+.root{
+
+  &.single{
+    .image{
+      max-height: 185px;
+      max-width: 258px;
+    }
+  }
+  &.multi{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8px;
+    row-gap: 8px;
+    .image{
+      max-width: 100%;
+    }
+  }
+}
+.image{
+  cursor: pointer;
+  border-radius: 12px;
+}
+.text{
+  margin-top: 8px;
+}

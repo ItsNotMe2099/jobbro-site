@@ -19,6 +19,7 @@ import {VacancyCreationType} from '@/data/enum/VacancyCreationType'
 import {IProject} from '@/data/interfaces/IProject'
 import { TimeStamp } from './Common'
 import { IProfile } from './IProfile'
+import {Nullable} from '@/types/types'
 
 export interface IHiringStageDescription {
   title: string;
@@ -95,6 +96,7 @@ export interface IVacancy extends TimeStamp {
   applicationFormLanguage: string
   applyAutoMessage: IAutoMessage
   declineAutoMessage: IAutoMessage
+  declineAuto: {minRating: Nullable<number>, replyAfter: Nullable<number>, enabled: boolean}
   creationType: VacancyCreationType
   project: IProject | null
 }

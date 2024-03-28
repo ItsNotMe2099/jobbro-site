@@ -19,6 +19,7 @@ import {IAiCvRequest} from '@/data/interfaces/IAiCvRequest'
 import { IResizeValues, useResize } from '@/components/hooks/useResize'
 import {IApplication} from '@/data/interfaces/IApplication'
 import {IIntegrationProfile} from '@/data/interfaces/IIntegrationProfile'
+import ICvNote from '@/data/interfaces/ICvNote'
 
 interface IState {
   isMobile: boolean
@@ -105,6 +106,10 @@ interface IState {
   integrationUpdateState$: Subject<IIntegrationProfile>,
   integrationDeleteState$: Subject<IIntegrationProfile>
 
+  cvNoteCreateState$: Subject<ICvNote>,
+  cvNoteUpdateState$: Subject<ICvNote>,
+  cvNoteDeleteState$: Subject<ICvNote>
+
   size: IResizeValues
 }
 
@@ -150,6 +155,10 @@ const eventUpdateState$ = new Subject<IEvent>()
 const integrationCreateState$ = new Subject<IIntegrationProfile>()
 const integrationUpdateState$ = new Subject<IIntegrationProfile>()
 const integrationDeleteState$ = new Subject<IIntegrationProfile>()
+
+const cvNoteCreateState$ = new Subject<ICvNote>()
+const cvNoteUpdateState$ = new Subject<ICvNote>()
+const cvNoteDeleteState$ = new Subject<ICvNote>()
 
 const defaultValue: IState = {
   isMobile: false,
@@ -236,6 +245,10 @@ const defaultValue: IState = {
   integrationCreateState$,
   integrationUpdateState$,
   integrationDeleteState$,
+
+  cvNoteCreateState$,
+  cvNoteUpdateState$,
+  cvNoteDeleteState$,
 
 }
 

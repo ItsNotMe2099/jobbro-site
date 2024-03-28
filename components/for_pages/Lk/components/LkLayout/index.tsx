@@ -3,6 +3,7 @@ import styles from './index.module.scss'
 import Menu from '../Menu'
 import {ReactElement} from 'react'
 import Layout from '@/components/layout/Layout'
+import {useRouter} from 'next/router'
 
 interface Props {
   children?: ReactElement | ReactElement[]
@@ -10,6 +11,9 @@ interface Props {
 }
 
 const LkPageHirerLayoutInner = (props: Props) => {
+
+  const router = useRouter()
+  const vacancyId = parseInt(router.query.id as string, 10)
   return (
     <Layout hideTabbar={props.hideTabbar}>
       <div className={styles.root}>

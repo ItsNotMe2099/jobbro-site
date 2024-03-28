@@ -8,6 +8,7 @@ import LinkedInLendingSvg from '@/components/svg/LinkedInLendingSvg'
 import TwitterLendingSvg from '@/components/svg/TwitterLendingSvg'
 import YoutubeLendingSvg from '@/components/svg/YoutubeLendingSvg'
 import useTranslation from 'next-translate/useTranslation'
+import LogoSvg from '@/components/svg/LogoSvg'
 
 interface Props {
 
@@ -48,9 +49,7 @@ export default function Footer(props: Props) {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={styles.left}>
-          <div className={styles.logo}>
-            Jobbro
-          </div>
+          <LogoSvg/>
           <div className={styles.info}>
             <div className={styles.item}>
               <div className={styles.title}>

@@ -1,4 +1,3 @@
-import { getAuthServerSideProps } from '@/utils/auth'
 import styles from './index.module.scss'
 import Layout from '@/components/layout/Layout'
 import ChatDialog from '@/components/for_pages/Chat/ChatDialog'
@@ -23,6 +22,3 @@ const ChatPage = (props: Props) => {
 
 
 export default ChatPage
-export const getServerSideProps = getAuthServerSideProps(null, async (context) => {
-  return {props: {id: context.query.id}}
-})
