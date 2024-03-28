@@ -15,8 +15,8 @@ import MenuButton from '@/components/ui/MenuButton'
 import {useRouter} from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import JobStatus from '@/components/for_pages/Lk/Jobs/JobCard/JobStatus'
-import { useAppContext } from '@/context/state'
-import { IShareModalArgs } from '@/components/modals/ShareModal'
+import {useAppContext} from '@/context/state'
+import {IShareModalArgs} from '@/components/modals/ShareModal'
 
 enum MenuKey{
   Edit = 'edit',
@@ -77,7 +77,7 @@ const JobCardInner = (props: Props) => {
   }
   const formattedPublishDate = format(new Date(vacancy.schedulePublishAt ?? vacancy.createdAt),'dd MMMM yyyy')
   return (
-    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row' })}>
+    <div className={classNames(styles.root, props.className, { [styles.row]: props.view === 'row', [styles.closed]: props.vacancy.status === PublishStatus.Closed })}>
       <Link href={Routes.lkJob(vacancy.id)} className={classNames(styles.container)}
         style={{ backgroundColor: getColor(props.vacancy.status) }}>
         <div className={styles.wrapper}>

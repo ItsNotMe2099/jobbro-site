@@ -12,7 +12,23 @@
 .input {
   @include input;
 }
-
+.inputAutoSize {
+  input{
+    background-color: transparent;
+    border-radius: 0px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+  }
+  @include input;
+  flex: unset;
+  width: unset;
+  padding-right: 0px;
+}
+.autoSizeSuffix{
+  padding-top: 12px;
+  line-height: $fieldHeightDefault;
+}
 .top {
   display: flex;
   justify-content: space-between;

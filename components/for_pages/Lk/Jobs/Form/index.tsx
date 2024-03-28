@@ -183,6 +183,7 @@ export default function CreateJobManuallyForm(props: Props) {
     applicationFormLanguage: vacancyContext.vacancy?.applicationFormLanguage ?? null,
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
+    declineAuto: vacancyContext.vacancy?.declineAuto ?? {minRating: 75, replyAfter: 3, enabled: false},
     hiringStagesDescriptions: vacancyContext?.vacancy?.hiringStagesDescriptions ?? [],
     contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false }
   }
@@ -287,7 +288,6 @@ export default function CreateJobManuallyForm(props: Props) {
   }
   const handleClickRefresh = (section: VacancyFormSection) =>{
     const result = vacancyGenerateAiContext.request?.result
-    console.log('ClickRefresh', result)
     if(!result){
       return null
     }

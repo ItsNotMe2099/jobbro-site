@@ -43,3 +43,9 @@
     margin: 0;
     margin-right: 16px;
 }
+.row{
+
+  display: flex;
+  @include list(24px, true);
+
+}

@@ -14,6 +14,7 @@ export interface IVacancyWorkflowData {
   declineAutoMessage: {template: Nullable<string>, enabled: boolean}
   hiringStagesDescriptions: { title: string, description: string }[],
   contactPerson: { name: Nullable<string>, visible: boolean }
+  declineAuto: {minRating: Nullable<number>, replyAfter: Nullable<number>, enabled: boolean}
 }
 export interface IVacancyFormData extends IVacancyWorkflowData{
   status?: Nullable<PublishStatus> | undefined

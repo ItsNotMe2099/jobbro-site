@@ -15,7 +15,7 @@ import Formatter from '@/utils/formatter'
 import SearchSvg from '@/components/svg/SearchSvg'
 import FieldLabel from '@/components/fields/FieldLabel'
 import CloseSvg from '@/components/svg/CloseSvg'
-
+import AutosizeInput from 'react-18-input-autosize'
 export type InputValueType<T> = T | null | undefined
 type FormatType = 'phone' | 'phoneAndEmail' | 'cardExpiry' | 'cardPan' | 'cardCvv' | 'number' | 'price' | 'weight'
 
@@ -40,6 +40,8 @@ export interface InputFieldProps<T> extends IField<InputValueType<T>> {
   formatValue?: (val: InputValueType<T>) => InputValueType<T>
   parseValue?: (val: InputValueType<T>) => InputValueType<T>
   lendingInput?: boolean
+  autoSize?: boolean
+  autoSizeSuffix?: string
 }
 
 const defaultPhonePattern = '+0[00000000000000000000]'
@@ -121,14 +123,14 @@ export default function InputField<T extends string | number>(props: InputFieldP
   })
 
   const autoCompleteProps: any = props.noAutoComplete ? { autoComplete: 'off', autoCorrect: 'off' } : {}
-  
+
   useEffect(() => {
     if (maskRef.current && (props.format === 'phone' || props.format === 'phoneAndEmail')) {
       let phone = `${field.value && !`${field.value}`.startsWith('+') ? '+' : ''}${field.value}`
       const asYouType = new AsYouType()
       asYouType.input(phone || '')
       const noMoreDigits = validatePhoneNumberLength(phone+'0', asYouType.country)
-    
+
       // const notValidLength = validatePhoneNumberLength(phone, asYouType.country)
       const template = asYouType.getTemplate()
 
@@ -145,7 +147,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
         updateValueFromMask()
       }
 
-      
+
       if (props.format === 'phoneAndEmail') {
         const looksLikePhone = /^\+?\d\s?\d\s?\d/.test(field.value || '') || /\d/.test(field.value || '')
         const looksLikeEmail = /[@.]/.test(field.value || '')
@@ -178,7 +180,7 @@ export default function InputField<T extends string | number>(props: InputFieldP
       }
     }
   }
-  
+
   const renderSuffix = () => {
     if (props.suffix === 'search') {
       return <div className={cx(styles.suffix)}><SearchSvg color={colors.black} /></div>
@@ -226,7 +228,41 @@ export default function InputField<T extends string | number>(props: InputFieldP
           {props.prefix && (
             renderPrefix()
           )}
-          <input
+          {props.autoSize ? <AutosizeInput
+            name={field.name}
+            value={`${parseValue(field.value) ?? ''}`}
+            disabled={props.disabled}
+            inputRef={props.format && ref as any}
+            type={props.obscure ? (obscureShow ? 'text' : 'password') : props.type ?? 'text'}
+            className={classNames({
+              [styles.inputAutoSize]: true,
+              //[styles.inputError]: showError,
+              [styles.withLabel]: props.label,
+              [styles.withValue]: !!field.value,
+              [styles.inputFocused]: focused,
+              [styles.withPrefix]: !!props.prefix,
+              [styles.withClear]: props.resettable && !!field.value,
+              [styles.disabled]: props.disabled
+            }, props.classNameInput)}
+            {...!props.format ? {
+              onChange: (e: any) => {
+                const formatted = formatValue(e.currentTarget.value as InputValueType<T>)
+                helpers.setValue(formatted)
+                props.onChange?.(formatted)
+              }
+            } : {}}
+            placeholder={props.placeholder}
+            onFocus={() => {
+
+              setFocus(true)
+            }}
+            onBlur={(e: any) => {
+              setFocus(false)
+              field.onBlur(e)
+              blurValidator()
+            }}
+            {...autoCompleteProps}
+          /> : <input
             name={field.name}
             value={`${parseValue(field.value) ?? ''}`}
             disabled={props.disabled}
@@ -260,7 +296,11 @@ export default function InputField<T extends string | number>(props: InputFieldP
               blurValidator()
             }}
             {...autoCompleteProps}
-          />
+          />}
+          <div className={styles.autoSizeSuffix}>
+            {props.autoSizeSuffix}
+          </div>
+
           {props.obscure && (
             <div className={classNames(styles.obscure)} onClick={() => {
               setObscureShow(!obscureShow)

@@ -49,7 +49,8 @@ const JobSettingsPage = () => {
     applyAutoMessage:  vacancyContext.vacancy?.applyAutoMessage ?? {template: null, enabled: false},
     declineAutoMessage: vacancyContext.vacancy?.declineAutoMessage ?? {template: null, enabled: false},
     hiringStagesDescriptions: vacancyContext?.vacancy?.hiringStagesDescriptions ?? [],
-    contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false }
+    contactPerson: vacancyContext?.vacancy?.contactPerson ?? { name: null, visible: false },
+    declineAuto: vacancyContext.vacancy?.declineAuto ?? {minRating: 75, replyAfter: 3, enabled: false},
   }
 
   const formik = useFormik<IVacancyWorkflowData>({

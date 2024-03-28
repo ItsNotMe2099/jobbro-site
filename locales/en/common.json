@@ -31,9 +31,6 @@
   "new_job_dropdown_ai_desc": "Fast automatic generation",
 
   "chats_title": "Chats",
-  "chats_tab_all": "All",
-  "chats_tab_invites": "Invites",
-  "chats_tab_new_messages": "New Messages",
   "chats_nothing_found": "Nothing found",
   "chat_message_form_placeholder": "Enter message",
   "chat_message_type_event_start_meet": "Start meet",
