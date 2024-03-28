@@ -11,7 +11,7 @@ import {colors} from '@/styles/variables'
 import MenuOptions from '@/components/for_pages/Common/MenuOptions'
 import useTranslation from 'next-translate/useTranslation'
 import {useAppContext} from '@/context/state'
-import {HirerRole} from '@/data/enum/HirerRole'
+//import {HirerRole} from '@/data/enum/HirerRole'
 import { useDetectOutsideClick } from '@/components/hooks/useDetectOutsideClick'
 
 interface Props {
@@ -35,7 +35,7 @@ export default function Menu(props: Props) {
     { label: t('hirer_left_menu_hiring_boards'), link: Routes.lkHiringBoards },
     { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
   //  { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
-    ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }] : []),
+    /*...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [*/  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }/*] : [])*/,
 ]
 
   const [showOptions, setShowOptions] = useState<boolean>(false)

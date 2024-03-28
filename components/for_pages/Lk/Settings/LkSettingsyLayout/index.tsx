@@ -14,7 +14,8 @@ enum TabKey {
   Integrations = 'integrations',
   Refferals = 'refferals',
   SocialSharing = 'social-sharing',
-  JobWidget = 'job-widget'
+  JobWidget = 'job-widget',
+  PricingPlans = 'pricing-plans'
 }
 
 
@@ -24,11 +25,12 @@ interface Props {
 const LkSettingsPageLayoutInner = (props: Props) => {
   const { t } = useTranslation()
   const options: IOption<TabKey>[] = [
-  //  { label: 'Payments', value: TabKey.Payments, href: Routes.lkSettingsPayments },
+    //  { label: 'Payments', value: TabKey.Payments, href: Routes.lkSettingsPayments },
     { label: 'Integrations', value: TabKey.Integrations, href: Routes.lkSettingsIntegrations },
-  //  { label: 'Refferals', value: TabKey.Refferals, href: Routes.lkSettingsReferrals },
+    //  { label: 'Refferals', value: TabKey.Refferals, href: Routes.lkSettingsReferrals },
     { label: t('settings_social_sharing'), value: TabKey.SocialSharing, href: Routes.lkSettingsSocialSharing },
     { label: t('settings_job_widget'), value: TabKey.JobWidget, href: Routes.lkSettingsJobWidget },
+    { label: t('settings_pricing_plans'), value: TabKey.PricingPlans, href: Routes.lkSettingsPricingPlans },
   ]
 
   return (
@@ -45,7 +47,7 @@ const LkSettingsPageLayoutWrapper = (props: Props) => {
 
   return (
     <JobWidgetWrapper>
-    <LkSettingsPageLayoutInner>{props.children}</LkSettingsPageLayoutInner>
+      <LkSettingsPageLayoutInner>{props.children}</LkSettingsPageLayoutInner>
     </JobWidgetWrapper>
   )
 }

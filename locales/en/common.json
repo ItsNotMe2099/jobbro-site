@@ -438,6 +438,7 @@
   "settings_title": "Settings",
   "settings_social_sharing": "Social sharing",
   "settings_job_widget": "Job Widget",
+  "settings_pricing_plans": "Pricing Plans",
 
   "social_sharing_title": "Job ad image",
   "social_sharing_background_color": "Background colour",
@@ -646,6 +647,8 @@
   "job_review_field_review_candidate_selection": "Write a review",
   "job_review_field_mark_platform": "Evaluate the quality of work on the platform",
   "job_review_field_review_platform": "Write a review",
+
+  "pricing_plans_select_plan_button": "Select plan",
 
   "jobId_table_name": "Name",
   "jobId_table_rate": "Rate",

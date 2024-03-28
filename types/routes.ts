@@ -1,4 +1,4 @@
-import {IntegrationPlatform} from '@/data/enum/IntegrationPlatform'
+import { IntegrationPlatform } from '@/data/enum/IntegrationPlatform'
 
 export class Routes {
   static getGlobal(url: string) {
@@ -158,10 +158,10 @@ export class Routes {
     return '/lk/settings/integrations'
   }
 
-  static  lkSettingsIntegrationCreate(platform?: IntegrationPlatform) {
+  static lkSettingsIntegrationCreate(platform?: IntegrationPlatform) {
     return `/lk/settings/integrations/create${platform ? `?platform=${platform}` : ''}`
   }
-  static  lkSettingsIntegrationEdit(id: number) {
+  static lkSettingsIntegrationEdit(id: number) {
     return `/lk/settings/integrations/${id}`
   }
 
@@ -171,6 +171,14 @@ export class Routes {
 
   static get lkSettingsJobWidget() {
     return '/lk/settings/job-widget'
+  }
+
+  static get lkSettingsPricingPlans() {
+    return '/lk/settings/pricing-plans'
+  }
+
+  static get lkSettingsPricingPlansPayment() {
+    return '/lk/settings/pricing-plans-payment'
   }
 
   static get lkSettingsConfigWidgetSettings() {

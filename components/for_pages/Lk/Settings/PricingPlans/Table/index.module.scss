@@ -1,0 +1,76 @@
+@import "styles/index";
+
+.root {
+  padding: 24px;
+  background-color: white;
+  border-radius: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.table {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tr {
+  display: table-row;
+
+  .td:first-child {
+    width: 30%;
+  }
+
+  .td:last-child {
+    border-right: 0;
+  }
+}
+
+.td {
+  display: table-cell;
+  border-right: 2px solid #EBEBEB;
+  text-align: center;
+  width: 25%;
+}
+
+.price {
+  padding-top: 18px;
+}
+
+.head {
+  text-align: start;
+  vertical-align: middle;
+}
+
+.big {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  padding-top: 42px;
+}
+
+.sparks {
+  width: 36px;
+  height: 36px;
+}
+
+.posted {
+  padding-top: 30px;
+}
+
+.perfect {
+  padding: 2px 8px 2px 8px;
+  border-radius: 16px;
+  font-size: 16px;
+  opacity: 0px;
+  background: #DBF9DD;
+  color: #24B563;
+}
