@@ -1,32 +1,37 @@
 import { createContext, useContext, useState } from 'react'
-import { useAppContext } from '@/context/state'
 import { PlanType } from '@/data/enum/PlanType'
 
 
 interface IState {
   plan: PlanType | null
-  setPlan: (plan: PlanType | null) => void
+  updatePlan: (plan: PlanType | null) => void
 }
 
-const PricingPlanSettingsContext = createContext<IState>({} as IState)
+const defaultValue: IState = {
+  plan: null,
+  updatePlan: (plan: PlanType | null) => null
+}
+
+const PricingPlanSettingsContext = createContext<IState>(defaultValue)
 
 interface Props {
   children: React.ReactNode
 }
 
 export function PricingPlanSettingsWrapper(props: Props) {
-  const appContext = useAppContext()
+
   const [plan, setPlan] = useState<PlanType | null>(null)
 
   const value: IState = {
+    //...defaultValue,
     plan,
-    setPlan: (plan) => {
+    updatePlan: (plan) => {
       setPlan(plan)
-    }
+    },
   }
 
   return (
-    <PricingPlanSettingsContext.Provider value={value as IState}>
+    <PricingPlanSettingsContext.Provider value={value}>
       {props.children}
     </PricingPlanSettingsContext.Provider>
   )

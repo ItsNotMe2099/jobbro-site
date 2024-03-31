@@ -6,6 +6,8 @@ import classNames from 'classnames'
 import Button from '@/components/ui/Button'
 import CheckSvg from '@/components/svg/CheckSvg'
 import { colors } from '@/styles/variables'
+import { Routes } from '@/types/routes'
+import { useRouter } from 'next/router'
 
 
 interface Props {
@@ -17,6 +19,13 @@ export default function PricingPlanTable(props: Props) {
   const { t } = useTranslation()
 
   const pricingPlanSettingsContext = usePricingPlanSettingsContext()
+
+  const router = useRouter()
+
+  const handleClick = (plan: PlanType) => {
+    pricingPlanSettingsContext.updatePlan(plan)
+    router.push(Routes.lkSettingsPricingPlansPayment)
+  }
 
   return (
     <div className={styles.root}>
@@ -49,19 +58,19 @@ export default function PricingPlanTable(props: Props) {
         <div className={styles.tr}>
           <div className={styles.td} />
           <div className={classNames(styles.td, styles.price)}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Free)}
+            <Button onClick={() => handleClick(PlanType.Free)}
               className={styles.btn} styleType='large' color={'white'}>
               {t('pricing_plans_select_plan_button')}
             </Button>
           </div>
           <div className={classNames(styles.td, styles.price)}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Professional)}
+            <Button onClick={() => handleClick(PlanType.Professional)}
               className={styles.btn} styleType='large' color={'green'}>
               {t('pricing_plans_select_plan_button')}
             </Button>
           </div>
           <div className={classNames(styles.td, styles.price)}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Enterprise)}
+            <Button onClick={() => handleClick(PlanType.Enterprise)}
               className={styles.btn} styleType='large' color={'green'}>
               {t('pricing_plans_select_plan_button')}
             </Button>
@@ -186,19 +195,19 @@ export default function PricingPlanTable(props: Props) {
         <div className={styles.tr}>
           <div className={styles.td} />
           <div className={classNames(styles.td, styles.price)} style={{ paddingTop: '50px' }}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Free)}
+            <Button onClick={() => handleClick(PlanType.Free)}
               className={styles.btn} styleType='large' color={'white'}>
               {t('pricing_plans_select_plan_button')}
             </Button>
           </div>
           <div className={classNames(styles.td, styles.price)} style={{ paddingTop: '50px' }}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Professional)}
+            <Button onClick={() => handleClick(PlanType.Professional)}
               className={styles.btn} styleType='large' color={'green'}>
               {t('pricing_plans_select_plan_button')}
             </Button>
           </div>
           <div className={classNames(styles.td, styles.price)} style={{ paddingTop: '50px' }}>
-            <Button onClick={() => pricingPlanSettingsContext.setPlan(PlanType.Enterprise)}
+            <Button onClick={() => handleClick(PlanType.Enterprise)}
               className={styles.btn} styleType='large' color={'green'}>
               {t('pricing_plans_select_plan_button')}
             </Button>

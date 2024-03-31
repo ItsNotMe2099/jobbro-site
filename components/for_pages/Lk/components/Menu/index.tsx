@@ -37,6 +37,7 @@ export default function Menu(props: Props) {
     { label: t('hirer_left_menu_your_company'), link: Routes.lkCompany },
     //  { label: t('hirer_left_menu_templates'), link: Routes.lkScorecardsTemplates },
     ...(appContext.aboutMe?.hirerRole === HirerRole.Admin ? [  { label: t('hirer_left_menu_settings'), link: Routes.lkSettings }] : []),
+    //{ label: t('hirer_left_menu_settings'), link: Routes.lkSettings }
 ]
 
   const [showOptions, setShowOptions] = useState<boolean>(false)

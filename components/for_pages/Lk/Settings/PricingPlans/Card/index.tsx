@@ -9,6 +9,7 @@ import useTranslation from 'next-translate/useTranslation'
 import { usePricingPlanSettingsContext } from '@/context/pricing_plan_settings_state'
 import StarSvg from '@/components/svg/StarSvg'
 import { Routes } from '@/types/routes'
+import { useRouter } from 'next/router'
 
 interface IPlan {
   type: PlanType
@@ -35,6 +36,14 @@ export default function PricingPlanCard({ plan, best }: Props) {
     { svg: <CheckSvg className={styles.sparks} color={colors.green} />, text: <div className={styles.text}>ATS managefull access</div> },
     { svg: <CheckSvg className={styles.sparks} color={colors.green} />, text: <div className={styles.text}>CV Database with import yours</div> },
   ]
+
+  const router = useRouter()
+
+  const handleClick = () => {
+    pricingPlanSettingsContext.updatePlan(plan.type)
+    router.push(Routes.lkSettingsPricingPlansPayment)
+    console.log(pricingPlanSettingsContext.plan)
+  }
 
   return (
     <div className={classNames(styles.root, {
@@ -78,7 +87,7 @@ export default function PricingPlanCard({ plan, best }: Props) {
           )}
         </div>
       </div>
-      <Button href={Routes.lkSettingsPricingPlansPayment} onClick={() => pricingPlanSettingsContext.setPlan(plan.type)}
+      <Button onClick={handleClick}
         className={styles.btn} styleType='large' color={plan.type !== PlanType.Free ? 'green' : 'white'}>
         {t('pricing_plans_select_plan_button')}
       </Button>

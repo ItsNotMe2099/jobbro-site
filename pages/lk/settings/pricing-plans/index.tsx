@@ -3,7 +3,7 @@ import { ProfileType } from '@/data/enum/ProfileType'
 import { LkSettingsPageLayout } from '@/components/for_pages/Lk/Settings/LkSettingsyLayout'
 import styles from './index.module.scss'
 import { HirerRole } from '@/data/enum/HirerRole'
-import { PricingPlanSettingsWrapper, usePricingPlanSettingsContext } from '@/context/pricing_plan_settings_state'
+import { PricingPlanSettingsWrapper } from '@/context/pricing_plan_settings_state'
 import { PlanType } from '@/data/enum/PlanType'
 import PricingPlanCard from '@/components/for_pages/Lk/Settings/PricingPlans/Card'
 import PricingPlanTable from '@/components/for_pages/Lk/Settings/PricingPlans/Table'
@@ -13,8 +13,6 @@ interface Props {
 }
 
 const LkSettingsPricingPlansPageInner = (props: Props) => {
-
-  const pricingPlanSettingsContext = usePricingPlanSettingsContext()
 
   const items = [
     { type: PlanType.Free, price: '0', jobsPosted: '2 Jobs posted', users: '3 Users', accounts: '100 accounts', monthly: '' },
