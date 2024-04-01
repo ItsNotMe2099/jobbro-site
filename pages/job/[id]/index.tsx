@@ -27,6 +27,7 @@ import ImageHelper from '@/utils/ImageHelper'
 import {SalaryType} from '@/data/enum/SalaryType'
 import {Employment} from '@/data/enum/Employment'
 import EntityViewRepository, {EntityViewType} from '@/data/repositories/EntityViewRepository'
+import {serverRuntimeConfig, runtimeConfig} from '@/config/runtimeConfig'
 
 const getSalaryUnitJsonLd = (vacancy: IVacancy):      'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' => {
   switch (vacancy.salaryType){
@@ -138,12 +139,12 @@ const JobPageInner = (props: Props) => {
         openGraph={{
 
           type: 'website',
-          url: `https://jobbro.dev.firelabs.ru/job/${props.job.id}`,
+          url: `${serverRuntimeConfig?.HOST_FRONT ?? runtimeConfig?.HOST_FRONT}/job/${props.job.id}`,
           title: props.job.name,
           description: props.job.intro.visible ? props.job.intro.description : '',
           images: [
             {
-              url: `https://jobbro.dev.firelabs.ru/api/share-image/job/${props.job.id}`,
+              url: `${serverRuntimeConfig?.HOST_FRONT ?? runtimeConfig?.HOST_FRONT}/api/share-image/job/${props.job.id}`,
               width: 540,
               height: 450,
               alt: props.job.name,

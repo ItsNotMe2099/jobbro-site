@@ -2,6 +2,7 @@ import getConfig from 'next/config'
 
 interface IRuntimeConfig {
   HOST: string
+  HOST_FRONT?: string
   ROBOTS_FILE: string
   NODE_ENV: 'development' | 'production'
   DEV: boolean
@@ -15,6 +16,7 @@ interface IRuntimeConfig {
 interface IServerRuntimeConfig {
   HOST: string
   HOST_INNER?: string
+  HOST_FRONT?: string
   ROBOTS_FILE: string
   API_FRONTEND_TOKEN: string
 }
