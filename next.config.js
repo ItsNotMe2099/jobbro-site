@@ -3,6 +3,7 @@ module.exports = nextTranslate({
   reactStrictMode: true,
   publicRuntimeConfig: {
     HOST: process.env.HOST,
+    HOST_FRONT: process.env.HOST_FRONT,
     CACHE_TIME_HOURS: Number.parseInt(process.env.CACHE_TIME_HOURS ?? '0'),
     NODE_ENV: process.env.NODE_ENV || 'development',
     DEV: process.env.NODE_ENV === 'development',
@@ -26,6 +27,7 @@ module.exports = nextTranslate({
   serverRuntimeConfig: {
     HOST: process.env.HOST,
     HOST_INNER: process.env.HOST_INNER,
+    HOST_FRONT: process.env.HOST_FRONT,
     ROBOTS_FILE: process.env.ROBOTS_FILE,
   },
   async rewrites() {
@@ -41,7 +43,7 @@ module.exports = nextTranslate({
 
 // Injected content via Sentry wizard below
 
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig(
   module.exports,
@@ -51,8 +53,8 @@ module.exports = withSentryConfig(
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "cuprum",
-    project: "jobbro-front",
+    org: 'cuprum',
+    project: 'jobbro-front',
   },
   {
     // For all available options, see:
@@ -65,7 +67,7 @@ module.exports = withSentryConfig(
     transpileClientSDK: true,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
+    tunnelRoute: '/monitoring',
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,
@@ -79,4 +81,4 @@ module.exports = withSentryConfig(
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
   }
-);
+)
