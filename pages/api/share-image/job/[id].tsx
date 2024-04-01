@@ -2,7 +2,6 @@ import { ImageResponse } from 'next/server'
 import {IVacancy} from '@/data/interfaces/IVacancy'
 import VacancyUtils from '@/utils/VacancyUtils'
 import {IVacancyShareSettings} from '@/data/interfaces/IVacancyShareSettings'
-import {serverRuntimeConfig} from '@/config/runtimeConfig'
 interface IVacancyWidthShareSettings extends  IVacancy{
   shareSettings: IVacancyShareSettings
 }
@@ -15,7 +14,7 @@ export default async function handler(request: Request) {
   const id = url.searchParams.get('id')
 
   const vacancy = await fetch(
-    `${serverRuntimeConfig.HOST_INNER}/api/vacancy/${id}?forShareImage=true`,
+    `${process.env.HOST_INNER}/api/vacancy/${id}?forShareImage=true`,
     { next: { revalidate: 0 } }
   ).then((res) => res.json() as Promise<IVacancyWidthShareSettings>)
   const salary = VacancyUtils.formatSalary(vacancy)
