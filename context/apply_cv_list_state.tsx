@@ -92,7 +92,7 @@ export function ApplyCvListWrapper(props: Props) {
   const filterRef = useRef<IApplyCvFilter>(filter)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const limit = props.limit ?? 20
+  const limit = props.limit ?? 100
   const init = async () => {
     await Promise.all([fetch()])
     setIsLoaded(true)

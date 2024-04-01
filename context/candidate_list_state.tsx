@@ -82,7 +82,7 @@ export function CandidateListWrapper(props: Props) {
   const sortTypeRef = useRef<Nullable<CvListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const limit = props.limit ?? 30
+  const limit = props.limit ?? 100
   const init = async () => {
     await Promise.all([fetch()])
     setIsLoaded(true)

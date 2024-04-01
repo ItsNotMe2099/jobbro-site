@@ -68,7 +68,7 @@ export function VacancyListOwnerWrapper(props: Props) {
   const sortTypeRef = useRef<Nullable<VacancyOwnerListSortType>>(sortType)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const limit = props.limit ?? 20
+  const limit = props.limit ?? 100
   const init = async () => {
     await Promise.all([fetch()])
     setIsLoaded(true)
