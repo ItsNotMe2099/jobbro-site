@@ -9,6 +9,7 @@ import {Routes} from '@/types/routes'
 import {useHiringBoardContext} from '@/context/hiring_board_state'
 import {useCvEvaluationContext} from '@/context/cv_evaluation_state'
 import {useEffect} from 'react'
+import DownloadCvButton from '@/components/for_pages/Common/DownloadCvButton'
 interface Props {
   apply: ICVWithApply
   dragProvided: DraggableProvided
@@ -43,7 +44,7 @@ export default function HiringBoardCard(props: Props) {
             <div className={styles.badges}>
               {!!evaluation?.percentEvaluation && <div className={styles.badge}>{evaluation?.percentEvaluation}%</div>}
               <Link href={Routes.lkHiringBoardCv(hiringBoardContext.vacancyId!, apply.id)} className={styles.badge}>Open cv</Link>
-
+            <DownloadCvButton styleType={'badge'} cv={apply}  />
             </div>
         </div>
 

@@ -1,0 +1,38 @@
+@import "styles/index";
+.root {
+  position: relative;
+  &.fluid{
+    width: 100%;
+  }
+}
+.menu {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &.badge{
+    @include greenBadge();
+  }
+  .chevron{
+
+  }
+  &.buttonGreen, &.buttonTransparent{
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    display: flex;
+    flex-direction: row;
+    @include list(4px, true);
+    height: 40px;
+      padding-right: 8px;
+  }
+  &.buttonGreen{
+    background-color: $green;
+    color: $white;
+  }
+  &.buttonTransparent{
+    background-color: transparent;
+    color: $text-primary;
+  }
+}

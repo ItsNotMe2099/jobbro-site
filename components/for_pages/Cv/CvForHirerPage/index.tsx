@@ -11,6 +11,7 @@ import CvForHirerResume from '@/components/for_pages/Cv/CvForHirerPage/CvForHire
 import CvForHirerChat from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerChat'
 import {CvNoteListOwnerWrapper} from '@/context/cv_note_list_state'
 import CvForHirerNotesTab from '@/components/for_pages/Cv/CvForHirerPage/CvForHirerNotesTab'
+import DownloadCvButton from '@/components/for_pages/Common/DownloadCvButton'
 enum MenuKey{
   Resume = 'resume',
   Chat = 'chat',
@@ -41,7 +42,10 @@ const CvForHirerPage = (props: Props) => {
   return (<CvNoteListOwnerWrapper cvId={props.cv.id}>
      <div ref={ref} className={styles.root}>
         <PageTitle title={cv.title} link={props.backLink} />
-       <Tabs<MenuKey> options={tabs} value={tab} onClick={handleChangeTab}/>
+       <div className={styles.top}>
+         <Tabs<MenuKey> options={tabs} value={tab} onClick={handleChangeTab}/>
+         <DownloadCvButton styleType={'buttonGreen'} cv={props.cv}  />
+       </div>
        {tab === MenuKey.Resume && <CvForHirerResume cv={props.cv} backLink={props.backLink} />}
        {props.vacancyId && tab === MenuKey.Chat && <CvForHirerChat cvId={props.cv.id} vacancyId={props.vacancyId}/>}
        {tab === MenuKey.Notes && <CvForHirerNotesTab/>}

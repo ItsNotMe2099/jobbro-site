@@ -937,5 +937,8 @@
   "404_page_button_back": "Back",
 
   "error_page_title": "Error happened",
-  "error_page_button_home": "Go to Home"
+  "error_page_button_home": "Go to Home",
+
+
+  "btn_download_cv": "Download CV"
 }
