@@ -36,11 +36,24 @@ export default function HiringBoardColumnHeader(props: Props) {
             {...props.dragProvided.dragHandleProps}>
             <DragSvg color={colors.simpleGrey}/>
           </div>}
-         <div className={styles.title}>{formatStageTitle(stage)}</div>
-          <div className={styles.right}>
-          <div className={styles.amount}>{stage?.currentCandidatesCount}</div>
-          <div className={styles.conversion}>{Math.round(stage.stageConversionRate ?? 0)}%</div>
+          <div className={styles.top}>
+            <div className={styles.title}>{formatStageTitle(stage)}</div>
+            <div className={styles.conversion}>{Math.round(stage.stageConversionRate ?? 0)}%</div>
+
           </div>
+          <div className={styles.center}>
+            <div className={styles.left}>
+              <div className={styles.label}>Rejected:</div>
+              <div className={styles.value}>{stage?.currentCandidatesCount}</div>
+            </div>
+            <div className={styles.right}>
+              <div className={styles.label}>Total:</div>
+              <div className={styles.value}>{stage?.currentCandidatesCount}</div>
+
+            </div>
+
+          </div>
+          <div className={styles.separator}></div>
           {props.isEdit && <IconButton
             size={'small'}
             onClick={() => hiringBoardContext.deleteHiringStage(props.hiringStage)}>

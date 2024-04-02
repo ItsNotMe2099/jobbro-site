@@ -60,6 +60,10 @@ export class Routes {
     return `/job/${id}`
   }
 
+  static cv(id: string | number) {
+    return `/cv/${id}`
+  }
+
   static get lk() {
     return '/lk'
   }

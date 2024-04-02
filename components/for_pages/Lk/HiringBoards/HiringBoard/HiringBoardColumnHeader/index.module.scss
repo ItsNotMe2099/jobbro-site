@@ -2,29 +2,26 @@
 
 .root {
   display: flex;
-  @include list(10px, true);
-  background: $white;
-  padding-bottom: 20px;
-
+  flex-direction: column;
+  padding-bottom: 16px;
+  @include list(8px);
 }
-.right{
+.top{
   display: flex;
-  @include list(10px, true);
+  flex-direction: row;
+  align-items: center;
 }
+
 .title{
   flex: 1;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 20px;
-}
-.amount{
-  background-color: $background-success;
-  color: $green;
-  border-radius: 8px;
-  padding: 4px 8px;
+  font-weight: 400;
   font-size: 16px;
-  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 8px;
 }
+
 .conversion{
   background-color: $green;
   color: $white;
@@ -32,4 +29,31 @@
   padding: 4px 8px;
   font-size: 16px;
   font-weight: 600;
+}
+
+
+.center{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .left, .right{
+    display: flex;
+    @include list(4px, true);
+  }
+}
+.label{
+  font-weight: 400;
+  font-size: 14px;
+  color: $text-secondary;
+}
+.value{
+  font-weight: 700;
+  font-size: 14px;
+  color: $text-secondary;
+}
+.separator{
+  height: 2px;
+  background-color: $green;
+  border-radius: 2px;
 }

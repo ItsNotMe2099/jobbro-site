@@ -4,7 +4,7 @@ import {ProfileType} from '@/data/enum/ProfileType'
 import { useMemo, useRef, useState} from 'react'
 import {Routes} from '@/types/routes'
 import {useRouter} from 'next/router'
-import {CardViewType, ModalType, SidePanelType} from '@/types/enums'
+import {CardViewType, SidePanelType} from '@/types/enums'
 import FilterToolbar from '@/components/for_pages/Common/FilterToolbar'
 import ViewToggleFilterButton from '@/components/for_pages/Common/FilterToolbar/ViewToggleFilterButton'
 import {ApplyCvListWrapper, useApplyCvListOwnerContext} from '@/context/apply_cv_list_state'
@@ -15,7 +15,7 @@ import {
 } from '@/context/hiring_stage_list_state'
 import SortFilterButton from '@/components/for_pages/Common/FilterToolbar/SortFilterButton'
 import FilterButton from '@/components/for_pages/Common/FilterToolbar/FilterButton'
-import {CvFilterSidePanelArguments} from '@/types/side_panel_arguments'
+import {CvFilterSidePanelArguments, JobInviteSidePanelArguments} from '@/types/side_panel_arguments'
 import useTranslation from 'next-translate/useTranslation'
 import {CvListSortType} from '@/data/enum/CvListSortType'
 import {useAppContext} from '@/context/state'
@@ -38,7 +38,6 @@ import type { Key } from 'react'
 import { ApplyCvWrapper, useApplyCvContext } from '@/context/apply_cv_state'
 import UserUtils from '@/utils/UserUtils'
 import Formatter from '@/utils/formatter'
-import DownloadSvg from '@/components/svg/DownloadSvg'
 import { useCvEvaluationContext } from '@/context/cv_evaluation_state'
 import {runtimeConfig} from '@/config/runtimeConfig'
 import LinkSvg from '@/components/svg/LinkSvg'
@@ -51,11 +50,12 @@ import JobApplyCard from '@/components/for_pages/Lk/Jobs/JobApplyCard'
 import Checkbox from '@/components/ui/Checkbox'
 import { ICV } from '@/data/interfaces/ICV'
 import { useCandidateAddedContext } from '@/context/candidate_added_state'
-import { IShareModalArgs } from '@/components/modals/ShareModal'
 import { IVacancy } from '@/data/interfaces/IVacancy'
 import JobApplyStatus from '@/components/for_pages/Lk/Jobs/JobApplyCard/JobApplyStatus'
 import JobPageLayout, {JobPageTabKey} from '@/components/for_pages/Lk/Job/JobPageLayout'
 import {LkJobHirerLayout} from '@/components/for_pages/Lk/Job/LkJobLayout'
+import ImageHelper from '@/utils/ImageHelper'
+import showToast from '@/utils/showToast'
 
 
 
@@ -68,11 +68,12 @@ interface Props {
 }
 
 enum MenuKey{
-  DownLoadPDF = 'downloadPDF',
+  DownloadPdf = 'downloadPdf',
+  DownloadOriginalPdf = 'downloadOriginalPdf',
   AddToBase = 'addToBase',
   InviteToOtherJob = 'inviteToOtherJob',
   Select = 'select',
-  DownloadOriginal = 'downloadOriginal'
+  Share = 'share'
 }
 
 
@@ -84,7 +85,6 @@ export interface Row  {
   email: string;
   applied: string;
   location: string
-  cv: JSX.Element | null
   actions: JSX.Element | null
   id: number
 }
@@ -156,8 +156,6 @@ const RowElement = (props: {rowProps: RenderRowProps<Row, unknown>, key: Key}) =
         return value
       case 'stage':
         return value
-      case 'cv':
-        return value
       default :
         return <span className={styles.rowSpan} title={value}>{value}</span>
     }
@@ -187,36 +185,42 @@ const ActionButtons = (props: {cv: ICV, vacancyId: number}) => {
 
   const handleClickItem = (value: MenuKey) => {
     switch(value){
-      case MenuKey.DownLoadPDF: {
+      case MenuKey.DownloadPdf:
         window.open(`${runtimeConfig.HOST}/api/cv/${props.cv!.id}/exportToPdf` )
-      }
         break
-      case MenuKey.AddToBase: {
+      case MenuKey.DownloadOriginalPdf:
+        window.open(`${ImageHelper.urlFromFile(props.cv.file)}`, '_blank')
+        break
+      case MenuKey.AddToBase:
         favoriteContext.like(props.cv!.id)
-      }
         break
-      case MenuKey.Select: {
+      case MenuKey.InviteToOtherJob:
+        appContext.showSidePanel(SidePanelType.InviteToJob, { cv: props.cv } as JobInviteSidePanelArguments)
+        break
+      case MenuKey.Select:
         applyCvListContext.addToSelectedId(props.cv.id)
-      }
+        break
+      case MenuKey.Share:
+        navigator.clipboard.writeText( Routes.getGlobal(Routes.lkJobCv(props.vacancyId!, props.cv.id)))
+        showToast({title: t('toast_cv_share_copied_link')})
         break
     }
+    setIsActive(false)
 
   }
 
   const menuOptions: IOption<MenuKey>[] = [
-    {label: t('jobId_tableAction_downloadPdf'), value: MenuKey.DownLoadPDF, },
-    {label: t('jobId_tableAction_addToBase'), value: MenuKey.AddToBase},
-    {label: t('jobId_tableAction_inviteToOther'), value: MenuKey.InviteToOtherJob},
-    {label: t('jobId_tableAction_select'), value: MenuKey.Select},
+    {label: t('apply_card_menu_download'), value: MenuKey.DownloadPdf},
+    ...(props.cv.file ? [{label: t('apply_card_menu_download_original'), value: MenuKey.DownloadOriginalPdf}] : []),
+    {label: t('apply_card_menu_add_to_base'), value: MenuKey.AddToBase},
+    {label: t('apply_card_menu_invite'), value: MenuKey.InviteToOtherJob},
+    {label: t('apply_card_menu_select'), value: MenuKey.Select},
+    {label: t('apply_card_menu_share'), value: MenuKey.Share},
   ]
-  if(props.cv.file) {
-    menuOptions.push({label: t('jobId_tableAction_downloadOriginal'), value: MenuKey.DownloadOriginal})
-  }
 
   const onShareClick = () => {
-    appContext.showModal<IShareModalArgs>(ModalType.ShareModal, {
-      link: Routes.getGlobal(Routes.lkJob(props.vacancyId)+`/cv/${props.cv.id}`),
-    })
+    navigator.clipboard.writeText( Routes.getGlobal(Routes.lkJobCv(props.vacancyId!, props.cv.id)))
+    showToast({title: t('toast_cv_share_copied_link')})
   }
 
 
@@ -300,7 +304,6 @@ const JobPageInner = (props: Props) => {
     {key: 'email', name: t('jobId_table_email'), minWidth: 130,sortable: true, renderHeaderCell},
     {key: 'applied', name: t('jobId_table_appliedOn'), minWidth: 130, sortable: true, resizable: false, renderHeaderCell},
     {key: 'location', name: t('jobId_table_candidateLocation'), minWidth: 184, sortable: true,  renderHeaderCell},
-    {key: 'cv', name: t('jobId_table_cv'), minWidth: 164 , sortable: true, renderHeaderCell},
     {key: 'actions', name: t('jobId_table_actions'), minWidth: 170, resizable: false,  renderHeaderCell}
   ]
 
@@ -312,7 +315,6 @@ const JobPageInner = (props: Props) => {
       email: el.profile?.email||'',
       applied: Formatter.formatDate(String(el.applications[0].updatedAt)),
       location: el?.city?.locName||'',
-      cv: <Link href={`${runtimeConfig.HOST}/api/cv/${el!.id}/exportToPdf`} className={styles.rowLine}><DownloadSvg/> <span className={styles.rowLink}>Original PDF</span></Link>,
       actions: <ActionButtons cv={el} key={'actionButtons'+el.id} vacancyId={Number((vacancyOwnerContext.vacancy as IVacancy).id) }/>,
       id: el.id
     }

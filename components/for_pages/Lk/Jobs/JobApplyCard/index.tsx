@@ -24,9 +24,12 @@ import {runtimeConfig} from '@/config/runtimeConfig'
 import Checkbox from '@/components/ui/Checkbox'
 import {NotificationUnreadType} from '@/data/interfaces/INotification'
 import {useNotificationContext} from '@/context/notifications_state'
+import ImageHelper from '@/utils/ImageHelper'
+import showToast from '@/utils/showToast'
 
 enum MenuKey{
   DownloadPdf = 'downloadPdf',
+  DownloadOriginalPdf = 'downloadOriginalPdf',
   AddToBase = 'addToBase',
   InviteToOtherJob = 'inviteToOtherJob',
   Select = 'select',
@@ -102,6 +105,7 @@ const JobApplyCardInner = (props: Props) => {
 
   const menuOptions: IOption<MenuKey>[] = [
     {label: t('apply_card_menu_download'), value: MenuKey.DownloadPdf},
+    ...(cv.file ? [{label: t('apply_card_menu_download_original'), value: MenuKey.DownloadOriginalPdf}] : []),
     {label: t('apply_card_menu_add_to_base'), value: MenuKey.AddToBase},
     {label: t('apply_card_menu_invite'), value: MenuKey.InviteToOtherJob},
     {label: t('apply_card_menu_select'), value: MenuKey.Select},
@@ -111,8 +115,11 @@ const JobApplyCardInner = (props: Props) => {
   const handleMenuClick = (value: MenuKey) => {
     switch (value){
       case MenuKey.DownloadPdf:
-          Analytics.goal(Goal.CvDownloadPdf)
+        Analytics.goal(Goal.CvDownloadPdf)
         window.open(`${runtimeConfig.HOST}/api/cv/${cv!.id}/exportToPdf`, '_blank')
+        break
+      case MenuKey.DownloadOriginalPdf:
+        window.open(`${ImageHelper.urlFromFile(cv.file)}`, '_blank')
         break
       case MenuKey.AddToBase:
         favoriteContext.like(cv!.id)
@@ -124,7 +131,8 @@ const JobApplyCardInner = (props: Props) => {
         props.onSelect?.()
         break
       case MenuKey.Share:
-
+         navigator.clipboard.writeText( Routes.getGlobal(Routes.lkJobCv(applyCvContext.apply!.vacancyId!, cv.id)))
+         showToast({title: t('toast_cv_share_copied_link')})
         break
     }
   }

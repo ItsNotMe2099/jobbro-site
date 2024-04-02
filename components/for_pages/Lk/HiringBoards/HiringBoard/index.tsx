@@ -38,7 +38,7 @@ const HiringBoardInner = (props: Props) => {
     }
   }
 
-  return (
+  return (<div className={styles.card}>
     <DragDropContext onDragEnd={handleDragEnd}>
       <StrictModeDroppable droppableId="board" type="COLUMN" direction="horizontal" ignoreContainerClipping={false}>
         {(provided) => (
@@ -60,6 +60,7 @@ const HiringBoardInner = (props: Props) => {
         )}
       </StrictModeDroppable>
     </DragDropContext>
+    </div>
   )
 }
 
